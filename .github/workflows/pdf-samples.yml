@@ -27,8 +27,8 @@ jobs:
           node-version: 22
       - name: Shared code is in sync
         run: |
-          diff -q src/lib/report.ts supabase/functions/send-emails/report.ts
-          for f in src/i18n/locales/*.json; do diff -q "$f" "supabase/functions/send-emails/locales/$(basename "$f")"; done
+          scripts/sync-function-shared.sh
+          git diff --exit-code -- supabase/functions/send-emails || { echo "::error::run scripts/sync-function-shared.sh"; exit 1; }
       - name: Render samples
         working-directory: supabase/functions/send-emails
         run: |
