@@ -1,10 +1,14 @@
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Linking from 'expo-linking';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, View } from 'react-native';
 
 import { useAuth } from '../auth/AuthProvider';
+import i18n, { isRtlLanguage } from '../i18n';
+import { api } from '../lib/api';
+import { CompleteProfileScreen } from '../screens/auth/CompleteProfileScreen';
 import { AddExpenseScreen } from '../screens/AddExpenseScreen';
 import { AdjustScreen } from '../screens/AdjustScreen';
 import { CheckEmailScreen } from '../screens/auth/CheckEmailScreen';
@@ -23,20 +27,29 @@ import { LegalScreen } from '../screens/LegalScreen';
 import { NeedsScreen } from '../screens/NeedsScreen';
 import { NotificationSettingsScreen } from '../screens/NotificationSettingsScreen';
 import { PayScreen } from '../screens/PayScreen';
+import { PreferencesScreen } from '../screens/PreferencesScreen';
 import { RoomMembersScreen } from '../screens/RoomMembersScreen';
 import { RoomScreen } from '../screens/RoomScreen';
 import { RoomSettingsScreen } from '../screens/RoomSettingsScreen';
 import { SettlementScreen } from '../screens/SettlementScreen';
-import { colors } from '../ui/theme';
+import { colors, currentTheme } from '../ui/theme';
 import type { AppStackParamList, AuthStackParamList } from './types';
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 const AppStack = createNativeStackNavigator<AppStackParamList>();
 
-const theme = {
+const navTheme = () => ({
   ...DefaultTheme,
-  colors: { ...DefaultTheme.colors, background: colors.bg, primary: colors.primary, card: colors.surface },
-};
+  dark: currentTheme() === 'dark',
+  colors: {
+    ...DefaultTheme.colors,
+    background: colors.bg,
+    primary: colors.primary,
+    card: colors.surface,
+    text: colors.text,
+    border: colors.border,
+  },
+});
 
 const linking = { prefixes: [Linking.createURL('/')] };
 
@@ -44,7 +57,18 @@ export function RootNavigator() {
   const { t } = useTranslation();
   const { session, loading, recovering, emailVerified } = useAuth();
 
-  if (loading) {
+  const verifiedId = session && emailVerified ? session.user.id : null;
+  const [profile, setProfile] = useState<{ id: string; ok: boolean } | null>(null);
+  const profileOk = profile && profile.id === verifiedId ? profile.ok : null;
+  useEffect(() => {
+    if (!verifiedId) return;
+    void api
+      .profileComplete()
+      .catch(() => true)
+      .then((ok) => setProfile({ id: verifiedId, ok }));
+  }, [verifiedId]);
+
+  if (loading || (verifiedId && profileOk === null)) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.bg }}>
         <ActivityIndicator color={colors.primary} />
@@ -53,9 +77,15 @@ export function RootNavigator() {
   }
 
   if (session && recovering) return <SetNewPasswordScreen />;
+  if (verifiedId && profileOk === false)
+    return <CompleteProfileScreen onDone={() => setProfile({ id: verifiedId, ok: true })} />;
 
   return (
-    <NavigationContainer theme={theme} linking={linking}>
+    <NavigationContainer
+      theme={navTheme()}
+      linking={linking}
+      direction={isRtlLanguage(i18n.language) ? 'rtl' : 'ltr'}
+    >
       {session && emailVerified ? (
         <AppStack.Navigator screenOptions={{ headerTintColor: colors.primary }}>
           <AppStack.Screen name="Home" component={HomeScreen} options={{ title: t('home.title') }} />
@@ -107,6 +137,11 @@ export function RootNavigator() {
           <AppStack.Screen name="Disputes" component={DisputesScreen} options={{ title: t('flag.list') }} />
           <AppStack.Screen name="Needs" component={NeedsScreen} options={{ title: t('need.title') }} />
           <AppStack.Screen name="Legal" component={LegalScreen} options={{ title: '' }} />
+          <AppStack.Screen
+            name="Preferences"
+            component={PreferencesScreen}
+            options={{ title: t('prefs.title') }}
+          />
         </AppStack.Navigator>
       ) : (
         <AuthStack.Navigator screenOptions={{ headerTintColor: colors.primary }}>

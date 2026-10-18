@@ -1,3 +1,5 @@
+import { dateLocale } from './digits';
+
 /** RFC 4122 v4 UUID for idempotency keys (uniqueness only; not a secret). */
 export function uuid(): string {
   const c = globalThis.crypto as Crypto | undefined;
@@ -25,7 +27,7 @@ export function todayIn(timeZone: string, now = new Date()): string {
 }
 
 /** Format a server timestamp for display in the Room's time zone (PRD §10.5). */
-export function formatDateTime(iso: string, timeZone: string, locale = 'en'): string {
+export function formatDateTime(iso: string, timeZone: string, locale = dateLocale()): string {
   try {
     return new Intl.DateTimeFormat(locale, {
       timeZone,

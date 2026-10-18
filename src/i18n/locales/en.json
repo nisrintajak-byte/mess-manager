@@ -68,7 +68,10 @@
       "alreadyRegistered": "An account with this email already exists. Try signing in.",
       "emailNotAuthorized": "We can't send email to this address yet. During testing, only invited test accounts can sign up."
     },
-    "testingMode": "Testing mode: simple passwords (6+ characters) are allowed. Stronger rules will apply at launch."
+    "testingMode": "Testing mode: simple passwords (6+ characters) are allowed. Stronger rules will apply at launch.",
+    "google": "Continue with Google",
+    "googleFailed": "Google sign-in did not complete. Please try again.",
+    "googleNote": "Only your name, email and picture are used."
   },
   "legal": {
     "draftNotice": "Draft — the final text will be reviewed by a lawyer before launch.",
@@ -207,7 +210,11 @@
     "other_admin_must_resolve": "Another Admin must resolve a dispute about your own item.",
     "need_taken": "Someone already accepted this request.",
     "title_required": "Please enter what is needed.",
-    "invalid_token": "Could not register this phone for notifications."
+    "invalid_token": "Could not register this phone for notifications.",
+    "profile_incomplete": "Please complete your profile first.",
+    "minor_not_allowed": "Accounts for people under 18 need a parent or guardian's consent. This option is coming soon.",
+    "dob_invalid": "Please check your date of birth.",
+    "consent_required": "Please accept the Privacy Policy and Terms to continue."
   },
   "cycle": {
     "current": "Current cycle",
@@ -433,5 +440,66 @@
     "by": "Asked by {{name}}",
     "acceptedBy": "{{name}} will buy it",
     "explain": "Everyone gets a notification. Whoever accepts buys it — no duplicates."
+  },
+  "prefs": {
+    "title": "Preferences",
+    "language": "Language",
+    "theme": "Theme",
+    "theme_light": "Light",
+    "theme_dark": "Dark",
+    "theme_sand": "Sand",
+    "theme_ocean": "Ocean",
+    "digits": "Number digits",
+    "digits_latin": "Western (0123)",
+    "digits_arabic": "Eastern Arabic (٠١٢٣)",
+    "restart": "Restart the app to apply the new layout direction.",
+    "restartManual": "Please close the app completely and open it again to apply the new layout direction.",
+    "restartNow": "Restart now",
+    "draftTranslation": "This language is a draft translation and will be reviewed by native speakers before release."
+  },
+  "lock": {
+    "title": "App Lock",
+    "explain": "Ask for a PIN or fingerprint when the app opens and after it has been away for a while.",
+    "unsupportedWeb": "App Lock is available in the phone app.",
+    "enable": "Turn on App Lock",
+    "disable": "Turn off App Lock",
+    "pin": "PIN (4–8 digits)",
+    "pinConfirm": "Confirm PIN",
+    "pinLabel": "PIN",
+    "pinInvalid": "Use 4 to 8 digits.",
+    "pinMismatch": "PINs do not match.",
+    "useBiometric": "Also unlock with fingerprint / face",
+    "timeout": "Ask again after",
+    "timeout_0": "Immediately",
+    "timeout_1": "1 minute",
+    "timeout_5": "5 minutes",
+    "timeout_15": "15 minutes",
+    "enabledNote": "App Lock is on.",
+    "unlockTitle": "Enter your PIN",
+    "unlock": "Unlock",
+    "wrongPin": "Wrong PIN.",
+    "tooMany": "Too many wrong PINs. Wait {{seconds}} seconds.",
+    "biometricPrompt": "Unlock Mess Manager",
+    "useBiometricBtn": "Use fingerprint / face",
+    "forgot": "Forgot PIN? Sign out"
+  },
+  "reauth": {
+    "title": "Confirm it's you",
+    "passwordBody": "Enter your password to continue.",
+    "pinBody": "Enter your App Lock PIN to continue.",
+    "noMethod": "This account has no password. Set up App Lock in Preferences first.",
+    "wrong": "That did not match. Try again."
+  },
+  "password": {
+    "title": "Change password",
+    "new": "New password",
+    "confirm": "Confirm new password",
+    "save": "Change password",
+    "done": "Password changed."
+  },
+  "profile": {
+    "title": "One more step",
+    "body": "Please confirm your date of birth and accept the terms to start using Mess Manager.",
+    "save": "Continue"
   }
 }

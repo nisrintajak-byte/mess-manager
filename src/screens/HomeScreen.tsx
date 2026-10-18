@@ -7,7 +7,7 @@ import { api } from '../lib/api';
 import type { AppStackParamList } from '../navigation/types';
 import { Body, Button, Card, Notice, Spacer } from '../ui/components';
 import { useLoader } from '../ui/hooks';
-import { colors, font, space } from '../ui/theme';
+import { colors, font, space, themedStyles } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'Home'>;
 
@@ -59,16 +59,19 @@ export function HomeScreen({ navigation }: Props) {
           onPress={() => navigation.navigate('JoinRoom')}
         />
         <Spacer size="xxl" />
+        <Button title={t('prefs.title')} variant="link" onPress={() => navigation.navigate('Preferences')} />
         <Button title={t('auth.signOut')} variant="link" onPress={signOut} />
       </View>
     </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  bg: { flex: 1, backgroundColor: colors.bg },
-  content: { padding: space.lg },
-  column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
-  roomName: { fontSize: font.lg, fontWeight: '700', color: colors.text },
-  meta: { fontSize: font.sm, color: colors.textMuted, marginTop: space.xs },
-});
+const styles = themedStyles(() =>
+  StyleSheet.create({
+    bg: { flex: 1, backgroundColor: colors.bg },
+    content: { padding: space.lg },
+    column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
+    roomName: { fontSize: font.lg, fontWeight: '700', color: colors.text },
+    meta: { fontSize: font.sm, color: colors.textMuted, marginTop: space.xs },
+  }),
+);

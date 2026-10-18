@@ -8,3 +8,9 @@
 export const TESTING_MODE = true;
 
 export const PASSWORD_MIN_LENGTH = TESTING_MODE ? 6 : 8;
+
+/**
+ * Google Sign-In button. Turn on once the Google Cloud OAuth client is created and the Google
+ * provider is enabled in Supabase (Authentication → Providers → Google).
+ */
+export const GOOGLE_SIGNIN_ENABLED = false;

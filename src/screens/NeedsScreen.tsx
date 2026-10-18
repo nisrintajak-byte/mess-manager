@@ -9,7 +9,7 @@ import { dbErrorKey } from '../lib/errors';
 import type { AppStackParamList } from '../navigation/types';
 import { Badge, Body, Button, Card, Field, Meta, Notice, Row, Section } from '../ui/components';
 import { useLoader } from '../ui/hooks';
-import { colors, font, space } from '../ui/theme';
+import { colors, font, space, themedStyles } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'Needs'>;
 
@@ -146,10 +146,12 @@ export function NeedsScreen({ navigation, route }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  bg: { flex: 1, backgroundColor: colors.bg },
-  pad: { padding: space.lg, paddingBottom: space.xxl },
-  column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
-  flex: { flex: 1 },
-  name: { fontSize: font.md, fontWeight: '600', color: colors.text },
-});
+const styles = themedStyles(() =>
+  StyleSheet.create({
+    bg: { flex: 1, backgroundColor: colors.bg },
+    pad: { padding: space.lg, paddingBottom: space.xxl },
+    column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
+    flex: { flex: 1 },
+    name: { fontSize: font.md, fontWeight: '600', color: colors.text },
+  }),
+);

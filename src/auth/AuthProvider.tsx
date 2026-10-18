@@ -2,6 +2,7 @@ import type { Session } from '@supabase/supabase-js';
 import * as Linking from 'expo-linking';
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 
+import { clearLock } from '../lib/appLock';
 import { registerForPush, unregisterPush } from '../lib/push';
 import { supabase } from '../lib/supabase';
 
@@ -19,7 +20,7 @@ interface AuthState {
 const AuthContext = createContext<AuthState | null>(null);
 
 /** Read tokens from an email link (…#access_token=…&refresh_token=…&type=recovery, or ?code=…). */
-async function handleAuthLink(url: string | null): Promise<'recovery' | 'signin' | null> {
+export async function handleAuthLink(url: string | null): Promise<'recovery' | 'signin' | null> {
   if (!url) return null;
   const parsed = new URL(url.replace('#', url.includes('?') ? '&' : '?'));
   const p = parsed.searchParams;
@@ -87,6 +88,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       signOut: async () => {
         setRecovering(false);
         await unregisterPush();
+        await clearLock();
         await supabase.auth.signOut();
       },
     }),

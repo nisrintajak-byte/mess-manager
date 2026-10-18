@@ -63,6 +63,13 @@ jobs:
             expo-document-picker \
             expo-notifications \
             expo-device \
+            expo-local-authentication \
+            expo-font \
+            expo-auth-session \
+            expo-web-browser \
+            expo-crypto \
+            @expo-google-fonts/noto-nastaliq-urdu \
+            @expo-google-fonts/noto-sans-devanagari \
             @react-navigation/native \
             @react-navigation/native-stack \
             react-native-screens \
@@ -72,7 +79,7 @@ jobs:
             @expo/metro-runtime \
             i18next \
             react-i18next
-          npx expo install -- --save-dev jest-expo jest @types/jest eslint eslint-config-expo prettier
+          npx expo install -- --save-dev jest-expo jest @types/jest @types/node eslint eslint-config-expo prettier
 
       - name: Commit results
         run: |

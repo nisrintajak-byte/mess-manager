@@ -21,3 +21,6 @@
 - Google Play Organization developer account
 - Engage Indian technology lawyer for Privacy Policy + Terms
 - Engage professional translators (AR, UR, HI)
+
+- Google Sign-In: founder must create a Google Cloud OAuth client (steps given in chat), then I enable it. Decide linking rule: Supabase auto-links verified Google email to existing account (PRD wants password first).
+- Professional translators for Arabic, Urdu, Hindi (launch blocker).

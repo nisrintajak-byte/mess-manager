@@ -1,6 +1,7 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { RefreshControl, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { useAuth } from '../auth/AuthProvider';
@@ -13,7 +14,7 @@ import type { AppStackParamList } from '../navigation/types';
 import { Badge, Body, Button, Card, Meta, Notice, Row, Section, Spacer } from '../ui/components';
 import { ViewFileButton } from '../ui/FilePicker';
 import { useLoader } from '../ui/hooks';
-import { colors, font, radius, space } from '../ui/theme';
+import { colors, font, radius, space, themedStyles } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'Settlement'>;
 
@@ -281,23 +282,30 @@ export function SettlementScreen({ navigation, route }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  bg: { flex: 1, backgroundColor: colors.bg },
-  pad: { padding: space.lg, paddingBottom: space.xxl },
-  column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
-  flex: { flex: 1 },
-  title: { fontSize: font.lg, fontWeight: '700', color: colors.text, marginBottom: space.sm },
-  big: { fontSize: font.xl, fontWeight: '700', color: colors.text },
-  name: { fontSize: font.md, fontWeight: '600', color: colors.text },
-  amount: { fontSize: font.md, fontWeight: '700', color: colors.text, textAlign: 'right' },
-  line: { fontSize: font.md, color: colors.text, paddingVertical: 4 },
-  input: {
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: radius.md,
-    padding: space.md,
-    marginVertical: space.sm,
-    color: colors.text,
-  },
-});
+const styles = themedStyles(() =>
+  StyleSheet.create({
+    bg: { flex: 1, backgroundColor: colors.bg },
+    pad: { padding: space.lg, paddingBottom: space.xxl },
+    column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
+    flex: { flex: 1 },
+    title: { fontSize: font.lg, fontWeight: '700', color: colors.text, marginBottom: space.sm },
+    big: { fontSize: font.xl, fontWeight: '700', color: colors.text },
+    name: { fontSize: font.md, fontWeight: '600', color: colors.text },
+    amount: {
+      fontSize: font.md,
+      fontWeight: '700',
+      color: colors.text,
+      textAlign: 'right',
+    },
+    line: { fontSize: font.md, color: colors.text, paddingVertical: 4 },
+    input: {
+      backgroundColor: colors.surface,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: radius.md,
+      padding: space.md,
+      marginVertical: space.sm,
+      color: colors.text,
+    },
+  }),
+);

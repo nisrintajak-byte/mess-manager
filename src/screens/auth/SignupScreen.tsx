@@ -9,6 +9,8 @@ import { supabase } from '../../lib/supabase';
 import { PASSWORD_MIN_LENGTH, TESTING_MODE } from '../../config';
 import { CONSENT_VERSION, SignupErrors, validateSignup } from '../../lib/validation';
 import type { AuthStackParamList } from '../../navigation/types';
+import { GoogleButton } from '../../ui/GoogleButton';
+import { LanguagePicker } from '../../ui/LanguagePicker';
 import { Body, Button, Checkbox, Field, Notice, Screen, Spacer, Title } from '../../ui/components';
 import { colors } from '../../ui/theme';
 
@@ -65,6 +67,7 @@ export function SignupScreen({ navigation }: Props) {
 
   return (
     <Screen>
+      <LanguagePicker />
       <Title>{t('auth.signupTitle')}</Title>
       <Body muted>{t('auth.signupSubtitle')}</Body>
       <Spacer size="xl" />
@@ -137,6 +140,8 @@ export function SignupScreen({ navigation }: Props) {
       </Checkbox>
       <Button title={t('auth.signUp')} onPress={submit} loading={busy} />
       <Button title={t('auth.haveAccount')} variant="link" onPress={() => navigation.navigate('Login')} />
+      <Spacer />
+      <GoogleButton />
     </Screen>
   );
 }

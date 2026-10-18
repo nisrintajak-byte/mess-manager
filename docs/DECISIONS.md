@@ -35,3 +35,9 @@ Format: date — decision — why — alternatives considered
 - 2026-10-18 — Disputes record the decision only; the actual correction is an edit (open cycle) or an adjustment (locked cycle), keeping one audited way to change money.
 - 2026-10-18 — Push tokens are deactivated (not deleted) on sign-out so shared phones stop receiving the previous user's notifications.
 - 2026-10-18 — /next/ preview tracks the newest version branch (now v0.3, a superset of v0.2).
+- 2026-10-18 — v0.1–v0.3 merged into main (v0.3 is a superset); tags cannot be pushed from the workspace (proxy blocks them), so version branches + CHANGELOG are the markers. Previews: stable `/` = main, next `/next/` = newest version branch.
+- 2026-10-18 — Themes: light, dark, sand, ocean; palettes in one file; `themedStyles` recomputes styles and the app remounts on change. All palettes unit-tested for WCAG AA contrast.
+- 2026-10-18 — RTL: web uses `dir`; phone mirrors layouts in JavaScript (rows reversed, left/right swapped, navigation `direction`) with Android's own mirroring off, so language changes apply instantly with no restart (founder request).
+- 2026-10-18 — Ar/Ur/Hi texts are machine-drafted placeholders; tests only guard key/placeholder parity. Professional human translation remains a launch blocker (PRD §16.2).
+- 2026-10-18 — App Lock: salted, iterated SHA-256 PIN hash in phone secure storage; wrong-PIN delay; "Forgot PIN" = sign out (wipes lock). Sensitive actions (remove member, delete Room, change password) re-ask password (PIN for Google-only accounts) regardless of App Lock.
+- 2026-10-18 — Google users start with consent 'unknown'; server blocks Rooms (`profile_incomplete`) until `complete_profile` (18+, consent). Supabase auto-links a verified Google email to an existing same-email account; PRD asks for password entry first — open question, and risky while email confirmation is OFF (testing), so Confirm email must be ON at launch.

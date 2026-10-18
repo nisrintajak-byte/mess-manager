@@ -29,4 +29,5 @@ export type AppStackParamList = {
   Disputes: { roomId: string };
   Needs: { roomId: string };
   Legal: { doc: 'privacy' | 'terms' };
+  Preferences: undefined;
 };
