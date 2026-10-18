@@ -11,3 +11,9 @@ Format: date — decision — why — alternatives considered
 - 2026-10-18 — Clients get SELECT-only table access; every write goes through SECURITY DEFINER Postgres functions that re-check permissions with server time — enforces PRD rules (approval, 30-min edit, Last Admin, audit) in the database, not just the app, and is ready for offline-sync re-validation — direct table writes with RLS policies (rejected: harder to enforce multi-step rules).
 - 2026-10-18 — Join codes: 8 chars from an alphabet without 0/O/1/I — easy to read aloud and type.
 - 2026-10-18 — Country names (en/ar/ur/hi) from Unicode CLDR, zones from IANA tzdata; generated into src/data/countries.json by scripts/generate-countries.py.
+- 2026-10-18 — Reuse founder's existing Supabase project `egylgjgimuytmnmrvzhs` (ap-south-1). Old empty tables from an earlier attempt moved to private schema `legacy_attempt` (not deleted; connector blocks destructive DDL without on-screen approval) — founder approved — new project (rejected: free plan limit).
+- 2026-10-18 — On edit, expense shares of members no longer sharing are set to 0 instead of deleted — avoids DELETE statements and keeps a full record; UI hides zero shares.
+- 2026-10-18 — Under-18 signup is blocked in v0.1 with a "coming soon" message until the parental-consent flow (v0.7) exists — PRD §20.4 forbids activating minors without verified parent consent.
+- 2026-10-18 — Web preview hosted on GitHub Pages (repo is public; free) so the founder can test on any phone browser — Expo Go (rejected for first test: needs dev server); EAS internal build planned before launch.
+- 2026-10-18 — Supabase publishable key + URL are committed (public by design; RLS protects data). Service-role key never stored in repo.
+- 2026-10-18 — PRD §7.1 "5 failed logins → 15-min lock": v0.1 relies on Supabase Auth rate limits; an exact per-account lockout needs an Auth hook — tracked for v1.0 hardening.

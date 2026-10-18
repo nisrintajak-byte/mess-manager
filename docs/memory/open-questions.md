@@ -1,9 +1,11 @@
 # Open Questions
 
 ## Blocking now
-1. Approve the version plan (v0.1 → v1.0)?
+1. ~~Approve version plan~~ — approved 2026-10-18.
 2. ~~GitHub push access~~ — resolved 2026-10-18 (push works).
-3. Supabase account + project (needed for v0.1 T2).
+3. ~~Supabase~~ — connected, schema live.
+3a. Founder: enable GitHub Pages (Settings → Pages → Source: GitHub Actions).
+3b. Founder: Supabase Auth URL config (Site URL + redirect URL, see docs/TESTING_GUIDE.md).
 
 ## PRD §28 — needed before v0.6/v0.7 (not blocking v0.1)
 4. Ad approach ("khaas tareeka") for §19

@@ -65,7 +65,8 @@
       "invalidCredentials": "Email or password is incorrect.",
       "emailNotConfirmed": "Please confirm your email first. Check your inbox.",
       "tooManyAttempts": "Too many attempts. Please wait 15 minutes and try again.",
-      "alreadyRegistered": "An account with this email already exists. Try signing in."
+      "alreadyRegistered": "An account with this email already exists. Try signing in.",
+      "emailNotAuthorized": "We can't send email to this address yet. During testing, only invited test accounts can sign up."
     }
   },
   "legal": {

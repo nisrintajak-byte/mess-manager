@@ -17,6 +17,12 @@
     "web": {
       "bundler": "metro"
     },
-    "plugins": ["expo-localization", "expo-secure-store"]
+    "plugins": [
+      "expo-localization",
+      "expo-secure-store"
+    ],
+    "experiments": {
+      "baseUrl": "/mess-manager"
+    }
   }
 }

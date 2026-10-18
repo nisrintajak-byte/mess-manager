@@ -7,6 +7,8 @@ export function authErrorKey(err: { message?: string; code?: string; status?: nu
   if (code === 'over_request_rate_limit' || err?.status === 429 || msg.includes('rate limit'))
     return 'auth.errors.tooManyAttempts';
   if (code === 'user_already_exists' || msg.includes('already registered')) return 'auth.errors.alreadyRegistered';
+  if (msg.includes('not authorized') || code === 'email_address_not_authorized')
+    return 'auth.errors.emailNotAuthorized';
   if (code === 'weak_password' || msg.includes('pwned') || msg.includes('weak'))
     return 'auth.errors.passwordCommon';
   return 'common.genericError';
