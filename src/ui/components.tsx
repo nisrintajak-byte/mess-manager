@@ -157,6 +157,56 @@ export function Row({ children }: { children: ReactNode }) {
   return <View style={styles.row}>{children}</View>;
 }
 
+export function Chip({ on, onPress, label }: { on: boolean; onPress: () => void; label: string }) {
+  return (
+    <Pressable
+      onPress={onPress}
+      style={[styles.chip, on && styles.chipOn]}
+      accessibilityRole="radio"
+      accessibilityState={{ selected: on }}
+    >
+      <Text style={[styles.chipText, on && styles.chipTextOn]}>{label}</Text>
+    </Pressable>
+  );
+}
+
+export function ChipRow({ children }: { children: ReactNode }) {
+  return <View style={styles.chips}>{children}</View>;
+}
+
+export function Label({ children }: { children: ReactNode }) {
+  return <Text style={styles.label}>{children}</Text>;
+}
+
+export function Meta({ children }: { children: ReactNode }) {
+  return <Text style={styles.meta}>{children}</Text>;
+}
+
+export function Badge({
+  tone,
+  children,
+}: {
+  tone: 'neutral' | 'good' | 'warn' | 'bad';
+  children: ReactNode;
+}) {
+  return (
+    <View
+      style={[
+        styles.badge,
+        tone === 'good' && { backgroundColor: colors.successBg },
+        tone === 'warn' && { backgroundColor: colors.warnBg },
+        tone === 'bad' && { backgroundColor: colors.dangerBg },
+      ]}
+    >
+      <Text style={[styles.badgeText, tone === 'bad' && { color: colors.danger }]}>{children}</Text>
+    </View>
+  );
+}
+
+export function Section({ children }: { children: ReactNode }) {
+  return <Text style={styles.section}>{children}</Text>;
+}
+
 export function Spacer({ size = 'lg' }: { size?: keyof typeof space }) {
   return <View style={{ height: space[size] }} />;
 }
@@ -221,4 +271,33 @@ const styles = StyleSheet.create({
     marginBottom: space.md,
   },
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space.md },
+  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm, marginBottom: space.lg },
+  chip: {
+    paddingHorizontal: space.md,
+    paddingVertical: space.sm,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
+  },
+  chipOn: { backgroundColor: colors.primary, borderColor: colors.primary },
+  chipText: { color: colors.text, fontSize: font.sm },
+  chipTextOn: { color: colors.primaryText },
+  meta: { fontSize: font.sm, color: colors.textMuted, marginTop: 2 },
+  badge: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: space.sm,
+    paddingVertical: 2,
+    borderRadius: radius.sm,
+    backgroundColor: colors.border,
+    marginTop: space.xs,
+  },
+  badgeText: { fontSize: font.sm, fontWeight: '600', color: colors.text },
+  section: {
+    fontSize: font.lg,
+    fontWeight: '700',
+    color: colors.text,
+    marginTop: space.lg,
+    marginBottom: space.md,
+  },
 });

@@ -12,7 +12,11 @@ export type AppStackParamList = {
   JoinRoom: undefined;
   Room: { roomId: string };
   RoomMembers: { roomId: string };
+  RoomSettings: { roomId: string };
   AddExpense: { roomId: string; expenseId?: string };
   ExpenseDetail: { roomId: string; expenseId: string };
+  Adjust: { roomId: string; expenseId: string };
+  Settlement: { roomId: string; settlementId: string };
+  Pay: { roomId: string; settlementId: string; lineId: string; mode: 'claim' | 'record' };
   Legal: { doc: 'privacy' | 'terms' };
 };

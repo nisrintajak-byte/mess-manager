@@ -6,6 +6,7 @@ import { ActivityIndicator, View } from 'react-native';
 
 import { useAuth } from '../auth/AuthProvider';
 import { AddExpenseScreen } from '../screens/AddExpenseScreen';
+import { AdjustScreen } from '../screens/AdjustScreen';
 import { CheckEmailScreen } from '../screens/auth/CheckEmailScreen';
 import { ForgotPasswordScreen } from '../screens/auth/ForgotPasswordScreen';
 import { LoginScreen } from '../screens/auth/LoginScreen';
@@ -16,8 +17,11 @@ import { ExpenseDetailScreen } from '../screens/ExpenseDetailScreen';
 import { HomeScreen } from '../screens/HomeScreen';
 import { JoinRoomScreen } from '../screens/JoinRoomScreen';
 import { LegalScreen } from '../screens/LegalScreen';
+import { PayScreen } from '../screens/PayScreen';
 import { RoomMembersScreen } from '../screens/RoomMembersScreen';
 import { RoomScreen } from '../screens/RoomScreen';
+import { RoomSettingsScreen } from '../screens/RoomSettingsScreen';
+import { SettlementScreen } from '../screens/SettlementScreen';
 import { colors } from '../ui/theme';
 import type { AppStackParamList, AuthStackParamList } from './types';
 
@@ -76,6 +80,18 @@ export function RootNavigator() {
             component={ExpenseDetailScreen}
             options={{ title: t('expense.detailTitle') }}
           />
+          <AppStack.Screen
+            name="RoomSettings"
+            component={RoomSettingsScreen}
+            options={{ title: t('settings.title') }}
+          />
+          <AppStack.Screen name="Adjust" component={AdjustScreen} options={{ title: t('adjust.title') }} />
+          <AppStack.Screen
+            name="Settlement"
+            component={SettlementScreen}
+            options={{ title: t('settlement.title') }}
+          />
+          <AppStack.Screen name="Pay" component={PayScreen} options={{ title: t('payment.claimTitle') }} />
           <AppStack.Screen name="Legal" component={LegalScreen} options={{ title: '' }} />
         </AppStack.Navigator>
       ) : (

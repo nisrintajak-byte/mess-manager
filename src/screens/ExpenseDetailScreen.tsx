@@ -9,13 +9,14 @@ import { dbErrorKey } from '../lib/errors';
 import { formatMoney } from '../lib/money';
 import { EDIT_WINDOW_MS, formatDateTime } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
-import { Body, Button, Card, Notice, Row, Spacer } from '../ui/components';
+import { Badge, Body, Button, Card, Meta, Notice, Row, Section, Spacer } from '../ui/components';
+import { ViewFileButton } from '../ui/FilePicker';
 import { confirm, useLoader } from '../ui/hooks';
 import { colors, font, space } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'ExpenseDetail'>;
 
-const TRACKED = ['title', 'amount', 'expense_date', 'paid_by', 'notes'] as const;
+const TRACKED = ['title', 'amount', 'expense_date', 'paid_by', 'notes', 'split_mode'] as const;
 
 export function ExpenseDetailScreen({ navigation, route }: Props) {
   const { roomId, expenseId } = route.params;
@@ -30,17 +31,28 @@ export function ExpenseDetailScreen({ navigation, route }: Props) {
       api.members(roomId),
       api.expense(expenseId),
     ]);
-    return { room, members, ...detail, loadedAt: Date.now() };
+    const original = detail.expense.adjusts_expense_id
+      ? (await api.expense(detail.expense.adjusts_expense_id)).expense
+      : null;
+    return { room, members, ...detail, original, loadedAt: Date.now() };
   }, expenseId);
 
   if (!data) return <View style={styles.bg} />;
-  const { room, members, expense, splits, history, loadedAt } = data;
+  const { room, members, expense, splits, history, cycle, original, loadedAt } = data;
   const nameOf = (uid: string | null) => members.find((m) => m.user_id === uid)?.profile?.display_name ?? '—';
-  const money = (v: number) => formatMoney(v, room.currency, room.currency_decimals);
+  const currency = cycle?.currency ?? room.currency;
+  const decimals = cycle?.currency_decimals ?? room.currency_decimals;
+  const money = (v: number) => formatMoney(v, currency, decimals);
+  const sign = expense.is_credit ? -1 : 1;
   const isAdmin = members.some((m) => m.user_id === me && m.status === 'approved' && m.role === 'admin');
-  // UI hint only; the server re-checks with its own clock.
+  const locked = cycle?.status === 'locked';
+  // UI hint only; the server re-checks with its own clock and the cycle lock.
   const withinWindow = loadedAt - new Date(expense.created_at).getTime() < EDIT_WINDOW_MS;
-  const canModify = !expense.deleted_at && (isAdmin || (expense.created_by === me && withinWindow));
+  const canModify =
+    !locked &&
+    !expense.deleted_at &&
+    !expense.adjusts_expense_id &&
+    (isAdmin || (expense.created_by === me && withinWindow));
 
   function describe(h: AuditEntry): string[] {
     if (h.action !== 'update' || !h.old_value || !h.new_value) return [];
@@ -76,24 +88,37 @@ export function ExpenseDetailScreen({ navigation, route }: Props) {
       <View style={styles.column}>
         {error ? <Notice tone="error">{error}</Notice> : null}
         {expense.deleted_at ? <Notice tone="error">{t('expense.deleted')}</Notice> : null}
+        {locked ? <Notice tone="info">{t('cycle.lockedNote')}</Notice> : null}
         <Card>
           <Text style={styles.title}>{expense.title}</Text>
-          <Text style={styles.big}>{money(expense.amount)}</Text>
-          <Text style={styles.meta}>{expense.expense_date}</Text>
-          <Text style={styles.meta}>
+          <Text style={styles.big}>{money(sign * expense.amount)}</Text>
+          <Meta>{expense.expense_date}</Meta>
+          <Meta>
             {t('expense.paidBy')}: {nameOf(expense.paid_by)}
-          </Text>
+          </Meta>
+          {expense.split_mode === 'selected' ? <Badge tone="neutral">{t('split.selected')}</Badge> : null}
+          {original ? (
+            <>
+              <Badge tone="warn">{t('adjust.label')}</Badge>
+              <Button
+                title={t('adjust.of', { title: original.title })}
+                variant="link"
+                onPress={() => navigation.push('ExpenseDetail', { roomId, expenseId: original.id })}
+              />
+            </>
+          ) : null}
           {expense.notes ? <Body>{expense.notes}</Body> : null}
+          {expense.receipt_path ? <ViewFileButton path={expense.receipt_path} /> : null}
         </Card>
 
-        <Text style={styles.section}>{t('expense.shares')}</Text>
+        <Section>{t('expense.shares')}</Section>
         <Card>
           {splits
             .filter((s) => s.amount > 0)
             .map((s) => (
               <Row key={s.user_id}>
                 <Text style={styles.line}>{nameOf(s.user_id)}</Text>
-                <Text style={styles.line}>{money(s.amount)}</Text>
+                <Text style={styles.line}>{money(sign * s.amount)}</Text>
               </Row>
             ))}
         </Card>
@@ -107,20 +132,25 @@ export function ExpenseDetailScreen({ navigation, route }: Props) {
             <Button title={t('expense.delete')} variant="secondary" onPress={remove} />
           </>
         ) : null}
+        {locked && isAdmin && !expense.deleted_at ? (
+          <Button
+            title={t('adjust.title')}
+            variant="secondary"
+            onPress={() => navigation.navigate('Adjust', { roomId, expenseId })}
+          />
+        ) : null}
 
         <Spacer />
-        <Text style={styles.section}>{t('expense.history')}</Text>
+        <Section>{t('expense.history')}</Section>
         {history.map((h) => (
           <Card key={h.id}>
             <Text style={styles.line}>
               {t(`expense.action_${h.action}`, { defaultValue: h.action })}{' '}
               {t('expense.by', { name: nameOf(h.actor_id) })}
             </Text>
-            <Text style={styles.meta}>{formatDateTime(h.created_at, room.time_zone)}</Text>
+            <Meta>{formatDateTime(h.created_at, room.time_zone)}</Meta>
             {describe(h).map((d) => (
-              <Text key={d} style={styles.meta}>
-                {d}
-              </Text>
+              <Meta key={d}>{d}</Meta>
             ))}
           </Card>
         ))}
@@ -135,7 +165,5 @@ const styles = StyleSheet.create({
   column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
   title: { fontSize: font.lg, fontWeight: '700', color: colors.text },
   big: { fontSize: font.xxl, fontWeight: '700', color: colors.text, marginVertical: space.sm },
-  meta: { fontSize: font.sm, color: colors.textMuted, marginTop: 2 },
-  section: { fontSize: font.lg, fontWeight: '700', color: colors.text, marginVertical: space.md },
   line: { fontSize: font.md, color: colors.text, paddingVertical: 4 },
 });
