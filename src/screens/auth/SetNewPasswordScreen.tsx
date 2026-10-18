@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '../../auth/AuthProvider';
+import { PASSWORD_MIN_LENGTH } from '../../config';
 import { authErrorKey } from '../../lib/errors';
 import { supabase } from '../../lib/supabase';
 import { passwordError } from '../../lib/validation';
@@ -31,7 +32,7 @@ export function SetNewPasswordScreen() {
     <Screen>
       <Spacer size="xl" />
       <Title>{t('auth.newPasswordTitle')}</Title>
-      <Body muted>{t('auth.passwordHint')}</Body>
+      <Body muted>{t('auth.passwordHint', { count: PASSWORD_MIN_LENGTH })}</Body>
       <Spacer size="xl" />
       {error ? <Notice tone="error">{error}</Notice> : null}
       <Field

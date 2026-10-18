@@ -17,3 +17,4 @@ Format: date — decision — why — alternatives considered
 - 2026-10-18 — Web preview hosted on GitHub Pages (repo is public; free) so the founder can test on any phone browser — Expo Go (rejected for first test: needs dev server); EAS internal build planned before launch.
 - 2026-10-18 — Supabase publishable key + URL are committed (public by design; RLS protects data). Service-role key never stored in repo.
 - 2026-10-18 — PRD §7.1 "5 failed logins → 15-min lock": v0.1 relies on Supabase Auth rate limits; an exact per-account lockout needs an Auth hook — tracked for v1.0 hardening.
+- 2026-10-18 — TESTING_MODE (founder request): simple passwords (6+ chars) and Supabase email confirmation OFF during testing, to save testing time; under-18 block and all other rules unchanged. Revert before launch (v1.0 task).

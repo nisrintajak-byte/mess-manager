@@ -11,7 +11,10 @@
 2. Supabase → **Authentication → URL Configuration**
    - Site URL: `https://nisrintajak-byte.github.io/mess-manager/`
    - Redirect URLs: add `https://nisrintajak-byte.github.io/mess-manager/**`
-3. Testing emails: until a custom email service is set up (v0.6), Supabase only sends signup
+3. Testing mode (now): Supabase → Authentication → Sign In / Providers → Email → **Confirm email OFF** → Save.
+   Then any email works, no confirmation needed, simple passwords (6+ characters) allowed.
+   Before launch this is switched back ON.
+4. (Only if Confirm email is ON) Testing emails: until a custom email service is set up (v0.6), Supabase only sends signup
    emails to people on your Supabase team. To add a second tester: Supabase → Organization →
    **Team → Invite**.
 

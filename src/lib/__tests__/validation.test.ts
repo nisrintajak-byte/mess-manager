@@ -12,11 +12,11 @@ const good = {
 
 describe('validateSignup', () => {
   it('accepts a valid adult signup', () => {
-    expect(validateSignup(good, today)).toEqual({});
+    expect(validateSignup(good, today, false)).toEqual({});
   });
 
   it('requires consent, matching passwords and valid email', () => {
-    const e = validateSignup({ ...good, consent: false, confirmPassword: 'x', email: 'bad' }, today);
+    const e = validateSignup({ ...good, consent: false, confirmPassword: 'x', email: 'bad' }, today, false);
     expect(e.consent).toBe('auth.errors.consentRequired');
     expect(e.confirmPassword).toBe('auth.errors.passwordMismatch');
     expect(e.email).toBe('auth.errors.emailInvalid');
@@ -30,10 +30,15 @@ describe('validateSignup', () => {
 });
 
 describe('password rules', () => {
-  it('needs 8+ chars and not a common password', () => {
-    expect(passwordError('short')).toBe('auth.errors.passwordShort');
-    expect(passwordError('Password123')).toBe('auth.errors.passwordCommon');
-    expect(passwordError('blue-tea-garden')).toBeNull();
+  it('launch rules: 8+ chars and not a common password', () => {
+    expect(passwordError('short', false)).toBe('auth.errors.passwordShort');
+    expect(passwordError('Password123', false)).toBe('auth.errors.passwordCommon');
+    expect(passwordError('blue-tea-garden', false)).toBeNull();
+  });
+
+  it('testing mode: simple passwords of 6+ chars are allowed', () => {
+    expect(passwordError('123456', true)).toBeNull();
+    expect(passwordError('12345', true)).toBe('auth.errors.passwordShort');
   });
 });
 

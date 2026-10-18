@@ -1,4 +1,5 @@
 /** Signup validation rules (PRD §7.2). Returns i18n keys for errors. */
+import { PASSWORD_MIN_LENGTH, TESTING_MODE } from '../config';
 
 // Small built-in list; Supabase's leaked-password protection adds a larger check server-side.
 const COMMON_PASSWORDS = new Set([
@@ -13,9 +14,10 @@ export function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
 }
 
-export function passwordError(password: string): string | null {
-  if (password.length < 8) return 'auth.errors.passwordShort';
-  if (COMMON_PASSWORDS.has(password.toLowerCase())) return 'auth.errors.passwordCommon';
+export function passwordError(password: string, testing = TESTING_MODE): string | null {
+  const min = testing ? PASSWORD_MIN_LENGTH : 8;
+  if (password.length < min) return 'auth.errors.passwordShort';
+  if (!testing && COMMON_PASSWORDS.has(password.toLowerCase())) return 'auth.errors.passwordCommon';
   return null;
 }
 
@@ -51,11 +53,11 @@ export interface SignupInput {
 
 export type SignupErrors = Partial<Record<keyof SignupInput, string>>;
 
-export function validateSignup(v: SignupInput, today = new Date()): SignupErrors {
+export function validateSignup(v: SignupInput, today = new Date(), testing = TESTING_MODE): SignupErrors {
   const e: SignupErrors = {};
   if (!v.name.trim()) e.name = 'auth.errors.nameRequired';
   if (!isValidEmail(v.email)) e.email = 'auth.errors.emailInvalid';
-  const pw = passwordError(v.password);
+  const pw = passwordError(v.password, testing);
   if (pw) e.password = pw;
   if (v.password !== v.confirmPassword) e.confirmPassword = 'auth.errors.passwordMismatch';
   const dob = parseDateOfBirth(v.dateOfBirth, today);

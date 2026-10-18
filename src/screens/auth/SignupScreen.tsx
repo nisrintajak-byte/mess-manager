@@ -6,6 +6,7 @@ import { Text } from 'react-native';
 
 import { authErrorKey } from '../../lib/errors';
 import { supabase } from '../../lib/supabase';
+import { PASSWORD_MIN_LENGTH, TESTING_MODE } from '../../config';
 import { CONSENT_VERSION, SignupErrors, validateSignup } from '../../lib/validation';
 import type { AuthStackParamList } from '../../navigation/types';
 import { Body, Button, Checkbox, Field, Notice, Screen, Spacer, Title } from '../../ui/components';
@@ -38,7 +39,7 @@ export function SignupScreen({ navigation }: Props) {
 
     setBusy(true);
     const email = form.email.trim().toLowerCase();
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password: form.password,
       options: {
@@ -57,7 +58,9 @@ export function SignupScreen({ navigation }: Props) {
       setServerError(t(authErrorKey(error)));
       return;
     }
-    navigation.replace('CheckEmail', { email });
+    // With email confirmation off (testing), Supabase signs the user in immediately and the
+    // navigator switches to the app on its own. Otherwise ask them to confirm their email.
+    if (!data.session) navigation.replace('CheckEmail', { email });
   }
 
   return (
@@ -65,6 +68,7 @@ export function SignupScreen({ navigation }: Props) {
       <Title>{t('auth.signupTitle')}</Title>
       <Body muted>{t('auth.signupSubtitle')}</Body>
       <Spacer size="xl" />
+      {TESTING_MODE ? <Notice tone="info">{t('auth.testingMode')}</Notice> : null}
       {serverError ? <Notice tone="error">{serverError}</Notice> : null}
       <Field
         label={t('auth.name')}
@@ -85,7 +89,7 @@ export function SignupScreen({ navigation }: Props) {
       />
       <Field
         label={t('auth.password')}
-        placeholder={t('auth.passwordHint')}
+        placeholder={t('auth.passwordHint', { count: PASSWORD_MIN_LENGTH })}
         value={form.password}
         onChangeText={set('password')}
         secureTextEntry
