@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "Mess Manager",
+    "slug": "mess-manager",
+    "scheme": "messmanager",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "android": {
+      "package": "com.uyoontech.messmanager",
+      "predictiveBackGestureEnabled": false
+    },
+    "ios": {
+      "bundleIdentifier": "com.uyoontech.messmanager",
+      "supportsTablet": true
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-localization",
+      "expo-secure-store"
+    ],
+    "experiments": {
+      "baseUrl": "/mess-manager"
+    }
+  }
+}

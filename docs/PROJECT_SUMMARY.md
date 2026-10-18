@@ -2,26 +2,16 @@
 
 **App:** Mess Manager — free, ad-supported, neutral (no flags) shared-expense app for Rooms (flats, hostels, messes, families, offices). Every expense, payment and settlement is visible, provable and audited. Android first; 4 languages (EN, AR, UR, HI).
 
-**Current version:** Planning — version plan awaiting founder OK. v0.1 0% done.
+**Current version:** v0.1 Core MVP — ~90% (9 of 10 tasks). Only T10 (founder end-to-end test) left. Branch `version/v0.1-core-mvp`, CI green.
 
-**Built so far:** Repo docs structure; PRD v1.2 stored (`docs/PRD.md`, original PDF `docs/PRD_v1.2.pdf`); version plan v0.1 → v1.0 in `docs/versions/`.
+**Built so far:** Expo SDK 58 app: signup (consent, DOB, under-18 blocked for now), login, password reset, email verification; create Room (country → currency/decimals/time zone, no flags); join by code + Admin approval; roles and Last Admin rule; expenses add/edit (30-min rule)/soft delete with full history; equal split (leftover to payer); balances. Supabase project live with RLS + append-only audit. Web preview workflow + docs/TESTING_GUIDE.md.
 
-**Next:** Founder approves plan → start v0.1 Core MVP (scaffold Expo app, Supabase schema, auth, rooms, expenses, balances).
+**Next:** Founder enables GitHub Pages + Supabase URL config → tests v0.1 → merge to main, tag v0.1 → start v0.2 (settlement, lock, payments).
 
-**Version plan:**
-- v0.1 Core MVP (auth, rooms, approval, equal-split expenses, audit, balances)
-- v0.2 Settlement, lock, receipts, payments
-- v0.3 Notifications, disputes, need requests
-- v0.4 4 languages + RTL, themes, Google Sign-In, App Lock
-- v0.5 Offline mode & safe sync
-- v0.6 Reports, retention, account deletion
-- v0.7 Minors, legal screens, ads
-- v1.0 Security test, QA, Play Store launch
-
-**Key decisions:** Stack per PRD §6 (Expo + TypeScript + Supabase). Money as integer minor units. See `DECISIONS.md`.
+**Key decisions:** PRD §6 stack; all writes via server functions with server time; money as integer minor units; old Supabase tables archived not deleted. See DECISIONS.md.
 
 **Blockers:**
-- Founder accounts needed for v0.1: Supabase, Expo
-- PRD §28 open decisions → `memory/open-questions.md`
+- Founder: GitHub Pages switch; Supabase Site URL; add second tester to Supabase team
+- PRD §28 open decisions → memory/open-questions.md
 
-_Last updated: 2026-10-18 12:35 (UTC+3)_
+_Last updated: 2026-10-18 13:25 (UTC+3)_

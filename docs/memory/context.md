@@ -15,7 +15,18 @@ Expo (React Native) + TypeScript strict · Supabase (Postgres + RLS, Auth, Stora
 - No hard-coded UI text; no flags/maps anywhere
 
 ## Commands
-(to be added in v0.1 T1)
+- `npm start` — dev server (scan QR with Expo Go) · `npm run web` — browser preview
+- `npm run typecheck` · `npm run lint` · `npm test`
+- DB tests: `eval "$(scripts/local-pg.sh)" && scripts/test-db.sh` (plain Postgres + stub in supabase/tests/local)
+- Regenerate country data: `python3 scripts/generate-countries.py`
+- Add/upgrade deps: edit bootstrap workflow, then change `.github/bootstrap-request` and push (no npm in Claude workspace)
+
+## Supabase
+- Project `egylgjgimuytmnmrvzhs` (ap-south-1), URL https://egylgjgimuytmnmrvzhs.supabase.co — connected via Supabase connector (apply_migration / execute_sql).
+- Connector cancels migrations containing DELETE/DROP unless founder approves on screen → prefer non-destructive SQL.
+- Supabase grants EXECUTE on new public functions to anon/authenticated by default → every migration must revoke and re-grant only the public API.
+- Claude workspace cannot reach *.supabase.co (proxy 403); verify via connector SQL.
+- Default SMTP sends only to Supabase team members (testing limit until custom SMTP in v0.6).
 
 ## Env
 Secrets go in `.env` (never committed). Needed: SUPABASE_URL, SUPABASE_ANON_KEY (app); service key only in Supabase dashboard / CI secrets.
@@ -24,4 +35,6 @@ Secrets go in `.env` (never committed). Needed: SUPABASE_URL, SUPABASE_ANON_KEY 
 Imran Khan (Abu Uyoon), non-technical. Explain steps in simple Hinglish; Claude does all technical work.
 
 ## Gotchas
-- (none yet)
+- GitHub API for repo settings (Pages etc.) is blocked from this workspace; CI logs not downloadable — read check-run annotations instead.
+- Claude workspace cannot reach registry.npmjs.org (proxy 403). Use the bootstrap workflow; run tests with `bun test`; local Postgres 16 at /usr/lib/postgresql/16/bin.
+- Expo SDK 58, React Native 0.88, React 19.3, TypeScript 6.

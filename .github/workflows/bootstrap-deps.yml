@@ -1,0 +1,78 @@
+name: Bootstrap dependencies
+
+# Runs when .github/bootstrap-request changes. Generates a fresh Expo
+# blank-typescript base, installs SDK-compatible dependencies, and commits
+# package.json + package-lock.json (plus reference copies of the base files)
+# back to the same branch. Used because the dev workspace has no npm access.
+
+on:
+  push:
+    paths:
+      - '.github/bootstrap-request'
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Create Expo base
+        run: npx --yes create-expo-app@latest /tmp/base --template blank-typescript --no-install
+
+      - name: Keep reference copies of base files
+        run: |
+          mkdir -p .bootstrap/base
+          for f in package.json app.json tsconfig.json index.ts App.tsx; do
+            [ -f "/tmp/base/$f" ] && cp "/tmp/base/$f" ".bootstrap/base/$f" || true
+          done
+
+      - name: Install dependencies
+        run: |
+          node -e '
+            const fs=require("fs");
+            const p=JSON.parse(fs.readFileSync("/tmp/base/package.json","utf8"));
+            p.name="mess-manager";
+            p.version="0.1.0";
+            p.private=true;
+            p.scripts={...p.scripts,
+              typecheck:"tsc --noEmit",
+              lint:"eslint .",
+              test:"jest",
+              format:"prettier --write ."};
+            p.jest={preset:"jest-expo"};
+            fs.writeFileSync("package.json",JSON.stringify(p,null,2)+"\n");
+          '
+          npm install
+          npx expo install \
+            @supabase/supabase-js \
+            @react-native-async-storage/async-storage \
+            react-native-url-polyfill \
+            expo-localization \
+            expo-secure-store \
+            expo-linking \
+            expo-constants \
+            @react-navigation/native \
+            @react-navigation/native-stack \
+            react-native-screens \
+            react-native-safe-area-context \
+            react-native-web \
+            react-dom \
+            @expo/metro-runtime \
+            i18next \
+            react-i18next
+          npx expo install -- --save-dev jest-expo jest @types/jest eslint eslint-config-expo prettier
+
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json .bootstrap
+          git commit -m "chore(v0.1): bootstrap Expo dependencies [skip ci]" || echo "nothing to commit"
+          git push

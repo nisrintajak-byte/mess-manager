@@ -1,0 +1,3608 @@
+[
+ {
+  "code": "AF",
+  "names": {
+   "en": "Afghanistan",
+   "ar": "أفغانستان",
+   "ur": "افغانستان",
+   "hi": "अफ़गानिस्तान"
+  },
+  "currency": "AFN",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Kabul"
+  ]
+ },
+ {
+  "code": "AL",
+  "names": {
+   "en": "Albania",
+   "ar": "ألبانيا",
+   "ur": "البانیہ",
+   "hi": "अल्बानिया"
+  },
+  "currency": "ALL",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Tirane"
+  ]
+ },
+ {
+  "code": "DZ",
+  "names": {
+   "en": "Algeria",
+   "ar": "الجزائر",
+   "ur": "الجیریا",
+   "hi": "अल्जीरिया"
+  },
+  "currency": "DZD",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Algiers"
+  ]
+ },
+ {
+  "code": "AS",
+  "names": {
+   "en": "American Samoa",
+   "ar": "ساموا الأمريكية",
+   "ur": "امریکی ساموآ",
+   "hi": "अमेरिकी समोआ"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Pago_Pago"
+  ]
+ },
+ {
+  "code": "AD",
+  "names": {
+   "en": "Andorra",
+   "ar": "أندورا",
+   "ur": "انڈورا",
+   "hi": "एंडोरा"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Andorra"
+  ]
+ },
+ {
+  "code": "AO",
+  "names": {
+   "en": "Angola",
+   "ar": "أنغولا",
+   "ur": "انگولا",
+   "hi": "अंगोला"
+  },
+  "currency": "AOA",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Luanda"
+  ]
+ },
+ {
+  "code": "AI",
+  "names": {
+   "en": "Anguilla",
+   "ar": "أنغويلا",
+   "ur": "انگوئیلا",
+   "hi": "एंग्विला"
+  },
+  "currency": "XCD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Anguilla"
+  ]
+ },
+ {
+  "code": "AG",
+  "names": {
+   "en": "Antigua & Barbuda",
+   "ar": "أنتيغوا وبربودا",
+   "ur": "انٹیگوا اور باربودا",
+   "hi": "एंटिगुआ और बरबुडा"
+  },
+  "currency": "XCD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Antigua"
+  ]
+ },
+ {
+  "code": "AR",
+  "names": {
+   "en": "Argentina",
+   "ar": "الأرجنتين",
+   "ur": "ارجنٹینا",
+   "hi": "अर्जेंटीना"
+  },
+  "currency": "ARS",
+  "decimals": 2,
+  "timeZones": [
+   "America/Argentina/Buenos_Aires",
+   "America/Argentina/Catamarca",
+   "America/Argentina/Cordoba",
+   "America/Argentina/Jujuy",
+   "America/Argentina/La_Rioja",
+   "America/Argentina/Mendoza",
+   "America/Argentina/Rio_Gallegos",
+   "America/Argentina/Salta",
+   "America/Argentina/San_Juan",
+   "America/Argentina/San_Luis",
+   "America/Argentina/Tucuman",
+   "America/Argentina/Ushuaia"
+  ]
+ },
+ {
+  "code": "AM",
+  "names": {
+   "en": "Armenia",
+   "ar": "أرمينيا",
+   "ur": "آرمینیا",
+   "hi": "आर्मेनिया"
+  },
+  "currency": "AMD",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Yerevan"
+  ]
+ },
+ {
+  "code": "AW",
+  "names": {
+   "en": "Aruba",
+   "ar": "أروبا",
+   "ur": "اروبا",
+   "hi": "अरूबा"
+  },
+  "currency": "AWG",
+  "decimals": 2,
+  "timeZones": [
+   "America/Aruba"
+  ]
+ },
+ {
+  "code": "AU",
+  "names": {
+   "en": "Australia",
+   "ar": "أستراليا",
+   "ur": "آسٹریلیا",
+   "hi": "ऑस्ट्रेलिया"
+  },
+  "currency": "AUD",
+  "decimals": 2,
+  "timeZones": [
+   "Antarctica/Macquarie",
+   "Australia/Adelaide",
+   "Australia/Brisbane",
+   "Australia/Broken_Hill",
+   "Australia/Darwin",
+   "Australia/Eucla",
+   "Australia/Hobart",
+   "Australia/Lindeman",
+   "Australia/Lord_Howe",
+   "Australia/Melbourne",
+   "Australia/Perth",
+   "Australia/Sydney"
+  ]
+ },
+ {
+  "code": "AT",
+  "names": {
+   "en": "Austria",
+   "ar": "النمسا",
+   "ur": "آسٹریا",
+   "hi": "ऑस्ट्रिया"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Vienna"
+  ]
+ },
+ {
+  "code": "AZ",
+  "names": {
+   "en": "Azerbaijan",
+   "ar": "أذربيجان",
+   "ur": "آذربائیجان",
+   "hi": "अज़रबैजान"
+  },
+  "currency": "AZN",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Baku"
+  ]
+ },
+ {
+  "code": "BS",
+  "names": {
+   "en": "Bahamas",
+   "ar": "جزر البهاما",
+   "ur": "بہاماس",
+   "hi": "बहामास"
+  },
+  "currency": "BSD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Nassau"
+  ]
+ },
+ {
+  "code": "BH",
+  "names": {
+   "en": "Bahrain",
+   "ar": "البحرين",
+   "ur": "بحرین",
+   "hi": "बहरीन"
+  },
+  "currency": "BHD",
+  "decimals": 3,
+  "timeZones": [
+   "Asia/Bahrain"
+  ]
+ },
+ {
+  "code": "BD",
+  "names": {
+   "en": "Bangladesh",
+   "ar": "بنغلاديش",
+   "ur": "بنگلہ دیش",
+   "hi": "बांग्लादेश"
+  },
+  "currency": "BDT",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Dhaka"
+  ]
+ },
+ {
+  "code": "BB",
+  "names": {
+   "en": "Barbados",
+   "ar": "بربادوس",
+   "ur": "بارباڈوس",
+   "hi": "बारबाडोस"
+  },
+  "currency": "BBD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Barbados"
+  ]
+ },
+ {
+  "code": "BY",
+  "names": {
+   "en": "Belarus",
+   "ar": "بيلاروس",
+   "ur": "بیلاروس",
+   "hi": "बेलारूस"
+  },
+  "currency": "BYN",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Minsk"
+  ]
+ },
+ {
+  "code": "BE",
+  "names": {
+   "en": "Belgium",
+   "ar": "بلجيكا",
+   "ur": "بیلجیم",
+   "hi": "बेल्जियम"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Brussels"
+  ]
+ },
+ {
+  "code": "BZ",
+  "names": {
+   "en": "Belize",
+   "ar": "بليز",
+   "ur": "بیلائز",
+   "hi": "बेलीज़"
+  },
+  "currency": "BZD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Belize"
+  ]
+ },
+ {
+  "code": "BJ",
+  "names": {
+   "en": "Benin",
+   "ar": "بنين",
+   "ur": "بینن",
+   "hi": "बेनिन"
+  },
+  "currency": "XOF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Porto-Novo"
+  ]
+ },
+ {
+  "code": "BM",
+  "names": {
+   "en": "Bermuda",
+   "ar": "برمودا",
+   "ur": "برمودا",
+   "hi": "बरमूडा"
+  },
+  "currency": "BMD",
+  "decimals": 2,
+  "timeZones": [
+   "Atlantic/Bermuda"
+  ]
+ },
+ {
+  "code": "BT",
+  "names": {
+   "en": "Bhutan",
+   "ar": "بوتان",
+   "ur": "بھوٹان",
+   "hi": "भूटान"
+  },
+  "currency": "INR",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Thimphu"
+  ]
+ },
+ {
+  "code": "BO",
+  "names": {
+   "en": "Bolivia",
+   "ar": "بوليفيا",
+   "ur": "بولیویا",
+   "hi": "बोलीविया"
+  },
+  "currency": "BOB",
+  "decimals": 2,
+  "timeZones": [
+   "America/La_Paz"
+  ]
+ },
+ {
+  "code": "BA",
+  "names": {
+   "en": "Bosnia & Herzegovina",
+   "ar": "البوسنة والهرسك",
+   "ur": "بوسنیا اور ہرزیگووینا",
+   "hi": "बोस्निया और हर्ज़ेगोविना"
+  },
+  "currency": "BAM",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Sarajevo"
+  ]
+ },
+ {
+  "code": "BW",
+  "names": {
+   "en": "Botswana",
+   "ar": "بوتسوانا",
+   "ur": "بوتسوانا",
+   "hi": "बोत्स्वाना"
+  },
+  "currency": "BWP",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Gaborone"
+  ]
+ },
+ {
+  "code": "BR",
+  "names": {
+   "en": "Brazil",
+   "ar": "البرازيل",
+   "ur": "برازیل",
+   "hi": "ब्राज़ील"
+  },
+  "currency": "BRL",
+  "decimals": 2,
+  "timeZones": [
+   "America/Araguaina",
+   "America/Bahia",
+   "America/Belem",
+   "America/Boa_Vista",
+   "America/Campo_Grande",
+   "America/Cuiaba",
+   "America/Eirunepe",
+   "America/Fortaleza",
+   "America/Maceio",
+   "America/Manaus",
+   "America/Noronha",
+   "America/Porto_Velho",
+   "America/Recife",
+   "America/Rio_Branco",
+   "America/Santarem",
+   "America/Sao_Paulo"
+  ]
+ },
+ {
+  "code": "IO",
+  "names": {
+   "en": "British Indian Ocean Territory",
+   "ar": "الإقليم البريطاني في المحيط الهندي",
+   "ur": "برطانوی بحر ہند کا علاقہ",
+   "hi": "ब्रिटिश हिंद महासागरीय क्षेत्र"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "Indian/Chagos"
+  ]
+ },
+ {
+  "code": "VG",
+  "names": {
+   "en": "British Virgin Islands",
+   "ar": "جزر فيرجن البريطانية",
+   "ur": "برٹش ورجن آئلینڈز",
+   "hi": "ब्रिटिश वर्जिन द्वीपसमूह"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Tortola"
+  ]
+ },
+ {
+  "code": "BN",
+  "names": {
+   "en": "Brunei",
+   "ar": "بروناي",
+   "ur": "برونائی",
+   "hi": "ब्रूनेई"
+  },
+  "currency": "BND",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Brunei"
+  ]
+ },
+ {
+  "code": "BG",
+  "names": {
+   "en": "Bulgaria",
+   "ar": "بلغاريا",
+   "ur": "بلغاریہ",
+   "hi": "बुल्गारिया"
+  },
+  "currency": "BGN",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Sofia"
+  ]
+ },
+ {
+  "code": "BF",
+  "names": {
+   "en": "Burkina Faso",
+   "ar": "بوركينا فاسو",
+   "ur": "برکینا فاسو",
+   "hi": "बुर्किना फ़ासो"
+  },
+  "currency": "XOF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Ouagadougou"
+  ]
+ },
+ {
+  "code": "BI",
+  "names": {
+   "en": "Burundi",
+   "ar": "بوروندي",
+   "ur": "برونڈی",
+   "hi": "बुरुंडी"
+  },
+  "currency": "BIF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Bujumbura"
+  ]
+ },
+ {
+  "code": "KH",
+  "names": {
+   "en": "Cambodia",
+   "ar": "كمبوديا",
+   "ur": "کمبوڈیا",
+   "hi": "कंबोडिया"
+  },
+  "currency": "KHR",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Phnom_Penh"
+  ]
+ },
+ {
+  "code": "CM",
+  "names": {
+   "en": "Cameroon",
+   "ar": "الكاميرون",
+   "ur": "کیمرون",
+   "hi": "कैमरून"
+  },
+  "currency": "XAF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Douala"
+  ]
+ },
+ {
+  "code": "CA",
+  "names": {
+   "en": "Canada",
+   "ar": "كندا",
+   "ur": "کینیڈا",
+   "hi": "कनाडा"
+  },
+  "currency": "CAD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Atikokan",
+   "America/Blanc-Sablon",
+   "America/Cambridge_Bay",
+   "America/Creston",
+   "America/Dawson",
+   "America/Dawson_Creek",
+   "America/Edmonton",
+   "America/Fort_Nelson",
+   "America/Glace_Bay",
+   "America/Goose_Bay",
+   "America/Halifax",
+   "America/Inuvik",
+   "America/Iqaluit",
+   "America/Moncton",
+   "America/Rankin_Inlet",
+   "America/Regina",
+   "America/Resolute",
+   "America/St_Johns",
+   "America/Swift_Current",
+   "America/Toronto",
+   "America/Vancouver",
+   "America/Whitehorse",
+   "America/Winnipeg"
+  ]
+ },
+ {
+  "code": "CV",
+  "names": {
+   "en": "Cape Verde",
+   "ar": "الرأس الأخضر",
+   "ur": "کیپ ورڈی",
+   "hi": "केप वर्ड"
+  },
+  "currency": "CVE",
+  "decimals": 2,
+  "timeZones": [
+   "Atlantic/Cape_Verde"
+  ]
+ },
+ {
+  "code": "BQ",
+  "names": {
+   "en": "Caribbean Netherlands",
+   "ar": "هولندا الكاريبية",
+   "ur": "کریبیائی نیدرلینڈز",
+   "hi": "कैरिबियन नीदरलैंड"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Kralendijk"
+  ]
+ },
+ {
+  "code": "KY",
+  "names": {
+   "en": "Cayman Islands",
+   "ar": "جزر كايمان",
+   "ur": "کیمین آئلینڈز",
+   "hi": "कैमेन द्वीपसमूह"
+  },
+  "currency": "KYD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Cayman"
+  ]
+ },
+ {
+  "code": "CF",
+  "names": {
+   "en": "Central African Republic",
+   "ar": "جمهورية أفريقيا الوسطى",
+   "ur": "وسط افریقی جمہوریہ",
+   "hi": "मध्य अफ़्रीकी गणराज्य"
+  },
+  "currency": "XAF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Bangui"
+  ]
+ },
+ {
+  "code": "TD",
+  "names": {
+   "en": "Chad",
+   "ar": "تشاد",
+   "ur": "چاڈ",
+   "hi": "चाड"
+  },
+  "currency": "XAF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Ndjamena"
+  ]
+ },
+ {
+  "code": "CL",
+  "names": {
+   "en": "Chile",
+   "ar": "تشيلي",
+   "ur": "چلی",
+   "hi": "चिली"
+  },
+  "currency": "CLP",
+  "decimals": 0,
+  "timeZones": [
+   "America/Coyhaique",
+   "America/Punta_Arenas",
+   "America/Santiago",
+   "Pacific/Easter"
+  ]
+ },
+ {
+  "code": "CN",
+  "names": {
+   "en": "China",
+   "ar": "الصين",
+   "ur": "چین",
+   "hi": "चीन"
+  },
+  "currency": "CNY",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Shanghai",
+   "Asia/Urumqi"
+  ]
+ },
+ {
+  "code": "CX",
+  "names": {
+   "en": "Christmas Island",
+   "ar": "جزيرة كريسماس",
+   "ur": "جزیرہ کرسمس",
+   "hi": "क्रिसमस द्वीप"
+  },
+  "currency": "AUD",
+  "decimals": 2,
+  "timeZones": [
+   "Indian/Christmas"
+  ]
+ },
+ {
+  "code": "CC",
+  "names": {
+   "en": "Cocos (Keeling) Islands",
+   "ar": "جزر كوكوس (كيلينغ)",
+   "ur": "کوکوس (کیلنگ) جزائر",
+   "hi": "कोकोस (कीलिंग) द्वीपसमूह"
+  },
+  "currency": "AUD",
+  "decimals": 2,
+  "timeZones": [
+   "Indian/Cocos"
+  ]
+ },
+ {
+  "code": "CO",
+  "names": {
+   "en": "Colombia",
+   "ar": "كولومبيا",
+   "ur": "کولمبیا",
+   "hi": "कोलंबिया"
+  },
+  "currency": "COP",
+  "decimals": 2,
+  "timeZones": [
+   "America/Bogota"
+  ]
+ },
+ {
+  "code": "KM",
+  "names": {
+   "en": "Comoros",
+   "ar": "جزر القمر",
+   "ur": "کوموروس",
+   "hi": "कोमोरोस"
+  },
+  "currency": "KMF",
+  "decimals": 0,
+  "timeZones": [
+   "Indian/Comoro"
+  ]
+ },
+ {
+  "code": "CG",
+  "names": {
+   "en": "Congo - Brazzaville",
+   "ar": "الكونغو - برازافيل",
+   "ur": "کانگو - برازاویلے",
+   "hi": "कांगो – ब्राज़ाविल"
+  },
+  "currency": "XAF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Brazzaville"
+  ]
+ },
+ {
+  "code": "CD",
+  "names": {
+   "en": "Congo - Kinshasa",
+   "ar": "الكونغو - كينشاسا",
+   "ur": "کانگو - کنشاسا",
+   "hi": "कांगो - किंशासा"
+  },
+  "currency": "CDF",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Kinshasa",
+   "Africa/Lubumbashi"
+  ]
+ },
+ {
+  "code": "CK",
+  "names": {
+   "en": "Cook Islands",
+   "ar": "جزر كوك",
+   "ur": "کک آئلینڈز",
+   "hi": "कुक द्वीपसमूह"
+  },
+  "currency": "NZD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Rarotonga"
+  ]
+ },
+ {
+  "code": "CR",
+  "names": {
+   "en": "Costa Rica",
+   "ar": "كوستاريكا",
+   "ur": "کوسٹا ریکا",
+   "hi": "कोस्टारिका"
+  },
+  "currency": "CRC",
+  "decimals": 2,
+  "timeZones": [
+   "America/Costa_Rica"
+  ]
+ },
+ {
+  "code": "HR",
+  "names": {
+   "en": "Croatia",
+   "ar": "كرواتيا",
+   "ur": "کروشیا",
+   "hi": "क्रोएशिया"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Zagreb"
+  ]
+ },
+ {
+  "code": "CU",
+  "names": {
+   "en": "Cuba",
+   "ar": "كوبا",
+   "ur": "کیوبا",
+   "hi": "क्यूबा"
+  },
+  "currency": "CUP",
+  "decimals": 2,
+  "timeZones": [
+   "America/Havana"
+  ]
+ },
+ {
+  "code": "CW",
+  "names": {
+   "en": "Curaçao",
+   "ar": "كوراساو",
+   "ur": "کیوراکاؤ",
+   "hi": "कुरासाओ"
+  },
+  "currency": "XCG",
+  "decimals": 2,
+  "timeZones": [
+   "America/Curacao"
+  ]
+ },
+ {
+  "code": "CY",
+  "names": {
+   "en": "Cyprus",
+   "ar": "قبرص",
+   "ur": "قبرص",
+   "hi": "साइप्रस"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Famagusta",
+   "Asia/Nicosia"
+  ]
+ },
+ {
+  "code": "CZ",
+  "names": {
+   "en": "Czechia",
+   "ar": "التشيك",
+   "ur": "چیکیا",
+   "hi": "चेकिया"
+  },
+  "currency": "CZK",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Prague"
+  ]
+ },
+ {
+  "code": "CI",
+  "names": {
+   "en": "Côte d’Ivoire",
+   "ar": "ساحل العاج",
+   "ur": "کوٹ ڈی آئیوری",
+   "hi": "कोत दिवुआर"
+  },
+  "currency": "XOF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Abidjan"
+  ]
+ },
+ {
+  "code": "DK",
+  "names": {
+   "en": "Denmark",
+   "ar": "الدانمرك",
+   "ur": "ڈنمارک",
+   "hi": "डेनमार्क"
+  },
+  "currency": "DKK",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Copenhagen"
+  ]
+ },
+ {
+  "code": "DJ",
+  "names": {
+   "en": "Djibouti",
+   "ar": "جيبوتي",
+   "ur": "جبوتی",
+   "hi": "जिबूती"
+  },
+  "currency": "DJF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Djibouti"
+  ]
+ },
+ {
+  "code": "DM",
+  "names": {
+   "en": "Dominica",
+   "ar": "دومينيكا",
+   "ur": "ڈومنیکا",
+   "hi": "डोमिनिका"
+  },
+  "currency": "XCD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Dominica"
+  ]
+ },
+ {
+  "code": "DO",
+  "names": {
+   "en": "Dominican Republic",
+   "ar": "جمهورية الدومينيكان",
+   "ur": "جمہوریہ ڈومينيکن",
+   "hi": "डोमिनिकन गणराज्य"
+  },
+  "currency": "DOP",
+  "decimals": 2,
+  "timeZones": [
+   "America/Santo_Domingo"
+  ]
+ },
+ {
+  "code": "EC",
+  "names": {
+   "en": "Ecuador",
+   "ar": "الإكوادور",
+   "ur": "ایکواڈور",
+   "hi": "इक्वाडोर"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Guayaquil",
+   "Pacific/Galapagos"
+  ]
+ },
+ {
+  "code": "EG",
+  "names": {
+   "en": "Egypt",
+   "ar": "مصر",
+   "ur": "مصر",
+   "hi": "मिस्र"
+  },
+  "currency": "EGP",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Cairo"
+  ]
+ },
+ {
+  "code": "SV",
+  "names": {
+   "en": "El Salvador",
+   "ar": "السلفادور",
+   "ur": "ال سلواڈور",
+   "hi": "अल सल्वाडोर"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "America/El_Salvador"
+  ]
+ },
+ {
+  "code": "GQ",
+  "names": {
+   "en": "Equatorial Guinea",
+   "ar": "غينيا الاستوائية",
+   "ur": "استوائی گیانا",
+   "hi": "इक्वेटोरियल गिनी"
+  },
+  "currency": "XAF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Malabo"
+  ]
+ },
+ {
+  "code": "ER",
+  "names": {
+   "en": "Eritrea",
+   "ar": "إريتريا",
+   "ur": "اریٹیریا",
+   "hi": "इरिट्रिया"
+  },
+  "currency": "ERN",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Asmara"
+  ]
+ },
+ {
+  "code": "EE",
+  "names": {
+   "en": "Estonia",
+   "ar": "إستونيا",
+   "ur": "اسٹونیا",
+   "hi": "एस्टोनिया"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Tallinn"
+  ]
+ },
+ {
+  "code": "SZ",
+  "names": {
+   "en": "Eswatini",
+   "ar": "إسواتيني",
+   "ur": "سواتنی",
+   "hi": "एस्वाटिनी"
+  },
+  "currency": "SZL",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Mbabane"
+  ]
+ },
+ {
+  "code": "ET",
+  "names": {
+   "en": "Ethiopia",
+   "ar": "إثيوبيا",
+   "ur": "ایتھوپیا",
+   "hi": "इथियोपिया"
+  },
+  "currency": "ETB",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Addis_Ababa"
+  ]
+ },
+ {
+  "code": "FK",
+  "names": {
+   "en": "Falkland Islands",
+   "ar": "جزر فوكلاند",
+   "ur": "فاکلینڈ جزائر",
+   "hi": "फ़ॉकलैंड द्वीपसमूह"
+  },
+  "currency": "FKP",
+  "decimals": 2,
+  "timeZones": [
+   "Atlantic/Stanley"
+  ]
+ },
+ {
+  "code": "FO",
+  "names": {
+   "en": "Faroe Islands",
+   "ar": "جزر فارو",
+   "ur": "جزائر فارو",
+   "hi": "फ़ेरो द्वीपसमूह"
+  },
+  "currency": "DKK",
+  "decimals": 2,
+  "timeZones": [
+   "Atlantic/Faroe"
+  ]
+ },
+ {
+  "code": "FJ",
+  "names": {
+   "en": "Fiji",
+   "ar": "فيجي",
+   "ur": "فجی",
+   "hi": "फ़िजी"
+  },
+  "currency": "FJD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Fiji"
+  ]
+ },
+ {
+  "code": "FI",
+  "names": {
+   "en": "Finland",
+   "ar": "فنلندا",
+   "ur": "فن لینڈ",
+   "hi": "फ़िनलैंड"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Helsinki"
+  ]
+ },
+ {
+  "code": "FR",
+  "names": {
+   "en": "France",
+   "ar": "فرنسا",
+   "ur": "فرانس",
+   "hi": "फ़्रांस"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Paris"
+  ]
+ },
+ {
+  "code": "GF",
+  "names": {
+   "en": "French Guiana",
+   "ar": "غويانا الفرنسية",
+   "ur": "فرینچ گیانا",
+   "hi": "फ़्रेंच गुयाना"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "America/Cayenne"
+  ]
+ },
+ {
+  "code": "PF",
+  "names": {
+   "en": "French Polynesia",
+   "ar": "بولينيزيا الفرنسية",
+   "ur": "فرانسیسی پولینیشیا",
+   "hi": "फ़्रेंच पोलिनेशिया"
+  },
+  "currency": "XPF",
+  "decimals": 0,
+  "timeZones": [
+   "Pacific/Gambier",
+   "Pacific/Marquesas",
+   "Pacific/Tahiti"
+  ]
+ },
+ {
+  "code": "TF",
+  "names": {
+   "en": "French Southern Territories",
+   "ar": "الأقاليم الجنوبية الفرنسية",
+   "ur": "فرانسیسی جنوبی خطے",
+   "hi": "फ़्रांसीसी दक्षिणी क्षेत्र"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Indian/Kerguelen"
+  ]
+ },
+ {
+  "code": "GA",
+  "names": {
+   "en": "Gabon",
+   "ar": "الغابون",
+   "ur": "گیبون",
+   "hi": "गैबॉन"
+  },
+  "currency": "XAF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Libreville"
+  ]
+ },
+ {
+  "code": "GM",
+  "names": {
+   "en": "Gambia",
+   "ar": "غامبيا",
+   "ur": "گیمبیا",
+   "hi": "गाम्बिया"
+  },
+  "currency": "GMD",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Banjul"
+  ]
+ },
+ {
+  "code": "GE",
+  "names": {
+   "en": "Georgia",
+   "ar": "جورجيا",
+   "ur": "جارجیا",
+   "hi": "जॉर्जिया"
+  },
+  "currency": "GEL",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Tbilisi"
+  ]
+ },
+ {
+  "code": "DE",
+  "names": {
+   "en": "Germany",
+   "ar": "ألمانيا",
+   "ur": "جرمنی",
+   "hi": "जर्मनी"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Berlin",
+   "Europe/Busingen"
+  ]
+ },
+ {
+  "code": "GH",
+  "names": {
+   "en": "Ghana",
+   "ar": "غانا",
+   "ur": "گھانا",
+   "hi": "घाना"
+  },
+  "currency": "GHS",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Accra"
+  ]
+ },
+ {
+  "code": "GI",
+  "names": {
+   "en": "Gibraltar",
+   "ar": "جبل طارق",
+   "ur": "جبل الطارق",
+   "hi": "जिब्राल्टर"
+  },
+  "currency": "GIP",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Gibraltar"
+  ]
+ },
+ {
+  "code": "GR",
+  "names": {
+   "en": "Greece",
+   "ar": "اليونان",
+   "ur": "یونان",
+   "hi": "यूनान"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Athens"
+  ]
+ },
+ {
+  "code": "GL",
+  "names": {
+   "en": "Greenland",
+   "ar": "غرينلاند",
+   "ur": "گرین لینڈ",
+   "hi": "ग्रीनलैंड"
+  },
+  "currency": "DKK",
+  "decimals": 2,
+  "timeZones": [
+   "America/Danmarkshavn",
+   "America/Nuuk",
+   "America/Scoresbysund",
+   "America/Thule"
+  ]
+ },
+ {
+  "code": "GD",
+  "names": {
+   "en": "Grenada",
+   "ar": "غرينادا",
+   "ur": "گریناڈا",
+   "hi": "ग्रेनाडा"
+  },
+  "currency": "XCD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Grenada"
+  ]
+ },
+ {
+  "code": "GP",
+  "names": {
+   "en": "Guadeloupe",
+   "ar": "غوادلوب",
+   "ur": "گواڈیلوپ",
+   "hi": "ग्वाडेलूप"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "America/Guadeloupe"
+  ]
+ },
+ {
+  "code": "GU",
+  "names": {
+   "en": "Guam",
+   "ar": "غوام",
+   "ur": "گوام",
+   "hi": "गुआम"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Guam"
+  ]
+ },
+ {
+  "code": "GT",
+  "names": {
+   "en": "Guatemala",
+   "ar": "غواتيمالا",
+   "ur": "گواٹے مالا",
+   "hi": "ग्वाटेमाला"
+  },
+  "currency": "GTQ",
+  "decimals": 2,
+  "timeZones": [
+   "America/Guatemala"
+  ]
+ },
+ {
+  "code": "GG",
+  "names": {
+   "en": "Guernsey",
+   "ar": "غيرنزي",
+   "ur": "گوئرنسی",
+   "hi": "गर्नसी"
+  },
+  "currency": "GBP",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Guernsey"
+  ]
+ },
+ {
+  "code": "GN",
+  "names": {
+   "en": "Guinea",
+   "ar": "غينيا",
+   "ur": "گنی",
+   "hi": "गिनी"
+  },
+  "currency": "GNF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Conakry"
+  ]
+ },
+ {
+  "code": "GW",
+  "names": {
+   "en": "Guinea-Bissau",
+   "ar": "غينيا بيساو",
+   "ur": "گنی بساؤ",
+   "hi": "गिनी-बिसाउ"
+  },
+  "currency": "XOF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Bissau"
+  ]
+ },
+ {
+  "code": "GY",
+  "names": {
+   "en": "Guyana",
+   "ar": "غيانا",
+   "ur": "گیانا",
+   "hi": "गुयाना"
+  },
+  "currency": "GYD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Guyana"
+  ]
+ },
+ {
+  "code": "HT",
+  "names": {
+   "en": "Haiti",
+   "ar": "هايتي",
+   "ur": "ہیٹی",
+   "hi": "हैती"
+  },
+  "currency": "HTG",
+  "decimals": 2,
+  "timeZones": [
+   "America/Port-au-Prince"
+  ]
+ },
+ {
+  "code": "HN",
+  "names": {
+   "en": "Honduras",
+   "ar": "هندوراس",
+   "ur": "ہونڈاروس",
+   "hi": "होंडूरास"
+  },
+  "currency": "HNL",
+  "decimals": 2,
+  "timeZones": [
+   "America/Tegucigalpa"
+  ]
+ },
+ {
+  "code": "HK",
+  "names": {
+   "en": "Hong Kong SAR China",
+   "ar": "هونغ كونغ الصينية (منطقة إدارية خاصة)",
+   "ur": "ہانگ کانگ SAR چین",
+   "hi": "हाँग काँग (चीन विशेष प्रशासनिक क्षेत्र)"
+  },
+  "currency": "HKD",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Hong_Kong"
+  ]
+ },
+ {
+  "code": "HU",
+  "names": {
+   "en": "Hungary",
+   "ar": "هنغاريا",
+   "ur": "ہنگری",
+   "hi": "हंगरी"
+  },
+  "currency": "HUF",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Budapest"
+  ]
+ },
+ {
+  "code": "IS",
+  "names": {
+   "en": "Iceland",
+   "ar": "آيسلندا",
+   "ur": "آئس لینڈ",
+   "hi": "आइसलैंड"
+  },
+  "currency": "ISK",
+  "decimals": 0,
+  "timeZones": [
+   "Atlantic/Reykjavik"
+  ]
+ },
+ {
+  "code": "IN",
+  "names": {
+   "en": "India",
+   "ar": "الهند",
+   "ur": "بھارت",
+   "hi": "भारत"
+  },
+  "currency": "INR",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Kolkata"
+  ]
+ },
+ {
+  "code": "ID",
+  "names": {
+   "en": "Indonesia",
+   "ar": "إندونيسيا",
+   "ur": "انڈونیشیا",
+   "hi": "इंडोनेशिया"
+  },
+  "currency": "IDR",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Jakarta",
+   "Asia/Jayapura",
+   "Asia/Makassar",
+   "Asia/Pontianak"
+  ]
+ },
+ {
+  "code": "IR",
+  "names": {
+   "en": "Iran",
+   "ar": "إيران",
+   "ur": "ایران",
+   "hi": "ईरान"
+  },
+  "currency": "IRR",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Tehran"
+  ]
+ },
+ {
+  "code": "IQ",
+  "names": {
+   "en": "Iraq",
+   "ar": "العراق",
+   "ur": "عراق",
+   "hi": "इराक"
+  },
+  "currency": "IQD",
+  "decimals": 3,
+  "timeZones": [
+   "Asia/Baghdad"
+  ]
+ },
+ {
+  "code": "IE",
+  "names": {
+   "en": "Ireland",
+   "ar": "أيرلندا",
+   "ur": "آئرلینڈ",
+   "hi": "आयरलैंड"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Dublin"
+  ]
+ },
+ {
+  "code": "IM",
+  "names": {
+   "en": "Isle of Man",
+   "ar": "جزيرة مان",
+   "ur": "آئل آف مین",
+   "hi": "आइल ऑफ़ मैन"
+  },
+  "currency": "GBP",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Isle_of_Man"
+  ]
+ },
+ {
+  "code": "IL",
+  "names": {
+   "en": "Israel",
+   "ar": "إسرائيل",
+   "ur": "اسرائیل",
+   "hi": "इज़राइल"
+  },
+  "currency": "ILS",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Jerusalem"
+  ]
+ },
+ {
+  "code": "IT",
+  "names": {
+   "en": "Italy",
+   "ar": "إيطاليا",
+   "ur": "اٹلی",
+   "hi": "इटली"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Rome"
+  ]
+ },
+ {
+  "code": "JM",
+  "names": {
+   "en": "Jamaica",
+   "ar": "جامايكا",
+   "ur": "جمائیکا",
+   "hi": "जमैका"
+  },
+  "currency": "JMD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Jamaica"
+  ]
+ },
+ {
+  "code": "JP",
+  "names": {
+   "en": "Japan",
+   "ar": "اليابان",
+   "ur": "جاپان",
+   "hi": "जापान"
+  },
+  "currency": "JPY",
+  "decimals": 0,
+  "timeZones": [
+   "Asia/Tokyo"
+  ]
+ },
+ {
+  "code": "JE",
+  "names": {
+   "en": "Jersey",
+   "ar": "جيرسي",
+   "ur": "جرسی",
+   "hi": "जर्सी"
+  },
+  "currency": "GBP",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Jersey"
+  ]
+ },
+ {
+  "code": "JO",
+  "names": {
+   "en": "Jordan",
+   "ar": "الأردن",
+   "ur": "اردن",
+   "hi": "जॉर्डन"
+  },
+  "currency": "JOD",
+  "decimals": 3,
+  "timeZones": [
+   "Asia/Amman"
+  ]
+ },
+ {
+  "code": "KZ",
+  "names": {
+   "en": "Kazakhstan",
+   "ar": "كازاخستان",
+   "ur": "قزاخستان",
+   "hi": "कज़ाखस्तान"
+  },
+  "currency": "KZT",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Almaty",
+   "Asia/Aqtau",
+   "Asia/Aqtobe",
+   "Asia/Atyrau",
+   "Asia/Oral",
+   "Asia/Qostanay",
+   "Asia/Qyzylorda"
+  ]
+ },
+ {
+  "code": "KE",
+  "names": {
+   "en": "Kenya",
+   "ar": "كينيا",
+   "ur": "کینیا",
+   "hi": "केन्या"
+  },
+  "currency": "KES",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Nairobi"
+  ]
+ },
+ {
+  "code": "KI",
+  "names": {
+   "en": "Kiribati",
+   "ar": "كيريباتي",
+   "ur": "کریباتی",
+   "hi": "किरिबाती"
+  },
+  "currency": "AUD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Kanton",
+   "Pacific/Kiritimati",
+   "Pacific/Tarawa"
+  ]
+ },
+ {
+  "code": "KW",
+  "names": {
+   "en": "Kuwait",
+   "ar": "الكويت",
+   "ur": "کویت",
+   "hi": "कुवैत"
+  },
+  "currency": "KWD",
+  "decimals": 3,
+  "timeZones": [
+   "Asia/Kuwait"
+  ]
+ },
+ {
+  "code": "KG",
+  "names": {
+   "en": "Kyrgyzstan",
+   "ar": "قيرغيزستان",
+   "ur": "کرغزستان",
+   "hi": "किर्गिज़स्तान"
+  },
+  "currency": "KGS",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Bishkek"
+  ]
+ },
+ {
+  "code": "LA",
+  "names": {
+   "en": "Laos",
+   "ar": "لاوس",
+   "ur": "لاؤس",
+   "hi": "लाओस"
+  },
+  "currency": "LAK",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Vientiane"
+  ]
+ },
+ {
+  "code": "LV",
+  "names": {
+   "en": "Latvia",
+   "ar": "لاتفيا",
+   "ur": "لٹویا",
+   "hi": "लातविया"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Riga"
+  ]
+ },
+ {
+  "code": "LB",
+  "names": {
+   "en": "Lebanon",
+   "ar": "لبنان",
+   "ur": "لبنان",
+   "hi": "लेबनान"
+  },
+  "currency": "LBP",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Beirut"
+  ]
+ },
+ {
+  "code": "LS",
+  "names": {
+   "en": "Lesotho",
+   "ar": "ليسوتو",
+   "ur": "لیسوتھو",
+   "hi": "लेसोथो"
+  },
+  "currency": "ZAR",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Maseru"
+  ]
+ },
+ {
+  "code": "LR",
+  "names": {
+   "en": "Liberia",
+   "ar": "ليبيريا",
+   "ur": "لائبیریا",
+   "hi": "लाइबेरिया"
+  },
+  "currency": "LRD",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Monrovia"
+  ]
+ },
+ {
+  "code": "LY",
+  "names": {
+   "en": "Libya",
+   "ar": "ليبيا",
+   "ur": "لیبیا",
+   "hi": "लीबिया"
+  },
+  "currency": "LYD",
+  "decimals": 3,
+  "timeZones": [
+   "Africa/Tripoli"
+  ]
+ },
+ {
+  "code": "LI",
+  "names": {
+   "en": "Liechtenstein",
+   "ar": "ليختنشتاين",
+   "ur": "لیشٹنسٹائن",
+   "hi": "लिचेंस्टीन"
+  },
+  "currency": "CHF",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Vaduz"
+  ]
+ },
+ {
+  "code": "LT",
+  "names": {
+   "en": "Lithuania",
+   "ar": "ليتوانيا",
+   "ur": "لیتھونیا",
+   "hi": "लिथुआनिया"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Vilnius"
+  ]
+ },
+ {
+  "code": "LU",
+  "names": {
+   "en": "Luxembourg",
+   "ar": "لوكسمبورغ",
+   "ur": "لکسمبرگ",
+   "hi": "लग्ज़मबर्ग"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Luxembourg"
+  ]
+ },
+ {
+  "code": "MO",
+  "names": {
+   "en": "Macao SAR China",
+   "ar": "منطقة ماكاو الإدارية الخاصة",
+   "ur": "مکاؤ SAR چین",
+   "hi": "मकाऊ (विशेष प्रशासनिक क्षेत्र चीन)"
+  },
+  "currency": "MOP",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Macau"
+  ]
+ },
+ {
+  "code": "MG",
+  "names": {
+   "en": "Madagascar",
+   "ar": "مدغشقر",
+   "ur": "مڈغاسکر",
+   "hi": "मेडागास्कर"
+  },
+  "currency": "MGA",
+  "decimals": 2,
+  "timeZones": [
+   "Indian/Antananarivo"
+  ]
+ },
+ {
+  "code": "MW",
+  "names": {
+   "en": "Malawi",
+   "ar": "ملاوي",
+   "ur": "ملاوی",
+   "hi": "मलावी"
+  },
+  "currency": "MWK",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Blantyre"
+  ]
+ },
+ {
+  "code": "MY",
+  "names": {
+   "en": "Malaysia",
+   "ar": "ماليزيا",
+   "ur": "ملائشیا",
+   "hi": "मलेशिया"
+  },
+  "currency": "MYR",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Kuala_Lumpur",
+   "Asia/Kuching"
+  ]
+ },
+ {
+  "code": "MV",
+  "names": {
+   "en": "Maldives",
+   "ar": "جزر المالديف",
+   "ur": "مالدیپ",
+   "hi": "मालदीव"
+  },
+  "currency": "MVR",
+  "decimals": 2,
+  "timeZones": [
+   "Indian/Maldives"
+  ]
+ },
+ {
+  "code": "ML",
+  "names": {
+   "en": "Mali",
+   "ar": "مالي",
+   "ur": "مالی",
+   "hi": "माली"
+  },
+  "currency": "XOF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Bamako"
+  ]
+ },
+ {
+  "code": "MT",
+  "names": {
+   "en": "Malta",
+   "ar": "مالطا",
+   "ur": "مالٹا",
+   "hi": "माल्टा"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Malta"
+  ]
+ },
+ {
+  "code": "MH",
+  "names": {
+   "en": "Marshall Islands",
+   "ar": "جزر مارشال",
+   "ur": "مارشل آئلینڈز",
+   "hi": "मार्शल द्वीपसमूह"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Kwajalein",
+   "Pacific/Majuro"
+  ]
+ },
+ {
+  "code": "MQ",
+  "names": {
+   "en": "Martinique",
+   "ar": "جزر المارتينيك",
+   "ur": "مارٹینک",
+   "hi": "मार्टीनिक"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "America/Martinique"
+  ]
+ },
+ {
+  "code": "MR",
+  "names": {
+   "en": "Mauritania",
+   "ar": "موريتانيا",
+   "ur": "موریطانیہ",
+   "hi": "मॉरिटानिया"
+  },
+  "currency": "MRU",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Nouakchott"
+  ]
+ },
+ {
+  "code": "MU",
+  "names": {
+   "en": "Mauritius",
+   "ar": "موريشيوس",
+   "ur": "ماریشس",
+   "hi": "मॉरीशस"
+  },
+  "currency": "MUR",
+  "decimals": 2,
+  "timeZones": [
+   "Indian/Mauritius"
+  ]
+ },
+ {
+  "code": "YT",
+  "names": {
+   "en": "Mayotte",
+   "ar": "مايوت",
+   "ur": "مایوٹ",
+   "hi": "मायोते"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Indian/Mayotte"
+  ]
+ },
+ {
+  "code": "MX",
+  "names": {
+   "en": "Mexico",
+   "ar": "المكسيك",
+   "ur": "میکسیکو",
+   "hi": "मैक्सिको"
+  },
+  "currency": "MXN",
+  "decimals": 2,
+  "timeZones": [
+   "America/Bahia_Banderas",
+   "America/Cancun",
+   "America/Chihuahua",
+   "America/Ciudad_Juarez",
+   "America/Hermosillo",
+   "America/Matamoros",
+   "America/Mazatlan",
+   "America/Merida",
+   "America/Mexico_City",
+   "America/Monterrey",
+   "America/Ojinaga",
+   "America/Tijuana"
+  ]
+ },
+ {
+  "code": "FM",
+  "names": {
+   "en": "Micronesia",
+   "ar": "ميكرونيزيا",
+   "ur": "مائکرونیشیا",
+   "hi": "माइक्रोनेशिया"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Chuuk",
+   "Pacific/Kosrae",
+   "Pacific/Pohnpei"
+  ]
+ },
+ {
+  "code": "MD",
+  "names": {
+   "en": "Moldova",
+   "ar": "مولدوفا",
+   "ur": "مالدووا",
+   "hi": "मॉल्डोवा"
+  },
+  "currency": "MDL",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Chisinau"
+  ]
+ },
+ {
+  "code": "MC",
+  "names": {
+   "en": "Monaco",
+   "ar": "موناكو",
+   "ur": "موناکو",
+   "hi": "मोनाको"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Monaco"
+  ]
+ },
+ {
+  "code": "MN",
+  "names": {
+   "en": "Mongolia",
+   "ar": "منغوليا",
+   "ur": "منگولیا",
+   "hi": "मंगोलिया"
+  },
+  "currency": "MNT",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Hovd",
+   "Asia/Ulaanbaatar"
+  ]
+ },
+ {
+  "code": "ME",
+  "names": {
+   "en": "Montenegro",
+   "ar": "الجبل الأسود",
+   "ur": "مونٹے نیگرو",
+   "hi": "मोंटेनेग्रो"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Podgorica"
+  ]
+ },
+ {
+  "code": "MS",
+  "names": {
+   "en": "Montserrat",
+   "ar": "مونتسرات",
+   "ur": "مونٹسیراٹ",
+   "hi": "मोंटसेरात"
+  },
+  "currency": "XCD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Montserrat"
+  ]
+ },
+ {
+  "code": "MA",
+  "names": {
+   "en": "Morocco",
+   "ar": "المغرب",
+   "ur": "مراکش",
+   "hi": "मोरक्को"
+  },
+  "currency": "MAD",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Casablanca"
+  ]
+ },
+ {
+  "code": "MZ",
+  "names": {
+   "en": "Mozambique",
+   "ar": "موزمبيق",
+   "ur": "موزمبیق",
+   "hi": "मोज़ांबिक"
+  },
+  "currency": "MZN",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Maputo"
+  ]
+ },
+ {
+  "code": "MM",
+  "names": {
+   "en": "Myanmar (Burma)",
+   "ar": "ميانمار (بورما)",
+   "ur": "میانمار (برما)",
+   "hi": "म्यांमार (बर्मा)"
+  },
+  "currency": "MMK",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Yangon"
+  ]
+ },
+ {
+  "code": "NA",
+  "names": {
+   "en": "Namibia",
+   "ar": "ناميبيا",
+   "ur": "نامیبیا",
+   "hi": "नामीबिया"
+  },
+  "currency": "ZAR",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Windhoek"
+  ]
+ },
+ {
+  "code": "NR",
+  "names": {
+   "en": "Nauru",
+   "ar": "ناورو",
+   "ur": "نؤرو",
+   "hi": "नाउरु"
+  },
+  "currency": "AUD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Nauru"
+  ]
+ },
+ {
+  "code": "NP",
+  "names": {
+   "en": "Nepal",
+   "ar": "نيبال",
+   "ur": "نیپال",
+   "hi": "नेपाल"
+  },
+  "currency": "NPR",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Kathmandu"
+  ]
+ },
+ {
+  "code": "NL",
+  "names": {
+   "en": "Netherlands",
+   "ar": "هولندا",
+   "ur": "نیدر لینڈز",
+   "hi": "नीदरलैंड"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Amsterdam"
+  ]
+ },
+ {
+  "code": "NC",
+  "names": {
+   "en": "New Caledonia",
+   "ar": "كاليدونيا الجديدة",
+   "ur": "نیو کلیڈونیا",
+   "hi": "न्यू कैलेडोनिया"
+  },
+  "currency": "XPF",
+  "decimals": 0,
+  "timeZones": [
+   "Pacific/Noumea"
+  ]
+ },
+ {
+  "code": "NZ",
+  "names": {
+   "en": "New Zealand",
+   "ar": "نيوزيلندا",
+   "ur": "نیوزی لینڈ",
+   "hi": "न्यूज़ीलैंड"
+  },
+  "currency": "NZD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Auckland",
+   "Pacific/Chatham"
+  ]
+ },
+ {
+  "code": "NI",
+  "names": {
+   "en": "Nicaragua",
+   "ar": "نيكاراغوا",
+   "ur": "نکاراگووا",
+   "hi": "निकारागुआ"
+  },
+  "currency": "NIO",
+  "decimals": 2,
+  "timeZones": [
+   "America/Managua"
+  ]
+ },
+ {
+  "code": "NE",
+  "names": {
+   "en": "Niger",
+   "ar": "النيجر",
+   "ur": "نائجر",
+   "hi": "नाइजर"
+  },
+  "currency": "XOF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Niamey"
+  ]
+ },
+ {
+  "code": "NG",
+  "names": {
+   "en": "Nigeria",
+   "ar": "نيجيريا",
+   "ur": "نائجیریا",
+   "hi": "नाइजीरिया"
+  },
+  "currency": "NGN",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Lagos"
+  ]
+ },
+ {
+  "code": "NU",
+  "names": {
+   "en": "Niue",
+   "ar": "نيوي",
+   "ur": "نیئو",
+   "hi": "नीयू"
+  },
+  "currency": "NZD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Niue"
+  ]
+ },
+ {
+  "code": "NF",
+  "names": {
+   "en": "Norfolk Island",
+   "ar": "جزيرة نورفولك",
+   "ur": "نارفوک آئلینڈ",
+   "hi": "नॉरफ़ॉक द्वीप"
+  },
+  "currency": "AUD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Norfolk"
+  ]
+ },
+ {
+  "code": "KP",
+  "names": {
+   "en": "North Korea",
+   "ar": "كوريا الشمالية",
+   "ur": "شمالی کوریا",
+   "hi": "उत्तर कोरिया"
+  },
+  "currency": "KPW",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Pyongyang"
+  ]
+ },
+ {
+  "code": "MK",
+  "names": {
+   "en": "North Macedonia",
+   "ar": "مقدونيا الشمالية",
+   "ur": "شمالی مقدونیہ",
+   "hi": "उत्तरी मकदूनिया"
+  },
+  "currency": "MKD",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Skopje"
+  ]
+ },
+ {
+  "code": "MP",
+  "names": {
+   "en": "Northern Mariana Islands",
+   "ar": "جزر ماريانا الشمالية",
+   "ur": "شمالی ماریانا آئلینڈز",
+   "hi": "उत्तरी मारियाना द्वीपसमूह"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Saipan"
+  ]
+ },
+ {
+  "code": "NO",
+  "names": {
+   "en": "Norway",
+   "ar": "النرويج",
+   "ur": "ناروے",
+   "hi": "नॉर्वे"
+  },
+  "currency": "NOK",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Oslo"
+  ]
+ },
+ {
+  "code": "OM",
+  "names": {
+   "en": "Oman",
+   "ar": "عُمان",
+   "ur": "عمان",
+   "hi": "ओमान"
+  },
+  "currency": "OMR",
+  "decimals": 3,
+  "timeZones": [
+   "Asia/Muscat"
+  ]
+ },
+ {
+  "code": "PK",
+  "names": {
+   "en": "Pakistan",
+   "ar": "باكستان",
+   "ur": "پاکستان",
+   "hi": "पाकिस्तान"
+  },
+  "currency": "PKR",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Karachi"
+  ]
+ },
+ {
+  "code": "PW",
+  "names": {
+   "en": "Palau",
+   "ar": "بالاو",
+   "ur": "پلاؤ",
+   "hi": "पलाऊ"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Palau"
+  ]
+ },
+ {
+  "code": "PS",
+  "names": {
+   "en": "Palestinian Territories",
+   "ar": "الأراضي الفلسطينية",
+   "ur": "فلسطینی خطے",
+   "hi": "फ़िलिस्तीनी क्षेत्र"
+  },
+  "currency": "ILS",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Gaza",
+   "Asia/Hebron"
+  ]
+ },
+ {
+  "code": "PA",
+  "names": {
+   "en": "Panama",
+   "ar": "بنما",
+   "ur": "پانامہ",
+   "hi": "पनामा"
+  },
+  "currency": "PAB",
+  "decimals": 2,
+  "timeZones": [
+   "America/Panama"
+  ]
+ },
+ {
+  "code": "PG",
+  "names": {
+   "en": "Papua New Guinea",
+   "ar": "بابوا غينيا الجديدة",
+   "ur": "پاپوآ نیو گنی",
+   "hi": "पापुआ न्यू गिनी"
+  },
+  "currency": "PGK",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Bougainville",
+   "Pacific/Port_Moresby"
+  ]
+ },
+ {
+  "code": "PY",
+  "names": {
+   "en": "Paraguay",
+   "ar": "باراغواي",
+   "ur": "پیراگوئے",
+   "hi": "पराग्वे"
+  },
+  "currency": "PYG",
+  "decimals": 0,
+  "timeZones": [
+   "America/Asuncion"
+  ]
+ },
+ {
+  "code": "PE",
+  "names": {
+   "en": "Peru",
+   "ar": "بيرو",
+   "ur": "پیرو",
+   "hi": "पेरू"
+  },
+  "currency": "PEN",
+  "decimals": 2,
+  "timeZones": [
+   "America/Lima"
+  ]
+ },
+ {
+  "code": "PH",
+  "names": {
+   "en": "Philippines",
+   "ar": "الفلبين",
+   "ur": "فلپائن",
+   "hi": "फ़िलिपींस"
+  },
+  "currency": "PHP",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Manila"
+  ]
+ },
+ {
+  "code": "PN",
+  "names": {
+   "en": "Pitcairn Islands",
+   "ar": "جزر بيتكيرن",
+   "ur": "پٹکائرن جزائر",
+   "hi": "पिटकैर्न द्वीपसमूह"
+  },
+  "currency": "NZD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Pitcairn"
+  ]
+ },
+ {
+  "code": "PL",
+  "names": {
+   "en": "Poland",
+   "ar": "بولندا",
+   "ur": "پولینڈ",
+   "hi": "पोलैंड"
+  },
+  "currency": "PLN",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Warsaw"
+  ]
+ },
+ {
+  "code": "PT",
+  "names": {
+   "en": "Portugal",
+   "ar": "البرتغال",
+   "ur": "پرتگال",
+   "hi": "पुर्तगाल"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Atlantic/Azores",
+   "Atlantic/Madeira",
+   "Europe/Lisbon"
+  ]
+ },
+ {
+  "code": "PR",
+  "names": {
+   "en": "Puerto Rico",
+   "ar": "بورتوريكو",
+   "ur": "پیورٹو ریکو",
+   "hi": "पोर्टो रिको"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Puerto_Rico"
+  ]
+ },
+ {
+  "code": "QA",
+  "names": {
+   "en": "Qatar",
+   "ar": "قطر",
+   "ur": "قطر",
+   "hi": "क़तर"
+  },
+  "currency": "QAR",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Qatar"
+  ]
+ },
+ {
+  "code": "RO",
+  "names": {
+   "en": "Romania",
+   "ar": "رومانيا",
+   "ur": "رومانیہ",
+   "hi": "रोमानिया"
+  },
+  "currency": "RON",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Bucharest"
+  ]
+ },
+ {
+  "code": "RU",
+  "names": {
+   "en": "Russia",
+   "ar": "روسيا",
+   "ur": "روس",
+   "hi": "रूस"
+  },
+  "currency": "RUB",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Anadyr",
+   "Asia/Barnaul",
+   "Asia/Chita",
+   "Asia/Irkutsk",
+   "Asia/Kamchatka",
+   "Asia/Khandyga",
+   "Asia/Krasnoyarsk",
+   "Asia/Magadan",
+   "Asia/Novokuznetsk",
+   "Asia/Novosibirsk",
+   "Asia/Omsk",
+   "Asia/Sakhalin",
+   "Asia/Srednekolymsk",
+   "Asia/Tomsk",
+   "Asia/Ust-Nera",
+   "Asia/Vladivostok",
+   "Asia/Yakutsk",
+   "Asia/Yekaterinburg",
+   "Europe/Astrakhan",
+   "Europe/Kaliningrad",
+   "Europe/Kirov",
+   "Europe/Moscow",
+   "Europe/Samara",
+   "Europe/Saratov",
+   "Europe/Ulyanovsk",
+   "Europe/Volgograd"
+  ]
+ },
+ {
+  "code": "RW",
+  "names": {
+   "en": "Rwanda",
+   "ar": "رواندا",
+   "ur": "روانڈا",
+   "hi": "रवांडा"
+  },
+  "currency": "RWF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Kigali"
+  ]
+ },
+ {
+  "code": "RE",
+  "names": {
+   "en": "Réunion",
+   "ar": "روينيون",
+   "ur": "ری یونین",
+   "hi": "रियूनियन"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Indian/Reunion"
+  ]
+ },
+ {
+  "code": "WS",
+  "names": {
+   "en": "Samoa",
+   "ar": "ساموا",
+   "ur": "ساموآ",
+   "hi": "समोआ"
+  },
+  "currency": "WST",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Apia"
+  ]
+ },
+ {
+  "code": "SM",
+  "names": {
+   "en": "San Marino",
+   "ar": "سان مارينو",
+   "ur": "سان مارینو",
+   "hi": "सैन मेरीनो"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/San_Marino"
+  ]
+ },
+ {
+  "code": "SA",
+  "names": {
+   "en": "Saudi Arabia",
+   "ar": "المملكة العربية السعودية",
+   "ur": "سعودی عرب",
+   "hi": "सऊदी अरब"
+  },
+  "currency": "SAR",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Riyadh"
+  ]
+ },
+ {
+  "code": "SN",
+  "names": {
+   "en": "Senegal",
+   "ar": "السنغال",
+   "ur": "سینیگل",
+   "hi": "सेनेगल"
+  },
+  "currency": "XOF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Dakar"
+  ]
+ },
+ {
+  "code": "RS",
+  "names": {
+   "en": "Serbia",
+   "ar": "صربيا",
+   "ur": "سربیا",
+   "hi": "सर्बिया"
+  },
+  "currency": "RSD",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Belgrade"
+  ]
+ },
+ {
+  "code": "SC",
+  "names": {
+   "en": "Seychelles",
+   "ar": "سيشل",
+   "ur": "سشلیز",
+   "hi": "सेशेल्स"
+  },
+  "currency": "SCR",
+  "decimals": 2,
+  "timeZones": [
+   "Indian/Mahe"
+  ]
+ },
+ {
+  "code": "SL",
+  "names": {
+   "en": "Sierra Leone",
+   "ar": "سيراليون",
+   "ur": "سیرالیون",
+   "hi": "सिएरा लियोन"
+  },
+  "currency": "SLE",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Freetown"
+  ]
+ },
+ {
+  "code": "SG",
+  "names": {
+   "en": "Singapore",
+   "ar": "سنغافورة",
+   "ur": "سنگاپور",
+   "hi": "सिंगापुर"
+  },
+  "currency": "SGD",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Singapore"
+  ]
+ },
+ {
+  "code": "SX",
+  "names": {
+   "en": "Sint Maarten",
+   "ar": "سانت مارتن",
+   "ur": "سنٹ مارٹن",
+   "hi": "सिंट मार्टिन"
+  },
+  "currency": "XCG",
+  "decimals": 2,
+  "timeZones": [
+   "America/Lower_Princes"
+  ]
+ },
+ {
+  "code": "SK",
+  "names": {
+   "en": "Slovakia",
+   "ar": "سلوفاكيا",
+   "ur": "سلوواکیہ",
+   "hi": "स्लोवाकिया"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Bratislava"
+  ]
+ },
+ {
+  "code": "SI",
+  "names": {
+   "en": "Slovenia",
+   "ar": "سلوفينيا",
+   "ur": "سلووینیا",
+   "hi": "स्लोवेनिया"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Ljubljana"
+  ]
+ },
+ {
+  "code": "SB",
+  "names": {
+   "en": "Solomon Islands",
+   "ar": "جزر سليمان",
+   "ur": "سولومن آئلینڈز",
+   "hi": "सोलोमन द्वीपसमूह"
+  },
+  "currency": "SBD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Guadalcanal"
+  ]
+ },
+ {
+  "code": "SO",
+  "names": {
+   "en": "Somalia",
+   "ar": "الصومال",
+   "ur": "صومالیہ",
+   "hi": "सोमालिया"
+  },
+  "currency": "SOS",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Mogadishu"
+  ]
+ },
+ {
+  "code": "ZA",
+  "names": {
+   "en": "South Africa",
+   "ar": "جنوب أفريقيا",
+   "ur": "جنوبی افریقہ",
+   "hi": "दक्षिण अफ़्रीका"
+  },
+  "currency": "ZAR",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Johannesburg"
+  ]
+ },
+ {
+  "code": "GS",
+  "names": {
+   "en": "South Georgia & South Sandwich Islands",
+   "ar": "جورجيا الجنوبية وجزر ساندويتش الجنوبية",
+   "ur": "جنوبی جارجیا اور جنوبی سینڈوچ جزائر",
+   "hi": "दक्षिण जॉर्जिया और दक्षिण सैंडविच द्वीपसमूह"
+  },
+  "currency": "GBP",
+  "decimals": 2,
+  "timeZones": [
+   "Atlantic/South_Georgia"
+  ]
+ },
+ {
+  "code": "KR",
+  "names": {
+   "en": "South Korea",
+   "ar": "كوريا الجنوبية",
+   "ur": "جنوبی کوریا",
+   "hi": "दक्षिण कोरिया"
+  },
+  "currency": "KRW",
+  "decimals": 0,
+  "timeZones": [
+   "Asia/Seoul"
+  ]
+ },
+ {
+  "code": "SS",
+  "names": {
+   "en": "South Sudan",
+   "ar": "جنوب السودان",
+   "ur": "جنوبی سوڈان",
+   "hi": "दक्षिण सूडान"
+  },
+  "currency": "SSP",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Juba"
+  ]
+ },
+ {
+  "code": "ES",
+  "names": {
+   "en": "Spain",
+   "ar": "إسبانيا",
+   "ur": "ہسپانیہ",
+   "hi": "स्पेन"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Ceuta",
+   "Atlantic/Canary",
+   "Europe/Madrid"
+  ]
+ },
+ {
+  "code": "LK",
+  "names": {
+   "en": "Sri Lanka",
+   "ar": "سريلانكا",
+   "ur": "سری لنکا",
+   "hi": "श्रीलंका"
+  },
+  "currency": "LKR",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Colombo"
+  ]
+ },
+ {
+  "code": "BL",
+  "names": {
+   "en": "St. Barthélemy",
+   "ar": "سان بارتليمي",
+   "ur": "سینٹ برتھلیمی",
+   "hi": "सेंट बार्थेलेमी"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "America/St_Barthelemy"
+  ]
+ },
+ {
+  "code": "SH",
+  "names": {
+   "en": "St. Helena",
+   "ar": "سانت هيلينا",
+   "ur": "سینٹ ہیلینا",
+   "hi": "सेंट हेलेना"
+  },
+  "currency": "SHP",
+  "decimals": 2,
+  "timeZones": [
+   "Atlantic/St_Helena"
+  ]
+ },
+ {
+  "code": "KN",
+  "names": {
+   "en": "St. Kitts & Nevis",
+   "ar": "سانت كيتس ونيفيس",
+   "ur": "سینٹ کٹس اور نیویس",
+   "hi": "सेंट किट्स और नेविस"
+  },
+  "currency": "XCD",
+  "decimals": 2,
+  "timeZones": [
+   "America/St_Kitts"
+  ]
+ },
+ {
+  "code": "LC",
+  "names": {
+   "en": "St. Lucia",
+   "ar": "سانت لوسيا",
+   "ur": "سینٹ لوسیا",
+   "hi": "सेंट लूसिया"
+  },
+  "currency": "XCD",
+  "decimals": 2,
+  "timeZones": [
+   "America/St_Lucia"
+  ]
+ },
+ {
+  "code": "MF",
+  "names": {
+   "en": "St. Martin",
+   "ar": "سان مارتن",
+   "ur": "سینٹ مارٹن",
+   "hi": "सेंट मार्टिन"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "America/Marigot"
+  ]
+ },
+ {
+  "code": "PM",
+  "names": {
+   "en": "St. Pierre & Miquelon",
+   "ar": "سان بيير ومكويلون",
+   "ur": "سینٹ پیئر اور میکلیئون",
+   "hi": "सेंट पिएरे और मिक्वेलान"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "America/Miquelon"
+  ]
+ },
+ {
+  "code": "VC",
+  "names": {
+   "en": "St. Vincent & Grenadines",
+   "ar": "سانت فنسنت وجزر غرينادين",
+   "ur": "سینٹ ونسنٹ اور گرینیڈائنز",
+   "hi": "सेंट विंसेंट और ग्रेनाडाइंस"
+  },
+  "currency": "XCD",
+  "decimals": 2,
+  "timeZones": [
+   "America/St_Vincent"
+  ]
+ },
+ {
+  "code": "SD",
+  "names": {
+   "en": "Sudan",
+   "ar": "السودان",
+   "ur": "سوڈان",
+   "hi": "सूडान"
+  },
+  "currency": "SDG",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Khartoum"
+  ]
+ },
+ {
+  "code": "SR",
+  "names": {
+   "en": "Suriname",
+   "ar": "سورينام",
+   "ur": "سورینام",
+   "hi": "सूरीनाम"
+  },
+  "currency": "SRD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Paramaribo"
+  ]
+ },
+ {
+  "code": "SJ",
+  "names": {
+   "en": "Svalbard & Jan Mayen",
+   "ar": "سفالبارد وجان ماين",
+   "ur": "سوالبرڈ اور جان ماین",
+   "hi": "स्वालबार्ड और जान मायेन"
+  },
+  "currency": "NOK",
+  "decimals": 2,
+  "timeZones": [
+   "Arctic/Longyearbyen"
+  ]
+ },
+ {
+  "code": "SE",
+  "names": {
+   "en": "Sweden",
+   "ar": "السويد",
+   "ur": "سویڈن",
+   "hi": "स्वीडन"
+  },
+  "currency": "SEK",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Stockholm"
+  ]
+ },
+ {
+  "code": "CH",
+  "names": {
+   "en": "Switzerland",
+   "ar": "سويسرا",
+   "ur": "سوئٹزر لینڈ",
+   "hi": "स्विट्ज़रलैंड"
+  },
+  "currency": "CHF",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Zurich"
+  ]
+ },
+ {
+  "code": "SY",
+  "names": {
+   "en": "Syria",
+   "ar": "سوريا",
+   "ur": "شام",
+   "hi": "सीरिया"
+  },
+  "currency": "SYP",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Damascus"
+  ]
+ },
+ {
+  "code": "ST",
+  "names": {
+   "en": "São Tomé & Príncipe",
+   "ar": "ساو تومي وبرينسيبي",
+   "ur": "ساؤ ٹومے اور پرنسپے",
+   "hi": "साओ टोम और प्रिंसिपे"
+  },
+  "currency": "STN",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Sao_Tome"
+  ]
+ },
+ {
+  "code": "TW",
+  "names": {
+   "en": "Taiwan",
+   "ar": "تايوان",
+   "ur": "تائیوان",
+   "hi": "ताइवान"
+  },
+  "currency": "TWD",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Taipei"
+  ]
+ },
+ {
+  "code": "TJ",
+  "names": {
+   "en": "Tajikistan",
+   "ar": "طاجيكستان",
+   "ur": "تاجکستان",
+   "hi": "ताजिकिस्तान"
+  },
+  "currency": "TJS",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Dushanbe"
+  ]
+ },
+ {
+  "code": "TZ",
+  "names": {
+   "en": "Tanzania",
+   "ar": "تنزانيا",
+   "ur": "تنزانیہ",
+   "hi": "तंज़ानिया"
+  },
+  "currency": "TZS",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Dar_es_Salaam"
+  ]
+ },
+ {
+  "code": "TH",
+  "names": {
+   "en": "Thailand",
+   "ar": "تايلاند",
+   "ur": "تھائی لینڈ",
+   "hi": "थाईलैंड"
+  },
+  "currency": "THB",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Bangkok"
+  ]
+ },
+ {
+  "code": "TL",
+  "names": {
+   "en": "Timor-Leste",
+   "ar": "تيمور - ليشتي",
+   "ur": "تیمور لیسٹ",
+   "hi": "तिमोर-लेस्त"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Dili"
+  ]
+ },
+ {
+  "code": "TG",
+  "names": {
+   "en": "Togo",
+   "ar": "توغو",
+   "ur": "ٹوگو",
+   "hi": "टोगो"
+  },
+  "currency": "XOF",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Lome"
+  ]
+ },
+ {
+  "code": "TK",
+  "names": {
+   "en": "Tokelau",
+   "ar": "توكيلاو",
+   "ur": "ٹوکیلاؤ",
+   "hi": "तोकेलाउ"
+  },
+  "currency": "NZD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Fakaofo"
+  ]
+ },
+ {
+  "code": "TO",
+  "names": {
+   "en": "Tonga",
+   "ar": "تونغا",
+   "ur": "ٹونگا",
+   "hi": "टोंगा"
+  },
+  "currency": "TOP",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Tongatapu"
+  ]
+ },
+ {
+  "code": "TT",
+  "names": {
+   "en": "Trinidad & Tobago",
+   "ar": "ترينيداد وتوباغو",
+   "ur": "ترینیداد اور ٹوباگو",
+   "hi": "त्रिनिदाद और टोबैगो"
+  },
+  "currency": "TTD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Port_of_Spain"
+  ]
+ },
+ {
+  "code": "TN",
+  "names": {
+   "en": "Tunisia",
+   "ar": "تونس",
+   "ur": "تونس",
+   "hi": "ट्यूनीशिया"
+  },
+  "currency": "TND",
+  "decimals": 3,
+  "timeZones": [
+   "Africa/Tunis"
+  ]
+ },
+ {
+  "code": "TM",
+  "names": {
+   "en": "Turkmenistan",
+   "ar": "تركمانستان",
+   "ur": "ترکمانستان",
+   "hi": "तुर्कमेनिस्तान"
+  },
+  "currency": "TMT",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Ashgabat"
+  ]
+ },
+ {
+  "code": "TC",
+  "names": {
+   "en": "Turks & Caicos Islands",
+   "ar": "جزر توركس وكايكوس",
+   "ur": "ٹرکس اور کیکوس جزائر",
+   "hi": "तुर्क और कैकोज़ द्वीपसमूह"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Grand_Turk"
+  ]
+ },
+ {
+  "code": "TV",
+  "names": {
+   "en": "Tuvalu",
+   "ar": "توفالو",
+   "ur": "ٹووالو",
+   "hi": "तुवालू"
+  },
+  "currency": "AUD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Funafuti"
+  ]
+ },
+ {
+  "code": "TR",
+  "names": {
+   "en": "Türkiye",
+   "ar": "تركيا",
+   "ur": "ترکیہ",
+   "hi": "तुर्किये"
+  },
+  "currency": "TRY",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Istanbul"
+  ]
+ },
+ {
+  "code": "UM",
+  "names": {
+   "en": "U.S. Outlying Islands",
+   "ar": "جزر الولايات المتحدة النائية",
+   "ur": "امریکہ سے باہر کے چھوٹے جزائز",
+   "hi": "यू॰एस॰ आउटलाइंग द्वीपसमूह"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "Pacific/Midway",
+   "Pacific/Wake"
+  ]
+ },
+ {
+  "code": "VI",
+  "names": {
+   "en": "U.S. Virgin Islands",
+   "ar": "جزر فيرجن الأمريكية",
+   "ur": "امریکی ورجن آئلینڈز",
+   "hi": "यू॰एस॰ वर्जिन द्वीपसमूह"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "America/St_Thomas"
+  ]
+ },
+ {
+  "code": "UG",
+  "names": {
+   "en": "Uganda",
+   "ar": "أوغندا",
+   "ur": "یوگنڈا",
+   "hi": "युगांडा"
+  },
+  "currency": "UGX",
+  "decimals": 0,
+  "timeZones": [
+   "Africa/Kampala"
+  ]
+ },
+ {
+  "code": "UA",
+  "names": {
+   "en": "Ukraine",
+   "ar": "أوكرانيا",
+   "ur": "یوکرین",
+   "hi": "यूक्रेन"
+  },
+  "currency": "UAH",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Kyiv",
+   "Europe/Simferopol"
+  ]
+ },
+ {
+  "code": "AE",
+  "names": {
+   "en": "United Arab Emirates",
+   "ar": "الإمارات العربية المتحدة",
+   "ur": "متحدہ عرب امارات",
+   "hi": "संयुक्त अरब अमीरात"
+  },
+  "currency": "AED",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Dubai"
+  ]
+ },
+ {
+  "code": "GB",
+  "names": {
+   "en": "United Kingdom",
+   "ar": "المملكة المتحدة",
+   "ur": "سلطنت متحدہ",
+   "hi": "यूनाइटेड किंगडम"
+  },
+  "currency": "GBP",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/London"
+  ]
+ },
+ {
+  "code": "US",
+  "names": {
+   "en": "United States",
+   "ar": "الولايات المتحدة",
+   "ur": "ریاست ہائے متحدہ امریکہ",
+   "hi": "संयुक्त राज्य"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "America/Adak",
+   "America/Anchorage",
+   "America/Boise",
+   "America/Chicago",
+   "America/Denver",
+   "America/Detroit",
+   "America/Indiana/Indianapolis",
+   "America/Indiana/Knox",
+   "America/Indiana/Marengo",
+   "America/Indiana/Petersburg",
+   "America/Indiana/Tell_City",
+   "America/Indiana/Vevay",
+   "America/Indiana/Vincennes",
+   "America/Indiana/Winamac",
+   "America/Juneau",
+   "America/Kentucky/Louisville",
+   "America/Kentucky/Monticello",
+   "America/Los_Angeles",
+   "America/Menominee",
+   "America/Metlakatla",
+   "America/New_York",
+   "America/Nome",
+   "America/North_Dakota/Beulah",
+   "America/North_Dakota/Center",
+   "America/North_Dakota/New_Salem",
+   "America/Phoenix",
+   "America/Sitka",
+   "America/Yakutat",
+   "Pacific/Honolulu"
+  ]
+ },
+ {
+  "code": "UY",
+  "names": {
+   "en": "Uruguay",
+   "ar": "أورغواي",
+   "ur": "یوروگوئے",
+   "hi": "उरूग्वे"
+  },
+  "currency": "UYU",
+  "decimals": 2,
+  "timeZones": [
+   "America/Montevideo"
+  ]
+ },
+ {
+  "code": "UZ",
+  "names": {
+   "en": "Uzbekistan",
+   "ar": "أوزبكستان",
+   "ur": "ازبکستان",
+   "hi": "उज़्बेकिस्तान"
+  },
+  "currency": "UZS",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Samarkand",
+   "Asia/Tashkent"
+  ]
+ },
+ {
+  "code": "VU",
+  "names": {
+   "en": "Vanuatu",
+   "ar": "فانواتو",
+   "ur": "وینوآٹو",
+   "hi": "वनुआतू"
+  },
+  "currency": "VUV",
+  "decimals": 0,
+  "timeZones": [
+   "Pacific/Efate"
+  ]
+ },
+ {
+  "code": "VA",
+  "names": {
+   "en": "Vatican City",
+   "ar": "الفاتيكان",
+   "ur": "ویٹیکن سٹی",
+   "hi": "वेटिकन सिटी"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Vatican"
+  ]
+ },
+ {
+  "code": "VE",
+  "names": {
+   "en": "Venezuela",
+   "ar": "فنزويلا",
+   "ur": "وینزوئیلا",
+   "hi": "वेनेज़ुएला"
+  },
+  "currency": "VES",
+  "decimals": 2,
+  "timeZones": [
+   "America/Caracas"
+  ]
+ },
+ {
+  "code": "VN",
+  "names": {
+   "en": "Vietnam",
+   "ar": "فيتنام",
+   "ur": "ویتنام",
+   "hi": "वियतनाम"
+  },
+  "currency": "VND",
+  "decimals": 0,
+  "timeZones": [
+   "Asia/Ho_Chi_Minh"
+  ]
+ },
+ {
+  "code": "WF",
+  "names": {
+   "en": "Wallis & Futuna",
+   "ar": "جزر والس وفوتونا",
+   "ur": "ویلیز اور فیوٹیونا",
+   "hi": "वालिस और फ़्यूचूना"
+  },
+  "currency": "XPF",
+  "decimals": 0,
+  "timeZones": [
+   "Pacific/Wallis"
+  ]
+ },
+ {
+  "code": "EH",
+  "names": {
+   "en": "Western Sahara",
+   "ar": "الصحراء الغربية",
+   "ur": "مغربی صحارا",
+   "hi": "पश्चिमी सहारा"
+  },
+  "currency": "MAD",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/El_Aaiun"
+  ]
+ },
+ {
+  "code": "YE",
+  "names": {
+   "en": "Yemen",
+   "ar": "اليمن",
+   "ur": "یمن",
+   "hi": "यमन"
+  },
+  "currency": "YER",
+  "decimals": 2,
+  "timeZones": [
+   "Asia/Aden"
+  ]
+ },
+ {
+  "code": "ZM",
+  "names": {
+   "en": "Zambia",
+   "ar": "زامبيا",
+   "ur": "زامبیا",
+   "hi": "ज़ाम्बिया"
+  },
+  "currency": "ZMW",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Lusaka"
+  ]
+ },
+ {
+  "code": "ZW",
+  "names": {
+   "en": "Zimbabwe",
+   "ar": "زيمبابوي",
+   "ur": "زمبابوے",
+   "hi": "ज़िम्बाब्वे"
+  },
+  "currency": "USD",
+  "decimals": 2,
+  "timeZones": [
+   "Africa/Harare"
+  ]
+ },
+ {
+  "code": "AX",
+  "names": {
+   "en": "Åland Islands",
+   "ar": "جزر آلاند",
+   "ur": "آلینڈ آئلینڈز",
+   "hi": "एलैंड द्वीपसमूह"
+  },
+  "currency": "EUR",
+  "decimals": 2,
+  "timeZones": [
+   "Europe/Mariehamn"
+  ]
+ }
+]
