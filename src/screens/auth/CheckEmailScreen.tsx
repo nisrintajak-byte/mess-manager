@@ -24,7 +24,11 @@ export function CheckEmailScreen({ route, navigation }: Props) {
       options: { emailRedirectTo: Linking.createURL('/') },
     });
     setBusy(false);
-    setNotice(error ? { tone: 'error', text: t(authErrorKey(error)) } : { tone: 'success', text: t('auth.verifyResent') });
+    setNotice(
+      error
+        ? { tone: 'error', text: t(authErrorKey(error)) }
+        : { tone: 'success', text: t('auth.verifyResent') },
+    );
   }
 
   return (

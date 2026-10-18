@@ -18,3 +18,4 @@ Format: date — decision — why — alternatives considered
 - 2026-10-18 — Supabase publishable key + URL are committed (public by design; RLS protects data). Service-role key never stored in repo.
 - 2026-10-18 — PRD §7.1 "5 failed logins → 15-min lock": v0.1 relies on Supabase Auth rate limits; an exact per-account lockout needs an Auth hook — tracked for v1.0 hardening.
 - 2026-10-18 — TESTING_MODE (founder request): simple passwords (6+ chars) and Supabase email confirmation OFF during testing, to save testing time; under-18 block and all other rules unchanged. Revert before launch (v1.0 task).
+- 2026-10-18 — Expense category removed from the UI (founder): picking a category on every entry is extra work and lists never fit every case. PRD §10 field kept in the database (stored as 'general') so reports or auto-categorisation can use it later without a migration.

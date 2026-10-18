@@ -50,7 +50,12 @@ export function JoinRoomScreen({ navigation }: Props) {
             autoCorrect={false}
             maxLength={8}
           />
-          <Button title={t('room.sendRequest')} onPress={send} loading={busy} disabled={code.trim().length < 8} />
+          <Button
+            title={t('room.sendRequest')}
+            onPress={send}
+            loading={busy}
+            disabled={code.trim().length < 8}
+          />
         </>
       )}
     </Screen>

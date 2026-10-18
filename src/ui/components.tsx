@@ -40,11 +40,7 @@ export function Body({ children, muted }: { children: ReactNode; muted?: boolean
   return <Text style={[styles.body, muted && styles.muted]}>{children}</Text>;
 }
 
-export function Field({
-  label,
-  error,
-  ...input
-}: TextInputProps & { label: string; error?: string | null }) {
+export function Field({ label, error, ...input }: TextInputProps & { label: string; error?: string | null }) {
   return (
     <View style={styles.field}>
       <Text style={styles.label}>{label}</Text>

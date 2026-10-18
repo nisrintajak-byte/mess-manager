@@ -28,7 +28,9 @@ export function CreateRoomScreen({ navigation }: Props) {
     const q = query.trim().toLowerCase();
     if (!q) return [];
     return all
-      .filter((c) => Object.values(c.names).some((n) => n.toLowerCase().includes(q)) || c.code.toLowerCase() === q)
+      .filter(
+        (c) => Object.values(c.names).some((n) => n.toLowerCase().includes(q)) || c.code.toLowerCase() === q,
+      )
       .slice(0, 8);
   }, [all, query]);
 
@@ -63,7 +65,12 @@ export function CreateRoomScreen({ navigation }: Props) {
       <Title>{t('room.createTitle')}</Title>
       <Spacer />
       {error ? <Notice tone="error">{error}</Notice> : null}
-      <Field label={t('room.name')} placeholder={t('room.namePlaceholder')} value={name} onChangeText={setName} />
+      <Field
+        label={t('room.name')}
+        placeholder={t('room.namePlaceholder')}
+        value={name}
+        onChangeText={setName}
+      />
 
       {country ? (
         <View style={styles.selected}>
@@ -118,7 +125,12 @@ export function CreateRoomScreen({ navigation }: Props) {
       ) : null}
 
       <Spacer size="xl" />
-      <Button title={t('room.create')} onPress={create} loading={busy} disabled={!name.trim() || !country || !zone} />
+      <Button
+        title={t('room.create')}
+        onPress={create}
+        loading={busy}
+        disabled={!name.trim() || !country || !zone}
+      />
     </Screen>
   );
 }

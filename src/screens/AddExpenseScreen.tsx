@@ -14,7 +14,8 @@ import { colors, font, space } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'AddExpense'>;
 
-const CATEGORIES = ['food', 'utilities', 'rent', 'household', 'transport', 'general', 'other'];
+// Categories removed from the form (founder decision 2026-10-18); stored as 'general'.
+const CATEGORY = 'general';
 
 export function AddExpenseScreen({ navigation, route }: Props) {
   const { roomId, expenseId } = route.params;
@@ -27,7 +28,6 @@ export function AddExpenseScreen({ navigation, route }: Props) {
   const [members, setMembers] = useState<Member[]>([]);
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState('food');
   const [date, setDate] = useState('');
   const [paidBy, setPaidBy] = useState(me);
   const [notes, setNotes] = useState('');
@@ -49,7 +49,6 @@ export function AddExpenseScreen({ navigation, route }: Props) {
         if (!alive) return;
         setTitle(expense.title);
         setAmount(formatMinor(expense.amount, r.currency_decimals));
-        setCategory(expense.category);
         setDate(expense.expense_date);
         setPaidBy(expense.paid_by);
         setNotes(expense.notes ?? '');
@@ -71,7 +70,8 @@ export function AddExpenseScreen({ navigation, route }: Props) {
     const e: Record<string, string> = {};
     const minor = parseAmount(amount, room.currency_decimals);
     if (!title.trim()) e.title = t('expense.titleRequired');
-    if (minor === null || minor <= 0) e.amount = t('expense.amountInvalid', { decimals: room.currency_decimals });
+    if (minor === null || minor <= 0)
+      e.amount = t('expense.amountInvalid', { decimals: room.currency_decimals });
     if (!isIsoDate(date)) e.date = t('expense.dateInvalid');
     setErrors(e);
     if (Object.keys(e).length > 0 || minor === null) return;
@@ -80,9 +80,26 @@ export function AddExpenseScreen({ navigation, route }: Props) {
     setBusy(true);
     try {
       if (editing) {
-        await api.updateExpense({ id: expenseId!, title, amount: minor, category, date, paidBy, notes });
+        await api.updateExpense({
+          id: expenseId!,
+          title,
+          amount: minor,
+          category: CATEGORY,
+          date,
+          paidBy,
+          notes,
+        });
       } else {
-        await api.addExpense({ roomId, title, amount: minor, category, date, paidBy, notes, idempotencyKey });
+        await api.addExpense({
+          roomId,
+          title,
+          amount: minor,
+          category: CATEGORY,
+          date,
+          paidBy,
+          notes,
+          idempotencyKey,
+        });
       }
       navigation.goBack();
     } catch (err) {
@@ -121,14 +138,6 @@ export function AddExpenseScreen({ navigation, route }: Props) {
         placeholder={formatMinor(0, room.currency_decimals)}
         error={errors.amount}
       />
-
-      <Text style={styles.label}>{t('expense.category')}</Text>
-      <View style={styles.chips}>
-        {CATEGORIES.map((c) => (
-          <Chip key={c} on={category === c} onPress={() => setCategory(c)} label={t(`expense.categories.${c}`)} />
-        ))}
-      </View>
-      <Spacer />
 
       <Field
         label={t('expense.date')}

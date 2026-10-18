@@ -120,11 +120,17 @@ export function SignupScreen({ navigation }: Props) {
       >
         <Body>{t('auth.consent')}</Body>
         <Text>
-          <Text style={{ color: colors.primary }} onPress={() => navigation.navigate('Legal', { doc: 'privacy' })}>
+          <Text
+            style={{ color: colors.primary }}
+            onPress={() => navigation.navigate('Legal', { doc: 'privacy' })}
+          >
             {t('auth.privacyPolicy')}
           </Text>
           <Text style={{ color: colors.textMuted }}>{'  ·  '}</Text>
-          <Text style={{ color: colors.primary }} onPress={() => navigation.navigate('Legal', { doc: 'terms' })}>
+          <Text
+            style={{ color: colors.primary }}
+            onPress={() => navigation.navigate('Legal', { doc: 'terms' })}
+          >
             {t('auth.terms')}
           </Text>
         </Text>

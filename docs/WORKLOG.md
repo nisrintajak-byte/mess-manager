@@ -2,6 +2,8 @@
 
 Format: `YYYY-MM-DD HH:MM | version | what was done | files | next`
 
+- 2026-10-18 16:05 | v0.1 | Removed category picker from expense form, list and detail (founder request) | AddExpenseScreen, RoomScreen, ExpenseDetailScreen, en.json | start v0.2 on its own branch
+
 - 2026-10-18 15:45 | v0.1 | Web preview live (GitHub Pages via workflow_run) + live browser smoke test; TESTING_MODE: simple passwords + auto sign-in when email confirmation is off | src/config.ts, src/lib/validation.ts, SignupScreen, deploy-web.yml | founder turns off Confirm email, tests v0.1
 - 2026-10-18 13:25 | v0.1 | T5–T9: auth (signup w/ consent+DOB, login, reset, verify), rooms, join+approval, roles, expenses add/edit/delete/history, balances; Supabase project restored, old empty tables archived to `legacy_attempt`, schema applied in 4 migrations, advisors checked; CI green; web preview workflow + testing guide | src/**, supabase/migrations, .github/workflows/deploy-web.yml, docs/TESTING_GUIDE.md | founder enables Pages + Supabase URL config, then T10 test
 - 2026-10-18 12:45 | v0.1 | DB schema + RLS + audit + expense rules; 30+ behaviour assertions pass on local Postgres; DB tests added to CI | supabase/migrations, supabase/tests/local, scripts/test-db.sh | apply migration to Supabase once connector connected

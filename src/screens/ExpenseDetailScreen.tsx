@@ -15,7 +15,7 @@ import { colors, font, space } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'ExpenseDetail'>;
 
-const TRACKED = ['title', 'amount', 'category', 'expense_date', 'paid_by', 'notes'] as const;
+const TRACKED = ['title', 'amount', 'expense_date', 'paid_by', 'notes'] as const;
 
 export function ExpenseDetailScreen({ navigation, route }: Props) {
   const { roomId, expenseId } = route.params;
@@ -25,7 +25,11 @@ export function ExpenseDetailScreen({ navigation, route }: Props) {
   const [error, setError] = useState<string | null>(null);
 
   const { data, loading, reload } = useLoader(async () => {
-    const [room, members, detail] = await Promise.all([api.room(roomId), api.members(roomId), api.expense(expenseId)]);
+    const [room, members, detail] = await Promise.all([
+      api.room(roomId),
+      api.members(roomId),
+      api.expense(expenseId),
+    ]);
     return { room, members, ...detail, loadedAt: Date.now() };
   }, expenseId);
 
@@ -75,9 +79,7 @@ export function ExpenseDetailScreen({ navigation, route }: Props) {
         <Card>
           <Text style={styles.title}>{expense.title}</Text>
           <Text style={styles.big}>{money(expense.amount)}</Text>
-          <Text style={styles.meta}>
-            {expense.expense_date} · {t(`expense.categories.${expense.category}`, { defaultValue: expense.category })}
-          </Text>
+          <Text style={styles.meta}>{expense.expense_date}</Text>
           <Text style={styles.meta}>
             {t('expense.paidBy')}: {nameOf(expense.paid_by)}
           </Text>
@@ -86,17 +88,22 @@ export function ExpenseDetailScreen({ navigation, route }: Props) {
 
         <Text style={styles.section}>{t('expense.shares')}</Text>
         <Card>
-          {splits.filter((s) => s.amount > 0).map((s) => (
-            <Row key={s.user_id}>
-              <Text style={styles.line}>{nameOf(s.user_id)}</Text>
-              <Text style={styles.line}>{money(s.amount)}</Text>
-            </Row>
-          ))}
+          {splits
+            .filter((s) => s.amount > 0)
+            .map((s) => (
+              <Row key={s.user_id}>
+                <Text style={styles.line}>{nameOf(s.user_id)}</Text>
+                <Text style={styles.line}>{money(s.amount)}</Text>
+              </Row>
+            ))}
         </Card>
 
         {canModify ? (
           <>
-            <Button title={t('expense.edit')} onPress={() => navigation.navigate('AddExpense', { roomId, expenseId })} />
+            <Button
+              title={t('expense.edit')}
+              onPress={() => navigation.navigate('AddExpense', { roomId, expenseId })}
+            />
             <Button title={t('expense.delete')} variant="secondary" onPress={remove} />
           </>
         ) : null}
@@ -106,7 +113,8 @@ export function ExpenseDetailScreen({ navigation, route }: Props) {
         {history.map((h) => (
           <Card key={h.id}>
             <Text style={styles.line}>
-              {t(`expense.action_${h.action}`, { defaultValue: h.action })} {t('expense.by', { name: nameOf(h.actor_id) })}
+              {t(`expense.action_${h.action}`, { defaultValue: h.action })}{' '}
+              {t('expense.by', { name: nameOf(h.actor_id) })}
             </Text>
             <Text style={styles.meta}>{formatDateTime(h.created_at, room.time_zone)}</Text>
             {describe(h).map((d) => (

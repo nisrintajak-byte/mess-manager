@@ -41,7 +41,11 @@ export function RoomScreen({ navigation, route }: Props) {
     return (
       <View style={styles.bg}>
         <View style={styles.pad}>
-          {error ? <Notice tone="error">{t(dbErrorKey(error as { message?: string }))}</Notice> : <Body muted>{t('common.loading')}</Body>}
+          {error ? (
+            <Notice tone="error">{t(dbErrorKey(error as { message?: string }))}</Notice>
+          ) : (
+            <Body muted>{t('common.loading')}</Body>
+          )}
         </View>
       </View>
     );
@@ -121,17 +125,21 @@ export function RoomScreen({ navigation, route }: Props) {
           <>
             {expenses.length === 0 ? <Body muted>{t('room.noExpenses')}</Body> : null}
             {expenses.map((e) => (
-              <Card key={e.id} onPress={() => navigation.navigate('ExpenseDetail', { roomId, expenseId: e.id })}>
+              <Card
+                key={e.id}
+                onPress={() => navigation.navigate('ExpenseDetail', { roomId, expenseId: e.id })}
+              >
                 <Row>
                   <View style={styles.flex}>
                     <Text style={[styles.itemTitle, e.deleted_at ? styles.struck : null]}>{e.title}</Text>
                     <Text style={styles.meta}>
-                      {e.expense_date} · {t(`expense.categories.${e.category}`, { defaultValue: e.category })} ·{' '}
-                      {nameOf(e.paid_by)}
+                      {e.expense_date} · {nameOf(e.paid_by)}
                     </Text>
                   </View>
                   <View style={styles.end}>
-                    <Text style={[styles.amount, e.deleted_at ? styles.struck : null]}>{money(e.amount)}</Text>
+                    <Text style={[styles.amount, e.deleted_at ? styles.struck : null]}>
+                      {money(e.amount)}
+                    </Text>
                     {e.deleted_at ? <Text style={styles.deleted}>{t('expense.deleted')}</Text> : null}
                   </View>
                 </Row>
@@ -184,7 +192,13 @@ const styles = StyleSheet.create({
   end: { alignItems: 'flex-end' },
   cardTitle: { fontSize: font.md, fontWeight: '700', color: colors.text, marginBottom: space.xs },
   meta: { fontSize: font.sm, color: colors.textMuted },
-  code: { fontSize: font.xl, fontWeight: '700', letterSpacing: 3, color: colors.text, marginVertical: space.xs },
+  code: {
+    fontSize: font.xl,
+    fontWeight: '700',
+    letterSpacing: 3,
+    color: colors.text,
+    marginVertical: space.xs,
+  },
   tabs: {
     flexDirection: 'row',
     backgroundColor: colors.surface,

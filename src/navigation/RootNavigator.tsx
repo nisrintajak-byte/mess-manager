@@ -50,11 +50,27 @@ export function RootNavigator() {
       {session && emailVerified ? (
         <AppStack.Navigator screenOptions={{ headerTintColor: colors.primary }}>
           <AppStack.Screen name="Home" component={HomeScreen} options={{ title: t('home.title') }} />
-          <AppStack.Screen name="CreateRoom" component={CreateRoomScreen} options={{ title: t('room.createTitle') }} />
-          <AppStack.Screen name="JoinRoom" component={JoinRoomScreen} options={{ title: t('room.joinTitle') }} />
+          <AppStack.Screen
+            name="CreateRoom"
+            component={CreateRoomScreen}
+            options={{ title: t('room.createTitle') }}
+          />
+          <AppStack.Screen
+            name="JoinRoom"
+            component={JoinRoomScreen}
+            options={{ title: t('room.joinTitle') }}
+          />
           <AppStack.Screen name="Room" component={RoomScreen} options={{ title: '' }} />
-          <AppStack.Screen name="RoomMembers" component={RoomMembersScreen} options={{ title: t('members.title') }} />
-          <AppStack.Screen name="AddExpense" component={AddExpenseScreen} options={{ title: t('expense.addTitle') }} />
+          <AppStack.Screen
+            name="RoomMembers"
+            component={RoomMembersScreen}
+            options={{ title: t('members.title') }}
+          />
+          <AppStack.Screen
+            name="AddExpense"
+            component={AddExpenseScreen}
+            options={{ title: t('expense.addTitle') }}
+          />
           <AppStack.Screen
             name="ExpenseDetail"
             component={ExpenseDetailScreen}

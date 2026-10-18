@@ -44,7 +44,11 @@ export function HomeScreen({ navigation }: Props) {
         ))}
         <Spacer />
         <Button title={t('home.createRoom')} onPress={() => navigation.navigate('CreateRoom')} />
-        <Button title={t('home.joinRoom')} variant="secondary" onPress={() => navigation.navigate('JoinRoom')} />
+        <Button
+          title={t('home.joinRoom')}
+          variant="secondary"
+          onPress={() => navigation.navigate('JoinRoom')}
+        />
         <Spacer size="xxl" />
         <Button title={t('auth.signOut')} variant="link" onPress={signOut} />
       </View>

@@ -2,11 +2,13 @@
 export function authErrorKey(err: { message?: string; code?: string; status?: number } | null): string {
   const msg = (err?.message ?? '').toLowerCase();
   const code = err?.code ?? '';
-  if (code === 'invalid_credentials' || msg.includes('invalid login')) return 'auth.errors.invalidCredentials';
+  if (code === 'invalid_credentials' || msg.includes('invalid login'))
+    return 'auth.errors.invalidCredentials';
   if (code === 'email_not_confirmed' || msg.includes('not confirmed')) return 'auth.errors.emailNotConfirmed';
   if (code === 'over_request_rate_limit' || err?.status === 429 || msg.includes('rate limit'))
     return 'auth.errors.tooManyAttempts';
-  if (code === 'user_already_exists' || msg.includes('already registered')) return 'auth.errors.alreadyRegistered';
+  if (code === 'user_already_exists' || msg.includes('already registered'))
+    return 'auth.errors.alreadyRegistered';
   if (msg.includes('not authorized') || code === 'email_address_not_authorized')
     return 'auth.errors.emailNotAuthorized';
   if (code === 'weak_password' || msg.includes('pwned') || msg.includes('weak'))

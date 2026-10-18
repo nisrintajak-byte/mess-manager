@@ -3,9 +3,27 @@ import { PASSWORD_MIN_LENGTH, TESTING_MODE } from '../config';
 
 // Small built-in list; Supabase's leaked-password protection adds a larger check server-side.
 const COMMON_PASSWORDS = new Set([
-  '12345678', '123456789', '1234567890', 'password', 'password1', 'password123', 'qwerty123',
-  'qwertyuiop', '11111111', '00000000', 'iloveyou', 'abcd1234', 'admin123', 'welcome1',
-  'letmein1', 'pakistan', 'india123', 'bismillah', 'football', 'baseball', 'sunshine',
+  '12345678',
+  '123456789',
+  '1234567890',
+  'password',
+  'password1',
+  'password123',
+  'qwerty123',
+  'qwertyuiop',
+  '11111111',
+  '00000000',
+  'iloveyou',
+  'abcd1234',
+  'admin123',
+  'welcome1',
+  'letmein1',
+  'pakistan',
+  'india123',
+  'bismillah',
+  'football',
+  'baseball',
+  'sunshine',
 ]);
 
 export const CONSENT_VERSION = '2026-10-v1';

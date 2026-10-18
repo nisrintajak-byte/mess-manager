@@ -148,7 +148,6 @@
     "title": "What was it for?",
     "titlePlaceholder": "e.g. Rice 10 kg",
     "amount": "Amount ({{currency}})",
-    "category": "Category",
     "date": "Date",
     "paidBy": "Paid by",
     "notes": "Notes (optional)",
@@ -167,15 +166,6 @@
     "action_delete": "Deleted",
     "by": "by {{name}}",
     "changed": "{{field}}: {{from}} → {{to}}",
-    "categories": {
-      "general": "General",
-      "food": "Food & groceries",
-      "utilities": "Utilities",
-      "rent": "Rent",
-      "household": "Household items",
-      "transport": "Transport",
-      "other": "Other"
-    },
     "amountInvalid": "Enter an amount with up to {{decimals}} decimal places.",
     "titleRequired": "Please describe the expense.",
     "dateInvalid": "Use the format YYYY-MM-DD."
