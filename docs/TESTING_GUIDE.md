@@ -46,7 +46,7 @@ Report anything odd with a screenshot.
    change time zone or cycle → "applies from <date>".
 Tip: for quick testing, settle a cycle the day after you add expenses.
 
-## v0.3 test checklist (/next/ link)
+## v0.3 test checklist (/next/ link) — done
 1. Home → **Notifications**: join requests, approvals, expenses, settlements and payments appear here (bold = unread).
 2. Notifications → **Notification settings**: expense / Need notifications can be turned off; money ones can't.
 3. Open any expense → **Report a problem** → pick a reason → the expense shows **Under dispute** to everyone.
@@ -55,3 +55,13 @@ Tip: for quick testing, settle a cycle the day after you add expenses.
 6. Settle a cycle → each member opens it (Seen) → taps **I have seen this settlement** (Acknowledged). Admin sees status per member.
 7. Members with the same name show as Name1, Name2 (join order).
 Push notifications on the phone come with the installable Android app; in the browser use the inbox.
+
+## v0.4 test checklist (/next/ link)
+1. Login screen: tap **العربية / اردو / हिन्दी / English** — whole app changes language; Arabic and Urdu flip right-to-left.
+2. Home → **Preferences**: change **Theme** (Light, Dark, Sand, Ocean) — colors change everywhere.
+3. Arabic/Urdu: **Number digits** option switches 123 ↔ ١٢٣ / ۱۲۳.
+4. Preferences → **Change password** (asks your password again first).
+5. Admin: Members → **Remove from Room** now asks for your password first.
+6. App Lock (PIN/fingerprint) works only in the phone app, not the browser.
+7. Translations are DRAFT — tell me any wrong or odd words.
+Google button stays hidden until the Google setup below is done.
