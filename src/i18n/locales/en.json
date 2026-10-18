@@ -2,5 +2,73 @@
   "app": {
     "name": "Mess Manager",
     "tagline": "Every shared expense, transparent and fair."
+  },
+  "common": {
+    "back": "Back",
+    "cancel": "Cancel",
+    "save": "Save",
+    "retry": "Try again",
+    "loading": "Loading…",
+    "genericError": "Something went wrong. Please try again.",
+    "notConfigured": "The app is not connected to its server yet."
+  },
+  "auth": {
+    "loginTitle": "Welcome back",
+    "loginSubtitle": "Sign in to see your Rooms.",
+    "signupTitle": "Create your account",
+    "signupSubtitle": "Free for everyone. Takes one minute.",
+    "name": "Your name",
+    "namePlaceholder": "Shown to your Room members",
+    "email": "Email",
+    "password": "Password",
+    "passwordHint": "At least 8 characters",
+    "confirmPassword": "Confirm password",
+    "dateOfBirth": "Date of birth",
+    "dobPlaceholder": "YYYY-MM-DD",
+    "consent": "I have read and agree to the Privacy Policy and the Terms & Conditions.",
+    "privacyPolicy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "signIn": "Sign in",
+    "signUp": "Create account",
+    "signOut": "Sign out",
+    "noAccount": "New here? Create an account",
+    "haveAccount": "Already have an account? Sign in",
+    "forgot": "Forgot password?",
+    "forgotTitle": "Reset your password",
+    "forgotSubtitle": "We'll email you a link to set a new password.",
+    "sendResetLink": "Send reset link",
+    "resetSent": "If an account exists for {{email}}, a reset link is on its way. Check your inbox and spam folder.",
+    "newPasswordTitle": "Choose a new password",
+    "verifyTitle": "Check your email",
+    "verifyBody": "We sent a confirmation link to {{email}}. Open it to activate your account, then come back here.",
+    "verifyDone": "I've confirmed my email",
+    "verifyResend": "Send the link again",
+    "verifyResent": "A new link has been sent.",
+    "verifyStill": "Your email is not confirmed yet. Open the link in the email first.",
+    "signupDone": "Account created. Check {{email}} for a confirmation link.",
+    "errors": {
+      "nameRequired": "Please enter your name.",
+      "emailInvalid": "Please enter a valid email address.",
+      "passwordShort": "Password must be at least 8 characters.",
+      "passwordCommon": "This password is too common. Please choose another.",
+      "passwordMismatch": "Passwords do not match.",
+      "dobInvalid": "Enter your date of birth as YYYY-MM-DD.",
+      "minorNotYet": "Accounts for people under 18 need a parent or guardian's consent. This option is coming soon.",
+      "consentRequired": "Please accept the Privacy Policy and Terms to continue.",
+      "invalidCredentials": "Email or password is incorrect.",
+      "emailNotConfirmed": "Please confirm your email first. Check your inbox.",
+      "tooManyAttempts": "Too many attempts. Please wait 15 minutes and try again.",
+      "alreadyRegistered": "An account with this email already exists. Try signing in."
+    }
+  },
+  "legal": {
+    "draftNotice": "Draft — the final text will be reviewed by a lawyer before launch.",
+    "privacyBody": "Mess Manager records shared expenses for your Rooms. We collect your name, email, date of birth and what you enter in Rooms. Only approved members of a Room can see its data. Your email is visible only to Room Admins. We never share financial data with advertisers. Records are kept for 2 calendar months after a cycle is settled and then deleted. You can delete your account at any time.",
+    "termsBody": "Mess Manager is a record-keeping tool only. It does not hold, transfer or process money. Users and Room Admins are responsible for what they enter and for settling money among themselves. Uyoon Tech Solutions is not a party to disputes between members. The service is provided as is."
+  },
+  "home": {
+    "title": "Your Rooms",
+    "empty": "You are not in any Room yet.",
+    "signedInAs": "Signed in as {{name}}"
   }
 }

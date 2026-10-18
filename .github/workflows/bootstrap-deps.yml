@@ -56,6 +56,8 @@ jobs:
             react-native-url-polyfill \
             expo-localization \
             expo-secure-store \
+            expo-linking \
+            expo-constants \
             @react-navigation/native \
             @react-navigation/native-stack \
             react-native-screens \
