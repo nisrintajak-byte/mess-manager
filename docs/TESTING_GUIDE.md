@@ -65,3 +65,12 @@ Push notifications on the phone come with the installable Android app; in the br
 6. App Lock (PIN/fingerprint) works only in the phone app, not the browser.
 7. Translations are DRAFT — tell me any wrong or odd words.
 Google button stays hidden until the Google setup below is done.
+
+## v0.5 test checklist (/next/ link)
+1. Add an expense with internet on: works as before.
+2. Turn internet off (airplane mode / browser offline). Banner says offline; Room still opens with old data.
+3. Add an expense, a Need, and a payment claim offline: they appear as 'Waiting to sync'; balances say Estimated.
+4. Open Sync screen from banner: see the waiting items.
+5. Turn internet on: items sync by themselves; waiting cards become normal; no duplicates.
+6. Try sign out with waiting items: warning appears.
+7. Real phone later: 2G, airplane mode, wrong clock.

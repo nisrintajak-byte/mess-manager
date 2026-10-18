@@ -41,3 +41,9 @@ Format: date — decision — why — alternatives considered
 - 2026-10-18 — Ar/Ur/Hi texts are machine-drafted placeholders; tests only guard key/placeholder parity. Professional human translation remains a launch blocker (PRD §16.2).
 - 2026-10-18 — App Lock: salted, iterated SHA-256 PIN hash in phone secure storage; wrong-PIN delay; "Forgot PIN" = sign out (wipes lock). Sensitive actions (remove member, delete Room, change password) re-ask password (PIN for Google-only accounts) regardless of App Lock.
 - 2026-10-18 — Google users start with consent 'unknown'; server blocks Rooms (`profile_incomplete`) until `complete_profile` (18+, consent). Supabase auto-links a verified Google email to an existing same-email account; PRD asks for password entry first — open question, and risky while email confirmation is OFF (testing), so Confirm email must be ON at launch.
+
+## v0.5 — Offline storage and sync design
+- Used AsyncStorage JSON cache instead of SQLite: simpler, no native build step, enough for read-copies and a small queue.
+- Outbox item id is the idempotency key. Online first; queue only on network errors; server rule errors are shown to the user, never queued.
+- Entries made while a cycle locked meanwhile become late entries (original date kept, flagged). Stale edits/deletes become conflicts the user resolves.
+- Offline balances are labelled Estimated; official totals only from server.
