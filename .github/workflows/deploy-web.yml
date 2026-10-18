@@ -2,9 +2,15 @@ name: Deploy web preview
 
 # Publishes the web build to GitHub Pages so the founder can test on any phone browser:
 # https://nisrintajak-byte.github.io/mess-manager/
+#
+# Runs after CI succeeds on main or a version/** branch. `workflow_run` always executes
+# in the context of the default branch, which satisfies the github-pages environment rule,
+# while we check out and build the exact commit that passed CI.
 
 on:
-  push:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
     branches: [main, 'version/**']
   workflow_dispatch:
 
@@ -19,9 +25,12 @@ concurrency:
 
 jobs:
   build:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
