@@ -1,19 +1,21 @@
 name: Deploy web preview
 
-# Publishes the web build to GitHub Pages so the founder can test on any phone browser:
-# https://nisrintajak-byte.github.io/mess-manager/
-#
-# Runs after CI succeeds on main or a version/** branch. `workflow_run` always executes
-# in the context of the default branch, which satisfies the github-pages environment rule,
-# while we check out and build the exact commit that passed CI.
+# Publishes two web previews to GitHub Pages so the founder can test on any phone browser:
+#   stable (version under test): https://nisrintajak-byte.github.io/mess-manager/
+#   next   (version in progress): https://nisrintajak-byte.github.io/mess-manager/next/
+# Runs after CI succeeds on any of those branches. `workflow_run` executes in the context of
+# the default branch, which satisfies the github-pages environment protection rule.
 
 on:
   workflow_run:
     workflows: [CI]
     types: [completed]
-    # Only main and the version currently under founder test publish the preview.
-    branches: [main, 'version/v0.1-core-mvp']
+    branches: [main, 'version/**']
   workflow_dispatch:
+
+env:
+  STABLE_REF: version/v0.1-core-mvp
+  NEXT_REF: version/v0.2-settlement-payments
 
 permissions:
   contents: read
@@ -26,21 +28,41 @@ concurrency:
 
 jobs:
   build:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       (github.event.workflow_run.head_branch == 'main' ||
+        github.event.workflow_run.head_branch == 'version/v0.1-core-mvp' ||
+        github.event.workflow_run.head_branch == 'version/v0.2-settlement-payments'))
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci
-      - name: Export web build
-        run: npx expo export --platform web --output-dir dist
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.STABLE_REF }}
+          path: stable
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.NEXT_REF }}
+          path: next
+      - name: Build stable preview
+        working-directory: stable
+        run: |
+          npm ci
+          npx expo export --platform web --output-dir ../dist
+      - name: Build next preview
+        working-directory: next
+        run: |
+          npm ci
+          node -e "const f='app.json';const a=require('./'+f);a.expo.experiments={...(a.expo.experiments||{}),baseUrl:'/mess-manager/next'};require('fs').writeFileSync(f,JSON.stringify(a,null,2))"
+          npx expo export --platform web --output-dir ../dist/next
       - name: SPA fallback for deep links
-        run: cp dist/index.html dist/404.html && touch dist/.nojekyll
+        run: |
+          cp dist/next/index.html dist/next/404.html
+          cp dist/index.html dist/404.html
+          touch dist/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
@@ -62,33 +84,37 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Open the live site in a real browser
+      - name: Open both live previews in a real browser
         run: |
           npm init -y >/dev/null
           npm install --no-save playwright@1 >/dev/null
           npx playwright install --with-deps chromium >/dev/null
           cat > smoke.mjs <<'JS'
           import { chromium } from 'playwright';
-          const url = 'https://nisrintajak-byte.github.io/mess-manager/';
           const browser = await chromium.launch();
-          const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-          const errors = [];
-          page.on('pageerror', (e) => errors.push(e.message));
-          for (let i = 0; i < 10; i++) {
-            await page.goto(url, { waitUntil: 'networkidle' });
-            if (await page.getByText('Welcome back').count()) break;
-            await page.waitForTimeout(15000); // Pages CDN can take a moment
+          let failed = false;
+          for (const [name, url] of [
+            ['stable', 'https://nisrintajak-byte.github.io/mess-manager/'],
+            ['next', 'https://nisrintajak-byte.github.io/mess-manager/next/'],
+          ]) {
+            const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+            page.on('pageerror', (e) => console.log(`::warning::${name} page error: ${e.message}`));
+            let ok = false;
+            for (let i = 0; i < 10 && !ok; i++) {
+              await page.goto(url, { waitUntil: 'networkidle' });
+              ok = (await page.getByText('Welcome back').count()) > 0;
+              if (!ok) await page.waitForTimeout(15000);
+            }
+            await page.screenshot({ path: `${name}.png`, fullPage: true });
+            if (ok) console.log(`::notice::${name} preview OK — login screen rendered`);
+            else { console.log(`::error::${name} preview did not render`); failed = true; }
           }
-          await page.screenshot({ path: 'login.png', fullPage: true });
-          const ok = (await page.getByText('Welcome back').count()) > 0;
-          for (const e of errors) console.log(`::warning::page error: ${e}`);
-          if (!ok) { console.log('::error::Login screen did not render on the live site'); process.exit(1); }
-          console.log('::notice::Live site OK — login screen rendered');
           await browser.close();
+          process.exit(failed ? 1 : 0);
           JS
           node smoke.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: live-site-screenshot
-          path: login.png
+          name: live-site-screenshots
+          path: '*.png'
