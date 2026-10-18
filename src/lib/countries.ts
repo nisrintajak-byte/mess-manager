@@ -33,3 +33,10 @@ export function countriesSorted(lang: LanguageCode): Country[] {
 export function defaultTimeZone(country: Country): string | null {
   return country.timeZones.length === 1 ? (country.timeZones[0] ?? null) : null;
 }
+
+const decimalsByCurrency = new Map(COUNTRIES.map((c) => [c.currency, c.decimals]));
+
+/** ISO 4217 minor units for a currency code (defaults to 2). */
+export function currencyDecimals(code: string): number {
+  return decimalsByCurrency.get(code) ?? 2;
+}

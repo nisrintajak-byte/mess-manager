@@ -15,8 +15,12 @@ export function HomeScreen({ navigation }: Props) {
   const { t } = useTranslation();
   const { session, signOut } = useAuth();
   const { data, error, loading, reload } = useLoader(async () => {
-    const [rooms, pending] = await Promise.all([api.myRooms(), api.myPendingRequests()]);
-    return { rooms, pending };
+    const [rooms, pending, unread] = await Promise.all([
+      api.myRooms(),
+      api.myPendingRequests(),
+      api.unreadCount().catch(() => 0),
+    ]);
+    return { rooms, pending, unread };
   });
   const name = (session?.user.user_metadata?.display_name as string | undefined) ?? session?.user.email ?? '';
 
@@ -28,6 +32,11 @@ export function HomeScreen({ navigation }: Props) {
     >
       <View style={styles.column}>
         <Body muted>{t('home.signedInAs', { name })}</Body>
+        <Button
+          title={`${t('inbox.title')}${data?.unread ? ` (${data.unread})` : ''}`}
+          variant={data?.unread ? 'primary' : 'secondary'}
+          onPress={() => navigation.navigate('Inbox')}
+        />
         <Spacer />
         {error ? <Notice tone="error">{t('common.genericError')}</Notice> : null}
         {data && data.pending.length > 0 ? (

@@ -1,17 +1,15 @@
 # Project Summary
 
-**App:** Mess Manager — free, ad-supported, neutral (no flags) shared-expense app for Rooms (flats, hostels, messes, families, offices). Every expense, payment and settlement is visible, provable and audited. Android first; 4 languages (EN, AR, UR, HI).
+**App:** Mess Manager — free, ad-supported, neutral (no flags) shared-expense app for Rooms. Every expense, payment and settlement is visible, provable and audited. Android first; 4 languages (EN, AR, UR, HI).
 
-**Current version:** v0.1 Core MVP — ~90% (9 of 10 tasks). Only T10 (founder end-to-end test) left. Branch `version/v0.1-core-mvp`, CI green.
+**Status:** v0.1 tested OK by founder + tester (payer fix + same-name numbering applied). v0.2 and v0.3 built, CI green, founder test pending at /next/.
 
-**Built so far:** Expo SDK 58 app: signup (consent, DOB, under-18 blocked for now), login, password reset, email verification; create Room (country → currency/decimals/time zone, no flags); join by code + Admin approval; roles and Last Admin rule; expenses add/edit (30-min rule)/soft delete with full history; equal split (leftover to payer); balances. Supabase project live with RLS + append-only audit. Web preview workflow + docs/TESTING_GUIDE.md.
+**Previews:** stable https://nisrintajak-byte.github.io/mess-manager/ (v0.1) · next …/mess-manager/next/ (v0.3 = v0.2 + v0.3). One Supabase DB, all migrations backward compatible.
 
-**Next:** Founder enables GitHub Pages + Supabase URL config → tests v0.1 → merge to main, tag v0.1 → start v0.2 (settlement, lock, payments).
+**Built:** auth (testing mode), Rooms, approval, roles; expenses (payer = creator, equal/selected split, receipts, 30-min edit, history); cycles + DB lock + settlement (incl. early), adjustments, payments with proof + Admin confirm; who-pays-whom; Room settings rules; same-name labels (Name1/Name2); notifications inbox + push pipeline (pg_net → Expo), optional prefs; settlement acknowledgement; disputes/flags with Admin resolution; Need Requests → one-tap expense.
 
-**Key decisions:** PRD §6 stack; all writes via server functions with server time; money as integer minor units; old Supabase tables archived not deleted. See DECISIONS.md.
+**Next:** founder tests /next/ → merge v0.1 → v0.2 → v0.3 into main with tags → v0.4 (4 languages + RTL, themes, Google Sign-In, App Lock).
 
-**Blockers:**
-- Founder: GitHub Pages switch; Supabase Site URL; add second tester to Supabase team
-- PRD §28 open decisions → memory/open-questions.md
+**Founder items:** PRD §28 decisions (memory/open-questions.md); later: Google Cloud OAuth client (v0.4), translators.
 
-_Last updated: 2026-10-18 13:25 (UTC+3)_
+_Last updated: 2026-10-18 18:30 (UTC+3)_
