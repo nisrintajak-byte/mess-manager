@@ -18,7 +18,11 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
       - name: Lint
-        run: npm run lint
+        run: |
+          npx eslint . -f json -o eslint.json || {
+            node -e "for (const f of require('./eslint.json')) for (const m of f.messages) console.log('::error file=' + f.filePath.replace(process.cwd() + '/', '') + ',line=' + m.line + '::' + m.ruleId + ' ' + m.message)";
+            exit 1;
+          }
       - name: Unit tests
         run: npm test -- --ci
       - name: Web build (smoke)
