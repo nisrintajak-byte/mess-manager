@@ -100,12 +100,38 @@ export const api = {
       await supabase.from('room_members').select('*').eq('room_id', roomId).order('requested_at'),
     );
     const ids = [...new Set(rows.map((r) => r.user_id))];
-    if (ids.length === 0) return rows;
-    const profiles: { id: string; display_name: string; avatar_url: string | null }[] = unwrap(
-      await supabase.from('profiles').select('id, display_name, avatar_url').in('id', ids),
-    );
+    const profiles: { id: string; display_name: string; avatar_url: string | null }[] = ids.length
+      ? unwrap(await supabase.from('profiles').select('id, display_name, avatar_url').in('id', ids))
+      : [];
     const byId = new Map(profiles.map((p) => [p.id, p]));
-    return rows.map((r) => ({ ...r, profile: byId.get(r.user_id) ?? null }));
+    // Same names in a Room get a join-order number (Lenovo1, Lenovo2) — computed by the server.
+    const labelRows: { user_id: string; label: string }[] = unwrap(
+      await supabase.rpc('room_member_labels', { p_room: roomId }),
+    );
+    const labels = new Map(labelRows.map((l) => [l.user_id, l.label]));
+    const withLabel = (uid: string) => {
+      const p = byId.get(uid);
+      const label = labels.get(uid);
+      return label ? { display_name: label, avatar_url: p?.avatar_url ?? null } : (p ?? null);
+    };
+    const out: Member[] = rows.map((r) => ({ ...r, profile: withLabel(r.user_id) }));
+    // Former members are not listed to everyone, but their names must still show in history.
+    const known = new Set(rows.map((r) => r.user_id));
+    for (const [uid, label] of labels) {
+      if (known.has(uid)) continue;
+      out.push({
+        id: `former:${uid}`,
+        room_id: roomId,
+        user_id: uid,
+        role: 'member',
+        status: 'left',
+        requested_at: '',
+        joined_on: null,
+        left_on: null,
+        profile: { display_name: label, avatar_url: null },
+      });
+    }
+    return out;
   },
 
   async memberEmails(roomId: string): Promise<Map<string, string>> {
