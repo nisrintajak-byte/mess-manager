@@ -19,6 +19,10 @@ for t in supabase/tests/local/[1-9]*_test.sql; do
   else
     echo "FAIL $(basename "$t")"
     grep -E "ERROR:" <<<"$out" | head -5
+    # surface the reason as an annotation in GitHub Actions (logs are not always readable)
+    if [ -n "${GITHUB_ACTIONS:-}" ]; then
+      grep -E "ERROR:" <<<"$out" | head -3 | sed "s/^/::error title=$(basename "$t")::/"
+    fi
     failed=1
   fi
 done
