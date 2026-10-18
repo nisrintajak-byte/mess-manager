@@ -15,8 +15,18 @@ create table auth.users (
   email text unique,
   email_confirmed_at timestamptz,
   raw_user_meta_data jsonb,
+  phone text,
+  encrypted_password text,
+  banned_until timestamptz,
   created_at timestamptz default now()
 );
+create table auth.sessions (id uuid primary key default gen_random_uuid(), user_id uuid);
+create table auth.identities (id uuid primary key default gen_random_uuid(), user_id uuid);
+
+create function auth.jwt() returns jsonb language sql stable as $$
+  select coalesce(nullif(current_setting('request.jwt.claims', true), ''), '{}')::jsonb;
+$$;
+grant execute on function auth.jwt() to anon, authenticated;
 
 create function auth.uid() returns uuid language sql stable as $$
   select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid;
