@@ -15,7 +15,11 @@ Expo (React Native) + TypeScript strict · Supabase (Postgres + RLS, Auth, Stora
 - No hard-coded UI text; no flags/maps anywhere
 
 ## Commands
-(to be added in v0.1 T1)
+- `npm start` — dev server (scan QR with Expo Go) · `npm run web` — browser preview
+- `npm run typecheck` · `npm run lint` · `npm test`
+- DB tests: `PGHOST=… PGPORT=… PGUSER=postgres scripts/test-db.sh` (plain Postgres + stub in supabase/tests/local)
+- Regenerate country data: `python3 scripts/generate-countries.py`
+- Add/upgrade deps: edit bootstrap workflow, then change `.github/bootstrap-request` and push (no npm in Claude workspace)
 
 ## Env
 Secrets go in `.env` (never committed). Needed: SUPABASE_URL, SUPABASE_ANON_KEY (app); service key only in Supabase dashboard / CI secrets.
@@ -24,4 +28,5 @@ Secrets go in `.env` (never committed). Needed: SUPABASE_URL, SUPABASE_ANON_KEY 
 Imran Khan (Abu Uyoon), non-technical. Explain steps in simple Hinglish; Claude does all technical work.
 
 ## Gotchas
-- (none yet)
+- Claude workspace cannot reach registry.npmjs.org (proxy 403). Use the bootstrap workflow; run tests with `bun test`; local Postgres 16 at /usr/lib/postgresql/16/bin.
+- Expo SDK 58, React Native 0.88, React 19.3, TypeScript 6.
