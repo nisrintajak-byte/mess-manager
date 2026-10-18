@@ -28,7 +28,7 @@ export function ReauthHost() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const resolver = useRef<((ok: boolean) => void) | null>(null);
-  const limiter = useRef(createAttemptLimiter(5, 30_000)).current;
+  const [limiter] = useState(() => createAttemptLimiter(5, 30_000));
   const email = session?.user.email ?? '';
   const hasPassword = !!session?.user.identities?.some((i) => i.provider === 'email');
 

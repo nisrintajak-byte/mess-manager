@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '../auth/AuthProvider';
@@ -30,12 +30,12 @@ export function AppLockCard() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  const reload = useCallback(async () => setCfg(await getLockConfig()), []);
   useEffect(() => {
-    void reload();
+    const load = () => void getLockConfig().then(setCfg);
+    load();
     void biometricAvailable().then(setBio);
-    return subscribeLock(() => void reload());
-  }, [reload]);
+    return subscribeLock(load);
+  }, []);
 
   if (!lockSupported) {
     return (

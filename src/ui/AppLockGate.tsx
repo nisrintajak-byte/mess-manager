@@ -29,18 +29,17 @@ export function AppLockGate({ children }: { children: ReactNode }) {
   const cfgRef = useRef<LockConfig>(DEFAULT_LOCK);
   const wentAway = useRef<number | null>(null);
 
-  const reload = useCallback(async () => {
-    const c = await getLockConfig();
-    cfgRef.current = c;
-    setCfg(c);
-    if (!c.enabled) setLocked(false);
-  }, []);
-
   useEffect(() => {
     if (!lockSupported) return;
-    void reload().then(() => setLocked(cfgRef.current.enabled));
-    return subscribeLock(() => void reload());
-  }, [reload]);
+    const apply = (c: LockConfig, initial: boolean) => {
+      cfgRef.current = c;
+      setCfg(c);
+      if (initial) setLocked(c.enabled);
+      else if (!c.enabled) setLocked(false);
+    };
+    void getLockConfig().then((c) => apply(c, true));
+    return subscribeLock(() => void getLockConfig().then((c) => apply(c, false)));
+  }, []);
 
   useEffect(() => {
     if (!lockSupported) return;
@@ -79,7 +78,7 @@ function LockScreen({ cfg, onUnlock }: { cfg: LockConfig | null; onUnlock: () =>
   const [pin, setPin] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [wait, setWait] = useState(0);
-  const limiter = useRef(createAttemptLimiter()).current;
+  const [limiter] = useState(() => createAttemptLimiter());
   const bioTried = useRef(false);
 
   const tryBiometric = useCallback(async () => {

@@ -76,7 +76,8 @@ export function RootNavigator() {
   }
 
   if (session && recovering) return <SetNewPasswordScreen />;
-  if (verifiedId && profileOk === false) return <CompleteProfileScreen onDone={() => setProfileOk(true)} />;
+  if (verifiedId && profileOk === false)
+    return <CompleteProfileScreen onDone={() => setProfile({ id: verifiedId, ok: true })} />;
 
   return (
     <NavigationContainer theme={navTheme()} linking={linking}>
