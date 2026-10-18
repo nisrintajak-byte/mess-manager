@@ -46,4 +46,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Migrations + RLS/behaviour tests
-        run: scripts/test-db.sh | grep -q "ALL DB TESTS PASSED"
+        run: |
+          psql --version
+          if ! scripts/test-db.sh > db-test.log 2>&1 || ! grep -q "ALL DB TESTS PASSED" db-test.log; then
+            tail -n 15 db-test.log | sed 's/^/::error title=db-test::/'
+            exit 1
+          fi
+          cat db-test.log
