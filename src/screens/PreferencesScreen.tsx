@@ -4,6 +4,7 @@ import { supportsEasternDigits } from '../lib/digits';
 import { setDigits, setTheme, useSettings } from '../lib/settings';
 import { Body, Card, Chip, ChipRow, Label, Screen, Title } from '../ui/components';
 import { LanguagePicker } from '../ui/LanguagePicker';
+import { AccountDataCard } from '../ui/AccountCards';
 import { AppLockCard, ChangePasswordCard } from '../ui/SecurityCards';
 import { THEME_NAMES } from '../ui/theme';
 
@@ -49,6 +50,7 @@ export function PreferencesScreen() {
 
       <AppLockCard />
       <ChangePasswordCard />
+      <AccountDataCard />
     </Screen>
   );
 }

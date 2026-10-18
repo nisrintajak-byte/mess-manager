@@ -31,4 +31,6 @@ export type AppStackParamList = {
   Legal: { doc: 'privacy' | 'terms' };
   Preferences: undefined;
   Sync: undefined;
+  Reports: { roomId: string; cycleId?: string };
+  DeleteAccount: undefined;
 };

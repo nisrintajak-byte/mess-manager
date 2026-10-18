@@ -219,6 +219,11 @@ export function RoomScreen({ navigation, route }: Props) {
             />
           </View>
         </Row>
+        <Button
+          title={t('report.title')}
+          variant="secondary"
+          onPress={() => navigation.navigate('Reports', { roomId, cycleId: cur?.id })}
+        />
 
         <View style={styles.tabs}>
           {(['expenses', 'balances', 'settlements'] as const).map((k) => (

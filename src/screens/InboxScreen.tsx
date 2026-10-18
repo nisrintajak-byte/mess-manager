@@ -30,6 +30,7 @@ export function InboxScreen({ navigation }: Props) {
     if (n.kind.startsWith('dispute_')) return navigation.navigate('Disputes', { roomId });
     if (n.kind.startsWith('need_')) return navigation.navigate('Needs', { roomId });
     if (n.kind === 'join_request') return navigation.navigate('RoomMembers', { roomId });
+    if (n.kind === 'retention_reminder') return navigation.navigate('Reports', { roomId });
     if (n.kind === 'join_rejected' || n.kind === 'member_removed') return reload();
     return navigation.navigate('Room', { roomId });
   }

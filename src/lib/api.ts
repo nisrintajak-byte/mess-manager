@@ -2,7 +2,9 @@
  * Typed wrappers around the database functions in supabase/migrations.
  * Reads use RLS-protected selects; every write is an RPC so the server enforces the rules.
  */
+import i18n from '../i18n';
 import { cachedRead } from './offlineStore';
+import type { ReportData } from './report';
 import { supabase } from './supabase';
 
 export interface Room {
@@ -32,6 +34,8 @@ export interface Cycle {
   currency_decimals: number;
   status: 'open' | 'locked';
   locked_at: string | null;
+  /** set once the 2-month retention removed this cycle's records */
+  purged_at?: string | null;
 }
 
 export interface Settlement {
@@ -253,15 +257,32 @@ const rawApi = {
       await supabase.from('room_members').select('*').eq('room_id', roomId).order('requested_at'),
     );
     const ids = [...new Set(rows.map((r) => r.user_id))];
-    const profiles: { id: string; display_name: string; avatar_url: string | null }[] = ids.length
-      ? unwrap(await supabase.from('profiles').select('id, display_name, avatar_url').in('id', ids))
+    const profiles: {
+      id: string;
+      display_name: string;
+      avatar_url: string | null;
+      deleted_at?: string | null;
+      purged_at?: string | null;
+    }[] = ids.length
+      ? unwrap(
+          await supabase
+            .from('profiles')
+            .select('id, display_name, avatar_url, deleted_at, purged_at')
+            .in('id', ids),
+        )
       : [];
     const byId = new Map(profiles.map((p) => [p.id, p]));
     // Same names in a Room get a join-order number (Lenovo1, Lenovo2) — computed by the server.
     const labelRows: { user_id: string; label: string }[] = unwrap(
       await supabase.rpc('room_member_labels', { p_room: roomId }),
     );
-    const labels = new Map(labelRows.map((l) => [l.user_id, l.label]));
+    // A deleted account shows as "Name (account deleted)" during the 2-month hold (PRD §18.3).
+    const deletedLabel = (uid: string, label: string) => {
+      const p = byId.get(uid);
+      if (p?.purged_at) return i18n.t('account.deletedUser');
+      return p?.deleted_at ? i18n.t('account.deletedName', { name: label }) : label;
+    };
+    const labels = new Map(labelRows.map((l) => [l.user_id, deletedLabel(l.user_id, l.label)]));
     const withLabel = (uid: string) => {
       const p = byId.get(uid);
       const label = labels.get(uid);
@@ -653,6 +674,31 @@ const rawApi = {
 
   async cancelNeed(id: string): Promise<void> {
     unwrap(await supabase.rpc('cancel_need', { p_need: id }));
+  },
+
+  async reportData(roomId: string, cycleId: string | null, scope: 'mine' | 'room'): Promise<ReportData> {
+    return unwrap(await supabase.rpc('report_data', { p_room: roomId, p_cycle: cycleId, p_scope: scope }));
+  },
+
+  async verifyReport(ref: string): Promise<{ found: boolean; generated_at?: string; scope?: string }> {
+    return unwrap(await supabase.rpc('verify_report', { p_ref: ref }));
+  },
+
+  async myDataExport(): Promise<Record<string, unknown> & { ref: string; rooms: ReportData[] }> {
+    return unwrap(await supabase.rpc('my_data_export'));
+  },
+
+  async accountDeletionCheck(): Promise<{
+    blocking_rooms: { room_id: string; name: string }[];
+    unpaid: number;
+    open_disputes: number;
+    purge_after: string;
+  }> {
+    return unwrap(await supabase.rpc('account_deletion_check'));
+  },
+
+  async deleteMyAccount(): Promise<void> {
+    unwrap(await supabase.rpc('delete_my_account'));
   },
 
   async deleteRoom(roomId: string): Promise<void> {
