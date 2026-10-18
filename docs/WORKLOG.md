@@ -2,6 +2,8 @@
 
 Format: `YYYY-MM-DD HH:MM | version | what was done | files | next`
 
+- 2026-10-18 17:35 | v0.1+v0.2 | Payer = creator: server migration 20261018210000 (create_expense/edit_expense ignore p_paid_by), payer picker removed from both apps, DB tests updated | supabase/migrations, AddExpenseScreen, tests | founder retest
+
 - 2026-10-18 17:20 | v0.2 | Cycles, DB lock, settlement (incl. early), payments with proof + Admin confirm/reject/record, adjustments, selected-member splits, receipts (private storage), Room settings rules, delete Room; 2 DB test suites pass; applied to Supabase; screens: Room (cycles/tabs), AddExpense (split+receipt), ExpenseDetail, Adjust, Settlement (who-pays-whom), Pay, RoomSettings; CI green; /next/ preview live | supabase/migrations/20261018200000_*, supabase/tests/local/20_*, src/screens/*, src/lib/{api,files,transfers}.ts, deploy-web.yml | founder tests v0.1 (/) and v0.2 (/next/)
 - 2026-10-18 16:05 | v0.1 | Removed category picker from expense form, list and detail (founder request) | AddExpenseScreen, RoomScreen, ExpenseDetailScreen, en.json | start v0.2 on its own branch
 

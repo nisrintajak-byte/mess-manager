@@ -62,10 +62,20 @@ end $$;
 create temp table e1 as select public.create_expense((select room from t), 'Rice', 9001,
   (select today from d) - 35, 'aaaaaaaa-0000-0000-0000-000000000001') as id;
 grant select on e1 to authenticated;
+select pg_temp.act('bbbbbbbb-0000-0000-0000-000000000002');
 create temp table e2 as select public.create_expense((select room from t), 'Tea for two', 1000,
   (select today from d) - 35, 'bbbbbbbb-0000-0000-0000-000000000002', null,
   array['bbbbbbbb-0000-0000-0000-000000000002','cccccccc-0000-0000-0000-000000000003']::uuid[]) as id;
 grant select on e2 to authenticated;
+-- Payer is always the creator: a different p_paid_by is ignored.
+create temp table e9 as select public.create_expense((select room from t), 'Claimed for someone else', 300,
+  (select today from d) - 35, 'cccccccc-0000-0000-0000-000000000003') as id;
+grant select on e9 to authenticated;
+do $$ begin
+  assert (select paid_by from public.expenses where id = (select id from e9)) = 'bbbbbbbb-0000-0000-0000-000000000002', 'payer = creator';
+end $$;
+select public.delete_expense((select id from e9));
+select pg_temp.act('aaaaaaaa-0000-0000-0000-000000000001');
 do $$ begin
   assert (select sum(amount) from public.expense_splits where expense_id = (select id from e1)) = 9001;
   assert (select amount from public.expense_splits where expense_id = (select id from e1)
@@ -81,8 +91,12 @@ select pg_temp.expect_error($$select public.create_expense((select room from t),
 select pg_temp.expect_error($$select public.create_expense((select room from t),'x',100,(select today from d),'aaaaaaaa-0000-0000-0000-000000000001',null,null,'other-room/r.jpg')$$, 'invalid_file');
 
 -- 3. Edit a selected split back to "everyone"
+-- Admin edits B's expense and tries to change the payer: payer stays B.
 select public.edit_expense((select id from e2), 'Tea', 1200, (select today from d) - 35,
-  'bbbbbbbb-0000-0000-0000-000000000002', null, null);
+  'aaaaaaaa-0000-0000-0000-000000000001', null, null);
+do $$ begin
+  assert (select paid_by from public.expenses where id = (select id from e2)) = 'bbbbbbbb-0000-0000-0000-000000000002', 'edit keeps payer';
+end $$;
 do $$ begin
   assert (select count(*) from public.expense_splits where expense_id = (select id from e2) and amount > 0) = 3;
   assert (select sum(amount) from public.expense_splits where expense_id = (select id from e2)) = 1200;

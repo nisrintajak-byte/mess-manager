@@ -178,17 +178,14 @@ export function AddExpenseScreen({ navigation, route }: Props) {
         error={errors.date}
       />
 
+      {/* Payer is always the member who added the expense (founder decision; enforced by the server). */}
       <Label>{t('expense.paidBy')}</Label>
-      <ChipRow>
-        {members.map((m) => (
-          <Chip
-            key={m.user_id}
-            on={paidBy === m.user_id}
-            onPress={() => setPaidBy(m.user_id)}
-            label={name(m)}
-          />
-        ))}
-      </ChipRow>
+      <Body>
+        {paidBy === me
+          ? t('expense.paidByYou')
+          : name(members.find((m) => m.user_id === paidBy) ?? ({} as Member))}
+      </Body>
+      <Spacer />
 
       <Label>{t('split.title')}</Label>
       <ChipRow>

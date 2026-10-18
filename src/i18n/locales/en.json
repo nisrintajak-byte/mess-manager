@@ -168,7 +168,8 @@
     "changed": "{{field}}: {{from}} → {{to}}",
     "amountInvalid": "Enter an amount with up to {{decimals}} decimal places.",
     "titleRequired": "Please describe the expense.",
-    "dateInvalid": "Use the format YYYY-MM-DD."
+    "dateInvalid": "Use the format YYYY-MM-DD.",
+    "paidByYou": "You (whoever adds the expense is the payer)"
   },
   "errors": {
     "not_allowed": "You don't have permission to do that.",
