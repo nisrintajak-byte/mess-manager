@@ -11,7 +11,8 @@ on:
   workflow_run:
     workflows: [CI]
     types: [completed]
-    branches: [main, 'version/**']
+    # Only main and the version currently under founder test publish the preview.
+    branches: [main, 'version/v0.1-core-mvp']
   workflow_dispatch:
 
 permissions:
