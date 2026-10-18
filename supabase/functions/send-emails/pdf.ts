@@ -6,6 +6,8 @@
  *
  * Runs in Deno (Supabase Edge Function) and in Node (CI sample render) — no runtime-specific APIs.
  */
+// fontkit's Indic shaper (Devanagari) was compiled with Babel generators and needs this global.
+import 'regenerator-runtime/runtime.js';
 import fontkit from '@pdf-lib/fontkit';
 import bidiFactory from 'bidi-js';
 import * as pdfLibNs from 'pdf-lib';

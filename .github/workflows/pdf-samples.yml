@@ -34,7 +34,7 @@ jobs:
         run: |
           npm init -y >/dev/null
           npm pkg set type=module
-          npm install --no-save pdf-lib@1.17.1 @pdf-lib/fontkit@1.1.1 bidi-js@1.0.3 >/dev/null
+          npm install --no-save pdf-lib@1.17.1 @pdf-lib/fontkit@1.1.1 bidi-js@1.0.3 regenerator-runtime@0.14.1 >/dev/null
           if ! node --experimental-strip-types sample.ts /tmp/samples > /tmp/samples-log.txt 2>&1; then
             tail -n 25 /tmp/samples-log.txt | sed 's/^/::error title=sample::/'
             exit 1
