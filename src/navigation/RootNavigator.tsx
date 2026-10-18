@@ -27,12 +27,14 @@ import { LegalScreen } from '../screens/LegalScreen';
 import { NeedsScreen } from '../screens/NeedsScreen';
 import { NotificationSettingsScreen } from '../screens/NotificationSettingsScreen';
 import { PayScreen } from '../screens/PayScreen';
+import { SyncScreen } from '../screens/SyncScreen';
 import { PreferencesScreen } from '../screens/PreferencesScreen';
 import { RoomMembersScreen } from '../screens/RoomMembersScreen';
 import { RoomScreen } from '../screens/RoomScreen';
 import { RoomSettingsScreen } from '../screens/RoomSettingsScreen';
 import { SettlementScreen } from '../screens/SettlementScreen';
 import { colors, currentTheme } from '../ui/theme';
+import { navigationRef } from './navigationRef';
 import type { AppStackParamList, AuthStackParamList } from './types';
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
@@ -82,6 +84,7 @@ export function RootNavigator() {
 
   return (
     <NavigationContainer
+      ref={navigationRef}
       theme={navTheme()}
       linking={linking}
       direction={isRtlLanguage(i18n.language) ? 'rtl' : 'ltr'}
@@ -137,6 +140,7 @@ export function RootNavigator() {
           <AppStack.Screen name="Disputes" component={DisputesScreen} options={{ title: t('flag.list') }} />
           <AppStack.Screen name="Needs" component={NeedsScreen} options={{ title: t('need.title') }} />
           <AppStack.Screen name="Legal" component={LegalScreen} options={{ title: '' }} />
+          <AppStack.Screen name="Sync" component={SyncScreen} options={{ title: t('sync.title') }} />
           <AppStack.Screen
             name="Preferences"
             component={PreferencesScreen}

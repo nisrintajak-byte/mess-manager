@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../auth/AuthProvider';
 import { api, Member, Room } from '../lib/api';
 import { dbErrorKey } from '../lib/errors';
-import { formatMinor, parseAmount } from '../lib/money';
+import { formatMinor, formatMoney, parseAmount } from '../lib/money';
+import { submitOrQueue } from '../lib/outbox';
 import { isIsoDate, todayIn, uuid } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
 import {
@@ -42,6 +43,7 @@ export function AddExpenseScreen({ navigation, route }: Props) {
   const [mode, setMode] = useState<'equal' | 'selected'>('equal');
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [receipt, setReceipt] = useState<string | null>(null);
+  const [baseUpdated, setBaseUpdated] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -64,6 +66,7 @@ export function AddExpenseScreen({ navigation, route }: Props) {
         setAmount(formatMinor(expense.amount, r.currency_decimals));
         setDate(expense.expense_date);
         setPaidBy(expense.paid_by);
+        setBaseUpdated(expense.updated_at);
         setNotes(expense.notes ?? '');
         setReceipt(expense.receipt_path);
         setMode(expense.split_mode);
@@ -106,30 +109,37 @@ export function AddExpenseScreen({ navigation, route }: Props) {
     setServerError(null);
     setBusy(true);
     try {
+      const amountText = formatMoney(minor, room.currency, room.currency_decimals);
       if (editing) {
-        await api.editExpense({
-          id: expenseId!,
-          title,
+        await submitOrQueue({
+          type: 'expense_edit',
+          userId: me,
+          roomId,
+          label: title,
           amount: minor,
-          date,
-          paidBy,
-          notes,
-          participants,
-          receiptPath: receipt,
+          amountText,
+          payload: {
+            expenseId,
+            baseUpdated,
+            title,
+            amount: minor,
+            date,
+            notes,
+            participants,
+            receiptPath: receipt,
+          },
         });
       } else {
-        const newId = await api.createExpense({
+        await submitOrQueue({
+          id: idempotencyKey,
+          type: 'expense_create',
+          userId: me,
           roomId,
-          title,
+          label: title,
           amount: minor,
-          date,
-          paidBy,
-          notes,
-          participants,
-          receiptPath: receipt,
-          idempotencyKey,
+          amountText,
+          payload: { title, amount: minor, date, notes, participants, receiptPath: receipt, needId },
         });
-        if (needId) await api.completeNeed(needId, newId);
       }
       navigation.goBack();
     } catch (err) {

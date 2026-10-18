@@ -5,6 +5,7 @@ import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native
 
 import { useAuth } from '../auth/AuthProvider';
 import { api, AuditEntry, OPEN_FLAG } from '../lib/api';
+import { submitOrQueue } from '../lib/outbox';
 import { dbErrorKey } from '../lib/errors';
 import { formatMoney } from '../lib/money';
 import { EDIT_WINDOW_MS, formatDateTime } from '../lib/util';
@@ -74,8 +75,17 @@ export function ExpenseDetailScreen({ navigation, route }: Props) {
     setError(null);
     if (!(await confirm(t('expense.deleteConfirm'), t('common.yes'), t('common.no')))) return;
     try {
-      await api.deleteExpense(expenseId);
-      await reload();
+      const r = await submitOrQueue({
+        type: 'expense_delete',
+        userId: me ?? '',
+        roomId,
+        label: expense.title,
+        amount: expense.amount,
+        amountText: money(expense.amount),
+        payload: { expenseId, baseUpdated: expense.updated_at },
+      });
+      if (r.queued) navigation.goBack();
+      else await reload();
     } catch (e) {
       setError(t(dbErrorKey(e as { message?: string })));
     }

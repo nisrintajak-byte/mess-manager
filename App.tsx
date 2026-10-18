@@ -1,15 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AuthProvider } from './src/auth/AuthProvider';
 import { isSupabaseConfigured } from './src/lib/supabase';
 import { loadSettings, useSettings } from './src/lib/settings';
 import { RootNavigator } from './src/navigation/RootNavigator';
+import { startSync } from './src/lib/outbox';
 import { AppLockGate } from './src/ui/AppLockGate';
 import { Notice, Screen } from './src/ui/components';
 import { ReauthHost } from './src/ui/ReauthHost';
+import { SyncBanner } from './src/ui/SyncBanner';
 import { currentTheme } from './src/ui/theme';
 
 export default function App() {
@@ -19,6 +22,7 @@ export default function App() {
 
   useEffect(() => {
     void loadSettings().finally(() => setReady(true));
+    startSync();
   }, []);
 
   if (!ready) return null;
@@ -30,7 +34,12 @@ export default function App() {
       {isSupabaseConfigured ? (
         <AuthProvider>
           <AppLockGate>
-            <RootNavigator />
+            <View style={{ flex: 1 }}>
+              <View style={{ flex: 1 }}>
+                <RootNavigator />
+              </View>
+              <SyncBanner />
+            </View>
           </AppLockGate>
           <ReauthHost />
         </AuthProvider>

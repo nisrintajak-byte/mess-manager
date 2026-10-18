@@ -2,6 +2,7 @@
  * Typed wrappers around the database functions in supabase/migrations.
  * Reads use RLS-protected selects; every write is an RPC so the server enforces the rules.
  */
+import { cachedRead } from './offlineStore';
 import { supabase } from './supabase';
 
 export interface Room {
@@ -109,6 +110,8 @@ export interface Expense {
   adjusts_expense_id: string | null;
   split_mode: 'equal' | 'selected';
   is_credit: boolean;
+  updated_at: string;
+  late_entry_from: string | null;
 }
 
 export interface Split {
@@ -209,7 +212,7 @@ function unwrap<T>({ data, error }: { data: T | null; error: { message: string }
 /** Postgres bigint arrives as string or number; normalise to number. */
 const n = (v: unknown) => Number(v);
 
-export const api = {
+const rawApi = {
   async myRooms(): Promise<Room[]> {
     return unwrap(await supabase.from('rooms').select('*').is('deleted_at', null).order('created_at'));
   },
@@ -748,4 +751,103 @@ export const api = {
   async deleteExpense(id: string): Promise<void> {
     unwrap(await supabase.rpc('delete_expense', { p_expense: id }));
   },
+
+  // ---- v0.5: offline sync (server re-checks everything with server time) ----
+  async syncCreateExpense(p: {
+    roomId: string;
+    title: string;
+    amount: number;
+    date: string;
+    notes: string;
+    participants: string[] | null;
+    receiptPath: string | null;
+    idempotencyKey: string;
+  }): Promise<{ id: string; late: boolean }> {
+    return unwrap(
+      await supabase.rpc('sync_create_expense', {
+        p_room: p.roomId,
+        p_title: p.title,
+        p_amount: p.amount,
+        p_expense_date: p.date,
+        p_notes: p.notes,
+        p_participants: p.participants,
+        p_receipt_path: p.receiptPath,
+        p_idempotency_key: p.idempotencyKey,
+      }),
+    );
+  },
+
+  async syncEditExpense(p: {
+    id: string;
+    baseUpdated: string;
+    title: string;
+    amount: number;
+    date: string;
+    notes: string;
+    participants: string[] | null;
+    receiptPath: string | null;
+  }): Promise<void> {
+    unwrap(
+      await supabase.rpc('sync_edit_expense', {
+        p_expense: p.id,
+        p_base_updated: p.baseUpdated,
+        p_title: p.title,
+        p_amount: p.amount,
+        p_expense_date: p.date,
+        p_notes: p.notes,
+        p_participants: p.participants,
+        p_receipt_path: p.receiptPath,
+      }),
+    );
+  },
+
+  async syncDeleteExpense(id: string, baseUpdated: string): Promise<void> {
+    unwrap(await supabase.rpc('sync_delete_expense', { p_expense: id, p_base_updated: baseUpdated }));
+  },
+
+  async syncCreateNeed(roomId: string, title: string, note: string, idempotencyKey: string): Promise<string> {
+    return unwrap(
+      await supabase.rpc('sync_create_need', {
+        p_room: roomId,
+        p_title: title,
+        p_note: note,
+        p_idempotency_key: idempotencyKey,
+      }),
+    );
+  },
 };
+
+/** Reads that fall back to the last saved copy when the phone is offline (PRD §17.1). */
+const OFFLINE_READS = [
+  'myRooms',
+  'myPendingRequests',
+  'room',
+  'members',
+  'memberEmails',
+  'expenses',
+  'cycleExpenses',
+  'expense',
+  'cycles',
+  'cycleBalances',
+  'settlements',
+  'settlement',
+  'notifications',
+  'unreadCount',
+  'notificationPrefs',
+  'settlementAcks',
+  'roomFlags',
+  'targetFlags',
+  'needs',
+  'balances',
+] as const satisfies readonly (keyof typeof rawApi)[];
+
+function withOfflineReads(raw: typeof rawApi): typeof rawApi {
+  const out: Record<string, unknown> = { ...raw };
+  for (const name of OFFLINE_READS) {
+    const fn = raw[name] as (...a: unknown[]) => Promise<unknown>;
+    out[name] = (...args: unknown[]) => cachedRead(name, args, () => fn(...args));
+  }
+  return out as typeof rawApi;
+}
+
+export const api = withOfflineReads(rawApi);

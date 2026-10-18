@@ -214,7 +214,9 @@
     "profile_incomplete": "Please complete your profile first.",
     "minor_not_allowed": "Accounts for people under 18 need a parent or guardian's consent. This option is coming soon.",
     "dob_invalid": "Please check your date of birth.",
-    "consent_required": "Please accept the Privacy Policy and Terms to continue."
+    "consent_required": "Please accept the Privacy Policy and Terms to continue.",
+    "conflict": "This changed on the server while you were offline. Discard this and redo it from the latest version.",
+    "idempotency_required": "Could not send this action. Please try again."
   },
   "cycle": {
     "current": "Current cycle",
@@ -308,12 +310,14 @@
     "remove": "Remove",
     "attached": "Receipt attached",
     "view": "View receipt",
-    "uploading": "Uploading…"
+    "uploading": "Uploading…",
+    "attachedOffline": "Saved on this phone — uploads when online"
   },
   "files": {
     "tooLarge": "File is larger than 10 MB.",
     "uploadFailed": "Upload failed. Please try again.",
-    "cameraDenied": "Camera permission is needed to take a photo."
+    "cameraDenied": "Camera permission is needed to take a photo.",
+    "offline": "No connection. The file is kept on your phone."
   },
   "adjust": {
     "title": "Adjust this expense",
@@ -361,7 +365,8 @@
     "k_need_created": "{{name}} needs: {{title}}",
     "k_need_accepted": "{{name}} will buy {{title}}",
     "k_need_completed": "{{name}} bought {{title}}",
-    "k_other": "New notification"
+    "k_other": "New notification",
+    "k_expense_late_entry": "“{{title}}” was added as a late entry — its cycle was settled meanwhile (original date {{date}})"
   },
   "notifPrefs": {
     "title": "Notification settings",
@@ -501,5 +506,26 @@
     "title": "One more step",
     "body": "Please confirm your date of birth and accept the terms to start using Mess Manager.",
     "save": "Continue"
+  },
+  "sync": {
+    "offlineBanner": "You're offline — showing the last synced data",
+    "waitingCount": "Waiting to sync: {{count}}",
+    "badge": "Waiting to sync",
+    "title": "Waiting to sync",
+    "empty": "Everything is synced.",
+    "retry": "Try again",
+    "syncNow": "Sync now",
+    "discard": "Discard",
+    "discardConfirm": "Discard this item? It has not reached the server and will be lost.",
+    "failed": "Could not sync",
+    "type_expense_create": "New expense",
+    "type_expense_edit": "Expense edit",
+    "type_expense_delete": "Expense delete",
+    "type_need_create": "Need Request",
+    "type_need_accept": "Accept Need Request",
+    "type_payment_claim": "Payment marked as paid",
+    "estimated": "Estimated — not yet synced. Official totals come only from the server.",
+    "lateEntry": "Late entry (original date {{date}})",
+    "logoutWarning": "{{count}} item(s) on this phone have not synced yet and will be lost if you sign out. Sign out anyway?"
   }
 }

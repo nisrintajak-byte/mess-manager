@@ -30,4 +30,5 @@ export type AppStackParamList = {
   Needs: { roomId: string };
   Legal: { doc: 'privacy' | 'terms' };
   Preferences: undefined;
+  Sync: undefined;
 };

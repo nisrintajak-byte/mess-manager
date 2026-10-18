@@ -1,5 +1,5 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 
@@ -7,7 +7,9 @@ import { useAuth } from '../auth/AuthProvider';
 import { api, Cycle, OPEN_FLAG } from '../lib/api';
 import { getCountry, LanguageCode } from '../lib/countries';
 import { dbErrorKey } from '../lib/errors';
+import { estimateBalances } from '../lib/estimate';
 import { formatMoney } from '../lib/money';
+import { useOutbox } from '../lib/outbox';
 import { todayIn } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
 import { Badge, Body, Button, Card, Chip, ChipRow, Meta, Notice, Row, Spacer } from '../ui/components';
@@ -26,6 +28,8 @@ export function RoomScreen({ navigation, route }: Props) {
   const [cycleId, setCycleId] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const queued = useOutbox().filter((i) => i.roomId === roomId && i.userId === me);
+  const queuedCount = queued.length;
 
   const { data, error, loading, reload } = useLoader(async () => {
     const [room, members, cycles, settlements, flags, needs] = await Promise.all([
@@ -91,6 +95,12 @@ export function RoomScreen({ navigation, route }: Props) {
     await detail.reload();
   }
 
+  // When a waiting item reaches the server, reload so the official list replaces the waiting card.
+  useEffect(() => {
+    void Promise.all([reload(), detail.reload()]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queuedCount]);
+
   async function settle() {
     if (!cur) return;
     setActionError(null);
@@ -121,7 +131,21 @@ export function RoomScreen({ navigation, route }: Props) {
   }
 
   const expenses = detail.data?.expenses ?? [];
-  const balances = detail.data?.balances ?? [];
+  const officialBalances = detail.data?.balances ?? [];
+  const waitingCreates = queued.filter((i) => i.type === 'expense_create' && i.status === 'waiting');
+  const isEstimate = waitingCreates.length > 0 && cur?.id === cycles[0]?.id;
+  const waitingSum = waitingCreates.reduce((sum, i) => sum + (i.amount ?? 0), 0);
+  const balances = isEstimate
+    ? estimateBalances(
+        officialBalances,
+        waitingCreates.map((i) => ({
+          userId: i.userId,
+          amount: i.amount ?? 0,
+          participants: (i.payload.participants as string[] | null) ?? null,
+        })),
+        members.filter((m) => m.status === 'approved').map((m) => m.user_id),
+      )
+    : officialBalances;
   const live = expenses.filter((e) => !e.deleted_at);
   const total = live.reduce((s, e) => s + (e.is_credit ? -e.amount : e.amount), 0);
 
@@ -272,7 +296,23 @@ export function RoomScreen({ navigation, route }: Props) {
 
         {tab === 'expenses' ? (
           <>
-            {expenses.length === 0 && !detail.loading ? <Body muted>{t('room.noExpenses')}</Body> : null}
+            {queued.map((i) => (
+              <Card key={i.id} onPress={() => navigation.navigate('Sync')}>
+                <Row>
+                  <View style={styles.flex}>
+                    <Text style={styles.itemTitle}>{i.label}</Text>
+                    <Meta>{t(`sync.type_${i.type}`)}</Meta>
+                    <Badge tone={i.status === 'failed' ? 'bad' : 'warn'}>
+                      {t(i.status === 'failed' ? 'sync.failed' : 'sync.badge')}
+                    </Badge>
+                  </View>
+                  {i.amountText ? <Text style={styles.amount}>{i.amountText}</Text> : null}
+                </Row>
+              </Card>
+            ))}
+            {expenses.length === 0 && queued.length === 0 && !detail.loading ? (
+              <Body muted>{t('room.noExpenses')}</Body>
+            ) : null}
             {expenses.map((e) => (
               <Card
                 key={e.id}
@@ -286,6 +326,9 @@ export function RoomScreen({ navigation, route }: Props) {
                       {e.split_mode === 'selected' ? ` · ${t('split.selected')}` : ''}
                     </Meta>
                     {e.adjusts_expense_id ? <Badge tone="warn">{t('adjust.label')}</Badge> : null}
+                    {e.late_entry_from ? (
+                      <Badge tone="warn">{t('sync.lateEntry', { date: e.late_entry_from })}</Badge>
+                    ) : null}
                     {disputed.has(e.id) ? <Badge tone="bad">{t('flag.badge')}</Badge> : null}
                   </View>
                   <View style={styles.end}>
@@ -302,10 +345,11 @@ export function RoomScreen({ navigation, route }: Props) {
 
         {tab === 'balances' ? (
           <>
+            {isEstimate ? <Notice tone="info">{t('sync.estimated')}</Notice> : null}
             <Card>
               <Row>
                 <Text style={styles.itemTitle}>{t('room.total')}</Text>
-                <Text style={styles.amount}>{money(total)}</Text>
+                <Text style={styles.amount}>{money(total + (isEstimate ? waitingSum : 0))}</Text>
               </Row>
             </Card>
             {balances.map((b) => (
