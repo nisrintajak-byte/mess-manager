@@ -7,6 +7,7 @@
  *
  * Runs in Deno (Supabase Edge Function) and in Node (CI sample render) — no runtime-specific APIs.
  */
+import fontkit from '@pdf-lib/fontkit';
 import bidiFactory from 'bidi-js';
 import hbjs from 'harfbuzzjs/hbjs.js';
 import * as pdfLibNs from 'pdf-lib';
@@ -396,6 +397,7 @@ export async function buildReportPdf(
 ): Promise<Uint8Array> {
   const hb = await harfbuzz(fontBytes.harfbuzz);
   const doc = await PDFDocument.create();
+  doc.registerFontkit(fontkit); // only to read the font files; HarfBuzz does the layout
   const urdu = f.lang === 'ur';
   const files: Record<string, Uint8Array> = {
     latin: fontBytes.latin,
