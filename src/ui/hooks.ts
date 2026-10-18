@@ -1,14 +1,20 @@
 import { useFocusEffect } from '@react-navigation/native';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, Platform } from 'react-native';
 
-/** Load data when the screen gains focus; exposes reload for pull-to-refresh. */
-export function useLoader<T>(load: () => Promise<T>, deps: unknown[] = []) {
+/**
+ * Load data when the screen gains focus; exposes reload for pull-to-refresh.
+ * `key` identifies the data (e.g. a room id): a new key reloads.
+ */
+export function useLoader<T>(load: () => Promise<T>, key = '') {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
   const loadRef = useRef(load);
-  loadRef.current = load;
+
+  useEffect(() => {
+    loadRef.current = load;
+  });
 
   const reload = useCallback(async () => {
     setLoading(true);
@@ -20,8 +26,9 @@ export function useLoader<T>(load: () => Promise<T>, deps: unknown[] = []) {
     } finally {
       setLoading(false);
     }
+    // `key` is intentionally the only dependency: it identifies what is loaded.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, deps);
+  }, [key]);
 
   useFocusEffect(
     useCallback(() => {

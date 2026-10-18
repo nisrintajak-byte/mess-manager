@@ -31,7 +31,7 @@ export function RoomScreen({ navigation, route }: Props) {
       api.balances(roomId),
     ]);
     return { room, members, expenses, balances };
-  }, [roomId]);
+  }, roomId);
 
   useLayoutEffect(() => {
     if (data) navigation.setOptions({ title: data.room.name });

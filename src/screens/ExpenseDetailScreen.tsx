@@ -26,16 +26,16 @@ export function ExpenseDetailScreen({ navigation, route }: Props) {
 
   const { data, loading, reload } = useLoader(async () => {
     const [room, members, detail] = await Promise.all([api.room(roomId), api.members(roomId), api.expense(expenseId)]);
-    return { room, members, ...detail };
-  }, [roomId, expenseId]);
+    return { room, members, ...detail, loadedAt: Date.now() };
+  }, expenseId);
 
   if (!data) return <View style={styles.bg} />;
-  const { room, members, expense, splits, history } = data;
+  const { room, members, expense, splits, history, loadedAt } = data;
   const nameOf = (uid: string | null) => members.find((m) => m.user_id === uid)?.profile?.display_name ?? '—';
   const money = (v: number) => formatMoney(v, room.currency, room.currency_decimals);
   const isAdmin = members.some((m) => m.user_id === me && m.status === 'approved' && m.role === 'admin');
   // UI hint only; the server re-checks with its own clock.
-  const withinWindow = Date.now() - new Date(expense.created_at).getTime() < EDIT_WINDOW_MS;
+  const withinWindow = loadedAt - new Date(expense.created_at).getTime() < EDIT_WINDOW_MS;
   const canModify = !expense.deleted_at && (isAdmin || (expense.created_by === me && withinWindow));
 
   function describe(h: AuditEntry): string[] {

@@ -27,7 +27,7 @@ export function RoomMembersScreen({ route }: Props) {
     const isAdmin = members.some((m) => m.user_id === me && m.status === 'approved' && m.role === 'admin');
     const emails = isAdmin ? await api.memberEmails(roomId) : new Map<string, string>();
     return { room, members, isAdmin, emails };
-  }, [roomId, me]);
+  }, `${roomId}:${me}`);
 
   async function run(m: Member, action: () => Promise<void>, confirmText?: string) {
     setError(null);
