@@ -1,6 +1,8 @@
 -- Behaviour tests for the v0.1 core schema. Run with scripts/test-db.sh.
 -- Any failed assertion raises an exception and stops the run.
 \set ON_ERROR_STOP on
+-- dates in these tests are Room (Kuwait) dates, independent of the server clock's zone
+set timezone = 'Asia/Kuwait';
 
 -- Users: admin (A), member (B), outsider (C), unverified (U)
 insert into auth.users (id, email, email_confirmed_at, raw_user_meta_data) values

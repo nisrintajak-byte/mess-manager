@@ -1,4 +1,6 @@
 \set ON_ERROR_STOP on
+-- dates in these tests are Room (Kuwait) dates, independent of the server clock's zone
+set timezone = 'Asia/Kuwait';
 insert into auth.users (id, email, email_confirmed_at, raw_user_meta_data) values
  ('aaaaaaaa-0000-0000-0000-000000000001', 'a@t.dev', now(), '{"display_name":"Lenovo","consent_version":"v"}'),
  ('bbbbbbbb-0000-0000-0000-000000000002', 'b@t.dev', now(), '{"display_name":"lenovo ","consent_version":"v"}'),
