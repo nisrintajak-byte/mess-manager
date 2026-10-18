@@ -27,6 +27,6 @@ describe('countries', () => {
 
   it('sorts alphabetically', () => {
     const names = countriesSorted('en').map((c) => c.names.en);
-    expect(names[0] < names[names.length - 1]).toBe(true);
+    expect(names[0]! < names[names.length - 1]!).toBe(true);
   });
 });
