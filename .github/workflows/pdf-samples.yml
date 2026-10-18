@@ -36,6 +36,7 @@ jobs:
           npm pkg set type=module
           npm install --no-save pdf-lib@1.17.1 @pdf-lib/fontkit@1.1.1 bidi-js@1.0.3 harfbuzzjs@0.3.6 >/dev/null
           node -e "const p=require('./node_modules/harfbuzzjs/package.json');console.log('::notice title=hb::'+p.version+' '+JSON.stringify(p.exports||p.main))"
+          tr '\n' ' ' < node_modules/harfbuzzjs/hb-subset.symbols | sed 's/^/::notice title=hbsubset::/'; echo
           ls node_modules/harfbuzzjs | tr '\n' ' ' | sed 's/^/::notice title=hbfiles::/'; echo
           if ! node --experimental-strip-types sample.ts /tmp/samples > /tmp/samples-log.txt 2>&1; then
             tail -n 25 /tmp/samples-log.txt | sed 's/^/::error title=sample::/'

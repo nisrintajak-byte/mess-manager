@@ -91,44 +91,33 @@ function scriptOf(cp: number): Script | null {
 
 export type Run = { text: string; level: number; script: Script };
 
-/** Split one line into runs (logical text inside each run) arranged in visual order, left to right. */
+/** Split one line into runs arranged left to right; each run keeps its text in logical order. */
 export function visualRuns(text: string, rtl: boolean): Run[] {
   if (!text) return [];
-  const { levels } = bidi.getEmbeddingLevels(text, rtl ? 'rtl' : 'ltr');
-  const chars = Array.from(text);
-  const scripts: Script[] = [];
+  const levelsInfo = bidi.getEmbeddingLevels(text, rtl ? 'rtl' : 'ltr');
+  const { levels } = levelsInfo;
+  // script of each UTF-16 position; neutrals follow the previous strong character
+  const scripts: Script[] = new Array(text.length);
   let prev: Script = rtl ? 'arabic' : 'latin';
-  for (const ch of chars) {
-    const s = scriptOf(ch.codePointAt(0) ?? 32);
-    scripts.push(s ?? prev);
-    if (s) prev = s;
+  for (let i = 0; i < text.length; i++) {
+    const cp = text.charCodeAt(i);
+    const s = cp >= 0x30 && cp <= 0x39 ? 'latin' : scriptOf(cp);
+    scripts[i] = s ?? prev;
+    if (s && !(cp >= 0x30 && cp <= 0x39)) prev = s;
   }
-  const out: Run[] = [];
-  let idx = 0;
-  for (let i = 0; i < chars.length; i++) {
-    const ch = chars[i] ?? '';
-    const cp = ch.codePointAt(0) ?? 32;
-    const level = levels[idx] ?? 0;
-    idx += ch.length;
-    const script = cp >= 0x30 && cp <= 0x39 ? 'latin' : (scripts[i] ?? 'latin');
+  const order: number[] = bidi.getReorderedIndices(text, levelsInfo);
+  const out: (Run & { idx: number[] })[] = [];
+  for (const i of order) {
+    const level = levels[i] ?? 0;
+    const script = scripts[i] ?? 'latin';
     const last = out[out.length - 1];
-    if (last && last.level === level && last.script === script) last.text += ch;
-    else out.push({ text: ch, level, script });
+    if (last && last.level === level && last.script === script) last.idx.push(i);
+    else out.push({ text: '', level, script, idx: [i] });
   }
-  const maxLevel = Math.max(...out.map((r) => r.level));
-  const minOdd = Math.min(...out.map((r) => (r.level % 2 ? r.level : 99)));
-  for (let lvl = maxLevel; lvl >= Math.min(minOdd, maxLevel) && lvl > 0; lvl--) {
-    let i = 0;
-    while (i < out.length) {
-      if ((out[i]?.level ?? 0) >= lvl) {
-        let j = i;
-        while (j < out.length && (out[j]?.level ?? 0) >= lvl) j++;
-        out.splice(i, j - i, ...out.slice(i, j).reverse());
-        i = j;
-      } else i++;
-    }
-  }
-  return out;
+  return out.map((r) => {
+    const idx = r.level % 2 ? [...r.idx].reverse() : r.idx; // back to logical order for shaping
+    return { text: idx.map((i) => text[i]).join(''), level: r.level, script: r.script };
+  });
 }
 
 type Glyph = { id: number; x: number; y: number };
