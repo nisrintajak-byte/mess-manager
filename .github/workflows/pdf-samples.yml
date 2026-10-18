@@ -35,7 +35,11 @@ jobs:
           npm init -y >/dev/null
           npm pkg set type=module
           npm install --no-save pdf-lib@1.17.1 @pdf-lib/fontkit@1.1.1 bidi-js@1.0.3 >/dev/null
-          node --experimental-strip-types sample.ts /tmp/samples 2>&1 | tee /tmp/samples-log.txt
+          if ! node --experimental-strip-types sample.ts /tmp/samples > /tmp/samples-log.txt 2>&1; then
+            tail -n 25 /tmp/samples-log.txt | sed 's/^/::error title=sample::/'
+            exit 1
+          fi
+          cat /tmp/samples-log.txt
           sudo apt-get install -y poppler-utils >/dev/null
           for p in /tmp/samples/*.pdf; do pdftoppm -r 60 -png "$p" "${p%.pdf}"; done
           ls -la /tmp/samples
