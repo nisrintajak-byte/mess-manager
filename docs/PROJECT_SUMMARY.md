@@ -21,7 +21,6 @@
 **Key decisions:** Stack per PRD §6 (Expo + TypeScript + Supabase). Money as integer minor units. See `DECISIONS.md`.
 
 **Blockers:**
-- Claude cannot push to GitHub yet (Claude GitHub App not installed on repo)
 - Founder accounts needed for v0.1: Supabase, Expo
 - PRD §28 open decisions → `memory/open-questions.md`
 

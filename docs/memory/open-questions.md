@@ -2,7 +2,7 @@
 
 ## Blocking now
 1. Approve the version plan (v0.1 → v1.0)?
-2. GitHub push access for Claude (install Claude GitHub App on repo).
+2. ~~GitHub push access~~ — resolved 2026-10-18 (push works).
 3. Supabase account + project (needed for v0.1 T2).
 
 ## PRD §28 — needed before v0.6/v0.7 (not blocking v0.1)

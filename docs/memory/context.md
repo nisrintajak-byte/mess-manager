@@ -24,4 +24,4 @@ Secrets go in `.env` (never committed). Needed: SUPABASE_URL, SUPABASE_ANON_KEY 
 Imran Khan (Abu Uyoon), non-technical. Explain steps in simple Hinglish; Claude does all technical work.
 
 ## Gotchas
-- Claude session cannot push until Claude GitHub App is installed on the repo.
+- (none yet)
