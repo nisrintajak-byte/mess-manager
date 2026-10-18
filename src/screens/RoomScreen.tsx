@@ -59,6 +59,12 @@ export function RoomScreen({ navigation, route }: Props) {
     if (data) navigation.setOptions({ title: data.room.name });
   }, [navigation, data]);
 
+  // When a waiting item reaches the server, reload so the official list replaces the waiting card.
+  useEffect(() => {
+    void Promise.all([reload(), detail.reload()]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queuedCount]);
+
   if (!data) {
     return (
       <View style={styles.bg}>
@@ -94,12 +100,6 @@ export function RoomScreen({ navigation, route }: Props) {
     await reload();
     await detail.reload();
   }
-
-  // When a waiting item reaches the server, reload so the official list replaces the waiting card.
-  useEffect(() => {
-    void Promise.all([reload(), detail.reload()]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queuedCount]);
 
   async function settle() {
     if (!cur) return;

@@ -101,7 +101,7 @@ type Result = { late?: boolean };
 
 /** Send one item to the server. Throws on failure. */
 async function send(item: OutboxItem, queued: boolean): Promise<Result> {
-  const p = item.payload as Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  const p = item.payload as Record<string, any>;
   switch (item.type) {
     case 'expense_create': {
       let receipt = (p.receiptPath as string | null) ?? null;
