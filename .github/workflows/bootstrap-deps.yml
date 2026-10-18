@@ -61,6 +61,8 @@ jobs:
             expo-image-picker \
             expo-image-manipulator \
             expo-document-picker \
+            expo-notifications \
+            expo-device \
             @react-navigation/native \
             @react-navigation/native-stack \
             react-native-screens \
