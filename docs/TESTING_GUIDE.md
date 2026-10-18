@@ -1,7 +1,7 @@
 # How to test Mess Manager (founder guide)
 
 ## Open the app
-- **Next version (v0.2, in progress):** https://nisrintajak-byte.github.io/mess-manager/next/ — same accounts and data.
+- **Next version (v0.3 = v0.2 + v0.3, in progress):** https://nisrintajak-byte.github.io/mess-manager/next/ — same accounts and data.
 - **Phone browser (easiest):** https://nisrintajak-byte.github.io/mess-manager/
   - Updates automatically a few minutes after every change.
   - Tip: in Chrome tap ⋮ → "Add to Home screen" so it opens like an app.
@@ -45,3 +45,13 @@ Report anything odd with a screenshot.
 9. Admin: **Settings** → try changing currency after an expense exists → explained and blocked;
    change time zone or cycle → "applies from <date>".
 Tip: for quick testing, settle a cycle the day after you add expenses.
+
+## v0.3 test checklist (/next/ link)
+1. Home → **Notifications**: join requests, approvals, expenses, settlements and payments appear here (bold = unread).
+2. Notifications → **Notification settings**: expense / Need notifications can be turned off; money ones can't.
+3. Open any expense → **Report a problem** → pick a reason → the expense shows **Under dispute** to everyone.
+4. Admin: Room → **Disputes** → Start review → **Accept** / **Reject** (note required). Admin can't decide on own item if another Admin exists.
+5. Room → **Need Requests** → ask "Milk" → another member taps **I'll buy it** → then **Bought — add expense** (title pre-filled).
+6. Settle a cycle → each member opens it (Seen) → taps **I have seen this settlement** (Acknowledged). Admin sees status per member.
+7. Members with the same name show as Name1, Name2 (join order).
+Push notifications on the phone come with the installable Android app; in the browser use the inbox.

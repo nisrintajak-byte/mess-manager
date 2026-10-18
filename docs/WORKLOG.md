@@ -2,6 +2,7 @@
 
 Format: `YYYY-MM-DD HH:MM | version | what was done | files | next`
 
+- 2026-10-18 18:30 | v0.3 | Same-name labels (Lenovo1/2) server-side on all branches; v0.3 migration live (notifications + triggers, pg_net push, prefs, acks, flags, needs); screens: Inbox, NotificationSettings, Flag, Disputes, Needs; badges + report buttons + acknowledgement on Expense/Settlement; 4 DB test suites pass; CI green; /next/ → v0.3 | supabase/migrations/20261018220000_*, 20261019100000_*, src/screens/*, src/lib/{push,notifText}.ts | founder tests /next/
 - 2026-10-18 17:35 | v0.1+v0.2 | Payer = creator: server migration 20261018210000 (create_expense/edit_expense ignore p_paid_by), payer picker removed from both apps, DB tests updated | supabase/migrations, AddExpenseScreen, tests | founder retest
 
 - 2026-10-18 17:20 | v0.2 | Cycles, DB lock, settlement (incl. early), payments with proof + Admin confirm/reject/record, adjustments, selected-member splits, receipts (private storage), Room settings rules, delete Room; 2 DB test suites pass; applied to Supabase; screens: Room (cycles/tabs), AddExpense (split+receipt), ExpenseDetail, Adjust, Settlement (who-pays-whom), Pay, RoomSettings; CI green; /next/ preview live | supabase/migrations/20261018200000_*, supabase/tests/local/20_*, src/screens/*, src/lib/{api,files,transfers}.ts, deploy-web.yml | founder tests v0.1 (/) and v0.2 (/next/)
