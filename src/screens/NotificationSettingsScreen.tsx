@@ -13,12 +13,11 @@ import { colors } from '../ui/theme';
 export function NotificationSettingsScreen() {
   const { t } = useTranslation();
   const { data, reload } = useLoader(() => api.notificationPrefs(), 'prefs');
-  const [push, setPush] = useState<PushState | null>(null);
+  const [push, setPush] = useState<PushState | null>(Platform.OS === 'web' ? 'web' : null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (Platform.OS === 'web') setPush('web');
-    else void registerForPush().then(setPush);
+    if (Platform.OS !== 'web') void registerForPush().then(setPush);
   }, []);
 
   async function toggle(kind: string, enabled: boolean) {

@@ -20,6 +20,7 @@ export async function registerForPush(): Promise<PushState> {
     if (Platform.OS === 'android') {
       await Notifications.setNotificationChannelAsync('default', {
         name: 'Mess Manager',
+        // eslint-disable-next-line import/namespace
         importance: Notifications.AndroidImportance.HIGH,
       });
     }
