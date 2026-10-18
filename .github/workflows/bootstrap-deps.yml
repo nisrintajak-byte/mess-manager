@@ -58,6 +58,9 @@ jobs:
             expo-secure-store \
             expo-linking \
             expo-constants \
+            expo-image-picker \
+            expo-image-manipulator \
+            expo-document-picker \
             @react-navigation/native \
             @react-navigation/native-stack \
             react-native-screens \
