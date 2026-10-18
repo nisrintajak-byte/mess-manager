@@ -3,6 +3,6 @@
     "@supabase/supabase-js": "npm:@supabase/supabase-js@2.49.4",
     "pdf-lib": "npm:pdf-lib@1.17.1",
     "bidi-js": "npm:bidi-js@1.0.3",
-    "harfbuzzjs/": "npm:/harfbuzzjs@0.4.7/"
+    "harfbuzzjs/": "npm:/harfbuzzjs@0.3.6/"
   }
 }

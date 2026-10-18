@@ -34,7 +34,7 @@ jobs:
         run: |
           npm init -y >/dev/null
           npm pkg set type=module
-          npm install --no-save pdf-lib@1.17.1 bidi-js@1.0.3 harfbuzzjs >/dev/null
+          npm install --no-save pdf-lib@1.17.1 bidi-js@1.0.3 harfbuzzjs@0.3.6 >/dev/null
           node -e "const p=require('./node_modules/harfbuzzjs/package.json');console.log('::notice title=hb::'+p.version+' '+JSON.stringify(p.exports||p.main))"
           ls node_modules/harfbuzzjs | tr '\n' ' ' | sed 's/^/::notice title=hbfiles::/'; echo
           if ! node --experimental-strip-types sample.ts /tmp/samples > /tmp/samples-log.txt 2>&1; then

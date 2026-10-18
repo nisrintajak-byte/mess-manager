@@ -62,7 +62,7 @@ export const FONT_URLS: Record<keyof FontBytes, string> = {
   urduBold: `${CDN}/@expo-google-fonts/noto-nastaliq-urdu@0.4.2/700Bold/NotoNastaliqUrdu_700Bold.ttf`,
   devanagari: `${CDN}/@expo-google-fonts/noto-sans-devanagari@0.4.1/400Regular/NotoSansDevanagari_400Regular.ttf`,
   devanagariBold: `${CDN}/@expo-google-fonts/noto-sans-devanagari@0.4.1/700Bold/NotoSansDevanagari_700Bold.ttf`,
-  harfbuzz: `${CDN}/harfbuzzjs@__HB_VERSION__/hb.wasm`,
+  harfbuzz: `${CDN}/harfbuzzjs@0.3.6/hb.wasm`,
 };
 
 export async function fetchFonts(fetchBytes: (url: string) => Promise<Uint8Array>): Promise<FontBytes> {
