@@ -157,6 +157,8 @@ const hbVersion = JSON.parse(readFileSync('node_modules/harfbuzzjs/package.json'
 console.log('harfbuzzjs', hbVersion);
 const fonts = await fetchFonts(async (url) => {
   if (url.endsWith('/hb.wasm')) return new Uint8Array(readFileSync('node_modules/harfbuzzjs/hb.wasm'));
+  if (url.endsWith('/hb-subset.wasm'))
+    return new Uint8Array(readFileSync('node_modules/harfbuzzjs/hb-subset.wasm'));
   const r = await fetch(url);
   if (!r.ok) throw new Error(`font ${r.status} ${url}`);
   return new Uint8Array(await r.arrayBuffer());

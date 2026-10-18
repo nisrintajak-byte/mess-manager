@@ -131,6 +131,14 @@ export function reportTotals(data: ReportData) {
   return { total, myPaid, myShare, net: myPaid - myShare };
 }
 
+/**
+ * Keep dates, times and reference numbers reading left-to-right inside Arabic/Urdu text
+ * (otherwise "2026-10-01" after Arabic letters shows as "01-10-2026").
+ */
+export function isolateLtr(text: string, rtl: boolean): string {
+  return rtl ? `\u2066${text}\u2069` : text;
+}
+
 function dateOnly(iso: string | null): string {
   return iso ? iso.slice(0, 10) : '—';
 }
@@ -200,13 +208,14 @@ export function buildReportBody(data: ReportData, f: ReportFormat): string {
   const cur = data.room.currency;
   const dec = data.room.decimals;
   const m = (v: number, c = cur, d = dec) => esc(f.money(v, c, d));
-  const d = (s: string | null) => esc(f.digits(dateOnly(s)));
-  const dt = (s: string | null) => esc(f.digits(dateTime(s)));
+  const iso = (s: string) => isolateLtr(f.digits(s), f.rtl);
+  const d = (s: string | null) => esc(iso(dateOnly(s)));
+  const dt = (s: string | null) => esc(iso(dateTime(s)));
   const who = (uid: string | null) => esc(personName(data, uid, t));
   const totals = reportTotals(data);
   const cycleById = new Map(data.cycles.map((c) => [c.id, c]));
   const range = (from: string | null, to: string | null) =>
-    esc(t('cycle.range', { from: f.digits(dateOnly(from)), to: f.digits(dateOnly(to)) }));
+    esc(t('cycle.range', { from: iso(dateOnly(from)), to: iso(dateOnly(to)) }));
   const section = (title: string, body: string, empty: boolean) =>
     `<h2>${esc(title)}</h2>` + (empty ? `<p class="muted">${esc(t('report.none'))}</p>` : body);
 

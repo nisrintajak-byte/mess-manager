@@ -14,6 +14,7 @@ import * as pdfLibNs from 'pdf-lib';
 import type { PDFDocument as PDFDocumentT, PDFFont, PDFPage } from 'pdf-lib';
 
 import {
+  isolateLtr,
   type ReportData,
   type ReportFormat,
   minorToDecimal,
@@ -51,6 +52,7 @@ export type FontBytes = {
   devanagari: Uint8Array;
   devanagariBold: Uint8Array;
   harfbuzz: Uint8Array;
+  harfbuzzSubset: Uint8Array;
 };
 
 const CDN = 'https://cdn.jsdelivr.net/npm';
@@ -64,6 +66,7 @@ export const FONT_URLS: Record<keyof FontBytes, string> = {
   devanagari: `${CDN}/@expo-google-fonts/noto-sans-devanagari@0.4.1/400Regular/NotoSansDevanagari_400Regular.ttf`,
   devanagariBold: `${CDN}/@expo-google-fonts/noto-sans-devanagari@0.4.1/700Bold/NotoSansDevanagari_700Bold.ttf`,
   harfbuzz: `${CDN}/harfbuzzjs@0.3.6/hb.wasm`,
+  harfbuzzSubset: `${CDN}/harfbuzzjs@0.3.6/hb-subset.wasm`,
 };
 
 export async function fetchFonts(fetchBytes: (url: string) => Promise<Uint8Array>): Promise<FontBytes> {
@@ -121,7 +124,8 @@ export function visualRuns(text: string, rtl: boolean): Run[] {
 }
 
 type Glyph = { id: number; x: number; y: number };
-type Face = { pdf: PDFFont; hb: any; upem: number }; // deno-lint-ignore no-explicit-any
+// deno-lint-ignore no-explicit-any
+type Face = { key: string; pdf: PDFFont | null; hb: any; upem: number };
 
 class Shaper {
   // deno-lint-ignore no-explicit-any
@@ -231,6 +235,10 @@ class Writer {
     const ops = [pushGraphicsState(), setFillingColor(color), beginText()];
     for (const { r, s } of runs) {
       const face = this.shaper.face(r.script, bold);
+      let used = this.glyphs.get(face.key);
+      if (!used) this.glyphs.set(face.key, (used = new Set([0])));
+      for (const g of s.glyphs) used.add(g.id);
+      if (!face.pdf) continue; // measuring pass: nothing is drawn
       const fontKey = this.fontKey(face.pdf);
       ops.push(setFontAndSize(fontKey, size));
       for (const g of s.glyphs) {
@@ -243,6 +251,7 @@ class Writer {
     this.page.pushOperators(...ops);
   }
 
+  glyphs = new Map<string, Set<number>>();
   fontKeys = new Map<PDFPage, Map<PDFFont, string>>();
   used = new Set<PDFFont>();
   fontKey(font: PDFFont): string {
@@ -377,6 +386,44 @@ async function harfbuzz(wasm: Uint8Array) {
   return hbInstance;
 }
 
+/**
+ * Font subsetting with HarfBuzz, keeping glyph ids unchanged, so a statement carries only the
+ * glyphs it uses (tens of KB instead of megabytes) and the ids from shaping stay valid.
+ */
+// deno-lint-ignore no-explicit-any
+let subsetExports: any = null;
+async function subsetter(wasm: Uint8Array) {
+  if (!subsetExports) subsetExports = (await WebAssembly.instantiate(wasm)).instance.exports;
+  const e = subsetExports;
+  return (font: Uint8Array, glyphs: Set<number>): Uint8Array => {
+    const ptr = e.malloc(font.length);
+    new Uint8Array(e.memory.buffer).set(font, ptr);
+    const blob = e.hb_blob_create(ptr, font.length, 2 /* writable */, 0, 0);
+    const face = e.hb_face_create(blob, 0);
+    e.hb_blob_destroy(blob);
+    const input = e.hb_subset_input_create_or_fail();
+    const set = e.hb_subset_input_glyph_set(input);
+    for (const g of glyphs) e.hb_set_add(set, g);
+    e.hb_subset_input_set_flags(input, 0x1 /* no hinting */ | 0x2 /* retain glyph ids */);
+    const sub = e.hb_subset_or_fail(face, input);
+    e.hb_subset_input_destroy(input);
+    if (!sub) {
+      e.hb_face_destroy(face);
+      e.free(ptr);
+      return font; // keep the full font rather than fail the statement
+    }
+    const outBlob = e.hb_face_reference_blob(sub);
+    const off = e.hb_blob_get_data(outBlob, 0);
+    const len = e.hb_blob_get_length(outBlob);
+    const out = new Uint8Array(e.memory.buffer, off, len).slice();
+    e.hb_blob_destroy(outBlob);
+    e.hb_face_destroy(sub);
+    e.hb_face_destroy(face);
+    e.free(ptr);
+    return out;
+  };
+}
+
 /** One PDF with one or several report sections (e.g. a final statement for each former Room). */
 export async function buildReportPdf(
   reports: ReportData[],
@@ -385,8 +432,6 @@ export async function buildReportPdf(
   heading?: string,
 ): Promise<Uint8Array> {
   const hb = await harfbuzz(fontBytes.harfbuzz);
-  const doc = await PDFDocument.create();
-  doc.registerFontkit(fontkit); // only to read the font files; HarfBuzz does the layout
   const urdu = f.lang === 'ur';
   const files: Record<string, Uint8Array> = {
     latin: fontBytes.latin,
@@ -396,14 +441,35 @@ export async function buildReportPdf(
     devanagari: fontBytes.devanagari,
     devanagariBold: fontBytes.devanagariBold,
   };
-  // pdf-lib writes font files only when the document is saved; unused ones are dropped below
+  // pass 1 measures and records which glyphs are needed; pass 2 draws with subset fonts
+  const first = await renderPass(reports, f, hb, files, null, heading);
+  const subset = await subsetter(fontBytes.harfbuzzSubset);
+  const embed: Record<string, Uint8Array> = {};
+  for (const [key, glyphs] of first.glyphs) {
+    const bytes = files[key];
+    if (bytes) embed[key] = subset(bytes, glyphs);
+  }
+  return (await renderPass(reports, f, hb, files, embed, heading)).pdf!;
+}
+
+async function renderPass(
+  reports: ReportData[],
+  f: ReportFormat,
+  // deno-lint-ignore no-explicit-any
+  hb: any,
+  files: Record<string, Uint8Array>,
+  embed: Record<string, Uint8Array> | null,
+  heading?: string,
+): Promise<{ glyphs: Map<string, Set<number>>; pdf: Uint8Array | null }> {
+  const doc = await PDFDocument.create();
+  doc.registerFontkit(fontkit); // only to read the font files; HarfBuzz does the layout
+  const urdu = f.lang === 'ur';
   const faces: Record<string, Face> = {};
-  const byBytes = new Map<Uint8Array, PDFFont>();
   for (const [key, bytes] of Object.entries(files)) {
     const face = hb.createFace(hb.createBlob(bytes), 0);
-    let pdf = byBytes.get(bytes);
-    if (!pdf) byBytes.set(bytes, (pdf = await doc.embedFont(bytes, { subset: false })));
-    faces[key] = { hb: hb.createFont(face), upem: face.upem, pdf };
+    const toEmbed = embed?.[key];
+    const pdf = toEmbed ? await doc.embedFont(toEmbed, { subset: false }) : null;
+    faces[key] = { key, hb: hb.createFont(face), upem: face.upem, pdf };
   }
 
   const shaper = new Shaper(hb, faces);
@@ -423,8 +489,9 @@ export async function buildReportPdf(
     if (index > 0) w.newPage();
     const m = (v: number, c = data.room.currency, d = data.room.decimals) => f.money(v, c, d);
     const who = (uid: string | null) => personName(data, uid, t);
-    const day = (s: string | null) => f.digits(s ? s.slice(0, 10) : '—');
-    const time = (s: string | null) => f.digits(s ? s.slice(0, 16).replace('T', ' ') : '—');
+    const day = (s: string | null) => isolateLtr(f.digits(s ? s.slice(0, 10) : '—'), f.rtl);
+    const time = (s: string | null) =>
+      isolateLtr(f.digits(s ? s.slice(0, 16).replace('T', ' ') : '—'), f.rtl);
     const range = (a: string | null, b: string | null) => t('cycle.range', { from: day(a), to: day(b) });
     const totals = reportTotals(data);
     const cycleById = new Map(data.cycles.map((c) => [c.id, c]));
@@ -434,7 +501,7 @@ export async function buildReportPdf(
     w.text(`${data.room.name} · ${data.room.currency}`, 11, { bold: true });
     w.text(`${t('report.period')}: ${range(data.period.from, data.period.to)}`, 9, { color: MUTED, gap: 0 });
     w.text(`${t('report.generated')}: ${time(data.generated_at)} UTC`, 9, { color: MUTED, gap: 0 });
-    w.text(`${t('report.refLabel')}: ${data.ref}`, 9, { color: MUTED, gap: 0 });
+    w.text(`${t('report.refLabel')}: ${isolateLtr(data.ref, f.rtl)}`, 9, { color: MUTED, gap: 0 });
     if (data.scope !== 'room' && data.requester)
       w.text(`${t('report.for')}: ${who(data.requester)}`, 9, { color: MUTED, gap: 0 });
     w.y -= 6;
@@ -594,10 +661,11 @@ export async function buildReportPdf(
     w.text(t('report.verifyNote', { ref: data.ref }), 8.5, { color: MUTED });
   });
 
+  if (!embed) return { glyphs: w.glyphs, pdf: null };
   // deno-lint-ignore no-explicit-any
   const d = doc as any;
   d.fonts = d.fonts.filter((ft: PDFFont) => w.used.has(ft));
-  return doc.save();
+  return { glyphs: w.glyphs, pdf: await doc.save() };
 }
 
 /** Money for server documents: ISO code + plain decimals with thousands grouping. */
