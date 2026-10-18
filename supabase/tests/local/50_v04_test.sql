@@ -1,5 +1,7 @@
 -- v0.4: Google profile completion.
 \set ON_ERROR_STOP on
+-- dates in these tests are Room (Kuwait) dates, independent of the server clock's zone
+set timezone = 'Asia/Kuwait';
 create function pg_temp.act(p uuid) returns void language plpgsql as $$
 begin
   perform set_config('request.jwt.claim.sub', coalesce(p::text, ''), false);
