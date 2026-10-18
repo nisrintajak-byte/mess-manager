@@ -20,6 +20,7 @@ import {
   Spacer,
   Title,
 } from '../ui/components';
+import { requireReauth } from '../lib/reauth';
 import { confirm } from '../ui/hooks';
 import { colors, font, space, themedStyles } from '../ui/theme';
 
@@ -101,6 +102,7 @@ export function RoomSettingsScreen({ navigation, route }: Props) {
 
   async function removeRoom() {
     if (!(await confirm(t('settings.deleteConfirm'), t('common.yes'), t('common.no')))) return;
+    if (!(await requireReauth())) return;
     try {
       await api.deleteRoom(roomId);
       navigation.popToTop();

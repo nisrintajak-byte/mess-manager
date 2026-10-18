@@ -5,6 +5,7 @@ import { supportsEasternDigits } from '../lib/digits';
 import { restartApp, setDigits, setTheme, useSettings } from '../lib/settings';
 import { Body, Button, Card, Chip, ChipRow, Label, Notice, Screen, Spacer, Title } from '../ui/components';
 import { LanguagePicker } from '../ui/LanguagePicker';
+import { AppLockCard, ChangePasswordCard } from '../ui/SecurityCards';
 import { THEME_NAMES } from '../ui/theme';
 
 export function PreferencesScreen() {
@@ -59,6 +60,9 @@ export function PreferencesScreen() {
           </ChipRow>
         </Card>
       ) : null}
+
+      <AppLockCard />
+      <ChangePasswordCard />
     </Screen>
   );
 }

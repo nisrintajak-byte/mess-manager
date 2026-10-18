@@ -39,6 +39,11 @@ export function passwordError(password: string, testing = TESTING_MODE): string 
   return null;
 }
 
+/** App Lock PIN: 4 to 8 digits. */
+export function pinError(pin: string): string | null {
+  return /^\d{4,8}$/.test(pin) ? null : 'lock.pinInvalid';
+}
+
 /** Parse YYYY-MM-DD; must be a real past date, not more than 120 years ago. */
 export function parseDateOfBirth(input: string, today = new Date()): Date | null {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(input.trim());

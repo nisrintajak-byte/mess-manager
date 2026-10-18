@@ -4,6 +4,7 @@ import { I18nManager, Platform } from 'react-native';
 import * as Expo from 'expo';
 
 import i18n, { isRtlLanguage, isSupportedLanguage, type AppLanguage } from '../i18n';
+import { loadFontsFor } from '../ui/fonts';
 import { THEME_NAMES, applyTheme, type ThemeName } from '../ui/theme';
 import { configureDigits } from './digits';
 import { getPref, setPref } from './prefs';
@@ -80,6 +81,7 @@ export async function loadSettings(): Promise<void> {
   const language = isSupportedLanguage(lang) ? lang : deviceLanguage();
   const themeName = (THEME_NAMES as readonly string[]).includes(theme ?? '') ? (theme as ThemeName) : 'light';
   await i18n.changeLanguage(language);
+  await loadFontsFor(language);
   applyTheme(themeName);
   const restartNeeded = applyDirection(language);
   emit({ language, theme: themeName, digits: digits === 'arabic' ? 'arabic' : 'latin', restartNeeded });
@@ -88,6 +90,7 @@ export async function loadSettings(): Promise<void> {
 export async function setLanguage(language: AppLanguage): Promise<void> {
   await setPref('lang', language);
   await i18n.changeLanguage(language);
+  await loadFontsFor(language);
   const restartNeeded = applyDirection(language);
   emit({ language, restartNeeded: restartNeeded || state.restartNeeded });
 }

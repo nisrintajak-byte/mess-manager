@@ -2,6 +2,7 @@ import type { Session } from '@supabase/supabase-js';
 import * as Linking from 'expo-linking';
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 
+import { clearLock } from '../lib/appLock';
 import { registerForPush, unregisterPush } from '../lib/push';
 import { supabase } from '../lib/supabase';
 
@@ -87,6 +88,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       signOut: async () => {
         setRecovering(false);
         await unregisterPush();
+        await clearLock();
         await supabase.auth.signOut();
       },
     }),

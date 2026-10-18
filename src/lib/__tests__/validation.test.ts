@@ -1,4 +1,4 @@
-import { ageOn, parseDateOfBirth, passwordError, validateSignup } from '../validation';
+import { ageOn, parseDateOfBirth, passwordError, pinError, validateSignup } from '../validation';
 
 const today = new Date(Date.UTC(2026, 9, 18));
 const good = {
@@ -52,5 +52,16 @@ describe('date of birth', () => {
   it('computes age around birthdays', () => {
     expect(ageOn(parseDateOfBirth('2008-10-18', today)!, today)).toBe(18);
     expect(ageOn(parseDateOfBirth('2008-10-19', today)!, today)).toBe(17);
+  });
+});
+
+describe('pinError', () => {
+  test('accepts 4 to 8 digits only', () => {
+    expect(pinError('1234')).toBeNull();
+    expect(pinError('12345678')).toBeNull();
+    expect(pinError('123')).not.toBeNull();
+    expect(pinError('123456789')).not.toBeNull();
+    expect(pinError('12a4')).not.toBeNull();
+    expect(pinError('')).not.toBeNull();
   });
 });

@@ -449,5 +449,45 @@
     "restartManual": "Please close the app completely and open it again to apply the new layout direction.",
     "restartNow": "Restart now",
     "draftTranslation": "This language is a draft translation and will be reviewed by native speakers before release."
+  },
+  "lock": {
+    "title": "App Lock",
+    "explain": "Ask for a PIN or fingerprint when the app opens and after it has been away for a while.",
+    "unsupportedWeb": "App Lock is available in the phone app.",
+    "enable": "Turn on App Lock",
+    "disable": "Turn off App Lock",
+    "pin": "PIN (4–8 digits)",
+    "pinConfirm": "Confirm PIN",
+    "pinLabel": "PIN",
+    "pinInvalid": "Use 4 to 8 digits.",
+    "pinMismatch": "PINs do not match.",
+    "useBiometric": "Also unlock with fingerprint / face",
+    "timeout": "Ask again after",
+    "timeout_0": "Immediately",
+    "timeout_1": "1 minute",
+    "timeout_5": "5 minutes",
+    "timeout_15": "15 minutes",
+    "enabledNote": "App Lock is on.",
+    "unlockTitle": "Enter your PIN",
+    "unlock": "Unlock",
+    "wrongPin": "Wrong PIN.",
+    "tooMany": "Too many wrong PINs. Wait {{seconds}} seconds.",
+    "biometricPrompt": "Unlock Mess Manager",
+    "useBiometricBtn": "Use fingerprint / face",
+    "forgot": "Forgot PIN? Sign out"
+  },
+  "reauth": {
+    "title": "Confirm it's you",
+    "passwordBody": "Enter your password to continue.",
+    "pinBody": "Enter your App Lock PIN to continue.",
+    "noMethod": "This account has no password. Set up App Lock in Preferences first.",
+    "wrong": "That did not match. Try again."
+  },
+  "password": {
+    "title": "Change password",
+    "new": "New password",
+    "confirm": "Confirm new password",
+    "save": "Change password",
+    "done": "Password changed."
   }
 }

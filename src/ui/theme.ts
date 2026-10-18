@@ -83,6 +83,25 @@ export const colors: Palette = { ...palettes.light };
 
 let revision = 0;
 let current: ThemeName = 'light';
+let fontFamilies: { regular?: string; bold?: string } = {};
+
+/** Per-language font (Urdu Nastaliq, Hindi Devanagari). Empty = the phone's own font. */
+export function applyFonts(f: { regular?: string; bold?: string }): void {
+  fontFamilies = f;
+  revision += 1;
+}
+
+function withFont(style: unknown): unknown {
+  if (!style || typeof style !== 'object') return style;
+  const st = style as Record<string, unknown>;
+  if (!fontFamilies.regular || (!('fontSize' in st) && !('fontWeight' in st))) return style;
+  const w = String(st.fontWeight ?? '400');
+  const bold = w === 'bold' || Number(w) >= 600;
+  // custom fonts do not synthesise weights: drop fontWeight and pick the bold file instead
+  const rest = { ...st };
+  delete rest.fontWeight;
+  return { ...rest, fontFamily: bold ? fontFamilies.bold : fontFamilies.regular };
+}
 
 export function applyTheme(name: ThemeName): void {
   Object.assign(colors, palettes[name]);
@@ -104,7 +123,8 @@ export function themedStyles<T extends object>(factory: () => T): T {
   return new Proxy({} as T, {
     get(_target, prop) {
       if (!cache || seen !== revision) {
-        cache = factory();
+        const raw = factory() as Record<string, unknown>;
+        cache = Object.fromEntries(Object.entries(raw).map(([k, v]) => [k, withFont(v)])) as T;
         seen = revision;
       }
       return Reflect.get(cache, prop);

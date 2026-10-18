@@ -6,6 +6,7 @@ import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native
 import { useAuth } from '../auth/AuthProvider';
 import { api, Member } from '../lib/api';
 import { dbErrorKey } from '../lib/errors';
+import { requireReauth } from '../lib/reauth';
 import { formatDateTime } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
 import { Body, Button, Card, Notice, Spacer } from '../ui/components';
@@ -112,7 +113,13 @@ export function RoomMembersScreen({ route }: Props) {
                     variant="link"
                     disabled={busyId === m.id}
                     onPress={() =>
-                      run(m, () => api.removeMember(m.id), t('members.removeConfirm', { name: name(m) }))
+                      run(
+                        m,
+                        async () => {
+                          if (await requireReauth()) await api.removeMember(m.id);
+                        },
+                        t('members.removeConfirm', { name: name(m) }),
+                      )
                     }
                   />
                 ) : null}

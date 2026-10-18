@@ -7,7 +7,9 @@ import { AuthProvider } from './src/auth/AuthProvider';
 import { isSupabaseConfigured } from './src/lib/supabase';
 import { loadSettings, useSettings } from './src/lib/settings';
 import { RootNavigator } from './src/navigation/RootNavigator';
+import { AppLockGate } from './src/ui/AppLockGate';
 import { Notice, Screen } from './src/ui/components';
+import { ReauthHost } from './src/ui/ReauthHost';
 import { currentTheme } from './src/ui/theme';
 
 export default function App() {
@@ -27,7 +29,10 @@ export default function App() {
       <StatusBar style={currentTheme() === 'dark' ? 'light' : 'dark'} />
       {isSupabaseConfigured ? (
         <AuthProvider>
-          <RootNavigator />
+          <AppLockGate>
+            <RootNavigator />
+          </AppLockGate>
+          <ReauthHost />
         </AuthProvider>
       ) : (
         <Screen>
