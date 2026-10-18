@@ -2,11 +2,11 @@
 
 **App:** Mess Manager — free, ad-supported, neutral (no flags) shared-expense app for Rooms (flats, hostels, messes, families, offices). Every expense, payment and settlement is visible, provable and audited. Android first; 4 languages (EN, AR, UR, HI).
 
-**Current version:** Planning — version plan awaiting founder OK. v0.1 0% done.
+**Current version:** v0.1 Core MVP — in progress, ~30% (3 of 10 tasks done; T2 schema written + tested, not yet applied to Supabase). Branch `version/v0.1-core-mvp`, CI green.
 
-**Built so far:** Repo docs structure; PRD v1.2 stored (`docs/PRD.md`, original PDF `docs/PRD_v1.2.pdf`); version plan v0.1 → v1.0 in `docs/versions/`.
+**Built so far:** Docs + version plan (founder approved 2026-10-18). Expo SDK 58 app skeleton with i18n; money maths (minor units) + tests; country/currency/zone data in 4 languages; full v0.1 database schema with RLS, append-only audit, Admin approval, 30-min edit rule, Last Admin rule — all tested in CI.
 
-**Next:** Founder approves plan → start v0.1 Core MVP (scaffold Expo app, Supabase schema, auth, rooms, expenses, balances).
+**Next:** Apply schema to Supabase (needs connector fully connected) → T5 auth screens → rooms → expenses → balances.
 
 **Version plan:**
 - v0.1 Core MVP (auth, rooms, approval, equal-split expenses, audit, balances)
@@ -21,7 +21,7 @@
 **Key decisions:** Stack per PRD §6 (Expo + TypeScript + Supabase). Money as integer minor units. See `DECISIONS.md`.
 
 **Blockers:**
-- Founder accounts needed for v0.1: Supabase, Expo
+- Supabase connector shows "connect incomplete" — founder must finish authorising
 - PRD §28 open decisions → `memory/open-questions.md`
 
-_Last updated: 2026-10-18 12:35 (UTC+3)_
+_Last updated: 2026-10-18 12:55 (UTC+3)_
