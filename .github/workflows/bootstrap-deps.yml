@@ -63,6 +63,13 @@ jobs:
             expo-document-picker \
             expo-notifications \
             expo-device \
+            expo-local-authentication \
+            expo-font \
+            expo-auth-session \
+            expo-web-browser \
+            expo-crypto \
+            @expo-google-fonts/noto-nastaliq-urdu \
+            @expo-google-fonts/noto-sans-devanagari \
             @react-navigation/native \
             @react-navigation/native-stack \
             react-native-screens \
