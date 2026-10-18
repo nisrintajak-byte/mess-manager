@@ -2,6 +2,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, Platform } from 'react-native';
 
+import { loadOutbox, pendingCount } from '../lib/outbox';
+
 /**
  * Load data when the screen gains focus; exposes reload for pull-to-refresh.
  * `key` identifies the data (e.g. a room id): a new key reloads.
@@ -50,4 +52,14 @@ export function confirm(message: string, yes: string, no: string): Promise<boole
       { text: yes, style: 'destructive', onPress: () => resolve(true) },
     ]),
   );
+}
+
+/** Warn before signing out when actions saved on this phone have not synced yet (PRD §17.2 rule 8). */
+export async function confirmSignOut(
+  t: (k: string, o?: Record<string, unknown>) => string,
+): Promise<boolean> {
+  await loadOutbox();
+  const count = pendingCount();
+  if (count === 0) return true;
+  return confirm(t('sync.logoutWarning', { count }), t('common.yes'), t('common.no'));
 }

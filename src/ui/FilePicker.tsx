@@ -2,7 +2,16 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, View } from 'react-native';
 
-import { FileError, pickImage, pickPdf, PickedFile, signedUrl, uploadRoomFile } from '../lib/files';
+import {
+  encodeLocalFile,
+  FileError,
+  isLocalFile,
+  pickImage,
+  pickPdf,
+  PickedFile,
+  signedUrl,
+  uploadRoomFile,
+} from '../lib/files';
 import { Button, Label, Meta, Notice, Row } from './components';
 import { rowDirection } from './theme';
 
@@ -33,7 +42,13 @@ export function FilePicker({
       const file = await pick();
       if (!file) return;
       setBusy(true);
-      onChange(await uploadRoomFile(roomId, file));
+      try {
+        onChange(await uploadRoomFile(roomId, file));
+      } catch (e) {
+        // Offline: keep the file on the phone; it uploads automatically when the network is back.
+        if (e instanceof FileError && e.key === 'files.offline') onChange(encodeLocalFile(file));
+        else throw e;
+      }
     } catch (e) {
       setError(t(e instanceof FileError ? e.key : 'files.uploadFailed'));
     } finally {
@@ -47,9 +62,9 @@ export function FilePicker({
       {error ? <Notice tone="error">{error}</Notice> : null}
       {value ? (
         <Row>
-          <Meta>{t('receipt.attached')}</Meta>
+          <Meta>{isLocalFile(value) ? t('receipt.attachedOffline') : t('receipt.attached')}</Meta>
           <View style={{ flexDirection: rowDirection() }}>
-            <ViewFileButton path={value} />
+            {isLocalFile(value) ? null : <ViewFileButton path={value} />}
             <Button title={t('receipt.remove')} variant="link" onPress={() => onChange(null)} />
           </View>
         </Row>

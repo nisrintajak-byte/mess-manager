@@ -3,6 +3,8 @@ import * as Linking from 'expo-linking';
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 
 import { clearLock } from '../lib/appLock';
+import { clearCache, setCacheUser } from '../lib/offlineStore';
+import { clearOutbox } from '../lib/outbox';
 import { registerForPush, unregisterPush } from '../lib/push';
 import { supabase } from '../lib/supabase';
 
@@ -72,6 +74,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  // Saved offline copies belong to the signed-in user only.
+  const cacheUserId = session?.user.id ?? null;
+  useEffect(() => {
+    setCacheUser(cacheUserId);
+  }, [cacheUserId]);
+
   // Register this phone for push once the user is signed in and verified.
   const userId = session?.user.email_confirmed_at ? session.user.id : null;
   useEffect(() => {
@@ -90,6 +98,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         await unregisterPush();
         await clearLock();
         await supabase.auth.signOut();
+        await clearCache();
+        await clearOutbox();
       },
     }),
     [session, loading, recovering],

@@ -6,7 +6,7 @@ import { useAuth } from '../auth/AuthProvider';
 import { api } from '../lib/api';
 import type { AppStackParamList } from '../navigation/types';
 import { Body, Button, Card, Notice, Spacer } from '../ui/components';
-import { useLoader } from '../ui/hooks';
+import { confirmSignOut, useLoader } from '../ui/hooks';
 import { colors, font, space, themedStyles } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'Home'>;
@@ -60,7 +60,13 @@ export function HomeScreen({ navigation }: Props) {
         />
         <Spacer size="xxl" />
         <Button title={t('prefs.title')} variant="link" onPress={() => navigation.navigate('Preferences')} />
-        <Button title={t('auth.signOut')} variant="link" onPress={signOut} />
+        <Button
+          title={t('auth.signOut')}
+          variant="link"
+          onPress={async () => {
+            if (await confirmSignOut(t)) await signOut();
+          }}
+        />
       </View>
     </ScrollView>
   );

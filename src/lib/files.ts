@@ -6,6 +6,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as ImagePicker from 'expo-image-picker';
 
+import { isNetworkError } from './net';
 import { supabase } from './supabase';
 import { uuid } from './util';
 
@@ -64,7 +65,7 @@ export async function uploadRoomFile(roomId: string, file: PickedFile): Promise<
     contentType: file.mime,
     upsert: false,
   });
-  if (error) throw new FileError('files.uploadFailed');
+  if (error) throw new FileError(isNetworkError(error) ? 'files.offline' : 'files.uploadFailed');
   return path;
 }
 
@@ -72,4 +73,24 @@ export async function uploadRoomFile(roomId: string, file: PickedFile): Promise<
 export async function signedUrl(path: string): Promise<string | null> {
   const { data } = await supabase.storage.from(BUCKET).createSignedUrl(path, 300);
   return data?.signedUrl ?? null;
+}
+
+// ---- offline: keep the picked file on the phone and upload it when the network is back ----
+const LOCAL = 'local::';
+
+/** A receipt picked while offline is stored as `local::<mime>::<uri>` until it can be uploaded. */
+export function encodeLocalFile(file: PickedFile): string {
+  return `${LOCAL}${file.mime}::${file.uri}`;
+}
+
+export function isLocalFile(path: string | null | undefined): path is string {
+  return !!path && path.startsWith(LOCAL);
+}
+
+/** Upload a locally kept file; returns the real storage path. */
+export async function uploadLocalFile(roomId: string, local: string): Promise<string> {
+  const [mime, ...rest] = local.slice(LOCAL.length).split('::');
+  const uri = rest.join('::');
+  const m = mime === 'application/pdf' ? 'application/pdf' : 'image/jpeg';
+  return uploadRoomFile(roomId, { uri, mime: m, name: m === 'application/pdf' ? 'file.pdf' : 'image.jpg' });
 }

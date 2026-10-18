@@ -2,8 +2,10 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useAuth } from '../auth/AuthProvider';
 import { api, PaymentMethod } from '../lib/api';
 import { dbErrorKey } from '../lib/errors';
+import { submitOrQueue } from '../lib/outbox';
 import { formatMinor, formatMoney, parseAmount } from '../lib/money';
 import { uuid } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
@@ -30,6 +32,8 @@ const METHODS: PaymentMethod[] = ['bank', 'wallet', 'cash', 'other'];
 export function PayScreen({ navigation, route }: Props) {
   const { roomId, settlementId, lineId, mode } = route.params;
   const { t } = useTranslation();
+  const { session } = useAuth();
+  const me = session?.user.id ?? '';
   const [amount, setAmount] = useState('');
   const [method, setMethod] = useState<PaymentMethod>('bank');
   const [reference, setReference] = useState('');
@@ -63,14 +67,15 @@ export function PayScreen({ navigation, route }: Props) {
     setBusy(true);
     try {
       if (mode === 'claim') {
-        await api.claimPayment({
-          lineId,
+        await submitOrQueue({
+          id: idempotencyKey,
+          type: 'payment_claim',
+          userId: me,
+          roomId,
+          label: t('payment.claimTitle'),
           amount: minor,
-          method,
-          reference,
-          proofPath: proof,
-          note,
-          idempotencyKey,
+          amountText: formatMoney(minor, settlement.currency, settlement.currency_decimals),
+          payload: { lineId, amount: minor, method, reference, proofPath: proof, note },
         });
       } else {
         await api.recordPayment({ lineId, amount: minor, method, reference, note });

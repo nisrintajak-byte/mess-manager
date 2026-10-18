@@ -6,6 +6,7 @@ import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native
 import { useAuth } from '../auth/AuthProvider';
 import { api, NeedRequest, NeedStatus } from '../lib/api';
 import { dbErrorKey } from '../lib/errors';
+import { submitOrQueue } from '../lib/outbox';
 import type { AppStackParamList } from '../navigation/types';
 import { Badge, Body, Button, Card, Field, Meta, Notice, Row, Section } from '../ui/components';
 import { useLoader } from '../ui/hooks';
@@ -57,7 +58,23 @@ export function NeedsScreen({ navigation, route }: Props) {
   function actions(n: NeedRequest) {
     const out = [];
     if (n.status === 'pending') {
-      out.push(<Button key="a" title={t('need.accept')} onPress={() => run(() => api.acceptNeed(n.id))} />);
+      out.push(
+        <Button
+          key="a"
+          title={t('need.accept')}
+          onPress={() =>
+            run(() =>
+              submitOrQueue({
+                type: 'need_accept',
+                userId: me ?? '',
+                roomId,
+                label: n.title,
+                payload: { needId: n.id },
+              }),
+            )
+          }
+        />,
+      );
     }
     if (n.status === 'accepted' && n.accepted_by === me) {
       out.push(
@@ -111,7 +128,13 @@ export function NeedsScreen({ navigation, route }: Props) {
           disabled={!title.trim()}
           onPress={() =>
             run(async () => {
-              await api.createNeed(roomId, title, note);
+              await submitOrQueue({
+                type: 'need_create',
+                userId: me ?? '',
+                roomId,
+                label: title,
+                payload: { title, note },
+              });
               setTitle('');
               setNote('');
             })
