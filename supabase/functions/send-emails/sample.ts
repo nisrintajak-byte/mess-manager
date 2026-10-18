@@ -2,7 +2,7 @@
  * CI only: render sample statements in all 4 languages so they can be looked at as images.
  * node --experimental-strip-types sample.ts <outdir>
  */
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
 import { compose, serverFormat } from './emails.ts';
 import { buildReportPdf, fetchFonts } from './pdf.ts';
@@ -153,7 +153,10 @@ const data: ReportData = {
 
 const out = process.argv[2] ?? 'out';
 mkdirSync(out, { recursive: true });
+const hbVersion = JSON.parse(readFileSync('node_modules/harfbuzzjs/package.json', 'utf8')).version;
+console.log('harfbuzzjs', hbVersion);
 const fonts = await fetchFonts(async (url) => {
+  if (url.endsWith('/hb.wasm')) return new Uint8Array(readFileSync('node_modules/harfbuzzjs/hb.wasm'));
   const r = await fetch(url);
   if (!r.ok) throw new Error(`font ${r.status} ${url}`);
   return new Uint8Array(await r.arrayBuffer());
@@ -181,20 +184,5 @@ for (const lang of ['en', 'ar', 'ur', 'hi']) {
     `${out}/email-${lang}.txt`,
     `${mail.subject}\n\n${mail.text}\n\n${mail.attachments.map((a) => a.filename).join('\n')}`,
   );
-  console.log(lang, 'ok', mail.subject);
-}
-// experiment: which embedding options keep every glyph
-for (const [name, o] of [
-  ['s1f0', { subset: true, features: false }],
-  ['s0f1', { subset: false, features: true }],
-  ['s0f0', { subset: false, features: false }],
-] as const) {
-  for (const lang of ['en', 'ar']) {
-    try {
-      writeFileSync(`${out}/x-${name}-${lang}.pdf`, await buildReportPdf([data], serverFormat(lang), fonts, undefined, o));
-      console.log('variant', name, lang, 'ok');
-    } catch (e) {
-      console.log('variant', name, lang, 'FAILED', String(e));
-    }
-  }
+  console.log(lang, 'ok', mail.subject, `${Math.round(mail.attachments[0]!.content.length / 1024)} KB`);
 }

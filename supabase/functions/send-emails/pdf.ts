@@ -1,15 +1,14 @@
 /**
  * Server-side PDF statements for emails (PRD §15, §18.2–18.3).
- * pdf-lib draws the pages; fontkit shapes Arabic/Urdu joining and Devanagari clusters;
- * bidi-js orders mixed right-to-left / left-to-right text.
- * Urdu uses Noto Naskh Arabic here: Nastaliq needs positioning features pdf-lib cannot apply.
+ *
+ * HarfBuzz (WebAssembly) shapes every script properly — Arabic joining, Urdu Nastaliq,
+ * Devanagari clusters — and bidi-js orders mixed right-to-left / left-to-right text. pdf-lib only
+ * writes the page: each glyph is placed by id at the position HarfBuzz gives it.
  *
  * Runs in Deno (Supabase Edge Function) and in Node (CI sample render) — no runtime-specific APIs.
  */
-// fontkit's Indic shaper (Devanagari) was compiled with Babel generators and needs this global.
-import 'regenerator-runtime/runtime.js';
-import fontkit from '@pdf-lib/fontkit';
 import bidiFactory from 'bidi-js';
+import hbjs from 'harfbuzzjs/hbjs.js';
 import * as pdfLibNs from 'pdf-lib';
 import type { PDFDocument as PDFDocumentT, PDFFont, PDFPage } from 'pdf-lib';
 
@@ -22,26 +21,48 @@ import {
   reportTotals,
 } from './report.ts';
 
+// pdf-lib is CommonJS under Node and ESM under Deno; accept both shapes.
+// deno-lint-ignore no-explicit-any
+const pdfLib: typeof pdfLibNs = (pdfLibNs as any).PDFDocument ? pdfLibNs : (pdfLibNs as any).default;
+const {
+  PDFDocument,
+  PDFHexString,
+  rgb,
+  pushGraphicsState,
+  popGraphicsState,
+  beginText,
+  endText,
+  setFontAndSize,
+  setTextMatrix,
+  showText,
+  setFillingColor,
+} = pdfLib;
+type PDFDocument = PDFDocumentT;
+type Color = ReturnType<typeof rgb>;
+
 export type FontBytes = {
   latin: Uint8Array;
   latinBold: Uint8Array;
   arabic: Uint8Array;
   arabicBold: Uint8Array;
+  urdu: Uint8Array;
+  urduBold: Uint8Array;
   devanagari: Uint8Array;
   devanagariBold: Uint8Array;
+  harfbuzz: Uint8Array;
 };
 
+const CDN = 'https://cdn.jsdelivr.net/npm';
 export const FONT_URLS: Record<keyof FontBytes, string> = {
-  latin: 'https://cdn.jsdelivr.net/npm/@expo-google-fonts/noto-sans@0.4.1/400Regular/NotoSans_400Regular.ttf',
-  latinBold: 'https://cdn.jsdelivr.net/npm/@expo-google-fonts/noto-sans@0.4.1/700Bold/NotoSans_700Bold.ttf',
-  arabic:
-    'https://cdn.jsdelivr.net/npm/@expo-google-fonts/noto-naskh-arabic@0.4.1/400Regular/NotoNaskhArabic_400Regular.ttf',
-  arabicBold:
-    'https://cdn.jsdelivr.net/npm/@expo-google-fonts/noto-naskh-arabic@0.4.1/700Bold/NotoNaskhArabic_700Bold.ttf',
-  devanagari:
-    'https://cdn.jsdelivr.net/npm/@expo-google-fonts/noto-sans-devanagari@0.4.1/400Regular/NotoSansDevanagari_400Regular.ttf',
-  devanagariBold:
-    'https://cdn.jsdelivr.net/npm/@expo-google-fonts/noto-sans-devanagari@0.4.1/700Bold/NotoSansDevanagari_700Bold.ttf',
+  latin: `${CDN}/@expo-google-fonts/noto-sans@0.4.1/400Regular/NotoSans_400Regular.ttf`,
+  latinBold: `${CDN}/@expo-google-fonts/noto-sans@0.4.1/700Bold/NotoSans_700Bold.ttf`,
+  arabic: `${CDN}/@expo-google-fonts/noto-naskh-arabic@0.4.1/400Regular/NotoNaskhArabic_400Regular.ttf`,
+  arabicBold: `${CDN}/@expo-google-fonts/noto-naskh-arabic@0.4.1/700Bold/NotoNaskhArabic_700Bold.ttf`,
+  urdu: `${CDN}/@expo-google-fonts/noto-nastaliq-urdu@0.4.2/400Regular/NotoNastaliqUrdu_400Regular.ttf`,
+  urduBold: `${CDN}/@expo-google-fonts/noto-nastaliq-urdu@0.4.2/700Bold/NotoNastaliqUrdu_700Bold.ttf`,
+  devanagari: `${CDN}/@expo-google-fonts/noto-sans-devanagari@0.4.1/400Regular/NotoSansDevanagari_400Regular.ttf`,
+  devanagariBold: `${CDN}/@expo-google-fonts/noto-sans-devanagari@0.4.1/700Bold/NotoSansDevanagari_700Bold.ttf`,
+  harfbuzz: `${CDN}/harfbuzzjs@__HB_VERSION__/hb.wasm`,
 };
 
 export async function fetchFonts(fetchBytes: (url: string) => Promise<Uint8Array>): Promise<FontBytes> {
@@ -51,14 +72,6 @@ export async function fetchFonts(fetchBytes: (url: string) => Promise<Uint8Array
 }
 
 type Script = 'latin' | 'arabic' | 'devanagari';
-type Fonts = Record<Script, { regular: PDFFont; bold: PDFFont }>;
-
-// pdf-lib is CommonJS under Node and ESM under Deno; accept both shapes.
-// deno-lint-ignore no-explicit-any
-const pdfLib: typeof pdfLibNs = (pdfLibNs as any).PDFDocument ? pdfLibNs : (pdfLibNs as any).default;
-const { PDFDocument, rgb } = pdfLib;
-type PDFDocument = PDFDocumentT;
-
 const bidi = bidiFactory();
 
 function scriptOf(cp: number): Script | null {
@@ -75,40 +88,32 @@ function scriptOf(cp: number): Script | null {
   return null; // digits, spaces, punctuation: follow the neighbouring script
 }
 
-type Run = { text: string; level: number; script: Script };
+export type Run = { text: string; level: number; script: Script };
 
-/**
- * Split one line into visual-order runs, each drawn with one font.
- * Within a right-to-left Arabic run the text stays in logical order: fontkit shapes it and
- * returns the glyphs right-to-left. Other right-to-left runs (neutrals) are reversed here.
- */
+/** Split one line into runs (logical text inside each run) arranged in visual order, left to right. */
 export function visualRuns(text: string, rtl: boolean): Run[] {
   if (!text) return [];
   const { levels } = bidi.getEmbeddingLevels(text, rtl ? 'rtl' : 'ltr');
   const chars = Array.from(text);
-  const out: Run[] = [];
-  let idx = 0; // UTF-16 index for levels
-  let prevScript: Script = rtl ? 'arabic' : 'latin';
-  // first pass: decide the script of each char (neutrals take the previous strong one)
   const scripts: Script[] = [];
+  let prev: Script = rtl ? 'arabic' : 'latin';
   for (const ch of chars) {
     const s = scriptOf(ch.codePointAt(0) ?? 32);
-    scripts.push(s ?? prevScript);
-    if (s) prevScript = s;
+    scripts.push(s ?? prev);
+    if (s) prev = s;
   }
-  // digits next to Arabic letters are still drawn with the Arabic font only if they are Arabic-Indic
+  const out: Run[] = [];
+  let idx = 0;
   for (let i = 0; i < chars.length; i++) {
     const ch = chars[i] ?? '';
     const cp = ch.codePointAt(0) ?? 32;
     const level = levels[idx] ?? 0;
     idx += ch.length;
-    let script = scripts[i] ?? 'latin';
-    if (cp >= 0x30 && cp <= 0x39) script = 'latin';
+    const script = cp >= 0x30 && cp <= 0x39 ? 'latin' : (scripts[i] ?? 'latin');
     const last = out[out.length - 1];
     if (last && last.level === level && last.script === script) last.text += ch;
     else out.push({ text: ch, level, script });
   }
-  // L2: reverse sequences from the highest level down to the lowest odd level
   const maxLevel = Math.max(...out.map((r) => r.level));
   const minOdd = Math.min(...out.map((r) => (r.level % 2 ? r.level : 99)));
   for (let lvl = maxLevel; lvl >= Math.min(minOdd, maxLevel) && lvl > 0; lvl--) {
@@ -117,21 +122,53 @@ export function visualRuns(text: string, rtl: boolean): Run[] {
       if ((out[i]?.level ?? 0) >= lvl) {
         let j = i;
         while (j < out.length && (out[j]?.level ?? 0) >= lvl) j++;
-        const seg = out.slice(i, j).reverse();
-        out.splice(i, j - i, ...seg);
+        out.splice(i, j - i, ...out.slice(i, j).reverse());
         i = j;
       } else i++;
     }
   }
-  for (const r of out) {
-    if (r.level % 2 === 1 && r.script !== 'arabic') {
-      r.text = Array.from(r.text)
-        .reverse()
-        .map((c) => bidi.getMirroredCharacter(c) ?? c)
-        .join('');
-    }
-  }
   return out;
+}
+
+type Glyph = { id: number; x: number; y: number };
+type Face = { pdf: PDFFont; hb: any; upem: number }; // deno-lint-ignore no-explicit-any
+
+class Shaper {
+  // deno-lint-ignore no-explicit-any
+  hb: any;
+  faces: Record<string, Face>;
+  cache = new Map<string, { glyphs: Glyph[]; width: number }>();
+  // deno-lint-ignore no-explicit-any
+  constructor(hb: any, faces: Record<string, Face>) {
+    this.hb = hb;
+    this.faces = faces;
+  }
+  face(script: Script, bold: boolean): Face {
+    return this.faces[`${script}${bold ? 'Bold' : ''}`]!;
+  }
+  /** Glyphs of one run in visual order, positions in units of 1pt font size. */
+  shape(run: Run, bold: boolean): { glyphs: Glyph[]; width: number } {
+    const key = `${run.script}|${bold}|${run.level % 2}|${run.text}`;
+    const hit = this.cache.get(key);
+    if (hit) return hit;
+    const face = this.face(run.script, bold);
+    const buf = this.hb.createBuffer();
+    buf.addText(run.text);
+    buf.guessSegmentProperties();
+    buf.setDirection(run.level % 2 ? 'rtl' : 'ltr');
+    this.hb.shape(face.hb, buf);
+    const out = buf.json() as { g: number; ax: number; ay: number; dx: number; dy: number }[];
+    buf.destroy();
+    let x = 0;
+    const glyphs: Glyph[] = [];
+    for (const g of out) {
+      glyphs.push({ id: g.g, x: (x + g.dx) / face.upem, y: g.dy / face.upem });
+      x += g.ax;
+    }
+    const res = { glyphs, width: x / face.upem };
+    this.cache.set(key, res);
+    return res;
+  }
 }
 
 const PAGE_W = 595.28;
@@ -149,14 +186,16 @@ class Writer {
   doc: PDFDocument;
   page!: PDFPage;
   y = 0;
-  fonts: Fonts;
+  shaper: Shaper;
   rtl: boolean;
   footer: string;
-  constructor(doc: PDFDocument, fonts: Fonts, rtl: boolean, footer: string) {
+  lineFactor: number;
+  constructor(doc: PDFDocument, shaper: Shaper, rtl: boolean, footer: string, lineFactor: number) {
     this.doc = doc;
-    this.fonts = fonts;
+    this.shaper = shaper;
     this.rtl = rtl;
     this.footer = footer;
+    this.lineFactor = lineFactor;
     this.newPage();
   }
 
@@ -181,10 +220,7 @@ class Writer {
   }
 
   width(text: string, size: number, bold: boolean): number {
-    return visualRuns(text, this.rtl).reduce((w, r) => {
-      const f = bold ? this.fonts[r.script].bold : this.fonts[r.script].regular;
-      return w + f.widthOfTextAtSize(r.text, size);
-    }, 0);
+    return visualRuns(text, this.rtl).reduce((w, r) => w + this.shaper.shape(r, bold).width * size, 0);
   }
 
   /** Draw one already-fitting line inside [x, x+w], aligned to the reading direction. */
@@ -195,22 +231,41 @@ class Writer {
     w: number,
     size: number,
     bold: boolean,
-    color = INK,
+    color: Color = INK,
     align: Align = 'start',
   ) {
-    const runs = visualRuns(text, this.rtl);
-    const total = runs.reduce(
-      (s, r) =>
-        s + (bold ? this.fonts[r.script].bold : this.fonts[r.script].regular).widthOfTextAtSize(r.text, size),
-      0,
-    );
+    const runs = visualRuns(text, this.rtl).map((r) => ({ r, s: this.shaper.shape(r, bold) }));
+    const total = runs.reduce((acc, it) => acc + it.s.width * size, 0);
     const toRight = (align === 'start') === this.rtl;
     let cx = toRight ? x + w - total : x;
-    for (const r of runs) {
-      const f = bold ? this.fonts[r.script].bold : this.fonts[r.script].regular;
-      this.page.drawText(r.text, { x: cx, y, size, font: f, color });
-      cx += f.widthOfTextAtSize(r.text, size);
+    const ops = [pushGraphicsState(), setFillingColor(color), beginText()];
+    for (const { r, s } of runs) {
+      const face = this.shaper.face(r.script, bold);
+      const fontKey = this.fontKey(face.pdf);
+      ops.push(setFontAndSize(fontKey, size));
+      for (const g of s.glyphs) {
+        ops.push(setTextMatrix(1, 0, 0, 1, cx + g.x * size, y + g.y * size));
+        ops.push(showText(PDFHexString.of(g.id.toString(16).padStart(4, '0'))));
+      }
+      cx += s.width * size;
     }
+    ops.push(endText(), popGraphicsState());
+    this.page.pushOperators(...ops);
+  }
+
+  fontKeys = new Map<PDFPage, Map<PDFFont, string>>();
+  used = new Set<PDFFont>();
+  fontKey(font: PDFFont): string {
+    this.used.add(font);
+    let m = this.fontKeys.get(this.page);
+    if (!m) this.fontKeys.set(this.page, (m = new Map()));
+    let k = m.get(font);
+    if (!k) {
+      // deno-lint-ignore no-explicit-any
+      k = (this.page.node as any).newFontDictionary(font.name, font.ref).toString() as string;
+      m.set(font, k);
+    }
+    return k.replace(/^\//, '');
   }
 
   /** Wrap text (logical order) into lines that fit `w`. */
@@ -225,7 +280,6 @@ class Writer {
           lines.push(line.trim());
           line = word.trimStart();
         } else line = next;
-        // a single very long word: hard-break by characters
         while (this.width(line, size, bold) > w && line.length > 1) {
           let k = line.length - 1;
           while (k > 1 && this.width(line.slice(0, k), size, bold) > w) k--;
@@ -238,15 +292,15 @@ class Writer {
     return lines;
   }
 
-  text(text: string, size = 10, opts: { bold?: boolean; color?: ReturnType<typeof rgb>; gap?: number } = {}) {
-    const lh = size * 1.55;
+  text(text: string, size = 10, opts: { bold?: boolean; color?: Color; gap?: number } = {}) {
+    const lh = size * 1.55 * this.lineFactor;
     for (const line of this.wrap(text, PAGE_W - 2 * MARGIN, size, !!opts.bold)) {
       this.ensure(lh);
       this.y -= lh;
       this.drawLine(
         line,
         MARGIN,
-        this.y + size * 0.3,
+        this.y + lh * 0.3,
         PAGE_W - 2 * MARGIN,
         size,
         !!opts.bold,
@@ -273,7 +327,6 @@ class Writer {
     const total = PAGE_W - 2 * MARGIN;
     const sum = cols.reduce((s, c) => s + c.w, 0);
     const widths = cols.map((c) => (c.w / sum) * total);
-    // column x positions in reading order (mirrored for right-to-left)
     const xs: number[] = [];
     let acc = 0;
     for (const w of widths) {
@@ -281,8 +334,8 @@ class Writer {
       acc += w;
     }
     const pad = 3;
-    const lh = size * 1.45;
-    const drawRow = (cells: string[], bold: boolean, bg?: ReturnType<typeof rgb>) => {
+    const lh = size * 1.45 * this.lineFactor;
+    const drawRow = (cells: string[], bold: boolean, bg?: Color) => {
       const wrapped = cells.map((c, i) => this.wrap(c ?? '', (widths[i] ?? 10) - 2 * pad, size, bold));
       const h = Math.max(...wrapped.map((l) => l.length)) * lh + 2 * pad;
       if (this.y - h < MARGIN + 6) {
@@ -295,7 +348,7 @@ class Writer {
           this.drawLine(
             line,
             (xs[i] ?? MARGIN) + pad,
-            this.y - pad - (k + 1) * lh + size * 0.35,
+            this.y - pad - (k + 1) * lh + lh * 0.3,
             (widths[i] ?? 10) - 2 * pad,
             size,
             bold,
@@ -324,31 +377,56 @@ class Writer {
   }
 }
 
+// deno-lint-ignore no-explicit-any
+let hbInstance: any = null;
+async function harfbuzz(wasm: Uint8Array) {
+  if (!hbInstance) {
+    const { instance } = await WebAssembly.instantiate(wasm);
+    hbInstance = hbjs(instance);
+  }
+  return hbInstance;
+}
+
 /** One PDF with one or several report sections (e.g. a final statement for each former Room). */
 export async function buildReportPdf(
   reports: ReportData[],
   f: ReportFormat,
   fontBytes: FontBytes,
   heading?: string,
-  opts: { subset?: boolean; features?: boolean } = {},
 ): Promise<Uint8Array> {
+  const hb = await harfbuzz(fontBytes.harfbuzz);
   const doc = await PDFDocument.create();
-  doc.registerFontkit(fontkit);
-  // pdf-lib places glyphs by advance width only, so positioning features (mark anchors, kerning,
-  // cursive attachment) add nothing — and fontkit crashes on some Arabic mark anchors.
-  const features = { mark: false, mkmk: false, curs: false, kern: false, dist: false };
-  const embed = (b: Uint8Array) =>
-    doc.embedFont(b, { subset: opts.subset ?? true, ...(opts.features === false ? {} : { features }) });
-  const fonts: Fonts = {
-    latin: { regular: await embed(fontBytes.latin), bold: await embed(fontBytes.latinBold) },
-    arabic: { regular: await embed(fontBytes.arabic), bold: await embed(fontBytes.arabicBold) },
-    devanagari: { regular: await embed(fontBytes.devanagari), bold: await embed(fontBytes.devanagariBold) },
+  const urdu = f.lang === 'ur';
+  const files: Record<string, Uint8Array> = {
+    latin: fontBytes.latin,
+    latinBold: fontBytes.latinBold,
+    arabic: urdu ? fontBytes.urdu : fontBytes.arabic,
+    arabicBold: urdu ? fontBytes.urduBold : fontBytes.arabicBold,
+    devanagari: fontBytes.devanagari,
+    devanagariBold: fontBytes.devanagariBold,
   };
+  // pdf-lib writes font files only when the document is saved; unused ones are dropped below
+  const faces: Record<string, Face> = {};
+  const byBytes = new Map<Uint8Array, PDFFont>();
+  for (const [key, bytes] of Object.entries(files)) {
+    const face = hb.createFace(hb.createBlob(bytes), 0);
+    let pdf = byBytes.get(bytes);
+    if (!pdf) byBytes.set(bytes, (pdf = await doc.embedFont(bytes, { subset: false })));
+    faces[key] = { hb: hb.createFont(face), upem: face.upem, pdf };
+  }
+
+  const shaper = new Shaper(hb, faces);
   const { t } = f;
   doc.setTitle(heading ?? reports.map((r) => `${reportTitle(r, t)} · ${r.room.name}`).join(' / '));
   doc.setProducer('Mess Manager · Uyoon Tech Solutions');
   doc.setLanguage(f.lang);
-  const w = new Writer(doc, fonts, f.rtl, `Mess Manager · ${reports.map((r) => r.ref).join(', ')}`);
+  const w = new Writer(
+    doc,
+    shaper,
+    f.rtl,
+    `Mess Manager · ${reports.map((r) => r.ref).join(', ')}`,
+    urdu ? 1.45 : 1,
+  );
 
   reports.forEach((data, index) => {
     if (index > 0) w.newPage();
@@ -525,6 +603,9 @@ export async function buildReportPdf(
     w.text(t('report.verifyNote', { ref: data.ref }), 8.5, { color: MUTED });
   });
 
+  // deno-lint-ignore no-explicit-any
+  const d = doc as any;
+  d.fonts = d.fonts.filter((ft: PDFFont) => w.used.has(ft));
   return doc.save();
 }
 
