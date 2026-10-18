@@ -1,0 +1,55 @@
+name: Deploy web preview
+
+# Publishes the web build to GitHub Pages so the founder can test on any phone browser:
+# https://nisrintajak-byte.github.io/mess-manager/
+#
+# Runs after CI succeeds on main or a version/** branch. `workflow_run` always executes
+# in the context of the default branch, which satisfies the github-pages environment rule,
+# while we check out and build the exact commit that passed CI.
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main, 'version/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Export web build
+        run: npx expo export --platform web --output-dir dist
+      - name: SPA fallback for deep links
+        run: cp dist/index.html dist/404.html && touch dist/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
