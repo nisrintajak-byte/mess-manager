@@ -15,7 +15,7 @@ on:
 
 env:
   STABLE_REF: main
-  NEXT_REF: version/v0.4-languages-themes-security
+  NEXT_REF: version/v0.5-offline-sync
 
 permissions:
   contents: read
@@ -32,7 +32,7 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       (github.event.workflow_run.conclusion == 'success' &&
        (github.event.workflow_run.head_branch == 'main' ||
-        github.event.workflow_run.head_branch == 'version/v0.4-languages-themes-security' ||
+        github.event.workflow_run.head_branch == 'version/v0.5-offline-sync' ||
         false))
     runs-on: ubuntu-latest
     steps:
