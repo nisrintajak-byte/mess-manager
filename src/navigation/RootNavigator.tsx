@@ -1,10 +1,13 @@
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Linking from 'expo-linking';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, View } from 'react-native';
 
 import { useAuth } from '../auth/AuthProvider';
+import { api } from '../lib/api';
+import { CompleteProfileScreen } from '../screens/auth/CompleteProfileScreen';
 import { AddExpenseScreen } from '../screens/AddExpenseScreen';
 import { AdjustScreen } from '../screens/AdjustScreen';
 import { CheckEmailScreen } from '../screens/auth/CheckEmailScreen';
@@ -53,7 +56,18 @@ export function RootNavigator() {
   const { t } = useTranslation();
   const { session, loading, recovering, emailVerified } = useAuth();
 
-  if (loading) {
+  const verifiedId = session && emailVerified ? session.user.id : null;
+  const [profileOk, setProfileOk] = useState<boolean | null>(null);
+  useEffect(() => {
+    setProfileOk(null);
+    if (verifiedId)
+      void api
+        .profileComplete()
+        .then(setProfileOk)
+        .catch(() => setProfileOk(true));
+  }, [verifiedId]);
+
+  if (loading || (verifiedId && profileOk === null)) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.bg }}>
         <ActivityIndicator color={colors.primary} />
@@ -62,6 +76,7 @@ export function RootNavigator() {
   }
 
   if (session && recovering) return <SetNewPasswordScreen />;
+  if (verifiedId && profileOk === false) return <CompleteProfileScreen onDone={() => setProfileOk(true)} />;
 
   return (
     <NavigationContainer theme={navTheme()} linking={linking}>

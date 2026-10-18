@@ -20,7 +20,7 @@ interface AuthState {
 const AuthContext = createContext<AuthState | null>(null);
 
 /** Read tokens from an email link (…#access_token=…&refresh_token=…&type=recovery, or ?code=…). */
-async function handleAuthLink(url: string | null): Promise<'recovery' | 'signin' | null> {
+export async function handleAuthLink(url: string | null): Promise<'recovery' | 'signin' | null> {
   if (!url) return null;
   const parsed = new URL(url.replace('#', url.includes('?') ? '&' : '?'));
   const p = parsed.searchParams;

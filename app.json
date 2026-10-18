@@ -19,7 +19,10 @@
     },
     "plugins": [
       "expo-localization",
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-local-authentication",
+      "expo-font",
+      "expo-web-browser"
     ],
     "experiments": {
       "baseUrl": "/mess-manager"

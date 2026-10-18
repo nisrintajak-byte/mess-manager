@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { authErrorKey } from '../../lib/errors';
 import { supabase } from '../../lib/supabase';
 import type { AuthStackParamList } from '../../navigation/types';
+import { GoogleButton } from '../../ui/GoogleButton';
 import { LanguagePicker } from '../../ui/LanguagePicker';
 import { Body, Button, Field, Notice, Screen, Spacer, Title } from '../../ui/components';
 
@@ -59,6 +60,8 @@ export function LoginScreen({ navigation, route }: Props) {
         variant="link"
         onPress={() => navigation.navigate('ForgotPassword', { email })}
       />
+      <Spacer />
+      <GoogleButton />
       <Spacer size="xl" />
       <Button title={t('auth.noAccount')} variant="secondary" onPress={() => navigation.navigate('Signup')} />
     </Screen>

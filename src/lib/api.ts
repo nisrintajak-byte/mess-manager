@@ -214,6 +214,22 @@ export const api = {
     return unwrap(await supabase.from('rooms').select('*').is('deleted_at', null).order('created_at'));
   },
 
+  /** False for a Google sign-in that has not yet given date of birth and consent. */
+  async profileComplete(): Promise<boolean> {
+    const { data: u } = await supabase.auth.getUser();
+    const rows = unwrap(
+      await supabase
+        .from('profiles')
+        .select('consent_version')
+        .eq('id', u.user?.id ?? ''),
+    ) as { consent_version: string }[];
+    return rows[0] ? rows[0].consent_version !== 'unknown' : true;
+  },
+
+  async completeProfile(dob: string, consentVersion: string): Promise<void> {
+    unwrap(await supabase.rpc('complete_profile', { p_dob: dob, p_consent_version: consentVersion }));
+  },
+
   async myPendingRequests(): Promise<Member[]> {
     const { data: u } = await supabase.auth.getUser();
     return unwrap(
