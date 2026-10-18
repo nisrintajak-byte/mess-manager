@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { authErrorKey } from '../../lib/errors';
 import { supabase } from '../../lib/supabase';
 import type { AuthStackParamList } from '../../navigation/types';
+import { LanguagePicker } from '../../ui/LanguagePicker';
 import { Body, Button, Field, Notice, Screen, Spacer, Title } from '../../ui/components';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
@@ -27,6 +28,7 @@ export function LoginScreen({ navigation, route }: Props) {
 
   return (
     <Screen>
+      <LanguagePicker />
       <Spacer size="xl" />
       <Title>{t('auth.loginTitle')}</Title>
       <Body muted>{t('auth.loginSubtitle')}</Body>

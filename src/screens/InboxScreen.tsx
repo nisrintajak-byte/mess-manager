@@ -8,7 +8,7 @@ import { formatDateTime } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
 import { Body, Button, Card, Meta, Row } from '../ui/components';
 import { useLoader } from '../ui/hooks';
-import { colors, font, space } from '../ui/theme';
+import { colors, font, space, themedStyles } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'Inbox'>;
 
@@ -72,12 +72,14 @@ export function InboxScreen({ navigation }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  bg: { flex: 1, backgroundColor: colors.bg },
-  pad: { padding: space.lg, paddingBottom: space.xxl },
-  column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
-  flex: { flex: 1 },
-  text: { fontSize: font.md, color: colors.text, lineHeight: 21 },
-  unread: { fontWeight: '700' },
-  dot: { width: 10, height: 10, borderRadius: 5, backgroundColor: colors.primary },
-});
+const styles = themedStyles(() =>
+  StyleSheet.create({
+    bg: { flex: 1, backgroundColor: colors.bg },
+    pad: { padding: space.lg, paddingBottom: space.xxl },
+    column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
+    flex: { flex: 1 },
+    text: { fontSize: font.md, color: colors.text, lineHeight: 21 },
+    unread: { fontWeight: '700' },
+    dot: { width: 10, height: 10, borderRadius: 5, backgroundColor: colors.primary },
+  }),
+);

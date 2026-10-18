@@ -12,7 +12,7 @@ import type { AppStackParamList } from '../navigation/types';
 import { Badge, Body, Button, Card, Meta, Notice, Row, Section, Spacer } from '../ui/components';
 import { ViewFileButton } from '../ui/FilePicker';
 import { confirm, useLoader } from '../ui/hooks';
-import { colors, font, space } from '../ui/theme';
+import { colors, font, space, themedStyles } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'ExpenseDetail'>;
 
@@ -180,11 +180,13 @@ export function ExpenseDetailScreen({ navigation, route }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  bg: { flex: 1, backgroundColor: colors.bg },
-  pad: { padding: space.lg, paddingBottom: space.xxl },
-  column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
-  title: { fontSize: font.lg, fontWeight: '700', color: colors.text },
-  big: { fontSize: font.xxl, fontWeight: '700', color: colors.text, marginVertical: space.sm },
-  line: { fontSize: font.md, color: colors.text, paddingVertical: 4 },
-});
+const styles = themedStyles(() =>
+  StyleSheet.create({
+    bg: { flex: 1, backgroundColor: colors.bg },
+    pad: { padding: space.lg, paddingBottom: space.xxl },
+    column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
+    title: { fontSize: font.lg, fontWeight: '700', color: colors.text },
+    big: { fontSize: font.xxl, fontWeight: '700', color: colors.text, marginVertical: space.sm },
+    line: { fontSize: font.md, color: colors.text, paddingVertical: 4 },
+  }),
+);

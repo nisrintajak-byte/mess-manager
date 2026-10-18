@@ -12,7 +12,7 @@ import { todayIn } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
 import { Badge, Body, Button, Card, Chip, ChipRow, Meta, Notice, Row, Spacer } from '../ui/components';
 import { confirm, useLoader } from '../ui/hooks';
-import { colors, font, radius, space } from '../ui/theme';
+import { colors, font, radius, space, themedStyles } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'Room'>;
 type Tab = 'expenses' | 'balances' | 'settlements';
@@ -358,35 +358,37 @@ export function RoomScreen({ navigation, route }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  bg: { flex: 1, backgroundColor: colors.bg },
-  pad: { padding: space.lg, paddingBottom: space.xxl },
-  column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
-  flex: { flex: 1 },
-  end: { alignItems: 'flex-end' },
-  cardTitle: { fontSize: font.md, fontWeight: '700', color: colors.text },
-  code: {
-    fontSize: font.xl,
-    fontWeight: '700',
-    letterSpacing: 3,
-    color: colors.text,
-    marginVertical: space.xs,
-  },
-  tabs: {
-    flexDirection: 'row',
-    backgroundColor: colors.surface,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.border,
-    padding: 3,
-    marginVertical: space.lg,
-  },
-  tab: { flex: 1, paddingVertical: space.sm, borderRadius: radius.sm, alignItems: 'center' },
-  tabOn: { backgroundColor: colors.primary },
-  tabText: { fontWeight: '600', color: colors.text, fontSize: font.sm },
-  tabTextOn: { color: colors.primaryText },
-  itemTitle: { fontSize: font.md, fontWeight: '600', color: colors.text },
-  amount: { fontSize: font.md, fontWeight: '700', color: colors.text },
-  struck: { textDecorationLine: 'line-through', color: colors.textMuted },
-  deleted: { fontSize: font.sm, color: colors.danger },
-});
+const styles = themedStyles(() =>
+  StyleSheet.create({
+    bg: { flex: 1, backgroundColor: colors.bg },
+    pad: { padding: space.lg, paddingBottom: space.xxl },
+    column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
+    flex: { flex: 1 },
+    end: { alignItems: 'flex-end' },
+    cardTitle: { fontSize: font.md, fontWeight: '700', color: colors.text },
+    code: {
+      fontSize: font.xl,
+      fontWeight: '700',
+      letterSpacing: 3,
+      color: colors.text,
+      marginVertical: space.xs,
+    },
+    tabs: {
+      flexDirection: 'row',
+      backgroundColor: colors.surface,
+      borderRadius: radius.md,
+      borderWidth: 1,
+      borderColor: colors.border,
+      padding: 3,
+      marginVertical: space.lg,
+    },
+    tab: { flex: 1, paddingVertical: space.sm, borderRadius: radius.sm, alignItems: 'center' },
+    tabOn: { backgroundColor: colors.primary },
+    tabText: { fontWeight: '600', color: colors.text, fontSize: font.sm },
+    tabTextOn: { color: colors.primaryText },
+    itemTitle: { fontSize: font.md, fontWeight: '600', color: colors.text },
+    amount: { fontSize: font.md, fontWeight: '700', color: colors.text },
+    struck: { textDecorationLine: 'line-through', color: colors.textMuted },
+    deleted: { fontSize: font.sm, color: colors.danger },
+  }),
+);

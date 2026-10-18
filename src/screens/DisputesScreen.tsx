@@ -12,7 +12,7 @@ import type { AppStackParamList } from '../navigation/types';
 import { Badge, Body, Button, Card, Meta, Notice, Row } from '../ui/components';
 import { ViewFileButton } from '../ui/FilePicker';
 import { useLoader } from '../ui/hooks';
-import { colors, font, radius, space } from '../ui/theme';
+import { colors, font, radius, space, themedStyles } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'Disputes'>;
 
@@ -192,20 +192,22 @@ export function DisputesScreen({ navigation, route }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  bg: { flex: 1, backgroundColor: colors.bg },
-  pad: { padding: space.lg, paddingBottom: space.xxl },
-  column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
-  flex: { flex: 1 },
-  name: { fontSize: font.md, fontWeight: '600', color: colors.text },
-  input: {
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: radius.md,
-    padding: space.md,
-    marginVertical: space.sm,
-    color: colors.text,
-    minHeight: 60,
-  },
-});
+const styles = themedStyles(() =>
+  StyleSheet.create({
+    bg: { flex: 1, backgroundColor: colors.bg },
+    pad: { padding: space.lg, paddingBottom: space.xxl },
+    column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
+    flex: { flex: 1 },
+    name: { fontSize: font.md, fontWeight: '600', color: colors.text },
+    input: {
+      backgroundColor: colors.surface,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: radius.md,
+      padding: space.md,
+      marginVertical: space.sm,
+      color: colors.text,
+      minHeight: 60,
+    },
+  }),
+);

@@ -10,7 +10,7 @@ import { formatDateTime } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
 import { Body, Button, Card, Notice, Spacer } from '../ui/components';
 import { confirm, useLoader } from '../ui/hooks';
-import { colors, font, space } from '../ui/theme';
+import { colors, font, space, themedStyles } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'RoomMembers'>;
 
@@ -125,11 +125,13 @@ export function RoomMembersScreen({ route }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  bg: { flex: 1, backgroundColor: colors.bg },
-  pad: { padding: space.lg, paddingBottom: space.xxl },
-  column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
-  section: { fontSize: font.lg, fontWeight: '700', color: colors.text, marginBottom: space.md },
-  name: { fontSize: font.md, fontWeight: '600', color: colors.text },
-  meta: { fontSize: font.sm, color: colors.textMuted, marginTop: 2 },
-});
+const styles = themedStyles(() =>
+  StyleSheet.create({
+    bg: { flex: 1, backgroundColor: colors.bg },
+    pad: { padding: space.lg, paddingBottom: space.xxl },
+    column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
+    section: { fontSize: font.lg, fontWeight: '700', color: colors.text, marginBottom: space.md },
+    name: { fontSize: font.md, fontWeight: '600', color: colors.text },
+    meta: { fontSize: font.sm, color: colors.textMuted, marginTop: 2 },
+  }),
+);

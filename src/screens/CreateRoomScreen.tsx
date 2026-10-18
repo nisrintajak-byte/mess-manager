@@ -8,7 +8,7 @@ import { countriesSorted, Country, defaultTimeZone, LanguageCode } from '../lib/
 import { dbErrorKey } from '../lib/errors';
 import type { AppStackParamList } from '../navigation/types';
 import { Body, Button, Field, Notice, Screen, Spacer, Title } from '../ui/components';
-import { colors, font, radius, space } from '../ui/theme';
+import { colors, font, radius, space, themedStyles } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'CreateRoom'>;
 
@@ -135,39 +135,41 @@ export function CreateRoomScreen({ navigation }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  flex: { flex: 1 },
-  label: { fontSize: font.sm, fontWeight: '600', color: colors.text, marginBottom: space.xs },
-  value: { fontSize: font.md, color: colors.text },
-  meta: { fontSize: font.sm, color: colors.textMuted },
-  option: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: space.md,
-    backgroundColor: colors.surface,
-    borderBottomWidth: 1,
-    borderColor: colors.border,
-  },
-  selected: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: radius.md,
-    padding: space.md,
-    marginBottom: space.lg,
-  },
-  zones: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm, marginTop: space.sm },
-  chip: {
-    paddingHorizontal: space.md,
-    paddingVertical: space.sm,
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.surface,
-  },
-  chipOn: { backgroundColor: colors.primary, borderColor: colors.primary },
-  chipText: { color: colors.text, fontSize: font.sm },
-  chipTextOn: { color: colors.primaryText },
-});
+const styles = themedStyles(() =>
+  StyleSheet.create({
+    flex: { flex: 1 },
+    label: { fontSize: font.sm, fontWeight: '600', color: colors.text, marginBottom: space.xs },
+    value: { fontSize: font.md, color: colors.text },
+    meta: { fontSize: font.sm, color: colors.textMuted },
+    option: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      padding: space.md,
+      backgroundColor: colors.surface,
+      borderBottomWidth: 1,
+      borderColor: colors.border,
+    },
+    selected: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.surface,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: radius.md,
+      padding: space.md,
+      marginBottom: space.lg,
+    },
+    zones: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm, marginTop: space.sm },
+    chip: {
+      paddingHorizontal: space.md,
+      paddingVertical: space.sm,
+      borderRadius: 999,
+      borderWidth: 1,
+      borderColor: colors.border,
+      backgroundColor: colors.surface,
+    },
+    chipOn: { backgroundColor: colors.primary, borderColor: colors.primary },
+    chipText: { color: colors.text, fontSize: font.sm },
+    chipTextOn: { color: colors.primaryText },
+  }),
+);

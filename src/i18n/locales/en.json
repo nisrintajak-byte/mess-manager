@@ -433,5 +433,21 @@
     "by": "Asked by {{name}}",
     "acceptedBy": "{{name}} will buy it",
     "explain": "Everyone gets a notification. Whoever accepts buys it — no duplicates."
+  },
+  "prefs": {
+    "title": "Preferences",
+    "language": "Language",
+    "theme": "Theme",
+    "theme_light": "Light",
+    "theme_dark": "Dark",
+    "theme_sand": "Sand",
+    "theme_ocean": "Ocean",
+    "digits": "Number digits",
+    "digits_latin": "Western (0123)",
+    "digits_arabic": "Eastern Arabic (٠١٢٣)",
+    "restart": "Restart the app to apply the new layout direction.",
+    "restartManual": "Please close the app completely and open it again to apply the new layout direction.",
+    "restartNow": "Restart now",
+    "draftTranslation": "This language is a draft translation and will be reviewed by native speakers before release."
   }
 }

@@ -21,7 +21,7 @@ import {
   Title,
 } from '../ui/components';
 import { confirm } from '../ui/hooks';
-import { colors, font, space } from '../ui/theme';
+import { colors, font, space, themedStyles } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'RoomSettings'>;
 const KINDS: CycleKind[] = ['daily', 'weekly', 'monthly'];
@@ -165,14 +165,16 @@ export function RoomSettingsScreen({ navigation, route }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  value: { fontSize: font.md, color: colors.text, marginBottom: space.sm },
-  option: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: space.md,
-    backgroundColor: colors.surface,
-    borderBottomWidth: 1,
-    borderColor: colors.border,
-  },
-});
+const styles = themedStyles(() =>
+  StyleSheet.create({
+    value: { fontSize: font.md, color: colors.text, marginBottom: space.sm },
+    option: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      padding: space.md,
+      backgroundColor: colors.surface,
+      borderBottomWidth: 1,
+      borderColor: colors.border,
+    },
+  }),
+);

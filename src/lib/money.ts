@@ -1,3 +1,5 @@
+import { localizeDigits } from './digits';
+
 /**
  * Money helpers. All amounts are integers in the currency's minor unit
  * (fils, cents, paise) — never floating point (PRD §10.2, §21 Accuracy).
@@ -40,7 +42,7 @@ export function formatMinor(amount: Minor, decimals: number): string {
 
 /** Format with the ISO code, e.g. "KWD 12.500". Codes only, no symbols tied to flags. */
 export function formatMoney(amount: Minor, currency: string, decimals: number): string {
-  return `${currency} ${formatMinor(amount, decimals)}`;
+  return localizeDigits(`${currency} ${formatMinor(amount, decimals)}`);
 }
 
 /**
