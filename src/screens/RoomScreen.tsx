@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useAuth } from '../auth/AuthProvider';
-import { api, Cycle } from '../lib/api';
+import { api, Cycle, OPEN_FLAG } from '../lib/api';
 import { getCountry, LanguageCode } from '../lib/countries';
 import { dbErrorKey } from '../lib/errors';
 import { formatMoney } from '../lib/money';
@@ -28,13 +28,15 @@ export function RoomScreen({ navigation, route }: Props) {
   const [busy, setBusy] = useState(false);
 
   const { data, error, loading, reload } = useLoader(async () => {
-    const [room, members, cycles, settlements] = await Promise.all([
+    const [room, members, cycles, settlements, flags, needs] = await Promise.all([
       api.room(roomId),
       api.members(roomId),
       api.cycles(roomId),
       api.settlements(roomId),
+      api.roomFlags(roomId),
+      api.needs(roomId),
     ]);
-    return { room, members, cycles, settlements };
+    return { room, members, cycles, settlements, flags, needs };
   }, roomId);
 
   const cycles = data?.cycles ?? [];
@@ -67,7 +69,10 @@ export function RoomScreen({ navigation, route }: Props) {
     );
   }
 
-  const { room, members, settlements } = data;
+  const { room, members, settlements, flags, needs } = data;
+  const openFlags = flags.filter((f) => OPEN_FLAG.includes(f.status));
+  const disputed = new Set(openFlags.map((f) => f.target_id));
+  const openNeeds = needs.filter((n) => n.status === 'pending' || n.status === 'accepted').length;
   const lang = (i18n.language as LanguageCode) ?? 'en';
   const nameOf = (uid: string) => members.find((m) => m.user_id === uid)?.profile?.display_name ?? '—';
   const mine = members.find((m) => m.user_id === me && m.status === 'approved');
@@ -174,6 +179,23 @@ export function RoomScreen({ navigation, route }: Props) {
           onPress={() => navigation.navigate('RoomMembers', { roomId })}
         />
 
+        <Row>
+          <View style={styles.flex}>
+            <Button
+              title={`${t('need.title')}${openNeeds ? ` (${openNeeds})` : ''}`}
+              variant="secondary"
+              onPress={() => navigation.navigate('Needs', { roomId })}
+            />
+          </View>
+          <View style={styles.flex}>
+            <Button
+              title={`${t('flag.list')}${openFlags.length ? ` (${openFlags.length})` : ''}`}
+              variant={openFlags.length ? 'danger' : 'secondary'}
+              onPress={() => navigation.navigate('Disputes', { roomId })}
+            />
+          </View>
+        </Row>
+
         <View style={styles.tabs}>
           {(['expenses', 'balances', 'settlements'] as const).map((k) => (
             <Pressable
@@ -264,6 +286,7 @@ export function RoomScreen({ navigation, route }: Props) {
                       {e.split_mode === 'selected' ? ` · ${t('split.selected')}` : ''}
                     </Meta>
                     {e.adjusts_expense_id ? <Badge tone="warn">{t('adjust.label')}</Badge> : null}
+                    {disputed.has(e.id) ? <Badge tone="bad">{t('flag.badge')}</Badge> : null}
                   </View>
                   <View style={styles.end}>
                     <Text style={[styles.amount, e.deleted_at ? styles.struck : null]}>

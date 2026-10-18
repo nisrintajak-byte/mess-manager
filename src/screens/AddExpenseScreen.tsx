@@ -26,7 +26,7 @@ import { FilePicker } from '../ui/FilePicker';
 type Props = NativeStackScreenProps<AppStackParamList, 'AddExpense'>;
 
 export function AddExpenseScreen({ navigation, route }: Props) {
-  const { roomId, expenseId } = route.params;
+  const { roomId, expenseId, needId, presetTitle } = route.params;
   const editing = !!expenseId;
   const { t } = useTranslation();
   const { session } = useAuth();
@@ -34,7 +34,7 @@ export function AddExpenseScreen({ navigation, route }: Props) {
 
   const [room, setRoom] = useState<Room | null>(null);
   const [members, setMembers] = useState<Member[]>([]);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState(presetTitle ?? '');
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState('');
   const [paidBy, setPaidBy] = useState(me);
@@ -118,7 +118,7 @@ export function AddExpenseScreen({ navigation, route }: Props) {
           receiptPath: receipt,
         });
       } else {
-        await api.createExpense({
+        const newId = await api.createExpense({
           roomId,
           title,
           amount: minor,
@@ -129,6 +129,7 @@ export function AddExpenseScreen({ navigation, route }: Props) {
           receiptPath: receipt,
           idempotencyKey,
         });
+        if (needId) await api.completeNeed(needId, newId);
       }
       navigation.goBack();
     } catch (err) {

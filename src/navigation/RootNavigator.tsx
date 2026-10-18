@@ -13,10 +13,15 @@ import { LoginScreen } from '../screens/auth/LoginScreen';
 import { SetNewPasswordScreen } from '../screens/auth/SetNewPasswordScreen';
 import { SignupScreen } from '../screens/auth/SignupScreen';
 import { CreateRoomScreen } from '../screens/CreateRoomScreen';
+import { DisputesScreen } from '../screens/DisputesScreen';
 import { ExpenseDetailScreen } from '../screens/ExpenseDetailScreen';
+import { FlagScreen } from '../screens/FlagScreen';
 import { HomeScreen } from '../screens/HomeScreen';
+import { InboxScreen } from '../screens/InboxScreen';
 import { JoinRoomScreen } from '../screens/JoinRoomScreen';
 import { LegalScreen } from '../screens/LegalScreen';
+import { NeedsScreen } from '../screens/NeedsScreen';
+import { NotificationSettingsScreen } from '../screens/NotificationSettingsScreen';
 import { PayScreen } from '../screens/PayScreen';
 import { RoomMembersScreen } from '../screens/RoomMembersScreen';
 import { RoomScreen } from '../screens/RoomScreen';
@@ -92,6 +97,15 @@ export function RootNavigator() {
             options={{ title: t('settlement.title') }}
           />
           <AppStack.Screen name="Pay" component={PayScreen} options={{ title: t('payment.claimTitle') }} />
+          <AppStack.Screen name="Inbox" component={InboxScreen} options={{ title: t('inbox.title') }} />
+          <AppStack.Screen
+            name="NotificationSettings"
+            component={NotificationSettingsScreen}
+            options={{ title: t('notifPrefs.title') }}
+          />
+          <AppStack.Screen name="Flag" component={FlagScreen} options={{ title: t('flag.title') }} />
+          <AppStack.Screen name="Disputes" component={DisputesScreen} options={{ title: t('flag.list') }} />
+          <AppStack.Screen name="Needs" component={NeedsScreen} options={{ title: t('need.title') }} />
           <AppStack.Screen name="Legal" component={LegalScreen} options={{ title: '' }} />
         </AppStack.Navigator>
       ) : (

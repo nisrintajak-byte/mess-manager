@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { RefreshControl, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { useAuth } from '../auth/AuthProvider';
-import { api, LineStatus, Payment } from '../lib/api';
+import { api, LineStatus, OPEN_FLAG, Payment } from '../lib/api';
 import { dbErrorKey } from '../lib/errors';
 import { formatMoney } from '../lib/money';
 import { minimalTransfers } from '../lib/transfers';
@@ -41,11 +41,33 @@ export function SettlementScreen({ navigation, route }: Props) {
       api.members(roomId),
       api.settlement(settlementId),
     ]);
-    return { room, members, ...s };
+    // Opening the settlement marks it as seen for this member (PRD §11.7).
+    await api.markSettlementSeen(settlementId).catch(() => undefined);
+    const [acks, lineFlags, payFlags] = await Promise.all([
+      api.settlementAcks(settlementId),
+      api.targetFlags(
+        'settlement_line',
+        s.lines.map((l) => l.line_id),
+      ),
+      api.targetFlags(
+        'payment',
+        s.payments.map((p) => p.id),
+      ),
+    ]);
+    const disputed = new Set(
+      [...lineFlags, ...payFlags].filter((f) => OPEN_FLAG.includes(f.status)).map((f) => f.target_id),
+    );
+    return { room, members, ...s, acks, disputed };
   }, settlementId);
 
   if (!data) return <View style={styles.bg} />;
-  const { room, members, settlement, cycle, lines, payments } = data;
+  const { room, members, settlement, cycle, lines, payments, acks, disputed } = data;
+  const myAck = acks.find((a) => a.user_id === me);
+  const ackState = (uid: string) => {
+    const a = acks.find((x) => x.user_id === uid);
+    if (!a) return 'pending';
+    return a.acknowledged_at ? 'acknowledged' : a.seen_at ? 'seen' : 'delivered';
+  };
   const nameOf = (uid: string | null) => members.find((m) => m.user_id === uid)?.profile?.display_name ?? '—';
   const money = (v: number) => formatMoney(v, settlement.currency, settlement.currency_decimals);
   const isAdmin = members.some((m) => m.user_id === me && m.status === 'approved' && m.role === 'admin');
@@ -92,6 +114,20 @@ export function SettlementScreen({ navigation, route }: Props) {
           <Badge tone="good">{t('cycle.locked')}</Badge>
         </Card>
 
+        {myAck ? (
+          myAck.acknowledged_at ? (
+            <Notice tone="success">{t('ack.done')}</Notice>
+          ) : (
+            <Button
+              title={t('ack.button')}
+              onPress={async () => {
+                await api.acknowledgeSettlement(settlementId).catch(() => undefined);
+                await reload();
+              }}
+            />
+          )
+        ) : null}
+
         <Section>{t('settlement.lines')}</Section>
         {lines.map((l) => (
           <Card key={l.line_id}>
@@ -113,6 +149,19 @@ export function SettlementScreen({ navigation, route }: Props) {
                     : t('settlement.toReceive', { amount: money(l.net) })}
               </Text>
             </Row>
+            {isAdmin ? (
+              <Meta>
+                {t('ack.status')}: {t(`ack.${ackState(l.user_id)}`)}
+              </Meta>
+            ) : null}
+            {disputed.has(l.line_id) ? <Badge tone="bad">{t('flag.badge')}</Badge> : null}
+            <Button
+              title={t('flag.raise')}
+              variant="link"
+              onPress={() =>
+                navigation.navigate('Flag', { roomId, type: 'settlement_line', targetId: l.line_id })
+              }
+            />
             {l.net < 0 && remaining(l) > 0 ? (
               <>
                 <Meta>{t('settlement.remaining', { amount: money(remaining(l)) })}</Meta>
@@ -183,6 +232,12 @@ export function SettlementScreen({ navigation, route }: Props) {
               {p.reject_reason ? <Meta>{t('payment.rejected', { reason: p.reject_reason })}</Meta> : null}
               {p.note ? <Meta>{p.note}</Meta> : null}
               {p.proof_path ? <ViewFileButton path={p.proof_path} title={t('payment.viewProof')} /> : null}
+              {disputed.has(p.id) ? <Badge tone="bad">{t('flag.badge')}</Badge> : null}
+              <Button
+                title={t('flag.raise')}
+                variant="link"
+                onPress={() => navigation.navigate('Flag', { roomId, type: 'payment', targetId: p.id })}
+              />
               {canDecide ? (
                 rejecting === p.id ? (
                   <>

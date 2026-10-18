@@ -135,6 +135,72 @@ export interface BalanceRow {
   net: number;
 }
 
+export interface AppNotification {
+  id: string;
+  room_id: string | null;
+  kind: string;
+  payload: Record<string, unknown>;
+  created_at: string;
+  read_at: string | null;
+}
+
+export type FlagTarget = 'expense' | 'payment' | 'settlement_line';
+export type FlagReason = 'wrong_amount' | 'not_shared' | 'duplicate' | 'payment_not_received' | 'other';
+export type FlagStatus = 'open' | 'under_review' | 'accepted' | 'rejected' | 'withdrawn';
+
+export interface Flag {
+  id: string;
+  room_id: string;
+  target_type: FlagTarget;
+  target_id: string;
+  target_owner: string | null;
+  reason: FlagReason;
+  note: string | null;
+  evidence_path: string | null;
+  status: FlagStatus;
+  raised_by: string;
+  created_at: string;
+  resolved_by: string | null;
+  resolved_at: string | null;
+  resolution_note: string | null;
+  resolved_by_involved_admin: boolean;
+}
+
+export type NeedStatus = 'pending' | 'accepted' | 'completed' | 'cancelled';
+
+export interface NeedRequest {
+  id: string;
+  room_id: string;
+  title: string;
+  note: string | null;
+  status: NeedStatus;
+  created_by: string;
+  created_at: string;
+  accepted_by: string | null;
+  accepted_at: string | null;
+  completed_at: string | null;
+  expense_id: string | null;
+}
+
+export interface SettlementAck {
+  settlement_id: string;
+  user_id: string;
+  delivered_at: string;
+  seen_at: string | null;
+  acknowledged_at: string | null;
+}
+
+export const OPTIONAL_NOTIFICATIONS = [
+  'expense_added',
+  'expense_edited',
+  'expense_deleted',
+  'need_created',
+  'need_accepted',
+  'need_completed',
+] as const;
+
+export const OPEN_FLAG: FlagStatus[] = ['open', 'under_review'];
+
 function unwrap<T>({ data, error }: { data: T | null; error: { message: string } | null }): T {
   if (error) throw error;
   return data as T;
@@ -442,6 +508,132 @@ export const api = {
         p_cycle: p.cycle,
       }),
     );
+  },
+
+  // ---- v0.3: notifications ----
+  async notifications(limit = 50): Promise<AppNotification[]> {
+    return unwrap(
+      await supabase.from('notifications').select('*').order('created_at', { ascending: false }).limit(limit),
+    );
+  },
+
+  async unreadCount(): Promise<number> {
+    const { count, error } = await supabase
+      .from('notifications')
+      .select('id', { count: 'exact', head: true })
+      .is('read_at', null);
+    if (error) throw error;
+    return count ?? 0;
+  },
+
+  async markNotificationsRead(ids: string[] | null): Promise<void> {
+    unwrap(await supabase.rpc('mark_notifications_read', { p_ids: ids }));
+  },
+
+  async notificationPrefs(): Promise<Map<string, boolean>> {
+    const rows: { kind: string; enabled: boolean }[] = unwrap(
+      await supabase.from('notification_prefs').select('kind, enabled'),
+    );
+    return new Map(rows.map((r) => [r.kind, r.enabled]));
+  },
+
+  async setNotificationPref(kind: string, enabled: boolean): Promise<void> {
+    unwrap(await supabase.rpc('set_notification_pref', { p_kind: kind, p_enabled: enabled }));
+  },
+
+  async registerPushToken(token: string, platform: 'android' | 'ios' | 'web'): Promise<void> {
+    unwrap(await supabase.rpc('register_push_token', { p_token: token, p_platform: platform }));
+  },
+
+  async unregisterPushToken(token: string): Promise<void> {
+    unwrap(await supabase.rpc('unregister_push_token', { p_token: token }));
+  },
+
+  // ---- v0.3: settlement acknowledgement ----
+  async settlementAcks(settlementId: string): Promise<SettlementAck[]> {
+    return unwrap(await supabase.from('settlement_acks').select('*').eq('settlement_id', settlementId));
+  },
+
+  async markSettlementSeen(settlementId: string): Promise<void> {
+    unwrap(await supabase.rpc('mark_settlement_seen', { p_settlement: settlementId }));
+  },
+
+  async acknowledgeSettlement(settlementId: string): Promise<void> {
+    unwrap(await supabase.rpc('acknowledge_settlement', { p_settlement: settlementId }));
+  },
+
+  // ---- v0.3: disputes ----
+  async roomFlags(roomId: string): Promise<Flag[]> {
+    return unwrap(
+      await supabase
+        .from('flags')
+        .select('*')
+        .eq('room_id', roomId)
+        .order('created_at', { ascending: false }),
+    );
+  },
+
+  async targetFlags(type: FlagTarget, ids: string[]): Promise<Flag[]> {
+    if (ids.length === 0) return [];
+    return unwrap(await supabase.from('flags').select('*').eq('target_type', type).in('target_id', ids));
+  },
+
+  async raiseFlag(p: {
+    type: FlagTarget;
+    targetId: string;
+    reason: FlagReason;
+    note: string;
+    evidencePath: string | null;
+  }): Promise<string> {
+    return unwrap(
+      await supabase.rpc('raise_flag', {
+        p_type: p.type,
+        p_target: p.targetId,
+        p_reason: p.reason,
+        p_note: p.note,
+        p_evidence_path: p.evidencePath,
+      }),
+    );
+  },
+
+  async reviewFlag(id: string): Promise<void> {
+    unwrap(await supabase.rpc('review_flag', { p_flag: id }));
+  },
+
+  async resolveFlag(id: string, accept: boolean, note: string): Promise<void> {
+    unwrap(await supabase.rpc('resolve_flag', { p_flag: id, p_accept: accept, p_note: note }));
+  },
+
+  async withdrawFlag(id: string): Promise<void> {
+    unwrap(await supabase.rpc('withdraw_flag', { p_flag: id }));
+  },
+
+  // ---- v0.3: need requests ----
+  async needs(roomId: string): Promise<NeedRequest[]> {
+    return unwrap(
+      await supabase
+        .from('need_requests')
+        .select('*')
+        .eq('room_id', roomId)
+        .order('created_at', { ascending: false })
+        .limit(50),
+    );
+  },
+
+  async createNeed(roomId: string, title: string, note: string): Promise<string> {
+    return unwrap(await supabase.rpc('create_need', { p_room: roomId, p_title: title, p_note: note }));
+  },
+
+  async acceptNeed(id: string): Promise<void> {
+    unwrap(await supabase.rpc('accept_need', { p_need: id }));
+  },
+
+  async completeNeed(id: string, expenseId: string | null): Promise<void> {
+    unwrap(await supabase.rpc('complete_need', { p_need: id, p_expense: expenseId }));
+  },
+
+  async cancelNeed(id: string): Promise<void> {
+    unwrap(await supabase.rpc('cancel_need', { p_need: id }));
   },
 
   async deleteRoom(roomId: string): Promise<void> {

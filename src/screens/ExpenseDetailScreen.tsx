@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useAuth } from '../auth/AuthProvider';
-import { api, AuditEntry } from '../lib/api';
+import { api, AuditEntry, OPEN_FLAG } from '../lib/api';
 import { dbErrorKey } from '../lib/errors';
 import { formatMoney } from '../lib/money';
 import { EDIT_WINDOW_MS, formatDateTime } from '../lib/util';
@@ -34,11 +34,13 @@ export function ExpenseDetailScreen({ navigation, route }: Props) {
     const original = detail.expense.adjusts_expense_id
       ? (await api.expense(detail.expense.adjusts_expense_id)).expense
       : null;
-    return { room, members, ...detail, original, loadedAt: Date.now() };
+    const flags = await api.targetFlags('expense', [expenseId]);
+    return { room, members, ...detail, original, flags, loadedAt: Date.now() };
   }, expenseId);
 
   if (!data) return <View style={styles.bg} />;
-  const { room, members, expense, splits, history, cycle, original, loadedAt } = data;
+  const { room, members, expense, splits, history, cycle, original, flags, loadedAt } = data;
+  const underDispute = flags.some((f) => OPEN_FLAG.includes(f.status));
   const nameOf = (uid: string | null) => members.find((m) => m.user_id === uid)?.profile?.display_name ?? '—';
   const currency = cycle?.currency ?? room.currency;
   const decimals = cycle?.currency_decimals ?? room.currency_decimals;
@@ -89,6 +91,11 @@ export function ExpenseDetailScreen({ navigation, route }: Props) {
         {error ? <Notice tone="error">{error}</Notice> : null}
         {expense.deleted_at ? <Notice tone="error">{t('expense.deleted')}</Notice> : null}
         {locked ? <Notice tone="info">{t('cycle.lockedNote')}</Notice> : null}
+        {underDispute ? (
+          <Notice tone="error">
+            {t('flag.badge')} · {t('flag.list')}
+          </Notice>
+        ) : null}
         <Card>
           <Text style={styles.title}>{expense.title}</Text>
           <Text style={styles.big}>{money(sign * expense.amount)}</Text>
@@ -140,6 +147,20 @@ export function ExpenseDetailScreen({ navigation, route }: Props) {
           />
         ) : null}
 
+        {!expense.deleted_at ? (
+          <Button
+            title={t('flag.raise')}
+            variant="link"
+            onPress={() => navigation.navigate('Flag', { roomId, type: 'expense', targetId: expenseId })}
+          />
+        ) : null}
+        {underDispute ? (
+          <Button
+            title={t('flag.list')}
+            variant="link"
+            onPress={() => navigation.navigate('Disputes', { roomId })}
+          />
+        ) : null}
         <Spacer />
         <Section>{t('expense.history')}</Section>
         {history.map((h) => (
