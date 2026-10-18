@@ -1,7 +1,7 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
 import { useAuth } from '../auth/AuthProvider';
 import { api, Member, Room } from '../lib/api';
@@ -149,16 +149,12 @@ export function AddExpenseScreen({ navigation, route }: Props) {
       />
 
       <Text style={styles.label}>{t('expense.paidBy')}</Text>
-      <View style={styles.chips}>
-        {members.map((m) => (
-          <Chip
-            key={m.user_id}
-            on={paidBy === m.user_id}
-            onPress={() => setPaidBy(m.user_id)}
-            label={m.profile?.display_name ?? '—'}
-          />
-        ))}
-      </View>
+      {/* Payer is always the member who added the expense (founder decision; enforced by the server). */}
+      <Body>
+        {paidBy === me
+          ? t('expense.paidByYou')
+          : (members.find((m) => m.user_id === paidBy)?.profile?.display_name ?? '—')}
+      </Body>
       <Spacer />
 
       <Field label={t('expense.notes')} value={notes} onChangeText={setNotes} multiline maxLength={1000} />
@@ -166,19 +162,6 @@ export function AddExpenseScreen({ navigation, route }: Props) {
       <Button title={t('expense.save')} onPress={save} loading={busy} />
       {!editing ? <Body muted>{t('expense.editWindow')}</Body> : null}
     </Screen>
-  );
-}
-
-function Chip({ on, onPress, label }: { on: boolean; onPress: () => void; label: string }) {
-  return (
-    <Pressable
-      onPress={onPress}
-      style={[styles.chip, on && styles.chipOn]}
-      accessibilityRole="radio"
-      accessibilityState={{ selected: on }}
-    >
-      <Text style={[styles.chipText, on && styles.chipTextOn]}>{label}</Text>
-    </Pressable>
   );
 }
 
