@@ -330,13 +330,15 @@ export async function buildReportPdf(
   f: ReportFormat,
   fontBytes: FontBytes,
   heading?: string,
+  opts: { subset?: boolean; features?: boolean } = {},
 ): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
   doc.registerFontkit(fontkit);
   // pdf-lib places glyphs by advance width only, so positioning features (mark anchors, kerning,
   // cursive attachment) add nothing — and fontkit crashes on some Arabic mark anchors.
   const features = { mark: false, mkmk: false, curs: false, kern: false, dist: false };
-  const embed = (b: Uint8Array) => doc.embedFont(b, { subset: true, features });
+  const embed = (b: Uint8Array) =>
+    doc.embedFont(b, { subset: opts.subset ?? true, ...(opts.features === false ? {} : { features }) });
   const fonts: Fonts = {
     latin: { regular: await embed(fontBytes.latin), bold: await embed(fontBytes.latinBold) },
     arabic: { regular: await embed(fontBytes.arabic), bold: await embed(fontBytes.arabicBold) },

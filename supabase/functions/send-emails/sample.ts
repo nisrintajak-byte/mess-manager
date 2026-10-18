@@ -183,3 +183,18 @@ for (const lang of ['en', 'ar', 'ur', 'hi']) {
   );
   console.log(lang, 'ok', mail.subject);
 }
+// experiment: which embedding options keep every glyph
+for (const [name, o] of [
+  ['s1f0', { subset: true, features: false }],
+  ['s0f1', { subset: false, features: true }],
+  ['s0f0', { subset: false, features: false }],
+] as const) {
+  for (const lang of ['en', 'ar']) {
+    try {
+      writeFileSync(`${out}/x-${name}-${lang}.pdf`, await buildReportPdf([data], serverFormat(lang), fonts, undefined, o));
+      console.log('variant', name, lang, 'ok');
+    } catch (e) {
+      console.log('variant', name, lang, 'FAILED', String(e));
+    }
+  }
+}
