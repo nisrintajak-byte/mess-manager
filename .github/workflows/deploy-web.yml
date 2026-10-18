@@ -15,7 +15,7 @@ on:
 
 env:
   STABLE_REF: version/v0.1-core-mvp
-  NEXT_REF: version/v0.2-settlement-payments
+  NEXT_REF: version/v0.3-notifications-disputes
 
 permissions:
   contents: read
@@ -33,7 +33,7 @@ jobs:
       (github.event.workflow_run.conclusion == 'success' &&
        (github.event.workflow_run.head_branch == 'main' ||
         github.event.workflow_run.head_branch == 'version/v0.1-core-mvp' ||
-        github.event.workflow_run.head_branch == 'version/v0.2-settlement-payments'))
+        github.event.workflow_run.head_branch == 'version/v0.3-notifications-disputes'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-node@v4
