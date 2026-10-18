@@ -2,7 +2,6 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import i18n from '../i18n';
 import { RefreshControl, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { useAuth } from '../auth/AuthProvider';
@@ -296,7 +295,7 @@ const styles = themedStyles(() =>
       fontSize: font.md,
       fontWeight: '700',
       color: colors.text,
-      textAlign: i18n.dir() === 'rtl' ? 'left' : 'right',
+      textAlign: 'right',
     },
     line: { fontSize: font.md, color: colors.text, paddingVertical: 4 },
     input: {

@@ -4,6 +4,7 @@ import { Linking, View } from 'react-native';
 
 import { FileError, pickImage, pickPdf, PickedFile, signedUrl, uploadRoomFile } from '../lib/files';
 import { Button, Label, Meta, Notice, Row } from './components';
+import { rowDirection } from './theme';
 
 /**
  * Attach an image (camera/gallery, compressed) or PDF and upload it to the Room's private folder.
@@ -47,7 +48,7 @@ export function FilePicker({
       {value ? (
         <Row>
           <Meta>{t('receipt.attached')}</Meta>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: rowDirection() }}>
             <ViewFileButton path={value} />
             <Button title={t('receipt.remove')} variant="link" onPress={() => onChange(null)} />
           </View>
@@ -55,7 +56,7 @@ export function FilePicker({
       ) : busy ? (
         <Meta>{t('receipt.uploading')}</Meta>
       ) : (
-        <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+        <View style={{ flexDirection: rowDirection(), gap: 8, flexWrap: 'wrap' }}>
           <Button
             title={t('receipt.camera')}
             variant="secondary"

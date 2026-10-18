@@ -1,33 +1,19 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { supportsEasternDigits } from '../lib/digits';
-import { restartApp, setDigits, setTheme, useSettings } from '../lib/settings';
-import { Body, Button, Card, Chip, ChipRow, Label, Notice, Screen, Spacer, Title } from '../ui/components';
+import { setDigits, setTheme, useSettings } from '../lib/settings';
+import { Body, Card, Chip, ChipRow, Label, Screen, Title } from '../ui/components';
 import { LanguagePicker } from '../ui/LanguagePicker';
 import { AppLockCard, ChangePasswordCard } from '../ui/SecurityCards';
 import { THEME_NAMES } from '../ui/theme';
 
 export function PreferencesScreen() {
   const { t } = useTranslation();
-  const { language, theme, digits, restartNeeded } = useSettings();
-  const [restartFailed, setRestartFailed] = useState(false);
+  const { language, theme, digits } = useSettings();
 
   return (
     <Screen>
       <Title>{t('prefs.title')}</Title>
-      {restartNeeded ? (
-        <>
-          <Notice tone="info">{restartFailed ? t('prefs.restartManual') : t('prefs.restart')}</Notice>
-          <Button
-            title={t('prefs.restartNow')}
-            variant="secondary"
-            onPress={() => void restartApp().then((ok) => setRestartFailed(!ok))}
-          />
-          <Spacer />
-        </>
-      ) : null}
-
       <Card>
         <Label>{t('prefs.language')}</Label>
         <LanguagePicker />

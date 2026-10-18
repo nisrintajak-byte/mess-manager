@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, View } from 'react-native';
 
 import { useAuth } from '../auth/AuthProvider';
+import i18n, { isRtlLanguage } from '../i18n';
 import { api } from '../lib/api';
 import { CompleteProfileScreen } from '../screens/auth/CompleteProfileScreen';
 import { AddExpenseScreen } from '../screens/AddExpenseScreen';
@@ -80,7 +81,11 @@ export function RootNavigator() {
     return <CompleteProfileScreen onDone={() => setProfile({ id: verifiedId, ok: true })} />;
 
   return (
-    <NavigationContainer theme={navTheme()} linking={linking}>
+    <NavigationContainer
+      theme={navTheme()}
+      linking={linking}
+      direction={isRtlLanguage(i18n.language) ? 'rtl' : 'ltr'}
+    >
       {session && emailVerified ? (
         <AppStack.Navigator screenOptions={{ headerTintColor: colors.primary }}>
           <AppStack.Screen name="Home" component={HomeScreen} options={{ title: t('home.title') }} />

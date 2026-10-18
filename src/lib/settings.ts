@@ -1,11 +1,10 @@
 import { getLocales } from 'expo-localization';
 import { useSyncExternalStore } from 'react';
 import { I18nManager, Platform } from 'react-native';
-import * as Expo from 'expo';
 
 import i18n, { isRtlLanguage, isSupportedLanguage, type AppLanguage } from '../i18n';
 import { loadFontsFor } from '../ui/fonts';
-import { THEME_NAMES, applyTheme, type ThemeName } from '../ui/theme';
+import { THEME_NAMES, applyRtl, applyTheme, type ThemeName } from '../ui/theme';
 import { configureDigits } from './digits';
 import { getPref, setPref } from './prefs';
 
@@ -17,11 +16,9 @@ type SettingsState = {
   digits: DigitStyle;
   /** Bumped on every change; the app root uses it as a React key so the whole UI re-renders. */
   rev: number;
-  /** Native only: layout direction changed and needs an app restart to take effect. */
-  restartNeeded: boolean;
 };
 
-let state: SettingsState = { language: 'en', theme: 'light', digits: 'latin', rev: 0, restartNeeded: false };
+let state: SettingsState = { language: 'en', theme: 'light', digits: 'latin', rev: 0 };
 const listeners = new Set<() => void>();
 
 function emit(patch: Partial<SettingsState>) {
@@ -47,22 +44,23 @@ export function useSettings(): SettingsState {
   );
 }
 
-/** Returns true when the native layout direction differs from what the language needs. */
-function applyDirection(lang: AppLanguage): boolean {
+/**
+ * Layout direction. Web: the browser mirrors via `dir`. Phone: Android's own mirroring stays OFF
+ * and the app mirrors itself (see theme.ts), so switching language needs no restart.
+ */
+function applyDirection(lang: AppLanguage): void {
   const rtl = isRtlLanguage(lang);
   if (Platform.OS === 'web') {
     if (typeof document !== 'undefined') {
       document.documentElement.dir = rtl ? 'rtl' : 'ltr';
       document.documentElement.lang = lang;
     }
-    return false;
+    applyRtl(false);
+    return;
   }
-  I18nManager.allowRTL(true);
-  if (I18nManager.isRTL !== rtl) {
-    I18nManager.forceRTL(rtl);
-    return true;
-  }
-  return false;
+  I18nManager.allowRTL(false);
+  I18nManager.forceRTL(false);
+  applyRtl(rtl);
 }
 
 function deviceLanguage(): AppLanguage {
@@ -83,16 +81,16 @@ export async function loadSettings(): Promise<void> {
   await i18n.changeLanguage(language);
   await loadFontsFor(language);
   applyTheme(themeName);
-  const restartNeeded = applyDirection(language);
-  emit({ language, theme: themeName, digits: digits === 'arabic' ? 'arabic' : 'latin', restartNeeded });
+  applyDirection(language);
+  emit({ language, theme: themeName, digits: digits === 'arabic' ? 'arabic' : 'latin' });
 }
 
 export async function setLanguage(language: AppLanguage): Promise<void> {
   await setPref('lang', language);
   await i18n.changeLanguage(language);
   await loadFontsFor(language);
-  const restartNeeded = applyDirection(language);
-  emit({ language, restartNeeded: restartNeeded || state.restartNeeded });
+  applyDirection(language);
+  emit({ language });
 }
 
 export async function setTheme(theme: ThemeName): Promise<void> {
@@ -104,16 +102,4 @@ export async function setTheme(theme: ThemeName): Promise<void> {
 export async function setDigits(digits: DigitStyle): Promise<void> {
   await setPref('digits', digits);
   emit({ digits });
-}
-
-/** Restart the native app so the new layout direction applies. Falls back to a manual restart. */
-export async function restartApp(): Promise<boolean> {
-  const reload = (Expo as unknown as { reloadAppAsync?: () => Promise<void> }).reloadAppAsync;
-  if (!reload) return false;
-  try {
-    await reload();
-    return true;
-  } catch {
-    return false;
-  }
 }

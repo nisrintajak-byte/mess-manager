@@ -91,10 +91,50 @@ export function applyFonts(f: { regular?: string; bold?: string }): void {
   revision += 1;
 }
 
+/**
+ * Right-to-left on the phone is done in JavaScript (not by Android's own mirroring) so that
+ * changing language applies instantly, with no app restart. When on, rows run reversed, left/right
+ * margins and paddings swap and text aligns to the right. On the web the browser mirrors
+ * everything itself (`dir="rtl"`), so this stays off there.
+ */
+let jsRtl = false;
+export function applyRtl(on: boolean): void {
+  jsRtl = on;
+  revision += 1;
+}
+export function rowDirection(): 'row' | 'row-reverse' {
+  return jsRtl ? 'row-reverse' : 'row';
+}
+
+const FLIP: Record<string, string> = {
+  marginLeft: 'marginRight',
+  marginRight: 'marginLeft',
+  paddingLeft: 'paddingRight',
+  paddingRight: 'paddingLeft',
+  left: 'right',
+  right: 'left',
+  borderLeftWidth: 'borderRightWidth',
+  borderRightWidth: 'borderLeftWidth',
+  borderLeftColor: 'borderRightColor',
+  borderRightColor: 'borderLeftColor',
+};
+
+function flipRtl(st: Record<string, unknown>): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
+  for (const [k, v] of Object.entries(st)) out[FLIP[k] ?? k] = v;
+  if (out.flexDirection === 'row') out.flexDirection = 'row-reverse';
+  else if (out.flexDirection === 'row-reverse') out.flexDirection = 'row';
+  if (out.textAlign === 'left') out.textAlign = 'right';
+  else if (out.textAlign === 'right') out.textAlign = 'left';
+  else if (out.textAlign === undefined && 'fontSize' in out) out.textAlign = 'right';
+  return out;
+}
+
 function withFont(style: unknown): unknown {
   if (!style || typeof style !== 'object') return style;
-  const st = style as Record<string, unknown>;
-  if (!fontFamilies.regular || (!('fontSize' in st) && !('fontWeight' in st))) return style;
+  let st = style as Record<string, unknown>;
+  if (jsRtl) st = flipRtl(st);
+  if (!fontFamilies.regular || (!('fontSize' in st) && !('fontWeight' in st))) return st;
   const w = String(st.fontWeight ?? '400');
   const bold = w === 'bold' || Number(w) >= 600;
   // custom fonts do not synthesise weights: drop fontWeight and pick the bold file instead
