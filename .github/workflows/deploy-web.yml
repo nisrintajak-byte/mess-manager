@@ -53,3 +53,41 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  smoke-test:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Open the live site in a real browser
+        run: |
+          npm init -y >/dev/null
+          npm install --no-save playwright@1 >/dev/null
+          npx playwright install --with-deps chromium >/dev/null
+          cat > smoke.mjs <<'JS'
+          import { chromium } from 'playwright';
+          const url = 'https://nisrintajak-byte.github.io/mess-manager/';
+          const browser = await chromium.launch();
+          const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+          const errors = [];
+          page.on('pageerror', (e) => errors.push(e.message));
+          for (let i = 0; i < 10; i++) {
+            await page.goto(url, { waitUntil: 'networkidle' });
+            if (await page.getByText('Welcome back').count()) break;
+            await page.waitForTimeout(15000); // Pages CDN can take a moment
+          }
+          await page.screenshot({ path: 'login.png', fullPage: true });
+          const ok = (await page.getByText('Welcome back').count()) > 0;
+          for (const e of errors) console.log(`::warning::page error: ${e}`);
+          if (!ok) { console.log('::error::Login screen did not render on the live site'); process.exit(1); }
+          console.log('::notice::Live site OK — login screen rendered');
+          await browser.close();
+          JS
+          node smoke.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: live-site-screenshot
+          path: login.png
