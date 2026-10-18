@@ -207,7 +207,13 @@ export const api = {
     return rows.map((r) => ({ ...r, amount: n(r.amount) }));
   },
 
-  async expense(id: string): Promise<{ expense: Expense; splits: Split[]; history: AuditEntry[] }> {
+  async expense(id: string): Promise<{
+    expense: Expense;
+    splits: Split[];
+    history: AuditEntry[];
+    cycle: Cycle | null;
+    participants: string[];
+  }> {
     const e: Expense = unwrap(await supabase.from('expenses').select('*').eq('id', id).single());
     const splits: Split[] = unwrap(await supabase.from('expense_splits').select('*').eq('expense_id', id));
     const history: AuditEntry[] = unwrap(
