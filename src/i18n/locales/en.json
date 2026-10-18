@@ -646,5 +646,24 @@
     "notReady": "Account deletion is being switched on. Please try again later.",
     "deletedName": "{{name}} (account deleted)",
     "deletedUser": "Deleted user"
+  },
+  "email": {
+    "footer": "You receive this because you have a Mess Manager account. This is an automatic message — please do not reply.",
+    "greeting": "Hello {{name}},",
+    "retention_subject": "Records of {{room}} ({{from}} – {{to}}) will be deleted on {{date}}",
+    "retention_body": "Mess Manager keeps records for 2 complete calendar months after a cycle is settled. The records of {{room}} for {{from}} – {{to}} will be deleted on {{date}}. Your statement is attached as PDF and CSV — please keep it, it is your permanent copy.",
+    "leave_subject": "Your statement for {{room}}",
+    "leave_body": "You have left {{room}}. Attached is your statement for your stay ({{from}} – {{to}}): expenses, settlements, payments and anything still outstanding.",
+    "removed_body": "You were removed from {{room}}. Attached is your statement for your stay ({{from}} – {{to}}): expenses, settlements, payments and anything still outstanding.",
+    "deleted_subject": "Your Mess Manager account has been deleted",
+    "deleted_body": "Your Mess Manager account has been deleted. Your financial records stay read-only until {{date}}, only for the accounts and disputes of your former Rooms. On that date you will receive a final statement, and then all data linked to you, including this email address, is permanently deleted.",
+    "final_subject": "Your final Mess Manager statement",
+    "final_body": "The 2-month hold after your account deletion has ended. Your final statement is attached. All remaining data linked to you is now permanently deleted.",
+    "member_final_subject": "Final statement for {{name}} in {{room}}",
+    "member_final_body": "{{name}} deleted their Mess Manager account two months ago. Their final statement for {{room}} is attached. Their remaining data is now permanently deleted.",
+    "confirm_subject": "Confirm deleting your Mess Manager account",
+    "confirm_body": "We received a request to delete the Mess Manager account for this email address. If it was you, open the link below within 24 hours and confirm. If it was not you, ignore this email — nothing will change.",
+    "confirm_button": "Open the deletion page",
+    "attached": "Attached: {{files}}"
   }
 }

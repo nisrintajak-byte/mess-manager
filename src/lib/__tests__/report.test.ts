@@ -1,6 +1,13 @@
 import en from '../../i18n/locales/en.json';
 import ar from '../../i18n/locales/ar.json';
-import { buildExportHtml, buildReportCsv, buildReportHtml, minorToDecimal, type ReportData, type Translate } from '../report';
+import {
+  buildExportHtml,
+  buildReportCsv,
+  buildReportHtml,
+  minorToDecimal,
+  type ReportData,
+  type Translate,
+} from '../report';
 
 function translator(dict: Record<string, unknown>, missing: string[]): Translate {
   return (key, vars) => {
@@ -184,7 +191,14 @@ describe('reports', () => {
           created_at: '2026-10-01T00:00:00Z',
         },
         memberships: [
-          { room: 'Flat', role: 'admin', status: 'approved', requested_at: '', joined_on: '2026-10-01', left_on: null },
+          {
+            room: 'Flat',
+            role: 'admin',
+            status: 'approved',
+            requested_at: '',
+            joined_on: '2026-10-01',
+            left_on: null,
+          },
         ],
         rooms: [sample, { ...sample, scope: 'mine' }],
       },

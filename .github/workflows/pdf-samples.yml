@@ -1,0 +1,54 @@
+name: PDF samples
+
+# Renders the server's emailed statements (PDF + HTML) in all 4 languages with real fonts and
+# commits them to the `ci-samples` branch, so they can be reviewed as images. Also checks that the
+# function's copies of the app's report code and translations are in sync.
+
+on:
+  push:
+    branches: ['version/**', main]
+    paths:
+      - 'supabase/functions/send-emails/**'
+      - 'src/lib/report.ts'
+      - 'src/i18n/locales/**'
+      - '.github/workflows/pdf-samples.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Shared code is in sync
+        run: |
+          diff -q src/lib/report.ts supabase/functions/send-emails/report.ts
+          for f in src/i18n/locales/*.json; do diff -q "$f" "supabase/functions/send-emails/locales/$(basename "$f")"; done
+      - name: Render samples
+        working-directory: supabase/functions/send-emails
+        run: |
+          npm init -y >/dev/null
+          npm pkg set type=module
+          npm install --no-save pdf-lib@1.17.1 @pdf-lib/fontkit@1.1.1 bidi-js@1.0.3 >/dev/null
+          node --experimental-strip-types sample.ts /tmp/samples 2>&1 | tee /tmp/samples-log.txt
+          sudo apt-get install -y poppler-utils >/dev/null
+          for p in /tmp/samples/*.pdf; do pdftoppm -r 60 -png "$p" "${p%.pdf}"; done
+          ls -la /tmp/samples
+      - name: Commit to ci-samples branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin ci-samples || true
+          git switch --orphan ci-samples-new
+          git rm -rq --cached . >/dev/null 2>&1 || true
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp /tmp/samples/* . && cp /tmp/samples-log.txt .
+          echo "Source commit: ${GITHUB_SHA}" > README.md
+          git add -A
+          git commit -qm "PDF samples for ${GITHUB_SHA} [skip ci]"
+          git push -f origin ci-samples-new:ci-samples
