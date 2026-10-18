@@ -79,7 +79,7 @@ jobs:
             @expo/metro-runtime \
             i18next \
             react-i18next
-          npx expo install -- --save-dev jest-expo jest @types/jest eslint eslint-config-expo prettier
+          npx expo install -- --save-dev jest-expo jest @types/jest @types/node eslint eslint-config-expo prettier
 
       - name: Commit results
         run: |

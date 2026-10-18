@@ -5,7 +5,7 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "resolveJsonModule": true,
-    "types": ["jest"]
+    "types": ["jest", "node"]
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "supabase/functions"]
