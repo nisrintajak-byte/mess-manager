@@ -2,16 +2,16 @@
 
 **App:** Mess Manager — free, ad-supported, neutral (no flags) shared-expense app for Rooms (flats, hostels, messes, families, offices). Every expense, payment and settlement is visible, provable and audited. Android first; 4 languages (EN, AR, UR, HI).
 
-**Current version:** v0.1 Core MVP — ~90% (9 of 10 tasks). Only T10 (founder end-to-end test) left. Branch `version/v0.1-core-mvp`, CI green.
+**Current version:** v0.1 built — founder testing (needs 2nd tester). v0.2 built (~95%) on `version/v0.2-settlement-payments` — founder test pending. CI green on both.
 
-**Built so far:** Expo SDK 58 app: signup (consent, DOB, under-18 blocked for now), login, password reset, email verification; create Room (country → currency/decimals/time zone, no flags); join by code + Admin approval; roles and Last Admin rule; expenses add/edit (30-min rule)/soft delete with full history; equal split (leftover to payer); balances. Supabase project live with RLS + append-only audit. Web preview workflow + docs/TESTING_GUIDE.md.
+**Previews:** stable https://nisrintajak-byte.github.io/mess-manager/ (v0.1) · next …/mess-manager/next/ (v0.2). Same Supabase DB (v0.2 schema is backward compatible).
 
-**Next:** Founder enables GitHub Pages + Supabase URL config → tests v0.1 → merge to main, tag v0.1 → start v0.2 (settlement, lock, payments).
+**Built:** auth (testing mode: 6+ char passwords, email confirmation off), Rooms, code join + Admin approval, roles, Last Admin rule, expenses (equal or selected members, receipts, 30-min edit, soft delete, history), cycles (daily/weekly/monthly, Room time zone), settlement + DB-enforced lock (also early "up to yesterday"), adjustments, payments with proof + Admin confirm/reject/record, who-pays-whom, Room settings rules (currency/time zone/cycle), delete Room. Category removed from UI (founder).
 
-**Key decisions:** PRD §6 stack; all writes via server functions with server time; money as integer minor units; old Supabase tables archived not deleted. See DECISIONS.md.
+**Next:** founder tests v0.1 + v0.2 → merge v0.1 → main (tag v0.1), then v0.2 (tag) → v0.3 notifications, disputes, need requests.
 
-**Blockers:**
-- Founder: GitHub Pages switch; Supabase Site URL; add second tester to Supabase team
-- PRD §28 open decisions → memory/open-questions.md
+**Key decisions:** all writes via server functions with server time; money in integer minor units; no DROP/DELETE migrations; see DECISIONS.md.
 
-_Last updated: 2026-10-18 13:25 (UTC+3)_
+**Blockers / founder:** second tester for v0.1; PRD §28 decisions (memory/open-questions.md).
+
+_Last updated: 2026-10-18 17:20 (UTC+3)_

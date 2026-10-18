@@ -28,6 +28,9 @@ Expo (React Native) + TypeScript strict · Supabase (Postgres + RLS, Auth, Stora
 - Claude workspace cannot reach *.supabase.co (proxy 403); verify via connector SQL.
 - Default SMTP sends only to Supabase team members (testing limit until custom SMTP in v0.6).
 
+## Previews
+- Stable / (STABLE_REF) and next /next/ (NEXT_REF) set in .github/workflows/deploy-web.yml — workflow_run uses the copy on **main**, so edit it on main (keep version branches in sync).
+
 ## Env
 Secrets go in `.env` (never committed). Needed: SUPABASE_URL, SUPABASE_ANON_KEY (app); service key only in Supabase dashboard / CI secrets.
 
