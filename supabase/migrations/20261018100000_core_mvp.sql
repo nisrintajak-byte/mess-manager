@@ -103,7 +103,7 @@ create index audit_log_room_idx on public.audit_log (room_id, created_at desc);
 -- Audit log is append-only for everyone (PRD §10.5, §18.1)
 -- ---------------------------------------------------------------------------
 create function public.audit_log_immutable() returns trigger
-language plpgsql as $$
+language plpgsql set search_path = '' as $$
 begin
   raise exception 'audit_log is append-only';
 end;
@@ -146,7 +146,7 @@ create trigger expenses_audit after insert or update on public.expenses
   for each row execute function public.write_audit();
 
 create function public.touch_updated_at() returns trigger
-language plpgsql as $$
+language plpgsql set search_path = '' as $$
 begin
   new.updated_at := now();
   return new;
@@ -163,7 +163,7 @@ create trigger expenses_touch before update on public.expenses
 -- ---------------------------------------------------------------------------
 -- Profile is created from signup metadata (name, DOB, consent)
 -- ---------------------------------------------------------------------------
-create function public.handle_new_user() returns trigger
+create or replace function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = '' as $$
 declare
   m jsonb := coalesce(new.raw_user_meta_data, '{}'::jsonb);
@@ -181,8 +181,15 @@ begin
 end;
 $$;
 
-create trigger on_auth_user_created after insert on auth.users
-  for each row execute function public.handle_new_user();
+-- The trigger may already exist (pointing at public.handle_new_user); only create it if missing.
+do $$
+begin
+  if not exists (select 1 from pg_trigger where tgname = 'on_auth_user_created'
+                 and tgrelid = 'auth.users'::regclass) then
+    create trigger on_auth_user_created after insert on auth.users
+      for each row execute function public.handle_new_user();
+  end if;
+end $$;
 
 -- ---------------------------------------------------------------------------
 -- Helpers
@@ -423,10 +430,13 @@ begin
   remainder := e.amount - base * n;
   remainder_to := case when e.paid_by = any (ids) then e.paid_by else ids[1] end;
 
-  delete from public.expense_splits where expense_id = p_expense;
+  -- Upsert shares; anyone no longer sharing (after an edit) is set to 0 rather than removed.
   insert into public.expense_splits (expense_id, user_id, amount)
   select p_expense, uid, base + case when uid = remainder_to then remainder else 0 end
-  from unnest(ids) as uid;
+  from unnest(ids) as uid
+  on conflict (expense_id, user_id) do update set amount = excluded.amount;
+  update public.expense_splits set amount = 0
+   where expense_id = p_expense and not (user_id = any (ids));
 end;
 $$;
 
@@ -598,7 +608,7 @@ create policy audit_log_select on public.audit_log for select to authenticated
   using (room_id is not null and public.is_room_member(room_id));
 
 -- Functions: only signed-in users may call the public API
-revoke execute on all functions in schema public from public, anon;
+revoke execute on all functions in schema public from public, anon, authenticated;
 grant execute on function
   public.create_room(text, text, text, int, text),
   public.request_join(text),

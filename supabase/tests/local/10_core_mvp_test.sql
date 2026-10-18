@@ -113,6 +113,9 @@ do $$ begin
 end $$;
 select pg_temp.expect_error($$select public.add_expense((select id from t_room),'Future',100,'x',current_date + 3,'bbbbbbbb-0000-0000-0000-000000000002')$$, 'future_date');
 select pg_temp.expect_error($$select public.add_expense((select id from t_room),'Zero',0,'x',current_date,'bbbbbbbb-0000-0000-0000-000000000002')$$, 'check');
+-- internal helpers are not callable by clients
+select pg_temp.expect_error($$select public.write_equal_split((select id from t_exp))$$, 'permission denied');
+select pg_temp.expect_error($$select public.require_verified_user()$$, 'permission denied');
 -- clients cannot write tables directly
 select pg_temp.expect_error($$update public.expenses set amount = 1$$, 'permission denied');
 select pg_temp.expect_error($$insert into public.audit_log (entity_type, entity_id, action) values ('x', gen_random_uuid(), 'x')$$, 'permission denied');

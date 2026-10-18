@@ -7,8 +7,8 @@ import { Platform } from 'react-native';
  * Public project URL + publishable key (safe to ship in the app; data is
  * protected by Row Level Security). Override with EXPO_PUBLIC_* env vars.
  */
-const SUPABASE_URL = process.env.EXPO_PUBLIC_SUPABASE_URL ?? '';
-const SUPABASE_KEY = process.env.EXPO_PUBLIC_SUPABASE_KEY ?? '';
+const SUPABASE_URL = process.env.EXPO_PUBLIC_SUPABASE_URL || 'https://egylgjgimuytmnmrvzhs.supabase.co';
+const SUPABASE_KEY = process.env.EXPO_PUBLIC_SUPABASE_KEY || 'sb_publishable_gPryt81NP50aGXuKoo6hOg_qMgzBk4M';
 
 /**
  * Session tokens: SecureStore on phones (PRD §18.1). SecureStore values are

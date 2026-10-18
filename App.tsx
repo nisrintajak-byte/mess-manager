@@ -1,29 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+import { AuthProvider } from './src/auth/AuthProvider';
+import { isSupabaseConfigured } from './src/lib/supabase';
+import { RootNavigator } from './src/navigation/RootNavigator';
+import { Notice, Screen } from './src/ui/components';
 
 export default function App() {
   const { t } = useTranslation();
   return (
     <SafeAreaProvider>
-      <View style={styles.container}>
-        <Text style={styles.title}>{t('app.name')}</Text>
-        <Text style={styles.tagline}>{t('app.tagline')}</Text>
-        <StatusBar style="auto" />
-      </View>
+      <StatusBar style="dark" />
+      {isSupabaseConfigured ? (
+        <AuthProvider>
+          <RootNavigator />
+        </AuthProvider>
+      ) : (
+        <Screen>
+          <Notice tone="error">{t('common.notConfigured')}</Notice>
+        </Screen>
+      )}
     </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 24,
-    backgroundColor: '#ffffff',
-  },
-  title: { fontSize: 28, fontWeight: '700', color: '#111827' },
-  tagline: { marginTop: 8, fontSize: 16, color: '#4b5563', textAlign: 'center' },
-});
