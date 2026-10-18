@@ -31,5 +31,5 @@ export function countriesSorted(lang: LanguageCode): Country[] {
 
 /** Default zone when a country has exactly one; otherwise the Admin must choose. */
 export function defaultTimeZone(country: Country): string | null {
-  return country.timeZones.length === 1 ? country.timeZones[0] : null;
+  return country.timeZones.length === 1 ? (country.timeZones[0] ?? null) : null;
 }

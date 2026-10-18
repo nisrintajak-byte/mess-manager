@@ -58,7 +58,7 @@ export function splitEqual(total: Minor, participantIds: string[], payerId: stri
   const base = Math.floor(total / ids.length);
   const remainder = total - base * ids.length;
   const shares = new Map<string, Minor>(ids.map((id) => [id, base]));
-  const remainderTo = shares.has(payerId) ? payerId : ids[0];
+  const remainderTo = shares.has(payerId) ? payerId : ids[0]!;
   shares.set(remainderTo, base + remainder);
   return shares;
 }

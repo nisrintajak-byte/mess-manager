@@ -23,3 +23,23 @@ jobs:
         run: npm test -- --ci
       - name: Web build (smoke)
         run: npx expo export --platform web --output-dir dist
+
+  database:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+    steps:
+      - uses: actions/checkout@v4
+      - name: Migrations + RLS/behaviour tests
+        run: scripts/test-db.sh | grep -q "ALL DB TESTS PASSED"
