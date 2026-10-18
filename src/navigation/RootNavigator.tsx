@@ -57,14 +57,14 @@ export function RootNavigator() {
   const { session, loading, recovering, emailVerified } = useAuth();
 
   const verifiedId = session && emailVerified ? session.user.id : null;
-  const [profileOk, setProfileOk] = useState<boolean | null>(null);
+  const [profile, setProfile] = useState<{ id: string; ok: boolean } | null>(null);
+  const profileOk = profile && profile.id === verifiedId ? profile.ok : null;
   useEffect(() => {
-    setProfileOk(null);
-    if (verifiedId)
-      void api
-        .profileComplete()
-        .then(setProfileOk)
-        .catch(() => setProfileOk(true));
+    if (!verifiedId) return;
+    void api
+      .profileComplete()
+      .catch(() => true)
+      .then((ok) => setProfile({ id: verifiedId, ok }));
   }, [verifiedId]);
 
   if (loading || (verifiedId && profileOk === null)) {
