@@ -84,3 +84,9 @@ Google button stays hidden until the Google setup below is done.
 6. Last Admin of a Room with members cannot delete until another Admin exists.
 7. Web page: https://nisrintajak-byte.github.io/mess-manager/next/delete-account/ (emails start once Resend is set up).
 8. **Phone notifications (browser):** on an Android phone open the /next/ link in **Chrome** → sign in → Home shows **Turn on notifications** → Allow. Close Chrome. From another account in the same Room create a **Need Request** → a notification appears on the phone. (iPhone: Share → Add to Home Screen first.)
+
+## v0.7 test checklist (/next/ link)
+1. Sign in → a screen asks you to accept the updated Privacy Policy and Terms (read them, tick, Accept). It does not come back after that.
+2. Signup → links show the new Privacy Policy / Terms in your language.
+3. Public pages (for Google Play): …/next/privacy/ and …/next/terms/ — language buttons on top.
+4. Ads show only in the Android app (not in the browser): small "Ad" banner at the bottom of Home, Room, Inbox, Need Requests — never on payment, settlement, dispute, login or delete screens. Preferences → Ads → Personalised ads on/off.

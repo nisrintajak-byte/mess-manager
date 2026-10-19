@@ -33,3 +33,8 @@
 - Grievance Officer name + email for the deletion page and Privacy Policy.
 - Founder: run `mess-manager-account-deletion.sql` (= migrations/20261021110000_v06_purge_jobs.sql) in Supabase SQL Editor.
 - Founder: Expo account + EXPO_TOKEN GitHub secret → Android test app; then Firebase project for Android push (steps to follow).
+
+## v0.7 (2026-10-19)
+- Founder: AdMob account → real app id + banner unit id; in AdMob block categories (gambling, alcohol, dating, adult, political, religious, get-rich-quick).
+- Lawyer: review src/legal texts; fill [city], Grievance Officer name/email, hosting region.
+- Meal-count split (PRD §28 #5) still undecided.
