@@ -20,7 +20,9 @@ jobs:
           node-version: 22
       - run: |
           npx --yes eas-cli@latest whoami | sed 's/^/::notice title=expo account::/'
-          npx --yes eas-cli@latest build:list --platform android --limit 3 --json --non-interactive > builds.json || true
+          npx --yes eas-cli@latest build:list --platform android --limit 3 --json --non-interactive > builds.json 2> err.txt || true
+          head -c 600 err.txt | tr '\n' ' ' | sed 's/^/::notice title=stderr::/'; echo
+          head -c 300 builds.json | tr '\n' ' ' | sed 's/^/::notice title=raw::/'; echo
           node -e "
             const b=JSON.parse(require('fs').readFileSync('builds.json','utf8')||'[]');
             for (const x of b) console.log('::notice title=build '+x.id.slice(0,8)+'::'+x.status+' | '+(x.artifacts?.buildUrl||x.artifacts?.applicationArchiveUrl||'no file yet')+' | '+(x.error?.message||''));
