@@ -1,0 +1,51 @@
+name: APK smoke test
+
+# Installs the Android test app (URL in .github/apk-smoke-request) on an emulator, opens it and
+# reports crashes from the device log as annotations. Also prints key AndroidManifest entries.
+
+on:
+  push:
+    paths: ['.github/apk-smoke-request']
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm
+      - name: Download APK
+        run: curl -sL -o app.apk "$(head -1 .github/apk-smoke-request)" && ls -la app.apk
+      - name: Manifest check
+        run: |
+          AAPT=$(ls $ANDROID_HOME/build-tools/*/aapt | tail -1)
+          $AAPT dump xmltree app.apk AndroidManifest.xml > manifest.txt
+          grep -n "APPLICATION_ID\|package=\|minSdk\|targetSdk" -A2 manifest.txt | head -20 | sed 's/^/::notice title=manifest::/'
+      - name: Run on emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          disable-animations: true
+          script: |
+            adb install -r app.apk
+            adb logcat -c
+            adb shell monkey -p com.uyoontech.messmanager -c android.intent.category.LAUNCHER 1
+            sleep 45
+            adb logcat -d > logcat.txt || true
+            adb shell pidof com.uyoontech.messmanager && echo "::notice title=app::still running after 45s" || echo "::error title=app::not running (crashed)"
+            grep -E "FATAL EXCEPTION|AndroidRuntime|ReactNativeJS|Caused by|Exception" logcat.txt | grep -v "^--" | head -40 | cut -c1-400 | sed 's/^/::warning title=log::/' || true
+            adb exec-out screencap -p > screen.png || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: apk-smoke
+          path: |
+            logcat.txt
+            screen.png
+            manifest.txt
