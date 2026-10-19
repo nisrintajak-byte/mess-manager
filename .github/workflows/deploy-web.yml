@@ -109,6 +109,13 @@ jobs:
             if (ok) console.log(`::notice::${name} preview OK — login screen rendered`);
             else { console.log(`::error::${name} preview did not render`); failed = true; }
           }
+          {
+            const page = await browser.newPage();
+            await page.goto('https://nisrintajak-byte.github.io/mess-manager/next/delete-account/', { waitUntil: 'networkidle' });
+            const ok = (await page.getByText('Delete your Mess Manager account').count()) > 0;
+            console.log(ok ? '::notice::delete-account page OK' : '::error::delete-account page missing');
+            if (!ok) failed = true;
+          }
           await browser.close();
           process.exit(failed ? 1 : 0);
           JS
