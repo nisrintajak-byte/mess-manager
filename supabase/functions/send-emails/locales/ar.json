@@ -134,6 +134,9 @@
   "on_settlement_line": "بند تسوية"
  },
  "settlement": {
+  "toPay": "يدفع {{amount}}",
+  "toReceive": "يستلم {{amount}}",
+  "even": "لا مستحقات",
   "status_settled": "لا شيء للدفع",
   "status_pending": "قيد الانتظار",
   "status_awaiting": "بانتظار التأكيد",
@@ -143,5 +146,32 @@
  "common": {
   "yes": "نعم",
   "no": "لا"
+ },
+ "inbox": {
+  "k_join_request": "{{name}} طلب الانضمام إلى {{room}}",
+  "k_join_approved": "يمكنك الآن دخول {{room}}",
+  "k_join_rejected": "تم رفض طلبك للانضمام إلى {{room}}",
+  "k_member_removed": "تمت إزالتك من {{room}}",
+  "k_admin_promoted": "أصبحت الآن مشرفًا في {{room}}",
+  "k_expense_added": "{{by}} أضاف «{{title}}» · {{amount}}",
+  "k_expense_edited": "{{by}} عدّل «{{title}}» · {{amount}}",
+  "k_expense_deleted": "{{by}} حذف «{{title}}»",
+  "k_room_settings_changed": "تغيّرت إعدادات {{room}}",
+  "k_settlement_generated": "التسوية جاهزة لـ {{room}} ({{from}} – {{to}}): {{result}} · الاستحقاق {{due}}",
+  "k_payment_claimed": "{{name}} حدّد {{amount}} كمدفوع — يرجى التأكيد",
+  "k_payment_confirmed": "تم تأكيد دفعتك بمبلغ {{amount}}",
+  "k_payment_rejected": "تم رفض دفعتك بمبلغ {{amount}}: {{reason}}",
+  "k_dispute_raised": "{{name}} رفع نزاعًا في {{room}}",
+  "k_dispute_resolved": "نزاع في {{room}}: {{outcome}}",
+  "k_need_created": "{{name}} يحتاج: {{title}}",
+  "k_need_accepted": "{{name}} سيشتري {{title}}",
+  "k_need_completed": "{{name}} اشترى {{title}}",
+  "k_other": "إشعار جديد",
+  "k_expense_late_entry": "أُضيف «{{title}}» كإدخال متأخر — سُوّيت دورته في الأثناء (التاريخ الأصلي {{date}})",
+  "k_member_account_deleted": "حذف {{name}} حسابه وغادر {{room}}",
+  "k_retention_reminder": "ستُحذف سجلات {{room}} للفترة {{from}} – {{to}} بتاريخ {{deleteOn}}. نزّل تقاريرك الآن."
+ },
+ "app": {
+  "name": "مدير المصروفات"
  }
 }

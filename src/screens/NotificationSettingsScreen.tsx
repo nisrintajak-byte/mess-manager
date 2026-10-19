@@ -7,6 +7,7 @@ import { dbErrorKey } from '../lib/errors';
 import { PushState, registerForPush } from '../lib/push';
 import { Body, Card, Notice, Row, Screen, Spacer, Title } from '../ui/components';
 import { useLoader } from '../ui/hooks';
+import { WebPushCard } from '../ui/WebPushCard';
 import { colors } from '../ui/theme';
 
 /** Optional notifications can be switched off; mandatory ones cannot (PRD §7.7). */
@@ -33,10 +34,11 @@ export function NotificationSettingsScreen() {
   return (
     <Screen>
       <Title>{t('notifPrefs.title')}</Title>
-      {push === 'on' ? <Notice tone="success">{t('notifPrefs.pushOn')}</Notice> : null}
-      {push === 'web' || push === 'unavailable' ? (
-        <Notice tone="info">{t('notifPrefs.pushWeb')}</Notice>
+      {push === 'on' && Platform.OS !== 'web' ? (
+        <Notice tone="success">{t('notifPrefs.pushOn')}</Notice>
       ) : null}
+      {push === 'unavailable' ? <Notice tone="info">{t('notifPrefs.pushWeb')}</Notice> : null}
+      <WebPushCard />
       {push === 'denied' ? <Notice tone="info">{t('notifPrefs.pushDenied')}</Notice> : null}
       {error ? <Notice tone="error">{error}</Notice> : null}
       <Body muted>{t('notifPrefs.intro')}</Body>

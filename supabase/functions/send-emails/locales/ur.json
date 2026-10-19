@@ -134,6 +134,9 @@
   "on_settlement_line": "حساب کی لائن"
  },
  "settlement": {
+  "toPay": "{{amount}} دینے ہیں",
+  "toReceive": "{{amount}} ملیں گے",
+  "even": "حساب برابر",
   "status_settled": "کچھ دینا نہیں",
   "status_pending": "زیرِ التوا",
   "status_awaiting": "تصدیق کا انتظار",
@@ -143,5 +146,32 @@
  "common": {
   "yes": "ہاں",
   "no": "نہیں"
+ },
+ "inbox": {
+  "k_join_request": "{{name}} نے {{room}} میں شامل ہونے کی درخواست دی",
+  "k_join_approved": "اب آپ {{room}} میں داخل ہو سکتے ہیں",
+  "k_join_rejected": "{{room}} میں شمولیت کی آپ کی درخواست مسترد ہو گئی",
+  "k_member_removed": "آپ کو {{room}} سے نکال دیا گیا",
+  "k_admin_promoted": "آپ اب {{room}} کے ایڈمن ہیں",
+  "k_expense_added": "{{by}} نے «{{title}}» شامل کیا · {{amount}}",
+  "k_expense_edited": "{{by}} نے «{{title}}» میں ترمیم کی · {{amount}}",
+  "k_expense_deleted": "{{by}} نے «{{title}}» حذف کیا",
+  "k_room_settings_changed": "{{room}} کی سیٹنگز بدل گئیں",
+  "k_settlement_generated": "{{room}} کا حساب تیار ({{from}} – {{to}}): {{result}} · آخری تاریخ {{due}}",
+  "k_payment_claimed": "{{name}} نے {{amount}} ادا شدہ نشان زد کیے — براہِ کرم تصدیق کریں",
+  "k_payment_confirmed": "آپ کی {{amount}} کی ادائیگی کی تصدیق ہو گئی",
+  "k_payment_rejected": "آپ کی {{amount}} کی ادائیگی مسترد ہوئی: {{reason}}",
+  "k_dispute_raised": "{{name}} نے {{room}} میں تنازعہ اٹھایا",
+  "k_dispute_resolved": "{{room}} میں ایک تنازعے کا فیصلہ: {{outcome}}",
+  "k_need_created": "{{name}} کو چاہیے: {{title}}",
+  "k_need_accepted": "{{name}} {{title}} خریدے گا",
+  "k_need_completed": "{{name}} نے {{title}} خرید لیا",
+  "k_other": "نیا نوٹیفکیشن",
+  "k_expense_late_entry": "«{{title}}» دیر سے اندراج کے طور پر شامل ہوا — اس کا سائیکل اس دوران طے ہو چکا تھا (اصل تاریخ {{date}})",
+  "k_member_account_deleted": "{{name}} نے اپنا اکاؤنٹ حذف کر دیا اور {{room}} چھوڑ دیا",
+  "k_retention_reminder": "{{room}} کے {{from}} – {{to}} کے ریکارڈ {{deleteOn}} کو حذف ہوں گے۔ ابھی اپنی رپورٹس ڈاؤن لوڈ کریں۔"
+ },
+ "app": {
+  "name": "میس مینیجر"
  }
 }

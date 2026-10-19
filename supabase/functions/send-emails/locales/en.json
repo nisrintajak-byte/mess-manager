@@ -134,6 +134,9 @@
   "on_settlement_line": "Settlement line"
  },
  "settlement": {
+  "toPay": "to pay {{amount}}",
+  "toReceive": "receives {{amount}}",
+  "even": "settled up",
   "status_settled": "Nothing to pay",
   "status_pending": "Pending",
   "status_awaiting": "Awaiting confirmation",
@@ -143,5 +146,32 @@
  "common": {
   "yes": "Yes",
   "no": "No"
+ },
+ "inbox": {
+  "k_join_request": "{{name}} asked to join {{room}}",
+  "k_join_approved": "You can now enter {{room}}",
+  "k_join_rejected": "Your request to join {{room}} was declined",
+  "k_member_removed": "You were removed from {{room}}",
+  "k_admin_promoted": "You are now an Admin of {{room}}",
+  "k_expense_added": "{{by}} added “{{title}}” · {{amount}}",
+  "k_expense_edited": "{{by}} edited “{{title}}” · {{amount}}",
+  "k_expense_deleted": "{{by}} deleted “{{title}}”",
+  "k_room_settings_changed": "Settings of {{room}} changed",
+  "k_settlement_generated": "Settlement ready for {{room}} ({{from}} – {{to}}): {{result}} · due {{due}}",
+  "k_payment_claimed": "{{name}} marked {{amount}} as paid — please confirm",
+  "k_payment_confirmed": "Your payment of {{amount}} was confirmed",
+  "k_payment_rejected": "Your payment of {{amount}} was rejected: {{reason}}",
+  "k_dispute_raised": "{{name}} raised a dispute in {{room}}",
+  "k_dispute_resolved": "A dispute in {{room}} was {{outcome}}",
+  "k_need_created": "{{name}} needs: {{title}}",
+  "k_need_accepted": "{{name}} will buy {{title}}",
+  "k_need_completed": "{{name}} bought {{title}}",
+  "k_other": "New notification",
+  "k_expense_late_entry": "“{{title}}” was added as a late entry — its cycle was settled meanwhile (original date {{date}})",
+  "k_member_account_deleted": "{{name}} deleted their account and left {{room}}",
+  "k_retention_reminder": "Records of {{room}} for {{from}} – {{to}} will be deleted on {{deleteOn}}. Download your reports now."
+ },
+ "app": {
+  "name": "Mess Manager"
  }
 }

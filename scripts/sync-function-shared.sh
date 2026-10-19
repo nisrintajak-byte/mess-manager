@@ -11,7 +11,8 @@ python3 - "$dst" <<'PY'
 import json, sys
 dst = sys.argv[1]
 KEEP = {'report': None, 'email': None, 'account': ['deletedName', 'deletedUser'], 'cycle': ['range'],
-        'payment': 'method_|status_', 'flag': 'r_|s_|on_', 'settlement': 'status_', 'common': ['yes', 'no']}
+        'payment': 'method_|status_', 'flag': 'r_|s_|on_', 'settlement': 'status_|toPay|toReceive|even',
+        'common': ['yes', 'no'], 'inbox': 'k_', 'app': ['name']}
 for lang in ['en', 'ar', 'ur', 'hi']:
     src = json.load(open(f'src/i18n/locales/{lang}.json', encoding='utf-8'))
     out = {}

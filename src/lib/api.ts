@@ -585,6 +585,14 @@ const rawApi = {
     unwrap(await supabase.rpc('register_push_token', { p_token: token, p_platform: platform }));
   },
 
+  async registerWebPush(endpoint: string, p256dh: string, auth: string): Promise<void> {
+    unwrap(await supabase.rpc('register_web_push', { p_endpoint: endpoint, p_p256dh: p256dh, p_auth: auth }));
+  },
+
+  async unregisterWebPush(endpoint: string): Promise<void> {
+    unwrap(await supabase.rpc('unregister_web_push', { p_endpoint: endpoint }));
+  },
+
   async unregisterPushToken(token: string): Promise<void> {
     unwrap(await supabase.rpc('unregister_push_token', { p_token: token }));
   },

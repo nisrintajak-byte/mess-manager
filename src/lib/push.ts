@@ -8,13 +8,17 @@ import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
 import { api } from './api';
+import { disableWebPush, refreshWebPush } from './webPush';
 
 let currentToken: string | null = null;
 
 export type PushState = 'on' | 'web' | 'denied' | 'unavailable';
 
 export async function registerForPush(): Promise<PushState> {
-  if (Platform.OS === 'web') return 'web';
+  if (Platform.OS === 'web') {
+    const state = await refreshWebPush();
+    return state === 'on' ? 'on' : state === 'denied' ? 'denied' : 'web';
+  }
   if (!Device.isDevice) return 'unavailable';
   try {
     if (Platform.OS === 'android') {
@@ -42,6 +46,7 @@ export async function registerForPush(): Promise<PushState> {
 
 /** Stop pushes to this phone for the signed-out user (shared phones). */
 export async function unregisterPush(): Promise<void> {
+  if (Platform.OS === 'web') return disableWebPush();
   if (!currentToken) return;
   try {
     await api.unregisterPushToken(currentToken);
