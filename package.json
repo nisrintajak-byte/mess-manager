@@ -35,6 +35,8 @@
     "react-i18next": "^17.1.0",
     "react-native": "0.88.0",
     "react-native-google-mobile-ads": "^17.3.1",
+    "react-native-iap": "^17.1.0",
+    "react-native-nitro-modules": "^0.37.1",
     "react-native-safe-area-context": "~5.10.1",
     "react-native-screens": "~4.30.0",
     "react-native-url-polyfill": "^4.0.0",
