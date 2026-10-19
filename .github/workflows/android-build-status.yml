@@ -18,6 +18,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - run: npm ci
       - run: |
           npx --yes eas-cli@latest whoami | sed 's/^/::notice title=expo account::/'
           npx --yes eas-cli@latest build:list --platform android --limit 3 --json --non-interactive > builds.json 2> err.txt || true
