@@ -1,0 +1,27 @@
+name: Android build status
+
+# Dev helper: reports the latest Android builds on Expo (status + download link) as notices.
+# Trigger: change .github/android-status-request and push.
+
+on:
+  push:
+    paths: ['.github/android-status-request']
+  workflow_dispatch:
+
+jobs:
+  status:
+    runs-on: ubuntu-latest
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: |
+          npx --yes eas-cli@latest whoami | sed 's/^/::notice title=expo account::/'
+          npx --yes eas-cli@latest build:list --platform android --limit 3 --json --non-interactive > builds.json || true
+          node -e "
+            const b=JSON.parse(require('fs').readFileSync('builds.json','utf8')||'[]');
+            for (const x of b) console.log('::notice title=build '+x.id.slice(0,8)+'::'+x.status+' | '+(x.artifacts?.buildUrl||x.artifacts?.applicationArchiveUrl||'no file yet')+' | '+(x.error?.message||''));
+          "
