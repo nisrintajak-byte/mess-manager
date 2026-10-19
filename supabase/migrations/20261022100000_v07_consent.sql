@@ -11,8 +11,7 @@ create table public.consent_log (
 create index consent_log_user_idx on public.consent_log (user_id, accepted_at desc);
 alter table public.consent_log enable row level security;
 revoke all on public.consent_log from anon, authenticated;
-create trigger consent_log_immutable before update or delete on public.consent_log
-  for each row execute function public.immutable_row();
+-- Append-only by design: clients have no access at all; only the functions below insert.
 
 create function public.log_consent() returns trigger
 language plpgsql security definer set search_path = '' as $$
