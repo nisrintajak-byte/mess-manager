@@ -26,7 +26,12 @@ jobs:
       - name: Unit tests
         run: npm test -- --ci
       - name: Web build (smoke)
-        run: npx expo export --platform web --output-dir dist
+        run: |
+          if ! npx expo export --platform web --output-dir dist > web-build.log 2>&1; then
+            grep -iE "error|cannot|failed|unable" web-build.log | head -15 | sed 's/^/::error title=web-build::/'
+            tail -n 15 web-build.log | sed 's/^/::error title=web-build-tail::/'
+            exit 1
+          fi
       - name: Account deletion web page is included
         run: |
           test -f dist/delete-account/index.html && test -f dist/sw.js
