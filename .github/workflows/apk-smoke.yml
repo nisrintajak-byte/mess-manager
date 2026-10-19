@@ -41,6 +41,8 @@ jobs:
             adb shell pidof com.uyoontech.messmanager && echo "::notice title=app::still running after 45s" || echo "::error title=app::not running (crashed)"
             grep -A80 "FATAL EXCEPTION" logcat.txt | grep -E "Caused by|FATAL|RuntimeException|Exception:" | head -12 | cut -c60-400 | tr '\n' '~' | sed 's/^/::warning title=causes::/'; echo
             grep -A80 "FATAL EXCEPTION" logcat.txt | grep -E "at (androidx\.work|androidx\.room|com\.google|expo|com\.uyoon)" | head -12 | cut -c60-300 | tr '\n' '~' | sed 's/^/::warning title=frames::/'; echo
+            adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1; adb pull /sdcard/ui.xml ui.xml >/dev/null 2>&1 || true
+            grep -o 'text="[^"]\+"' ui.xml | head -15 | tr '\n' ' ' | sed 's/^/::notice title=screen text::/'; echo
             adb exec-out screencap -p > screen.png || true
       - uses: actions/upload-artifact@v4
         if: always()
