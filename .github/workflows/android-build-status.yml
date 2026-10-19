@@ -28,3 +28,15 @@ jobs:
             const b=JSON.parse(require('fs').readFileSync('builds.json','utf8')||'[]');
             for (const x of b) console.log('::notice title=build '+x.id.slice(0,8)+'::'+x.status+' | '+(x.artifacts?.buildUrl||x.artifacts?.applicationArchiveUrl||'no file yet')+' | '+(x.error?.message||''));
           "
+      - name: Logs of failed builds
+        run: |
+          node -e "
+            const b=JSON.parse(require('fs').readFileSync('builds.json','utf8')||'[]');
+            console.log(b.filter(x=>x.status==='ERRORED').slice(0,1).map(x=>x.id).join(' '));
+          " > errored.txt
+          for id in $(cat errored.txt); do
+            npx --yes eas-cli@latest build:view "$id" --json --non-interactive > view.json 2>/dev/null || continue
+            node -e "const v=JSON.parse(require('fs').readFileSync('view.json','utf8'));for(const u of (v.logFiles||[]))console.log(u)" > urls.txt
+            for u in $(cat urls.txt); do curl -sL "$u"; done > log.txt
+            grep -iE 'npm (error|err)|ERESOLVE|error|failed' log.txt | grep -v 'level\":30' | tail -n 25 | cut -c1-300 | sed "s/^/::warning title=log ${id:0:8}::/"
+          done
