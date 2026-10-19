@@ -8,11 +8,16 @@
     "userInterfaceStyle": "automatic",
     "android": {
       "package": "com.uyoontech.messmanager",
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.USE_BIOMETRIC",
+        "android.permission.USE_FINGERPRINT"
+      ]
     },
     "ios": {
       "bundleIdentifier": "com.uyoontech.messmanager",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {}
     },
     "web": {
       "bundler": "metro"
@@ -33,6 +38,12 @@
     ],
     "experiments": {
       "baseUrl": "/mess-manager"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e7c9027c-9e45-44e9-9c5f-fdb8e4122dc5"
+      }
+    },
+    "owner": "nisrintajak"
   }
 }
