@@ -39,7 +39,8 @@ jobs:
             sleep 45
             adb logcat -d > logcat.txt || true
             adb shell pidof com.uyoontech.messmanager && echo "::notice title=app::still running after 45s" || echo "::error title=app::not running (crashed)"
-            grep -E "FATAL EXCEPTION|AndroidRuntime|ReactNativeJS|Caused by|Exception" logcat.txt | grep -v "^--" | head -40 | cut -c1-400 | sed 's/^/::warning title=log::/' || true
+            grep -A45 "FATAL EXCEPTION" logcat.txt | head -60 | cut -c1-300 | sed 's/^/::warning title=fatal::/' || true
+            grep -E "ReactNativeJS|SoLoader|libc .*Fatal signal|DEBUG   :.*(signal|Abort|backtrace|#0[0-9])" logcat.txt | head -30 | cut -c1-300 | sed 's/^/::warning title=native::/' || true
             adb exec-out screencap -p > screen.png || true
       - uses: actions/upload-artifact@v4
         if: always()
