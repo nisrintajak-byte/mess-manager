@@ -31,7 +31,7 @@
 - Web deletion page lives on the preview site for now; move to the company website when there is one (Play Console needs the link).
 - Google-only accounts: deleting needs a fresh Google sign-in (build when Google is enabled).
 - Grievance Officer name + email for the deletion page and Privacy Policy.
-- Founder: run `mess-manager-account-deletion.sql` (= migrations/20261021110000_v06_purge_jobs.sql) in Supabase SQL Editor.
+- ~~Founder: run account-deletion SQL~~ — done 2026-10-19 23:55 (verified: functions, constraint, hourly job).
 - Founder: Expo account + EXPO_TOKEN GitHub secret → Android test app; then Firebase project for Android push (steps to follow).
 
 ## v0.7 (2026-10-19)
