@@ -90,3 +90,4 @@ Google button stays hidden until the Google setup below is done.
 2. Signup → links show the new Privacy Policy / Terms in your language.
 3. Public pages (for Google Play): …/next/privacy/ and …/next/terms/ — language buttons on top.
 4. Ads show only in the Android app (not in the browser): small "Ad" banner at the bottom of Home, Room, Inbox, Need Requests — never on payment, settlement, dispute, login or delete screens. Preferences → Ads → Personalised ads on/off.
+5. Android app only (after Play Console): Preferences → **Remove ads** → Monthly / Yearly through Google Play; ads disappear on all your phones; **Restore** on a new phone; **Manage** opens Google Play.
