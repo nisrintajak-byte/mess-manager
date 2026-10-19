@@ -3,7 +3,7 @@
  * (works with the site closed: Chrome on Android, desktop browsers; iPhone only for a site added
  * to the Home Screen). Called by the database for each new notification (x-worker-secret).
  * Text is written in the user's language from the same translations the app uses.
- * Settings (Edge Function secrets): VAPID_PRIVATE_KEY.
+ * The VAPID private key is read from the database vault (web_push_vapid_key).
  */
 import { createClient } from '@supabase/supabase-js';
 import webpush from 'web-push';
@@ -18,6 +18,15 @@ const VAPID_SUBJECT = 'https://nisrintajak-byte.github.io/mess-manager/';
 const db = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, {
   auth: { persistSession: false },
 });
+
+let vapidPrivate: string | null = null;
+async function privateKey(): Promise<string> {
+  if (!vapidPrivate) {
+    const { data } = await db.rpc('web_push_vapid_key');
+    vapidPrivate = (data as string | null) ?? '';
+  }
+  return vapidPrivate;
+}
 
 const str = (v: unknown) => (v === null || v === undefined ? '' : String(v));
 
@@ -76,7 +85,7 @@ async function send(notificationId: string) {
   const vapidDetails = {
     subject: VAPID_SUBJECT,
     publicKey: VAPID_PUBLIC_KEY,
-    privateKey: Deno.env.get('VAPID_PRIVATE_KEY') ?? '',
+    privateKey: await privateKey(),
   };
   let sent = 0;
   for (const sub of job.subscriptions as { endpoint: string; keys: { p256dh: string; auth: string } }[]) {
@@ -116,7 +125,7 @@ Deno.serve(async (req) => {
         vapidDetails: {
           subject: VAPID_SUBJECT,
           publicKey: VAPID_PUBLIC_KEY,
-          privateKey: Deno.env.get('VAPID_PRIVATE_KEY') ?? '',
+          privateKey: await privateKey(),
         },
       },
     );

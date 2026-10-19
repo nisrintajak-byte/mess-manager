@@ -55,6 +55,20 @@ language sql stable security definer set search_path = '' as $$
   where n.id = p_notification and (p.deleted_at is null);
 $$;
 
+-- The VAPID private key lives in the vault ('mm_vapid_private_key'), never in the repository.
+create function public.web_push_vapid_key() returns text
+language plpgsql stable security definer set search_path = '' as $$
+declare
+  v text;
+begin
+  if to_regclass('vault.decrypted_secrets') is null then
+    return null;
+  end if;
+  execute 'select decrypted_secret from vault.decrypted_secrets where name = $1' into v using 'mm_vapid_private_key';
+  return v;
+end;
+$$;
+
 create function public.web_push_gone(p_endpoint text) returns void
 language sql security definer set search_path = '' as $$
   update public.web_push_subscriptions set active = false, updated_at = now() where endpoint = p_endpoint;
@@ -94,3 +108,5 @@ revoke execute on function public.web_push_gone(text) from public, anon, authent
 revoke execute on function public.send_web_push() from public, anon, authenticated;
 grant execute on function public.web_push_job(uuid) to service_role;
 grant execute on function public.web_push_gone(text) to service_role;
+revoke execute on function public.web_push_vapid_key() from public, anon, authenticated;
+grant execute on function public.web_push_vapid_key() to service_role;
