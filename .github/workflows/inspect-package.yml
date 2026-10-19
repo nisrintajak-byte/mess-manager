@@ -1,0 +1,34 @@
+name: Inspect package
+
+# Dev helper: installs the npm package named in .github/inspect-request and publishes its type
+# definitions to the `ci-inspect` branch, so the API can be read from the workspace (no npm there).
+
+on:
+  push:
+    paths: ['.github/inspect-request']
+
+permissions:
+  contents: write
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: |
+          pkg=$(head -1 .github/inspect-request)
+          mkdir /tmp/i && cd /tmp/i && npm init -y >/dev/null && npm install --no-save --ignore-scripts "$pkg" >/dev/null
+          name=$(node -e "console.log(process.argv[1].replace(/@[^@/]+$/,''))" "$pkg")
+          mkdir -p /tmp/out && cp node_modules/$name/package.json /tmp/out/
+          (cd node_modules/$name && find . -name '*.d.ts' -not -path './node_modules/*' | head -200 | tar -cf - -T -) | (cd /tmp/out && tar -xf -)
+          cp node_modules/$name/README.md /tmp/out/ 2>/dev/null || true
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch --orphan ci-inspect-new
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -r /tmp/out/. .
+          git add -A && git commit -qm "inspect [skip ci]" && git push -f origin ci-inspect-new:ci-inspect
