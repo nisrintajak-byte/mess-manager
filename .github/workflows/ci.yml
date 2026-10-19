@@ -27,6 +27,8 @@ jobs:
         run: npm test -- --ci
       - name: Web build (smoke)
         run: npx expo export --platform web --output-dir dist
+      - name: Account deletion web page is included
+        run: test -f dist/delete-account/index.html
 
   database:
     runs-on: ubuntu-latest
