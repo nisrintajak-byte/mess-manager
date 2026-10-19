@@ -221,8 +221,11 @@ const rawApi = {
     return unwrap(await supabase.from('rooms').select('*').is('deleted_at', null).order('created_at'));
   },
 
-  /** False for a Google sign-in that has not yet given date of birth and consent. */
-  async profileComplete(): Promise<boolean> {
+  /**
+   * 'incomplete' = Google sign-in without date of birth/consent yet; 'outdated' = the legal texts
+   * changed since the user accepted them (they must accept again); otherwise 'ok'.
+   */
+  async profileState(currentLegalVersion: string): Promise<'incomplete' | 'outdated' | 'ok'> {
     const { data: u } = await supabase.auth.getUser();
     const rows = unwrap(
       await supabase
@@ -230,7 +233,14 @@ const rawApi = {
         .select('consent_version')
         .eq('id', u.user?.id ?? ''),
     ) as { consent_version: string }[];
-    return rows[0] ? rows[0].consent_version !== 'unknown' : true;
+    const v = rows[0]?.consent_version;
+    if (!v) return 'ok';
+    if (v === 'unknown') return 'incomplete';
+    return v < currentLegalVersion ? 'outdated' : 'ok';
+  },
+
+  async acceptLegal(version: string): Promise<void> {
+    unwrap(await supabase.rpc('accept_legal', { p_version: version }));
   },
 
   async completeProfile(dob: string, consentVersion: string): Promise<void> {

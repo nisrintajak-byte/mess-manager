@@ -28,7 +28,13 @@ jobs:
       - name: Web build (smoke)
         run: npx expo export --platform web --output-dir dist
       - name: Account deletion web page is included
-        run: test -f dist/delete-account/index.html && test -f dist/sw.js
+        run: |
+          test -f dist/delete-account/index.html && test -f dist/sw.js
+          test -f dist/privacy/index.html && test -f dist/terms/index.html
+      - name: Legal web pages match the app's texts
+        run: |
+          python3 scripts/build-legal-pages.py
+          git diff --exit-code -- public/privacy public/terms
 
   database:
     runs-on: ubuntu-latest

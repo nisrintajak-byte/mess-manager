@@ -75,8 +75,11 @@
   },
   "legal": {
     "draftNotice": "Draft — the final text will be reviewed by a lawyer before launch.",
-    "privacyBody": "Mess Manager records shared expenses for your Rooms. We collect your name, email, date of birth and what you enter in Rooms. Only approved members of a Room can see its data. Your email is visible only to Room Admins. We never share financial data with advertisers. Records are kept for 2 calendar months after a cycle is settled and then deleted. You can delete your account at any time.",
-    "termsBody": "Mess Manager is a record-keeping tool only. It does not hold, transfer or process money. Users and Room Admins are responsible for what they enter and for settling money among themselves. Uyoon Tech Solutions is not a party to disputes between members. The service is provided as is."
+    "updateTitle": "We updated our Privacy Policy and Terms",
+    "updateBody": "Please read what changed and accept to continue using Mess Manager.",
+    "read": "Read: {{doc}}",
+    "hide": "Hide: {{doc}}",
+    "accept": "Accept and continue"
   },
   "home": {
     "title": "Your Rooms",

@@ -9,6 +9,8 @@ import { useAuth } from '../auth/AuthProvider';
 import i18n, { isRtlLanguage } from '../i18n';
 import { api } from '../lib/api';
 import { CompleteProfileScreen } from '../screens/auth/CompleteProfileScreen';
+import { ConsentUpdateScreen } from '../screens/auth/ConsentUpdateScreen';
+import { LEGAL_VERSION } from '../legal';
 import { AddExpenseScreen } from '../screens/AddExpenseScreen';
 import { AdjustScreen } from '../screens/AdjustScreen';
 import { CheckEmailScreen } from '../screens/auth/CheckEmailScreen';
@@ -62,14 +64,17 @@ export function RootNavigator() {
   const { session, loading, recovering, emailVerified } = useAuth();
 
   const verifiedId = session && emailVerified ? session.user.id : null;
-  const [profile, setProfile] = useState<{ id: string; ok: boolean } | null>(null);
-  const profileOk = profile && profile.id === verifiedId ? profile.ok : null;
+  const [profile, setProfile] = useState<{ id: string; state: 'incomplete' | 'outdated' | 'ok' } | null>(
+    null,
+  );
+  const profileState = profile && profile.id === verifiedId ? profile.state : null;
+  const profileOk = profileState === null ? null : profileState === 'ok';
   useEffect(() => {
     if (!verifiedId) return;
     void api
-      .profileComplete()
-      .catch(() => true)
-      .then((ok) => setProfile({ id: verifiedId, ok }));
+      .profileState(LEGAL_VERSION)
+      .catch(() => 'ok' as const)
+      .then((state) => setProfile({ id: verifiedId, state }));
   }, [verifiedId]);
 
   if (loading || (verifiedId && profileOk === null)) {
@@ -81,8 +86,10 @@ export function RootNavigator() {
   }
 
   if (session && recovering) return <SetNewPasswordScreen />;
-  if (verifiedId && profileOk === false)
-    return <CompleteProfileScreen onDone={() => setProfile({ id: verifiedId, ok: true })} />;
+  if (verifiedId && profileState === 'incomplete')
+    return <CompleteProfileScreen onDone={() => setProfile({ id: verifiedId, state: 'ok' })} />;
+  if (verifiedId && profileState === 'outdated')
+    return <ConsentUpdateScreen onDone={() => setProfile({ id: verifiedId, state: 'ok' })} />;
 
   return (
     <NavigationContainer

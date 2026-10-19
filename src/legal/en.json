@@ -1,0 +1,145 @@
+{
+  "draft": "DRAFT for review by a qualified lawyer before launch. Items in [brackets] are still to be filled in.",
+  "updated": "Last updated: 19 October 2026",
+  "privacy": {
+    "title": "Privacy Policy",
+    "sections": [
+      {
+        "h": "Who we are",
+        "p": [
+          "Mess Manager is provided by Uyoon Tech Solutions, a unit of Unifair Trading Pvt. Ltd., India (\"we\"). This policy explains what personal data the app uses, why, and the choices you have."
+        ]
+      },
+      {
+        "h": "What Mess Manager is",
+        "p": [
+          "Mess Manager is a shared notebook for the expenses of a group (a \"Room\"). It does not hold, send or receive money."
+        ]
+      },
+      {
+        "h": "Data we collect",
+        "p": [
+          "Account: your name, email address, date of birth (to confirm you are 18 or older), password (stored only as a secure hash), language and settings.",
+          "Room data: Rooms you create or join, expenses, splits, settlements, payment records, receipts and payment proofs you upload, disputes, Need Requests and the history of changes.",
+          "Device data: notification tokens, basic technical information needed to run the app, and — in the phone app — the advertising identifier used by the ad network (see Ads)."
+        ]
+      },
+      {
+        "h": "Why we use it",
+        "p": [
+          "To run the service you asked for: keeping your Rooms' records, calculating settlements, sending notifications and statements (contract).",
+          "To keep the service safe and fix problems (legitimate interest).",
+          "To show ads that keep the app free, only with the choices described below (consent where the law requires it)."
+        ]
+      },
+      {
+        "h": "Who can see your data",
+        "p": [
+          "Only approved members of a Room see that Room's records. Your email address is visible only to the Room's Admins; other members see your display name.",
+          "We never share financial data, receipts, Room names or expense details with advertisers, and never use them to target ads."
+        ]
+      },
+      {
+        "h": "Service providers",
+        "p": [
+          "We use: Supabase (database, sign-in and file storage), an email service for statements and account emails, Google AdMob for ads in the phone app, and Expo / Google Firebase for push notifications. They process data only on our instructions. [Hosting region and list to be confirmed.]"
+        ]
+      },
+      {
+        "h": "How long we keep data",
+        "p": [
+          "Room records are kept for two complete calendar months after the cycle they belong to is settled, then deleted from the live database and removed from backups within 30 days. Seven days before, every member receives the records by email; the emailed PDF is your permanent copy.",
+          "When you delete your account, your sign-in stops immediately; your records stay read-only for two months only for your former Rooms' accounts and disputes, then everything linked to you, including your email address, is deleted."
+        ]
+      },
+      {
+        "h": "Your rights and choices",
+        "p": [
+          "In the app you can download all your data (PDF/JSON), correct your profile, switch ads to non-personalised, and delete your account. Account deletion is also available on our website without the app.",
+          "You can also write to our Grievance Officer: [name], [email]. We answer within 30 days."
+        ]
+      },
+      {
+        "h": "Ads",
+        "p": [
+          "The free phone app shows small banner ads, never on screens about payments, settlements, disputes, sign-in or account deletion. Where the law requires it (for example the EEA, UK and Switzerland) you are asked before any personalised ad. Everywhere else you can switch to non-personalised ads at any time in Preferences."
+        ]
+      },
+      {
+        "h": "Security",
+        "p": [
+          "Data is encrypted in transit and at rest; every table is protected so that only Room members can read it; files are stored privately and opened with short-lived links; the history of changes cannot be edited by anyone."
+        ]
+      },
+      {
+        "h": "Age",
+        "p": ["Mess Manager is for people aged 18 or older. We do not knowingly collect data from children."]
+      },
+      {
+        "h": "Changes",
+        "p": [
+          "If we change this policy in an important way we will ask you to accept the new version in the app."
+        ]
+      }
+    ]
+  },
+  "terms": {
+    "title": "Terms & Conditions",
+    "sections": [
+      {
+        "h": "The service",
+        "p": [
+          "Mess Manager is a record-keeping tool only. It does not hold, transfer or process money and is not a bank, wallet or payment service."
+        ]
+      },
+      {
+        "h": "Who can use it",
+        "p": [
+          "You must be 18 or older and give true information. You are responsible for keeping your password and phone secure."
+        ]
+      },
+      {
+        "h": "Your responsibility",
+        "p": [
+          "Users and Room Admins are solely responsible for the accuracy of what they enter and for settling money among themselves. Admins decide who joins their Room and confirm payments."
+        ]
+      },
+      {
+        "h": "Disputes between members",
+        "p": [
+          "Uyoon Tech Solutions is not a party to any dispute between members. The in-app dispute feature is a convenience only."
+        ]
+      },
+      {
+        "h": "Records",
+        "p": [
+          "Records are kept for two complete calendar months only. The emailed PDF statement is your own copy; we have no obligation to keep data longer."
+        ]
+      },
+      {
+        "h": "Acceptable use",
+        "p": [
+          "No illegal transactions, money laundering, gambling pools, harassment or abuse. We may suspend accounts that misuse the service."
+        ]
+      },
+      {
+        "h": "No warranty and limited liability",
+        "p": [
+          "The service is provided \"as is\". To the maximum extent permitted by law we are not liable for losses caused by user error, network failure or third-party services."
+        ]
+      },
+      {
+        "h": "Governing law",
+        "p": [
+          "These Terms are governed by the laws of India; courts of [city] have jurisdiction. Your mandatory local consumer rights are not affected."
+        ]
+      },
+      {
+        "h": "Changes",
+        "p": [
+          "We may change these Terms with notice in the app. Important changes need your fresh acceptance."
+        ]
+      }
+    ]
+  }
+}

@@ -26,7 +26,7 @@ const COMMON_PASSWORDS = new Set([
   'sunshine',
 ]);
 
-export const CONSENT_VERSION = '2026-10-v1';
+export { LEGAL_VERSION as CONSENT_VERSION } from '../legal';
 
 export function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
