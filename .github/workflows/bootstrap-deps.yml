@@ -69,6 +69,7 @@ jobs:
             expo-web-browser \
             expo-crypto \
             expo-print \
+            react-native-google-mobile-ads \
             expo-sharing \
             expo-file-system \
             @expo-google-fonts/noto-nastaliq-urdu \
