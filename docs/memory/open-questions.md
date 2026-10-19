@@ -38,3 +38,4 @@
 - Founder: AdMob account → real app id + banner unit id; in AdMob block categories (gambling, alcohol, dating, adult, political, religious, get-rich-quick).
 - Lawyer: review src/legal texts; fill [city], Grievance Officer name/email, hosting region.
 - Meal-count split (PRD §28 #5) still undecided.
+- Founder (ad-free, after Play Console exists): create subscriptions `mm_adfree_monthly` + `mm_adfree_yearly` with prices; create a Google Cloud service account with Play Console access and add its JSON as Edge Function secret GOOGLE_PLAY_SERVICE_ACCOUNT (steps to follow).
