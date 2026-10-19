@@ -83,3 +83,4 @@ Google button stays hidden until the Google setup below is done.
 5. **Delete account** (use a test account!): shows what happens, warnings, needs your password, then signs you out; others see "Name (account deleted)". Only works after the part-2 database update is approved.
 6. Last Admin of a Room with members cannot delete until another Admin exists.
 7. Web page: https://nisrintajak-byte.github.io/mess-manager/next/delete-account/ (emails start once Resend is set up).
+8. **Phone notifications (browser):** on an Android phone open the /next/ link in **Chrome** → sign in → Home shows **Turn on notifications** → Allow. Close Chrome. From another account in the same Room create a **Need Request** → a notification appears on the phone. (iPhone: Share → Add to Home Screen first.)
