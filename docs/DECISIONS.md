@@ -47,3 +47,15 @@ Format: date — decision — why — alternatives considered
 - Outbox item id is the idempotency key. Online first; queue only on network errors; server rule errors are shown to the user, never queued.
 - Entries made while a cycle locked meanwhile become late entries (original date kept, flagged). Stale edits/deletes become conflicts the user resolves.
 - Offline balances are labelled Estimated; official totals only from server.
+
+## v0.6 — Reports, retention, deletion
+- 2026-10-19 — Retention date = first day of the 3rd month after the lock month (locked any day in October → kept Nov + Dec → deleted 1 January), never earlier than 7 days after the notice email. Cycle rows stay (dates only) with `purged_at`; expenses, splits, settlements, payments, disputes, needs and their audit rows are deleted; receipts/proofs are queued for removal through the Storage API. Old inbox items (3 months) are cleaned too.
+- 2026-10-19 — Locked records can be deleted only inside the server's purge job (`mm.purge` flag inside SECURITY DEFINER functions); clients still have no DELETE rights and audit stays append-only for everyone else.
+- 2026-10-19 — Account deletion: in-app needs a fresh password sign-in (JWT `amr` within 10 minutes); last Admin of a Room with other members is the only blocker. Immediately: banned login, sessions ended, leave all Rooms, prefs/push tokens removed, members notified, "(account deleted)" label. After 2 months: final PDF to the person and to members of former Rooms, then the person is anonymised (email, name, DOB removed). Google-only accounts will need a fresh Google sign-in to delete (when Google is switched on).
+- 2026-10-19 — Web deletion page: `/delete-account/` on the web preview (founder has no domain yet). Email → 24-hour single-use link (token only as a hash in the DB; link token in the URL fragment so it never reaches server logs) → confirm. Never reveals whether an email is registered.
+- 2026-10-19 — Reports: one server JSON (`report_data`) feeds the app's PDF (HTML printed by the phone) and CSV, and the emailed PDF. Reference numbers `MM-YYYYMMDD-XXXXXXXX` are checkable in the app. Members: own report; Admins: full Room.
+- 2026-10-19 — Emailed PDFs are made on the server with HarfBuzz (shaping all 4 scripts, incl. real Nastaliq for Urdu) + pdf-lib, fonts subset to ~30–110 KB per statement. (pdf-lib's own fontkit shaping broke Arabic, so it is only used to embed fonts.)
+- 2026-10-19 — Emails go through an outbox table + `send-emails` Edge Function (Resend) every 10 minutes, protected by a vault secret. Without RESEND_API_KEY the queue waits (nothing lost). Founder has no domain/Resend yet.
+- 2026-10-19 — The Edge Function is deployed as a tiny loader that imports the repo code pinned to a commit (repo is public); `pdf-samples` workflow renders all 4 languages on every change for visual review.
+- 2026-10-19 — The data-deleting migration (`20261021110000_v06_purge_jobs.sql`) needs the founder's on-screen approval in the Supabase connector; everything else of v0.6 is live.
+- 2026-10-19 — "Withdraw ad-personalisation consent" (PRD §18.5) moves to v0.7 with ads.

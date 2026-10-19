@@ -74,3 +74,12 @@ Google button stays hidden until the Google setup below is done.
 5. Turn internet on: items sync by themselves; waiting cards become normal; no duplicates.
 6. Try sign out with waiting items: warning appears.
 7. Real phone later: 2G, airplane mode, wrong clock.
+
+## v0.6 test checklist (/next/ link)
+1. Room → **Reports** → Download PDF (browser opens print → "Save as PDF") and Download CSV. Try in Arabic/Urdu too (right-to-left).
+2. Admin sees **Only me / Whole Room**; members only get their own report.
+3. Copy the reference number from a report → Reports → **Check a report** → "Genuine".
+4. Home → **Preferences** → **Your data and account** → Download my data (PDF / JSON).
+5. **Delete account** (use a test account!): shows what happens, warnings, needs your password, then signs you out; others see "Name (account deleted)". Only works after the part-2 database update is approved.
+6. Last Admin of a Room with members cannot delete until another Admin exists.
+7. Web page: https://nisrintajak-byte.github.io/mess-manager/next/delete-account/ (emails start once Resend is set up).

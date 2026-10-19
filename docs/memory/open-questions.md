@@ -24,3 +24,10 @@
 
 - Google Sign-In: founder must create a Google Cloud OAuth client (steps given in chat), then I enable it. Decide linking rule: Supabase auto-links verified Google email to existing account (PRD wants password first).
 - Professional translators for Arabic, Urdu, Hindi (launch blocker).
+
+## v0.6 (2026-10-19)
+- Founder: approve the data-deleting DB update (v06_purge_jobs) on screen when asked — enables retention purge + account deletion.
+- Founder: company domain (none yet) + Resend account → then emails (retention notices, statements, deletion links) start. Until then they wait in the queue.
+- Web deletion page lives on the preview site for now; move to the company website when there is one (Play Console needs the link).
+- Google-only accounts: deleting needs a fresh Google sign-in (build when Google is enabled).
+- Grievance Officer name + email for the deletion page and Privacy Policy.
