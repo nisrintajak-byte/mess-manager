@@ -676,5 +676,12 @@
     "on": "Notifications are on for this browser. You will be told about Need Requests and other Room news even when the site is closed.",
     "denied": "Notifications are blocked for this site. Allow them in the browser's site settings (lock icon next to the address), then come back.",
     "unsupported": "This browser cannot show notifications. On Android use Chrome; on iPhone first tap Share → Add to Home Screen and open Mess Manager from there."
+  },
+  "ads": {
+    "label": "Ad",
+    "title": "Ads",
+    "explain": "Mess Manager is free because of small ads. Your expenses, receipts and Room details are never shared with advertisers.",
+    "personalised": "Personalised ads",
+    "privacyOptions": "Ad privacy options"
   }
 }

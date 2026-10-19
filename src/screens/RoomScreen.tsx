@@ -13,6 +13,7 @@ import { useOutbox } from '../lib/outbox';
 import { todayIn } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
 import { Badge, Body, Button, Card, Chip, ChipRow, Meta, Notice, Row, Spacer } from '../ui/components';
+import { AdSlot } from '../ui/AdSlot';
 import { confirm, useLoader } from '../ui/hooks';
 import { colors, font, radius, space, themedStyles } from '../ui/theme';
 
@@ -402,6 +403,7 @@ export function RoomScreen({ navigation, route }: Props) {
 
         <Spacer size="xxl" />
         <Button title={t('room.leave')} variant="link" onPress={leave} />
+        <AdSlot screen="Room" />
       </View>
     </ScrollView>
   );

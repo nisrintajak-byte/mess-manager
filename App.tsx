@@ -9,6 +9,7 @@ import { isSupabaseConfigured } from './src/lib/supabase';
 import { loadSettings, useSettings } from './src/lib/settings';
 import { RootNavigator } from './src/navigation/RootNavigator';
 import { startSync } from './src/lib/outbox';
+import { initAds } from './src/lib/ads';
 import { AppLockGate } from './src/ui/AppLockGate';
 import { Notice, Screen } from './src/ui/components';
 import { ReauthHost } from './src/ui/ReauthHost';
@@ -23,6 +24,7 @@ export default function App() {
   useEffect(() => {
     void loadSettings().finally(() => setReady(true));
     startSync();
+    void initAds();
   }, []);
 
   if (!ready) return null;

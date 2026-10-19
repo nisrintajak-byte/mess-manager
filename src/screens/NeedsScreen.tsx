@@ -9,6 +9,7 @@ import { dbErrorKey } from '../lib/errors';
 import { submitOrQueue } from '../lib/outbox';
 import type { AppStackParamList } from '../navigation/types';
 import { Badge, Body, Button, Card, Field, Meta, Notice, Row, Section } from '../ui/components';
+import { AdSlot } from '../ui/AdSlot';
 import { useLoader } from '../ui/hooks';
 import { colors, font, space, themedStyles } from '../ui/theme';
 
@@ -164,6 +165,7 @@ export function NeedsScreen({ navigation, route }: Props) {
             {actions(n)}
           </Card>
         ))}
+        <AdSlot screen="Needs" />
       </View>
     </ScrollView>
   );

@@ -7,6 +7,7 @@ import { notificationText } from '../lib/notifText';
 import { formatDateTime } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
 import { Body, Button, Card, Meta, Row } from '../ui/components';
+import { AdSlot } from '../ui/AdSlot';
 import { useLoader } from '../ui/hooks';
 import { colors, font, space, themedStyles } from '../ui/theme';
 
@@ -68,6 +69,7 @@ export function InboxScreen({ navigation }: Props) {
             </Row>
           </Card>
         ))}
+        <AdSlot screen="Inbox" />
       </View>
     </ScrollView>
   );

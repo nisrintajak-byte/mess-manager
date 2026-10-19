@@ -6,6 +6,7 @@ import { useAuth } from '../auth/AuthProvider';
 import { api } from '../lib/api';
 import type { AppStackParamList } from '../navigation/types';
 import { Body, Button, Card, Notice, Spacer } from '../ui/components';
+import { AdSlot } from '../ui/AdSlot';
 import { WebPushCard } from '../ui/WebPushCard';
 import { confirmSignOut, useLoader } from '../ui/hooks';
 import { colors, font, space, themedStyles } from '../ui/theme';
@@ -69,6 +70,7 @@ export function HomeScreen({ navigation }: Props) {
             if (await confirmSignOut(t)) await signOut();
           }}
         />
+        <AdSlot screen="Home" />
       </View>
     </ScrollView>
   );
