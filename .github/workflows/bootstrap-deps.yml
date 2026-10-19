@@ -71,6 +71,7 @@ jobs:
             expo-print \
             react-native-google-mobile-ads \
             react-native-iap \
+            expo-build-properties \
             react-native-nitro-modules \
             expo-sharing \
             expo-file-system \

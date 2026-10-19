@@ -34,6 +34,14 @@
           "androidAppId": "ca-app-pub-3940256099942544~3347511713",
           "iosAppId": "ca-app-pub-3940256099942544~1458002511"
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "extraProguardRules": "# Room/WorkManager: keep generated database implementations (crash: Failed to create an instance of androidx.work.impl.WorkDatabase)\n-keep class * extends androidx.room.RoomDatabase { <init>(); }\n-keep class androidx.work.impl.** { *; }\n-keep class androidx.room.** { *; }\n-dontwarn androidx.room.**\n# Nitro modules (react-native-iap) and Google Mobile Ads\n-keep class com.margelo.nitro.** { *; }\n-keep class com.google.android.gms.ads.** { *; }"
+          }
+        }
       ]
     ],
     "experiments": {
