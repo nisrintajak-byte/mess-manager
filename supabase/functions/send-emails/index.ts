@@ -8,7 +8,8 @@
 import { createClient } from '@supabase/supabase-js';
 
 import { compose, type QueuedEmail } from './emails.ts';
-import { fetchFonts, type FontBytes } from './pdf.ts';
+import { buildReportPdf, fetchFonts, type FontBytes } from './pdf.ts';
+import { serverFormat } from './emails.ts';
 import type { ReportData } from './report.ts';
 
 const db = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, {
@@ -98,10 +99,56 @@ async function sendEmails(): Promise<{ sent: number; failed: number } | 'not_con
   return { sent, failed };
 }
 
+/** Renders a small statement in every language to prove fonts + shaping work on the server. */
+async function selfTest() {
+  const started = Date.now();
+  fonts ??= await fetchFonts(async (url) => new Uint8Array(await (await fetch(url)).arrayBuffer()));
+  const sample: ReportData = {
+    ref: 'MM-SELFTEST',
+    generated_at: new Date().toISOString(),
+    scope: 'room',
+    requester: 'a',
+    room: { name: 'Test — اختبار — परीक्षण', currency: 'KWD', decimals: 3, time_zone: 'Asia/Kuwait' },
+    period: { from: '2026-10-01', to: '2026-10-31' },
+    people: { a: { name: 'أحمد', deleted: false } },
+    cycles: [],
+    settlements: [],
+    payments: [],
+    disputes: [],
+    audit: [],
+    expenses: [
+      {
+        id: 'e',
+        cycle_id: 'c',
+        date: '2026-10-02',
+        title: 'چاول दूध Rice',
+        amount: 1250,
+        currency: 'KWD',
+        paid_by: 'a',
+        created_by: 'a',
+        created_at: '2026-10-02T10:00:00Z',
+        notes: null,
+        deleted: false,
+        adjustment: false,
+        late_entry_from: null,
+        has_receipt: false,
+        my_share: 1250,
+        participants: 1,
+      },
+    ],
+  };
+  const sizes: Record<string, number> = {};
+  for (const lang of ['en', 'ar', 'ur', 'hi'])
+    sizes[lang] = (await buildReportPdf([sample], serverFormat(lang), fonts)).length;
+  return { ok: true, sizes, ms: Date.now() - started };
+}
+
 Deno.serve(async (req) => {
   const secret = req.headers.get('x-worker-secret') ?? '';
   const { data: ok } = await db.rpc('worker_check', { p_secret: secret });
   if (ok !== true) return new Response('forbidden', { status: 403 });
+  const body = await req.json().catch(() => ({}));
+  if (body?.selftest) return Response.json(await selfTest());
   const files = await purgeFiles().catch(() => 0);
   const emails = await sendEmails().catch((e) => ({ error: String(e?.message ?? e) }));
   return Response.json({ files, emails });
