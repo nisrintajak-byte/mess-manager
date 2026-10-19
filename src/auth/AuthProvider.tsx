@@ -2,6 +2,7 @@ import type { Session } from '@supabase/supabase-js';
 import * as Linking from 'expo-linking';
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 
+import { refreshAdFree } from '../lib/adFree';
 import { clearLock } from '../lib/appLock';
 import { clearCache, setCacheUser } from '../lib/offlineStore';
 import { clearOutbox } from '../lib/outbox';
@@ -83,7 +84,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Register this phone for push once the user is signed in and verified.
   const userId = session?.user.email_confirmed_at ? session.user.id : null;
   useEffect(() => {
-    if (userId) void registerForPush();
+    if (userId) {
+      void registerForPush();
+      void refreshAdFree();
+    }
   }, [userId]);
 
   const value = useMemo<AuthState>(

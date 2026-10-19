@@ -62,7 +62,8 @@
       {
         "h": "Ads",
         "p": [
-          "The free phone app shows small banner ads, never on screens about payments, settlements, disputes, sign-in or account deletion. Where the law requires it (for example the EEA, UK and Switzerland) you are asked before any personalised ad. Everywhere else you can switch to non-personalised ads at any time in Preferences."
+          "The free phone app shows small banner ads, never on screens about payments, settlements, disputes, sign-in or account deletion. Where the law requires it (for example the EEA, UK and Switzerland) you are asked before any personalised ad. Everywhere else you can switch to non-personalised ads at any time in Preferences.",
+          "Payments for the ad-free subscription are processed by Google Play; we receive only whether your subscription is active and until when, never your card or bank details."
         ]
       },
       {
@@ -126,6 +127,12 @@
         "h": "No warranty and limited liability",
         "p": [
           "The service is provided \"as is\". To the maximum extent permitted by law we are not liable for losses caused by user error, network failure or third-party services."
+        ]
+      },
+      {
+        "h": "Ad-free subscription",
+        "p": [
+          "You can pay a monthly or yearly subscription through Google Play to remove ads on all your devices. Price, renewal and cancellation are handled by Google Play under its terms; you can cancel anytime in Google Play and keep the ad-free period you paid for. Refunds follow Google Play's policy. The subscription only removes ads; it does not change how Rooms or records work."
         ]
       },
       {

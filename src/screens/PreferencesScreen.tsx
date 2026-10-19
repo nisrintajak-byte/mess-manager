@@ -6,6 +6,7 @@ import { Body, Card, Chip, ChipRow, Label, Screen, Title } from '../ui/component
 import { LanguagePicker } from '../ui/LanguagePicker';
 import { AccountDataCard } from '../ui/AccountCards';
 import { AdsCard } from '../ui/AdsCard';
+import { RemoveAdsCard } from '../ui/RemoveAdsCard';
 import { AppLockCard, ChangePasswordCard } from '../ui/SecurityCards';
 import { THEME_NAMES } from '../ui/theme';
 
@@ -51,6 +52,7 @@ export function PreferencesScreen() {
 
       <AppLockCard />
       <ChangePasswordCard />
+      <RemoveAdsCard />
       <AdsCard />
       <AccountDataCard />
     </Screen>

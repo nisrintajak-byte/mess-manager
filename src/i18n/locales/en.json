@@ -683,5 +683,18 @@
     "explain": "Mess Manager is free because of small ads. Your expenses, receipts and Room details are never shared with advertisers.",
     "personalised": "Personalised ads",
     "privacyOptions": "Ad privacy options"
+  },
+  "adFree": {
+    "title": "Remove ads",
+    "explain": "Don't want to see banners? Subscribe and Mess Manager shows no ads on any of your phones. Cancel anytime in Google Play.",
+    "buyMonthly": "Monthly — {{price}}",
+    "buyYearly": "Yearly — {{price}} (best value)",
+    "restore": "Already subscribed? Restore",
+    "manage": "Manage or cancel in Google Play",
+    "active": "Ad-free until {{date}} (renews automatically unless cancelled). Thank you!",
+    "thanks": "Thank you! Ads are now off on all your phones.",
+    "pending": "Payment is pending. Ads turn off as soon as Google confirms it.",
+    "error": "The purchase could not be confirmed. If you were charged, tap Restore later; Google refunds purchases that are not confirmed within 3 days.",
+    "notAvailable": "Subscriptions are not available yet. They will appear once the app is published on Google Play."
   }
 }

@@ -8,7 +8,7 @@ import en from './en.json';
 import hi from './hi.json';
 import ur from './ur.json';
 
-export const LEGAL_VERSION = '2026-10-v2';
+export const LEGAL_VERSION = '2026-10-v3';
 
 export type LegalSection = { h: string; p: string[] };
 export type LegalDoc = { title: string; sections: LegalSection[] };

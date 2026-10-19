@@ -595,6 +595,21 @@ const rawApi = {
     unwrap(await supabase.rpc('register_push_token', { p_token: token, p_platform: platform }));
   },
 
+  async myAdFree(): Promise<string | null> {
+    return unwrap(await supabase.rpc('my_ad_free')) as string | null;
+  },
+
+  async verifyPurchase(
+    productId: string,
+    purchaseToken: string,
+  ): Promise<{ ok: boolean; error?: string; status?: string; expires?: string }> {
+    const { data, error } = await supabase.functions.invoke('verify-purchase', {
+      body: { productId, purchaseToken },
+    });
+    if (error) throw error;
+    return data as { ok: boolean; error?: string };
+  },
+
   async registerWebPush(endpoint: string, p256dh: string, auth: string): Promise<void> {
     unwrap(await supabase.rpc('register_web_push', { p_endpoint: endpoint, p_p256dh: p256dh, p_auth: auth }));
   },

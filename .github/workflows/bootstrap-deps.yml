@@ -70,6 +70,8 @@ jobs:
             expo-crypto \
             expo-print \
             react-native-google-mobile-ads \
+            react-native-iap \
+            react-native-nitro-modules \
             expo-sharing \
             expo-file-system \
             @expo-google-fonts/noto-nastaliq-urdu \

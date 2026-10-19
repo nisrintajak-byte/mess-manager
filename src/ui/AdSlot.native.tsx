@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
 
+import { useAdFreeUntil } from '../lib/adFree';
 import { useAdsPersonalised } from '../lib/adPrefs';
 import { AD_SCREENS, ADS_ENABLED, type AdScreen, BANNER_UNIT_ID } from '../lib/adsConfig';
 import { colors, font, space, themedStyles } from './theme';
@@ -15,7 +16,8 @@ export function AdSlot({ screen }: { screen: AdScreen }) {
   const { t } = useTranslation();
   const personalised = useAdsPersonalised();
   const [failed, setFailed] = useState(false);
-  if (!ADS_ENABLED || failed || !AD_SCREENS.includes(screen)) return null;
+  const adFree = useAdFreeUntil();
+  if (!ADS_ENABLED || adFree || failed || !AD_SCREENS.includes(screen)) return null;
   return (
     <View style={styles.wrap} accessibilityLabel={t('ads.label')}>
       <Text style={styles.label}>{t('ads.label')}</Text>
