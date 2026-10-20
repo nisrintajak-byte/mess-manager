@@ -146,7 +146,12 @@
     "removeConfirm": "Remove {{name}} from this Room?",
     "you": "(you)",
     "requested": "Requested {{when}}",
-    "former": "Former members"
+    "former": "Former members",
+    "tag_left": "{{name}} (left)",
+    "tag_removed": "{{name}} (removed)",
+    "removedOn": "Removed on {{date}} by {{by}}",
+    "leftOn": "Left the Room on {{date}}",
+    "stay": "Member from {{from}} to {{to}}"
   },
   "expense": {
     "addTitle": "Add expense",

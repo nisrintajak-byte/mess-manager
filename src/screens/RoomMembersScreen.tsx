@@ -5,6 +5,7 @@ import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native
 
 import { useAuth } from '../auth/AuthProvider';
 import { api, Member } from '../lib/api';
+import { localizeDigits } from '../lib/digits';
 import { dbErrorKey } from '../lib/errors';
 import { requireReauth } from '../lib/reauth';
 import { formatDateTime } from '../lib/util';
@@ -48,6 +49,7 @@ export function RoomMembersScreen({ route }: Props) {
   const { room, members, isAdmin, emails } = data;
   const pending = members.filter((m) => m.status === 'pending');
   const approved = members.filter((m) => m.status === 'approved');
+  const former = members.filter((m) => m.former);
   const name = (m: Member) => m.profile?.display_name ?? '—';
 
   return (
@@ -127,6 +129,34 @@ export function RoomMembersScreen({ route }: Props) {
             ) : null}
           </Card>
         ))}
+
+        {former.length > 0 ? (
+          <>
+            <Spacer />
+            <Text style={styles.section}>{t('members.former')}</Text>
+            {former.map((m) => (
+              <Card key={m.id}>
+                <Text style={styles.name}>{m.former!.name}</Text>
+                <Text style={styles.meta}>
+                  {m.former!.status === 'removed'
+                    ? t('members.removedOn', {
+                        date: localizeDigits(m.left_on ?? '—'),
+                        by: m.former!.removedByName ?? '—',
+                      })
+                    : t('members.leftOn', { date: localizeDigits(m.left_on ?? '—') })}
+                </Text>
+                {m.joined_on ? (
+                  <Text style={styles.meta}>
+                    {t('members.stay', {
+                      from: localizeDigits(m.joined_on),
+                      to: localizeDigits(m.left_on ?? '—'),
+                    })}
+                  </Text>
+                ) : null}
+              </Card>
+            ))}
+          </>
+        ) : null}
       </View>
     </ScrollView>
   );

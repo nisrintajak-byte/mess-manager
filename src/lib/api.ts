@@ -94,6 +94,8 @@ export interface Member {
   joined_on: string | null;
   left_on: string | null;
   profile?: { display_name: string; avatar_url: string | null } | null;
+  /** Set for people who left or were removed: shown with a mark everywhere (founder 2026-10-20). */
+  former?: { status: 'left' | 'removed'; name: string; removedByName: string | null } | null;
 }
 
 export interface Expense {
@@ -298,21 +300,34 @@ const rawApi = {
       const label = labels.get(uid);
       return label ? { display_name: label, avatar_url: p?.avatar_url ?? null } : (p ?? null);
     };
-    const out: Member[] = rows.map((r) => ({ ...r, profile: withLabel(r.user_id) }));
-    // Former members are not listed to everyone, but their names must still show in history.
-    const known = new Set(rows.map((r) => r.user_id));
+    // Current members (Admins also receive old left/removed rows; those are shown via `former`).
+    const current = rows.filter((r) => r.status === 'approved' || r.status === 'pending');
+    const out: Member[] = current.map((r) => ({ ...r, profile: withLabel(r.user_id) }));
+    const known = new Set(current.map((r) => r.user_id));
+    // Everyone sees who left or was removed, when and by whom (transparency).
+    const formerRows: {
+      user_id: string;
+      status: 'left' | 'removed';
+      joined_on: string | null;
+      left_on: string | null;
+      removed_by_name: string | null;
+    }[] = unwrap(await supabase.rpc('room_former_members', { p_room: roomId }));
+    const formerById = new Map(formerRows.map((f) => [f.user_id, f]));
     for (const [uid, label] of labels) {
       if (known.has(uid)) continue;
+      const f = formerById.get(uid);
+      const status = f?.status ?? 'left';
       out.push({
         id: `former:${uid}`,
         room_id: roomId,
         user_id: uid,
         role: 'member',
-        status: 'left',
+        status,
         requested_at: '',
-        joined_on: null,
-        left_on: null,
-        profile: { display_name: label, avatar_url: null },
+        joined_on: f?.joined_on ?? null,
+        left_on: f?.left_on ?? null,
+        profile: { display_name: i18n.t(`members.tag_${status}`, { name: label }), avatar_url: null },
+        former: { status, name: label, removedByName: f?.removed_by_name ?? null },
       });
     }
     return out;

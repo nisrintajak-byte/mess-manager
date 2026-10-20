@@ -147,7 +147,12 @@
     "removeConfirm": "{{name}} को इस रूम से हटाएँ?",
     "you": "(आप)",
     "requested": "अनुरोध {{when}}",
-    "former": "पूर्व सदस्य"
+    "former": "पूर्व सदस्य",
+    "tag_left": "{{name}} (छोड़ दिया)",
+    "tag_removed": "{{name}} (हटाया गया)",
+    "removedOn": "{{date}} को {{by}} ने हटाया",
+    "leftOn": "{{date}} को रूम छोड़ दिया",
+    "stay": "{{from}} से {{to}} तक सदस्य"
   },
   "expense": {
     "addTitle": "खर्च जोड़ें",

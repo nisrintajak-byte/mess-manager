@@ -151,7 +151,12 @@
     "removeConfirm": "إزالة {{name}} من هذه الغرفة؟",
     "you": "(أنت)",
     "requested": "طُلب {{when}}",
-    "former": "الأعضاء السابقون"
+    "former": "الأعضاء السابقون",
+    "tag_left": "{{name}} (غادر)",
+    "tag_removed": "{{name}} (أُزيل)",
+    "removedOn": "أُزيل بتاريخ {{date}} بواسطة {{by}}",
+    "leftOn": "غادر الغرفة بتاريخ {{date}}",
+    "stay": "عضو من {{from}} إلى {{to}}"
   },
   "expense": {
     "addTitle": "إضافة مصروف",

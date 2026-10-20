@@ -147,7 +147,12 @@
     "removeConfirm": "{{name}} کو اس کمرے سے نکالیں؟",
     "you": "(آپ)",
     "requested": "درخواست {{when}}",
-    "former": "سابق ارکان"
+    "former": "سابق ارکان",
+    "tag_left": "{{name}} (چھوڑ دیا)",
+    "tag_removed": "{{name}} (نکالا گیا)",
+    "removedOn": "{{date}} کو {{by}} نے نکالا",
+    "leftOn": "{{date}} کو روم چھوڑ دیا",
+    "stay": "{{from}} سے {{to}} تک ممبر"
   },
   "expense": {
     "addTitle": "خرچ شامل کریں",
