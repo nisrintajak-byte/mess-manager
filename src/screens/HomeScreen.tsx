@@ -4,6 +4,7 @@ import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native
 
 import { useAuth } from '../auth/AuthProvider';
 import { api } from '../lib/api';
+import { formatMoney } from '../lib/money';
 import type { AppStackParamList } from '../navigation/types';
 import { Body, Button, Card, Notice, Spacer } from '../ui/components';
 import { AdSlot } from '../ui/AdSlot';
@@ -17,12 +18,13 @@ export function HomeScreen({ navigation }: Props) {
   const { t } = useTranslation();
   const { session, signOut } = useAuth();
   const { data, error, loading, reload } = useLoader(async () => {
-    const [rooms, pending, unread] = await Promise.all([
+    const [rooms, pending, unread, open] = await Promise.all([
       api.myRooms(),
       api.myPendingRequests(),
       api.unreadCount().catch(() => 0),
+      api.myOpenSettlements().catch(() => []),
     ]);
-    return { rooms, pending, unread };
+    return { rooms, pending, unread, open };
   });
   const name = (session?.user.user_metadata?.display_name as string | undefined) ?? session?.user.email ?? '';
 
@@ -39,6 +41,26 @@ export function HomeScreen({ navigation }: Props) {
           variant={data?.unread ? 'primary' : 'secondary'}
           onPress={() => navigation.navigate('Inbox')}
         />
+        {/* a new settlement stays on top until the member checks and acknowledges it */}
+        {data?.open.map((o) => (
+          <Card
+            key={o.settlement_id}
+            onPress={() =>
+              navigation.navigate('Settlement', { roomId: o.room_id, settlementId: o.settlement_id })
+            }
+          >
+            <Text style={styles.roomName}>{t('push.settlementTitle', { room: o.room })}</Text>
+            <Text style={styles.meta}>
+              {o.net < 0
+                ? t('settlement.toPay', { amount: formatMoney(-o.net, o.currency, o.decimals) })
+                : o.net > 0
+                  ? t('settlement.toReceive', { amount: formatMoney(o.net, o.currency, o.decimals) })
+                  : t('settlement.even')}
+              {' · '}
+              {t('push.settlementTap')}
+            </Text>
+          </Card>
+        ))}
         <WebPushCard compact />
         <Spacer />
         {error ? <Notice tone="error">{t('common.genericError')}</Notice> : null}
