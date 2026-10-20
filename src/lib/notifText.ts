@@ -23,6 +23,7 @@ export function notificationText(n: AppNotification, t: TFunction): string {
     reason: str(p.reason),
     date: str(p.original_date),
     deleteOn: str(p.delete_on),
+    count: str(p.count),
     amount: p.amount !== undefined ? money(p.amount) : '',
   };
   if (n.kind === 'settlement_generated') {

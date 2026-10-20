@@ -6,6 +6,7 @@ import { RefreshControl, ScrollView, StyleSheet, Text, TextInput, View } from 'r
 
 import { useAuth } from '../auth/AuthProvider';
 import { api, LineStatus, OPEN_FLAG, Payment } from '../lib/api';
+import { unpinSettlement } from '../lib/pinned';
 import { dbErrorKey } from '../lib/errors';
 import { formatMoney } from '../lib/money';
 import { minimalTransfers } from '../lib/transfers';
@@ -123,6 +124,7 @@ export function SettlementScreen({ navigation, route }: Props) {
               title={t('ack.button')}
               onPress={async () => {
                 await api.acknowledgeSettlement(settlementId).catch(() => undefined);
+                await unpinSettlement(settlementId);
                 await reload();
               }}
             />

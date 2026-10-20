@@ -59,6 +59,7 @@ export function pushText(kind: string, p: Record<string, unknown>, lang: string)
     reason: str(p.reason),
     date: str(p.original_date),
     deleteOn: str(p.delete_on),
+    count: str(p.count),
     amount: p.amount !== undefined ? money(p.amount) : '',
   };
   if (kind === 'settlement_generated') {
@@ -87,6 +88,7 @@ async function send(notificationId: string) {
     kind: job.kind,
     room_id: job.room_id,
     loud: job.loud === true,
+    sticky: job.sticky === true,
   });
   const vapidDetails = {
     subject: VAPID_SUBJECT,
@@ -105,7 +107,59 @@ async function send(notificationId: string) {
       // one broken browser must not stop the others
     }
   }
-  return { sent };
+  const app = await sendToApp(notificationId, job, msg);
+  return { sent, app };
+}
+
+/**
+ * The phone app (Expo push → Firebase on Android). A settlement that is not acknowledged yet
+ * goes as data only: the app posts it itself as a pinned notification (background task).
+ */
+// deno-lint-ignore no-explicit-any
+async function sendToApp(notificationId: string, job: any, msg: { title: string; body: string }) {
+  const tokens = (job.expo_tokens ?? []) as string[];
+  if (!tokens.length) return 0;
+  const p = (job.payload ?? {}) as Record<string, unknown>;
+  const data: Record<string, string> = { notification_id: notificationId, kind: str(job.kind) };
+  for (const k of ['room_id', 'settlement_id', 'expense_id', 'need_id'])
+    if (k === 'room_id' ? job.room_id : p[k]) data[k] = str(k === 'room_id' ? job.room_id : p[k]);
+  const messages = tokens.map((to) =>
+    job.sticky === true
+      ? { to, data, priority: 'high', _contentAvailable: true }
+      : {
+          to,
+          title: msg.title,
+          body: msg.body,
+          data,
+          priority: 'high',
+          sound: job.loud === true ? 'need_alert.wav' : 'default',
+          channelId:
+            job.loud === true
+              ? 'need_alert'
+              : String(job.kind).startsWith('settlement') || String(job.kind).includes('payment')
+                ? 'settlement'
+                : 'default',
+        },
+  );
+  try {
+    const res = await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(messages),
+    });
+    const out = (await res.json().catch(() => ({}))) as {
+      data?: { status?: string; details?: { error?: string } }[];
+    };
+    let ok = 0;
+    for (const [i, ticket] of (out.data ?? []).entries()) {
+      if (ticket.status === 'ok') ok++;
+      else if (ticket.details?.error === 'DeviceNotRegistered')
+        await db.rpc('push_token_gone', { p_token: tokens[i] });
+    }
+    return ok;
+  } catch {
+    return 0;
+  }
 }
 
 Deno.serve(async (req) => {

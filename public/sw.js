@@ -20,7 +20,8 @@ self.addEventListener('push', (event) => {
       data: { room_id: d.room_id || null },
       // New Need Request with the special alert on: stays on screen until tapped or swiped away,
       // and vibrates longer (browsers do not allow a custom sound here).
-      requireInteraction: !!d.loud,
+      // A new settlement also stays until the member opens it.
+      requireInteraction: !!d.loud || !!d.sticky,
       renotify: !!d.loud && !!d.tag,
       vibrate: d.loud ? [600, 250, 600, 250, 1000] : undefined,
     }),

@@ -385,7 +385,9 @@
     "k_other": "إشعار جديد",
     "k_expense_late_entry": "أُضيف «{{title}}» كإدخال متأخر — سُوّيت دورته في الأثناء (التاريخ الأصلي {{date}})",
     "k_member_account_deleted": "حذف {{name}} حسابه وغادر {{room}}",
-    "k_retention_reminder": "ستُحذف سجلات {{room}} للفترة {{from}} – {{to}} بتاريخ {{deleteOn}}. نزّل تقاريرك الآن."
+    "k_retention_reminder": "ستُحذف سجلات {{room}} للفترة {{from}} – {{to}} بتاريخ {{deleteOn}}. نزّل تقاريرك الآن.",
+    "k_payment_reminder": "تذكير: يرجى دفع {{amount}} لـ {{room}} ({{from}} – {{to}})، الموعد {{due}}. سجّل الدفع في التطبيق بعد الدفع.",
+    "k_confirm_reminder": "{{count}} دفعة في {{room}} بانتظار تأكيدك."
   },
   "notifPrefs": {
     "title": "إعدادات الإشعارات",
@@ -723,5 +725,11 @@
   "crash": {
     "title": "حدث خطأ في هذه الشاشة",
     "body": "سجلاتك آمنة. اضغط «حاول مرة أخرى». إذا تكرر ذلك فقد تم إبلاغنا تلقائيًا (دون إرسال أي بيانات شخصية)."
+  },
+  "push": {
+    "settlementChannel": "التسويات",
+    "pinnedChannel": "تسويات للمراجعة (مثبتة)",
+    "settlementTitle": "التسوية جاهزة · {{room}}",
+    "settlementTap": "اضغط للمراجعة والتأكيد"
   }
 }

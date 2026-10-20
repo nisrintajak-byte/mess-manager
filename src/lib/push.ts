@@ -10,6 +10,8 @@ import { Platform } from 'react-native';
 import i18n from '../i18n';
 import { api } from './api';
 import { ensureNeedChannel } from './needAlert';
+import { startNotificationRuntime } from './notifRuntime';
+import { ensureSettlementChannels, watchPinnedSettlements } from './pinned';
 import { disableWebPush, refreshWebPush } from './webPush';
 
 let currentToken: string | null = null;
@@ -30,7 +32,9 @@ export async function registerForPush(): Promise<PushState> {
         importance: Notifications.AndroidImportance.HIGH,
       });
       await ensureNeedChannel(i18n.t('notifPrefs.needSoundChannel'));
+      await ensureSettlementChannels();
     }
+    startNotificationRuntime();
     const existing = await Notifications.getPermissionsAsync();
     let granted = existing.granted;
     if (!granted) granted = (await Notifications.requestPermissionsAsync()).granted;
@@ -41,6 +45,7 @@ export async function registerForPush(): Promise<PushState> {
     const { data } = await Notifications.getExpoPushTokenAsync(projectId ? { projectId } : undefined);
     currentToken = data;
     await api.registerPushToken(data, Platform.OS === 'ios' ? 'ios' : 'android');
+    watchPinnedSettlements();
     return 'on';
   } catch {
     return 'unavailable';

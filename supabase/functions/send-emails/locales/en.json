@@ -176,7 +176,9 @@
   "k_other": "New notification",
   "k_expense_late_entry": "“{{title}}” was added as a late entry — its cycle was settled meanwhile (original date {{date}})",
   "k_member_account_deleted": "{{name}} deleted their account and left {{room}}",
-  "k_retention_reminder": "Records of {{room}} for {{from}} – {{to}} will be deleted on {{deleteOn}}. Download your reports now."
+  "k_retention_reminder": "Records of {{room}} for {{from}} – {{to}} will be deleted on {{deleteOn}}. Download your reports now.",
+  "k_payment_reminder": "Reminder: please pay {{amount}} for {{room}} ({{from}} – {{to}}), due {{due}}. Mark it as paid in the app after paying.",
+  "k_confirm_reminder": "{{count}} payment(s) in {{room}} are waiting for your confirmation."
  },
  "app": {
   "name": "Mess Manager"

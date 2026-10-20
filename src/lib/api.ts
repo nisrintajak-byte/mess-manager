@@ -646,6 +646,28 @@ const rawApi = {
     unwrap(await supabase.rpc('mark_settlement_seen', { p_settlement: settlementId }));
   },
 
+  /** Settlements I have not acknowledged yet — kept pinned on the phone (founder 2026-10-20). */
+  async myOpenSettlements(): Promise<
+    {
+      settlement_id: string;
+      room_id: string;
+      room: string;
+      net: number;
+      currency: string;
+      decimals: number;
+    }[]
+  > {
+    const rows: {
+      settlement_id: string;
+      room_id: string;
+      room: string;
+      net: number | string;
+      currency: string;
+      decimals: number;
+    }[] = unwrap(await supabase.rpc('my_open_settlements'));
+    return rows.map((r) => ({ ...r, net: Number(r.net) }));
+  },
+
   async acknowledgeSettlement(settlementId: string): Promise<void> {
     unwrap(await supabase.rpc('acknowledge_settlement', { p_settlement: settlementId }));
   },
