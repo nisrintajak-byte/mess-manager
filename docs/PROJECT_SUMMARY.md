@@ -2,7 +2,7 @@
 
 **App:** Mess Manager — free, ad-supported, neutral (no flags) shared-expense app for Rooms. Every expense, payment and settlement is visible, provable and audited. Android first; 4 languages (EN, AR, UR, HI). Users 18+ only.
 
-**Status:** v0.1–v0.5 merged to main. v0.6 (reports, retention, deletion, browser notifications) and v0.7 (legal texts + consent, banner ads, ad-free subscription code, former members list, security self-audit) built, CI green, live at /next/. Android test APK works (EAS build 5863f98e); no more APK builds until needed (EAS monthly limit) — founder tests in the browser.
+**Status:** v0.1–v0.5 merged to main. v0.6 (reports, retention, deletion, browser notifications) and v0.7 (legal texts + consent, banner ads, ad-free subscription code, former members list, security self-audit, performance pass) built, CI green, live at /next/. Android test APK works (EAS build 5863f98e); no more APK builds until needed (EAS monthly limit) — founder tests in the browser.
 
 **Previews:** stable https://nisrintajak-byte.github.io/mess-manager/ (main = v0.5) · next …/mess-manager/next/ (v0.7) · pages …/next/delete-account/, /privacy/, /terms/.
 
@@ -14,4 +14,4 @@
 
 **Founder items:** Firebase (nisrintajak Gmail) for Android push; Play Console + D-U-N-S; AdMob; domain + Resend; lawyer (city, Grievance Officer); translators. Meal-count split → after launch.
 
-_Last updated: 2026-10-20 08:10 (UTC+3)_
+_Last updated: 2026-10-20 09:05 (UTC+3)_
