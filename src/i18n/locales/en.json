@@ -709,5 +709,9 @@
     "pending": "Payment is pending. Ads turn off as soon as Google confirms it.",
     "error": "The purchase could not be confirmed. If you were charged, tap Restore later; Google refunds purchases that are not confirmed within 3 days.",
     "notAvailable": "Subscriptions are not available yet. They will appear once the app is published on Google Play."
+  },
+  "crash": {
+    "title": "Something went wrong on this screen",
+    "body": "Your records are safe. Tap \"Try again\". If it keeps happening, we have been told automatically (no personal data is sent)."
   }
 }

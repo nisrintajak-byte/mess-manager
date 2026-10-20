@@ -39,6 +39,7 @@ import { RoomSettingsScreen } from '../screens/RoomSettingsScreen';
 import { SettlementScreen } from '../screens/SettlementScreen';
 import { colors, currentTheme } from '../ui/theme';
 import { navigationRef } from './navigationRef';
+import { setCrashScreen } from '../lib/crash';
 import type { AppStackParamList, AuthStackParamList } from './types';
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
@@ -97,6 +98,7 @@ export function RootNavigator() {
       theme={navTheme()}
       linking={linking}
       direction={isRtlLanguage(i18n.language) ? 'rtl' : 'ltr'}
+      onStateChange={() => setCrashScreen(navigationRef.getCurrentRoute()?.name ?? null)}
     >
       {session && emailVerified ? (
         <AppStack.Navigator screenOptions={{ headerTintColor: colors.primary }}>

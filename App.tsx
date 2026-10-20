@@ -10,7 +10,9 @@ import { loadSettings, useSettings } from './src/lib/settings';
 import { RootNavigator } from './src/navigation/RootNavigator';
 import { startSync } from './src/lib/outbox';
 import { initAds } from './src/lib/ads';
+import { installCrashHandlers } from './src/lib/crash';
 import { AppLockGate } from './src/ui/AppLockGate';
+import { ErrorBoundary } from './src/ui/ErrorBoundary';
 import { Notice, Screen } from './src/ui/components';
 import { ReauthHost } from './src/ui/ReauthHost';
 import { SyncBanner } from './src/ui/SyncBanner';
@@ -22,6 +24,7 @@ export default function App() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    installCrashHandlers();
     void loadSettings().finally(() => setReady(true));
     startSync();
     void initAds();
@@ -38,7 +41,9 @@ export default function App() {
           <AppLockGate>
             <View style={{ flex: 1 }}>
               <View style={{ flex: 1 }}>
-                <RootNavigator />
+                <ErrorBoundary>
+                  <RootNavigator />
+                </ErrorBoundary>
               </View>
               <SyncBanner />
             </View>
