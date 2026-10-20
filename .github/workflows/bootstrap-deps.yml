@@ -24,7 +24,7 @@ jobs:
           node-version: 22
 
       - name: Create Expo base
-        run: npx --yes create-expo-app@latest /tmp/base --template blank-typescript --no-install
+        run: npx --yes create-expo-app@latest /tmp/base --template blank-typescript@sdk-58 --no-install
 
       - name: Keep reference copies of base files
         run: |
@@ -62,6 +62,7 @@ jobs:
             expo-image-manipulator \
             expo-document-picker \
             expo-notifications \
+            expo-task-manager \
             expo-device \
             expo-local-authentication \
             expo-font \
