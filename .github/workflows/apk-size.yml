@@ -24,5 +24,7 @@ jobs:
           common=$(awk '$4 !~ /^lib\// && $1 ~ /^[0-9]+$/ {s+=$1} END {print s}' list.txt)
           arm64=$(awk '$4 ~ /^lib\/arm64-v8a\// {s+=$1} END {print s}' list.txt)
           echo "::notice title=estimated phone install (arm64, uncompressed)::$(( (common + arm64) / 1024 / 1024 )) MB (app files $((common/1024/1024)) MB + arm64 libraries $((arm64/1024/1024)) MB)"
+          awk '$4 !~ /^lib\// && $1 ~ /^[0-9]+$/' list.txt | sort -k1 -n -r | head -12 | awk '{printf "%d KB %s~", $1/1024, $4}' | sed 's/^/::notice title=largest app files::/'
+          echo
           sort -k1 -n -r list.txt | head -8 | awk '{printf "%d KB %s~", $1/1024, $4}' | sed 's/^/::notice title=largest files::/'
           echo
