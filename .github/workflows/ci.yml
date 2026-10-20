@@ -32,6 +32,13 @@ jobs:
             tail -n 15 web-build.log | sed 's/^/::error title=web-build-tail::/'
             exit 1
           fi
+      - name: Android bundle + native config (catches phone-only errors before an EAS build)
+        run: |
+          npx expo export --platform android --output-dir /tmp/android-export > /tmp/android-export.log 2>&1 || { tail -40 /tmp/android-export.log; echo "::error::Android JS bundle failed"; exit 1; }
+          npx expo prebuild --platform android --no-install --clean > /tmp/prebuild.log 2>&1 || { tail -40 /tmp/prebuild.log; echo "::error::Android prebuild failed"; exit 1; }
+          test -f android/app/google-services.json || { echo "::error::google-services.json not copied"; exit 1; }
+          ls android/app/src/main/res/raw/ | grep -q need_alert || { echo "::error::need_alert sound missing"; exit 1; }
+          rm -rf android
       - name: Account deletion web page is included
         run: |
           test -f dist/delete-account/index.html && test -f dist/sw.js
