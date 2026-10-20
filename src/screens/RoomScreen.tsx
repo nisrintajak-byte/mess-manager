@@ -260,6 +260,19 @@ export function RoomScreen({ navigation, route }: Props) {
             ))}
           </View>
 
+          {/* PRD §8.1/8.3: a Room settings change waiting for the next cycle is shown to everyone */}
+          {room.pending_time_zone || room.pending_settlement_cycle ? (
+            <Notice tone="info">
+              {t('settings.pending', {
+                what: [
+                  room.pending_time_zone?.replace(/_/g, ' '),
+                  room.pending_settlement_cycle ? t(`room.cycle_${room.pending_settlement_cycle}`) : null,
+                ]
+                  .filter(Boolean)
+                  .join(' · '),
+              })}
+            </Notice>
+          ) : null}
           {actionError ? <Notice tone="error">{actionError}</Notice> : null}
           {isAdmin && pendingCount > 0 ? (
             <Notice tone="info">{t('home.pendingCount', { count: pendingCount })}</Notice>
