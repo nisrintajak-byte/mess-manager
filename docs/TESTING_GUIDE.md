@@ -91,3 +91,4 @@ Google button stays hidden until the Google setup below is done.
 3. Public pages (for Google Play): …/next/privacy/ and …/next/terms/ — language buttons on top.
 4. Ads show only in the Android app (not in the browser): small "Ad" banner at the bottom of Home, Room, Inbox, Need Requests — never on payment, settlement, dispute, login or delete screens. Preferences → Ads → Personalised ads on/off.
 5. Android app only (after Play Console): Preferences → **Remove ads** → Monthly / Yearly through Google Play; ads disappear on all your phones; **Restore** on a new phone; **Manage** opens Google Play.
+6. **Former members:** Admin removes a member (or a member leaves) → Room → Members shows a **Former members** list with "Removed on <date> by <Admin>" / "Left the Room on <date>". Their old expenses show the name as "Name (removed)" / "Name (left)". If they join again, they move back to the normal list.
