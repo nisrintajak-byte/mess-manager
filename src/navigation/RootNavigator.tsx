@@ -101,8 +101,20 @@ export function RootNavigator() {
       onStateChange={() => setCrashScreen(navigationRef.getCurrentRoute()?.name ?? null)}
     >
       {session && emailVerified ? (
-        <AppStack.Navigator screenOptions={{ headerTintColor: colors.primary }}>
-          <AppStack.Screen name="Home" component={HomeScreen} options={{ title: t('home.title') }} />
+        <AppStack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: colors.hero },
+            headerTintColor: colors.heroText,
+            headerTitleStyle: { color: colors.heroText, fontWeight: '700' },
+            headerShadowVisible: false,
+            contentStyle: { backgroundColor: colors.bg },
+          }}
+        >
+          <AppStack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{ title: t('home.title'), headerShown: false }}
+          />
           <AppStack.Screen
             name="CreateRoom"
             component={CreateRoomScreen}
@@ -165,7 +177,14 @@ export function RootNavigator() {
           />
         </AppStack.Navigator>
       ) : (
-        <AuthStack.Navigator screenOptions={{ headerTintColor: colors.primary }}>
+        <AuthStack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: colors.hero },
+            headerTintColor: colors.heroText,
+            headerTitleStyle: { color: colors.heroText, fontWeight: '700' },
+            headerShadowVisible: false,
+          }}
+        >
           <AuthStack.Screen name="Login" component={LoginScreen} options={{ title: t('app.name') }} />
           <AuthStack.Screen name="Signup" component={SignupScreen} options={{ title: t('app.name') }} />
           <AuthStack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: '' }} />

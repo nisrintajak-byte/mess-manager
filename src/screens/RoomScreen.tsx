@@ -15,8 +15,10 @@ import { todayIn } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
 import { Badge, Body, Button, Card, Chip, ChipRow, Meta, Notice, Row, Spacer } from '../ui/components';
 import { AdSlot } from '../ui/AdSlot';
+import { Avatar } from '../ui/Avatar';
+import { Icon, IconName } from '../ui/Icon';
 import { confirm, useLoader } from '../ui/hooks';
-import { colors, font, radius, space, themedStyles } from '../ui/theme';
+import { colors, font, radius, rowDirection, space, themedStyles } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'Room'>;
 type Tab = 'expenses' | 'balances' | 'settlements';
@@ -29,7 +31,8 @@ export function RoomScreen({ navigation, route }: Props) {
   const { t, i18n } = useTranslation();
   const { session } = useAuth();
   const me = session?.user.id;
-  const [tab, setTab] = useState<Tab>('expenses');
+  const [tab, setTab] = useState<Tab>(route.params.tab ?? 'expenses');
+  const [showCode, setShowCode] = useState(false);
   const [cycleId, setCycleId] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -77,7 +80,7 @@ export function RoomScreen({ navigation, route }: Props) {
   if (!data) {
     return (
       <View style={styles.bg}>
-        <View style={styles.pad}>
+        <View style={styles.column}>
           {error ? (
             <Notice tone="error">{t(dbErrorKey(error as { message?: string }))}</Notice>
           ) : (
@@ -158,185 +161,263 @@ export function RoomScreen({ navigation, route }: Props) {
   const live = expenses.filter((e) => !e.deleted_at);
   const total = live.reduce((s, e) => s + (e.is_credit ? -e.amount : e.amount), 0);
 
+  const myBal = balances.find((b) => b.user_id === me);
+  const myNet = myBal?.net ?? 0;
+  const approvedCount = members.filter((m) => m.status === 'approved').length;
+  const chips: {
+    key: string;
+    icon: IconName;
+    label: string;
+    badge?: number;
+    alert?: boolean;
+    onPress: () => void;
+  }[] = [
+    {
+      key: 'members',
+      icon: 'users',
+      label: t('room.members'),
+      badge: isAdmin && pendingCount ? pendingCount : undefined,
+      onPress: () => navigation.navigate('RoomMembers', { roomId }),
+    },
+    {
+      key: 'needs',
+      icon: 'bag',
+      label: t('need.title'),
+      badge: openNeeds || undefined,
+      onPress: () => navigation.navigate('Needs', { roomId }),
+    },
+    {
+      key: 'disputes',
+      icon: 'flag',
+      label: t('flag.list'),
+      badge: openFlags.length || undefined,
+      alert: openFlags.length > 0,
+      onPress: () => navigation.navigate('Disputes', { roomId }),
+    },
+    {
+      key: 'reports',
+      icon: 'file',
+      label: t('report.title'),
+      onPress: () => navigation.navigate('Reports', { roomId, cycleId: cur?.id }),
+    },
+    { key: 'invite', icon: 'key', label: t('room.invite'), onPress: () => setShowCode((v) => !v) },
+    ...(isAdmin
+      ? [
+          {
+            key: 'settings',
+            icon: 'gear' as IconName,
+            label: t('room.settings'),
+            onPress: () => navigation.navigate('RoomSettings', { roomId }),
+          },
+        ]
+      : []),
+  ];
+
   return (
-    <ScrollView
-      style={styles.bg}
-      contentContainerStyle={styles.pad}
-      refreshControl={<RefreshControl refreshing={loading || detail.loading} onRefresh={refreshAll} />}
-    >
-      <View style={styles.column}>
-        <Card>
-          <Row>
-            <Text style={styles.cardTitle}>{t('room.settings')}</Text>
-            {isAdmin ? (
-              <Button
-                title={t('settings.open')}
-                variant="link"
-                onPress={() => navigation.navigate('RoomSettings', { roomId })}
-              />
-            ) : null}
-          </Row>
-          <Meta>
-            {getCountry(room.country_code)?.names[lang] ?? room.country_code} · {room.currency} ·{' '}
-            {room.time_zone.replace(/_/g, ' ')} · {t(`room.cycle_${room.settlement_cycle}`)}
-          </Meta>
-          {room.pending_time_zone || room.pending_settlement_cycle ? (
-            <Meta>
-              {t('settings.pending', {
-                what: [
-                  room.pending_time_zone?.replace(/_/g, ' '),
-                  room.pending_settlement_cycle ? t(`room.cycle_${room.pending_settlement_cycle}`) : null,
-                ]
-                  .filter(Boolean)
-                  .join(' · '),
-              })}
-            </Meta>
-          ) : null}
-          <Spacer size="sm" />
-          <Meta>{t('room.joinCode')}</Meta>
-          <Text selectable style={styles.code}>
-            {room.join_code}
-          </Text>
-          <Meta>{t('room.joinCodeHint')}</Meta>
-        </Card>
-
-        {actionError ? <Notice tone="error">{actionError}</Notice> : null}
-        {isAdmin && pendingCount > 0 ? (
-          <Notice tone="info">{t('home.pendingCount', { count: pendingCount })}</Notice>
-        ) : null}
-
-        <Button title={t('room.addExpense')} onPress={() => navigation.navigate('AddExpense', { roomId })} />
-        <Button
-          title={`${t('room.members')} (${members.filter((m) => m.status === 'approved').length})`}
-          variant="secondary"
-          onPress={() => navigation.navigate('RoomMembers', { roomId })}
-        />
-
-        <Row>
-          <View style={styles.flex}>
-            <Button
-              title={`${t('need.title')}${openNeeds ? ` (${openNeeds})` : ''}`}
-              variant="secondary"
-              onPress={() => navigation.navigate('Needs', { roomId })}
-            />
+    <View style={styles.bg}>
+      <ScrollView
+        style={styles.bg}
+        contentContainerStyle={styles.scrollPad}
+        refreshControl={<RefreshControl refreshing={loading || detail.loading} onRefresh={refreshAll} />}
+      >
+        <View style={styles.hero}>
+          <View style={styles.heroInner}>
+            <Text style={styles.heroMeta}>
+              {cur ? localizeDigits(range(cur)) + ' · ' : ''}
+              {room.currency} · {localizeDigits(t('room.memberCount', { count: approvedCount }))}
+            </Text>
+            <View style={[styles.stats, { flexDirection: rowDirection() }]}>
+              <View style={styles.stat}>
+                <Text style={styles.statLabel}>{t('room.total')}</Text>
+                <Text style={styles.statValue}>
+                  {localizeDigits(money(total + (isEstimate ? waitingSum : 0)))}
+                </Text>
+              </View>
+              <View style={styles.stat}>
+                <Text style={styles.statLabel}>{t('room.youPaid')}</Text>
+                <Text style={styles.statValue}>{localizeDigits(money(myBal?.paid ?? 0))}</Text>
+              </View>
+              <View style={[styles.stat, myNet < 0 ? styles.statPay : null]}>
+                <Text style={[styles.statLabel, myNet < 0 ? styles.statPayText : null]}>
+                  {t(myNet < 0 ? 'home.youPay' : myNet > 0 ? 'home.youReceive' : 'room.settled')}
+                </Text>
+                <Text style={[styles.statValue, myNet < 0 ? styles.statPayText : null]}>
+                  {localizeDigits(money(Math.abs(myNet)))}
+                </Text>
+              </View>
+            </View>
           </View>
-          <View style={styles.flex}>
-            <Button
-              title={`${t('flag.list')}${openFlags.length ? ` (${openFlags.length})` : ''}`}
-              variant={openFlags.length ? 'danger' : 'secondary'}
-              onPress={() => navigation.navigate('Disputes', { roomId })}
-            />
-          </View>
-        </Row>
-        <Button
-          title={t('report.title')}
-          variant="secondary"
-          onPress={() => navigation.navigate('Reports', { roomId, cycleId: cur?.id })}
-        />
-
-        <View style={styles.tabs}>
-          {(['expenses', 'balances', 'settlements'] as const).map((k) => (
-            <Pressable
-              key={k}
-              onPress={() => setTab(k)}
-              style={[styles.tab, tab === k && styles.tabOn]}
-              accessibilityRole="tab"
-              accessibilityState={{ selected: tab === k }}
-            >
-              <Text style={[styles.tabText, tab === k && styles.tabTextOn]}>
-                {t(
-                  k === 'expenses'
-                    ? 'room.tabExpenses'
-                    : k === 'balances'
-                      ? 'room.tabBalances'
-                      : 'settlement.list',
-                )}
-              </Text>
-            </Pressable>
-          ))}
         </View>
 
-        {tab !== 'settlements' && cur ? (
-          <>
-            {cycles.length > 1 ? (
-              <ChipRow>
-                {cycles.slice(0, 6).map((c, i) => (
-                  <Chip
-                    key={c.id}
-                    on={c.id === cur.id}
-                    onPress={() => setCycleId(c.id)}
-                    label={i === 0 ? t('cycle.current') : range(c)}
-                  />
-                ))}
-              </ChipRow>
-            ) : null}
+        <View style={styles.column}>
+          <View style={styles.chips}>
+            {chips.map((c) => (
+              <Pressable
+                key={c.key}
+                accessibilityRole="button"
+                accessibilityLabel={c.badge ? `${c.label} (${c.badge})` : c.label}
+                onPress={c.onPress}
+                style={({ pressed }) => [
+                  styles.chip,
+                  { flexDirection: rowDirection() },
+                  c.alert ? styles.chipAlert : null,
+                  pressed && styles.dim,
+                ]}
+              >
+                <Icon name={c.icon} size={18} color={c.alert ? colors.danger : colors.primary} />
+                <Text style={[styles.chipText, c.alert ? { color: colors.danger } : null]}>{c.label}</Text>
+                {c.badge ? (
+                  <View style={styles.chipBadge}>
+                    <Text style={styles.chipBadgeText}>{localizeDigits(String(c.badge))}</Text>
+                  </View>
+                ) : null}
+              </Pressable>
+            ))}
+          </View>
+
+          {showCode ? (
             <Card>
-              <Row>
-                <View style={styles.flex}>
-                  <Text style={styles.itemTitle}>{range(cur)}</Text>
-                  <Meta>{t(`cycle.kind_${cur.kind}`)}</Meta>
-                </View>
-                <Badge tone={cur.status === 'locked' ? 'good' : 'neutral'}>
-                  {t(cur.status === 'locked' ? 'cycle.locked' : 'cycle.open')}
-                </Badge>
-              </Row>
-              {cur.status === 'locked' ? (
-                <>
-                  <Meta>{t('cycle.lockedNote')}</Meta>
-                  {settlementFor(cur) ? (
-                    <Button
-                      title={t('cycle.viewSettlement')}
-                      variant="link"
-                      onPress={() =>
-                        navigation.navigate('Settlement', { roomId, settlementId: settlementFor(cur)!.id })
-                      }
-                    />
-                  ) : null}
-                </>
-              ) : isAdmin && cur.starts_on < today ? (
-                <>
-                  <Spacer size="sm" />
-                  <Button
-                    title={t(running ? 'cycle.settleEarly' : 'cycle.settle')}
-                    variant="secondary"
-                    loading={busy}
-                    onPress={settle}
-                  />
-                </>
+              <Meta>{t('room.joinCode')}</Meta>
+              <Text selectable style={styles.code}>
+                {room.join_code}
+              </Text>
+              <Meta>{t('room.joinCodeHint')}</Meta>
+              <Spacer size="sm" />
+              <Meta>
+                {getCountry(room.country_code)?.names[lang] ?? room.country_code} · {room.currency} ·{' '}
+                {room.time_zone.replace(/_/g, ' ')} · {t(`room.cycle_${room.settlement_cycle}`)}
+              </Meta>
+              {room.pending_time_zone || room.pending_settlement_cycle ? (
+                <Meta>
+                  {t('settings.pending', {
+                    what: [
+                      room.pending_time_zone?.replace(/_/g, ' '),
+                      room.pending_settlement_cycle ? t(`room.cycle_${room.pending_settlement_cycle}`) : null,
+                    ]
+                      .filter(Boolean)
+                      .join(' · '),
+                  })}
+                </Meta>
               ) : null}
             </Card>
-          </>
-        ) : null}
+          ) : null}
 
-        {tab === 'expenses' ? (
-          <>
-            {queued.map((i) => (
-              <Card key={i.id} onPress={() => navigation.navigate('Sync')}>
-                <Row>
-                  <View style={styles.flex}>
-                    <Text style={styles.itemTitle}>{i.label}</Text>
-                    <Meta>{t(`sync.type_${i.type}`)}</Meta>
-                    <Badge tone={i.status === 'failed' ? 'bad' : 'warn'}>
-                      {t(i.status === 'failed' ? 'sync.failed' : 'sync.badge')}
-                    </Badge>
-                  </View>
-                  {i.amountText ? <Text style={styles.amount}>{i.amountText}</Text> : null}
-                </Row>
-              </Card>
-            ))}
-            {expenses.length === 0 && queued.length === 0 && !detail.loading ? (
-              <Body muted>{t('room.noExpenses')}</Body>
-            ) : null}
-            {expenses.slice(0, shown).map((e) => (
-              <Card
-                key={e.id}
-                onPress={() => navigation.navigate('ExpenseDetail', { roomId, expenseId: e.id })}
+          {actionError ? <Notice tone="error">{actionError}</Notice> : null}
+          {isAdmin && pendingCount > 0 ? (
+            <Notice tone="info">{t('home.pendingCount', { count: pendingCount })}</Notice>
+          ) : null}
+
+          <View style={styles.tabs}>
+            {(['expenses', 'balances', 'settlements'] as const).map((k) => (
+              <Pressable
+                key={k}
+                onPress={() => setTab(k)}
+                style={[styles.tab, tab === k && styles.tabOn]}
+                accessibilityRole="tab"
+                accessibilityState={{ selected: tab === k }}
               >
+                <Text style={[styles.tabText, tab === k && styles.tabTextOn]}>
+                  {t(
+                    k === 'expenses'
+                      ? 'room.tabExpenses'
+                      : k === 'balances'
+                        ? 'room.tabBalances'
+                        : 'settlement.list',
+                  )}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+
+          {tab !== 'settlements' && cur ? (
+            <>
+              {cycles.length > 1 ? (
+                <ChipRow>
+                  {cycles.slice(0, 6).map((c, i) => (
+                    <Chip
+                      key={c.id}
+                      on={c.id === cur.id}
+                      onPress={() => setCycleId(c.id)}
+                      label={i === 0 ? t('cycle.current') : range(c)}
+                    />
+                  ))}
+                </ChipRow>
+              ) : null}
+              <Card>
                 <Row>
                   <View style={styles.flex}>
-                    <Text style={[styles.itemTitle, e.deleted_at ? styles.struck : null]}>{e.title}</Text>
+                    <Text style={styles.itemTitle}>{range(cur)}</Text>
+                    <Meta>{t(`cycle.kind_${cur.kind}`)}</Meta>
+                  </View>
+                  <Badge tone={cur.status === 'locked' ? 'good' : 'neutral'}>
+                    {t(cur.status === 'locked' ? 'cycle.locked' : 'cycle.open')}
+                  </Badge>
+                </Row>
+                {cur.status === 'locked' ? (
+                  <>
+                    <Meta>{t('cycle.lockedNote')}</Meta>
+                    {settlementFor(cur) ? (
+                      <Button
+                        title={t('cycle.viewSettlement')}
+                        variant="link"
+                        onPress={() =>
+                          navigation.navigate('Settlement', { roomId, settlementId: settlementFor(cur)!.id })
+                        }
+                      />
+                    ) : null}
+                  </>
+                ) : isAdmin && cur.starts_on < today ? (
+                  <>
+                    <Spacer size="sm" />
+                    <Button
+                      title={t(running ? 'cycle.settleEarly' : 'cycle.settle')}
+                      variant="secondary"
+                      loading={busy}
+                      onPress={settle}
+                    />
+                  </>
+                ) : null}
+              </Card>
+            </>
+          ) : null}
+
+          {tab === 'expenses' ? (
+            <>
+              {queued.map((i) => (
+                <Card key={i.id} onPress={() => navigation.navigate('Sync')}>
+                  <Row>
+                    <View style={styles.flex}>
+                      <Text style={styles.itemTitle}>{i.label}</Text>
+                      <Meta>{t(`sync.type_${i.type}`)}</Meta>
+                      <Badge tone={i.status === 'failed' ? 'bad' : 'warn'}>
+                        {t(i.status === 'failed' ? 'sync.failed' : 'sync.badge')}
+                      </Badge>
+                    </View>
+                    {i.amountText ? <Text style={styles.amount}>{i.amountText}</Text> : null}
+                  </Row>
+                </Card>
+              ))}
+              {expenses.length === 0 && queued.length === 0 && !detail.loading ? (
+                <Body muted>{t('room.noExpenses')}</Body>
+              ) : null}
+              {expenses.slice(0, shown).map((e) => (
+                <Pressable
+                  key={e.id}
+                  accessibilityRole="button"
+                  onPress={() => navigation.navigate('ExpenseDetail', { roomId, expenseId: e.id })}
+                  style={({ pressed }) => [
+                    styles.item,
+                    { flexDirection: rowDirection() },
+                    pressed && styles.dim,
+                  ]}
+                >
+                  <Avatar name={nameOf(e.paid_by)} muted={!!e.deleted_at} />
+                  <View style={styles.flex}>
+                    <Text style={[styles.itemTitle, e.deleted_at ? styles.struck : null]} numberOfLines={2}>
+                      {e.title}
+                    </Text>
                     <Meta>
-                      {e.expense_date} · {nameOf(e.paid_by)}
+                      {localizeDigits(e.expense_date)} · {nameOf(e.paid_by)}
                       {e.split_mode === 'selected' ? ` · ${t('split.selected')}` : ''}
                     </Meta>
                     {e.adjusts_expense_id ? <Badge tone="warn">{t('adjust.label')}</Badge> : null}
@@ -347,91 +428,155 @@ export function RoomScreen({ navigation, route }: Props) {
                   </View>
                   <View style={styles.end}>
                     <Text style={[styles.amount, e.deleted_at ? styles.struck : null]}>
-                      {money(e.is_credit ? -e.amount : e.amount)}
+                      {localizeDigits(money(e.is_credit ? -e.amount : e.amount))}
                     </Text>
                     {e.deleted_at ? <Text style={styles.deleted}>{t('expense.deleted')}</Text> : null}
                   </View>
-                </Row>
-              </Card>
-            ))}
-            {expenses.length > shown ? (
-              <Button
-                title={localizeDigits(t('room.showMore', { count: expenses.length - shown }))}
-                variant="secondary"
-                onPress={() => setPage({ cycle: selected?.id ?? '', n: shown + PAGE })}
-              />
-            ) : null}
-          </>
-        ) : null}
+                </Pressable>
+              ))}
+              {expenses.length > shown ? (
+                <Button
+                  title={localizeDigits(t('room.showMore', { count: expenses.length - shown }))}
+                  variant="secondary"
+                  onPress={() => setPage({ cycle: selected?.id ?? '', n: shown + PAGE })}
+                />
+              ) : null}
+            </>
+          ) : null}
 
-        {tab === 'balances' ? (
-          <>
-            {isEstimate ? <Notice tone="info">{t('sync.estimated')}</Notice> : null}
-            <Card>
-              <Row>
-                <Text style={styles.itemTitle}>{t('room.total')}</Text>
-                <Text style={styles.amount}>{money(total + (isEstimate ? waitingSum : 0))}</Text>
-              </Row>
-            </Card>
-            {balances.map((b) => (
-              <Card key={b.user_id}>
+          {tab === 'balances' ? (
+            <>
+              {isEstimate ? <Notice tone="info">{t('sync.estimated')}</Notice> : null}
+              <Card>
                 <Row>
-                  <View style={styles.flex}>
-                    <Text style={styles.itemTitle}>{nameOf(b.user_id)}</Text>
-                    <Meta>
-                      {t('room.paid')} {money(b.paid)} · {t('room.share')} {money(b.share)}
-                    </Meta>
-                  </View>
-                  <Text style={[styles.amount, { color: b.net < 0 ? colors.danger : colors.success }]}>
-                    {b.net === 0
-                      ? t('room.settled')
-                      : b.net > 0
-                        ? t('room.getsBack', { amount: money(b.net) })
-                        : t('room.owes', { amount: money(-b.net) })}
-                  </Text>
+                  <Text style={styles.itemTitle}>{t('room.total')}</Text>
+                  <Text style={styles.amount}>{money(total + (isEstimate ? waitingSum : 0))}</Text>
                 </Row>
               </Card>
-            ))}
-            <Body muted>{t('room.balancesNote')}</Body>
-          </>
-        ) : null}
-
-        {tab === 'settlements' ? (
-          <>
-            {settlements.length === 0 ? <Body muted>{t('settlement.none')}</Body> : null}
-            {settlements.map((s) => {
-              const c = cycles.find((x) => x.id === s.cycle_id);
-              return (
-                <Card
-                  key={s.id}
-                  onPress={() => navigation.navigate('Settlement', { roomId, settlementId: s.id })}
-                >
+              {balances.map((b) => (
+                <Card key={b.user_id}>
                   <Row>
-                    <Text style={styles.itemTitle}>{c ? range(c) : s.generated_at.slice(0, 10)}</Text>
-                    <Text style={styles.amount}>{formatMoney(s.total, s.currency, s.currency_decimals)}</Text>
+                    <Avatar name={nameOf(b.user_id)} />
+                    <View style={styles.flex}>
+                      <Text style={styles.itemTitle}>{nameOf(b.user_id)}</Text>
+                      <Meta>
+                        {t('room.paid')} {money(b.paid)} · {t('room.share')} {money(b.share)}
+                      </Meta>
+                    </View>
+                    <Text style={[styles.amount, { color: b.net < 0 ? colors.danger : colors.success }]}>
+                      {b.net === 0
+                        ? t('room.settled')
+                        : b.net > 0
+                          ? t('room.getsBack', { amount: money(b.net) })
+                          : t('room.owes', { amount: money(-b.net) })}
+                    </Text>
                   </Row>
                 </Card>
-              );
-            })}
-          </>
-        ) : null}
+              ))}
+              <Body muted>{t('room.balancesNote')}</Body>
+            </>
+          ) : null}
 
-        <Spacer size="xxl" />
-        <Button title={t('room.leave')} variant="link" onPress={leave} />
-        <AdSlot screen="Room" />
+          {tab === 'settlements' ? (
+            <>
+              {settlements.length === 0 ? <Body muted>{t('settlement.none')}</Body> : null}
+              {settlements.map((s) => {
+                const c = cycles.find((x) => x.id === s.cycle_id);
+                return (
+                  <Card
+                    key={s.id}
+                    onPress={() => navigation.navigate('Settlement', { roomId, settlementId: s.id })}
+                  >
+                    <Row>
+                      <Text style={styles.itemTitle}>{c ? range(c) : s.generated_at.slice(0, 10)}</Text>
+                      <Text style={styles.amount}>
+                        {formatMoney(s.total, s.currency, s.currency_decimals)}
+                      </Text>
+                    </Row>
+                  </Card>
+                );
+              })}
+            </>
+          ) : null}
+
+          <Spacer size="xl" />
+          <Button title={t('room.leave')} variant="link" onPress={leave} />
+          <AdSlot screen="Room" />
+        </View>
+      </ScrollView>
+      <View style={[styles.actionBar, { flexDirection: rowDirection() }]}>
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => navigation.navigate('Needs', { roomId })}
+          style={({ pressed }) => [styles.needBtn, { flexDirection: rowDirection() }, pressed && styles.dim]}
+        >
+          <Icon name="bag" size={20} color={colors.payText} />
+          <Text style={styles.needText}>{t('room.needSomething')}</Text>
+        </Pressable>
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => navigation.navigate('AddExpense', { roomId })}
+          style={({ pressed }) => [styles.addBtn, { flexDirection: rowDirection() }, pressed && styles.dim]}
+        >
+          <Icon name="plus" size={20} color={colors.primaryText} />
+          <Text style={styles.addText}>{t('room.addExpense')}</Text>
+        </Pressable>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = themedStyles(() =>
   StyleSheet.create({
     bg: { flex: 1, backgroundColor: colors.bg },
-    pad: { padding: space.lg, paddingBottom: space.xxl },
-    column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
+    scrollPad: { paddingBottom: space.xxl },
+    column: { width: '100%', maxWidth: 560, alignSelf: 'center', paddingHorizontal: space.lg },
     flex: { flex: 1 },
+    dim: { opacity: 0.7 },
     end: { alignItems: 'flex-end' },
-    cardTitle: { fontSize: font.md, fontWeight: '700', color: colors.text },
+    hero: {
+      backgroundColor: colors.hero,
+      paddingHorizontal: space.lg,
+      paddingBottom: space.lg,
+      paddingTop: space.xs,
+    },
+    heroInner: { width: '100%', maxWidth: 560, alignSelf: 'center', gap: space.md },
+    heroMeta: { fontSize: font.sm, color: colors.heroMuted },
+    stats: { gap: space.sm },
+    stat: { flex: 1, backgroundColor: colors.heroTile, borderRadius: radius.md, padding: space.md, gap: 2 },
+    statLabel: { fontSize: 12, color: colors.heroMuted },
+    statValue: { fontSize: font.md, fontWeight: '700', color: colors.heroText },
+    statPay: { backgroundColor: colors.accent },
+    statPayText: { color: colors.accentText },
+    chips: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: space.sm,
+      marginTop: space.lg,
+      marginBottom: space.md,
+    },
+    chip: {
+      alignItems: 'center',
+      gap: 6,
+      minHeight: 44,
+      paddingHorizontal: space.md,
+      borderRadius: 22,
+      backgroundColor: colors.surface,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    chipAlert: { borderColor: colors.danger, backgroundColor: colors.dangerBg },
+    chipText: { fontSize: font.sm, fontWeight: '600', color: colors.text },
+    chipBadge: {
+      minWidth: 20,
+      height: 20,
+      borderRadius: 10,
+      paddingHorizontal: 5,
+      backgroundColor: colors.accent,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    chipBadgeText: { fontSize: 11, fontWeight: '700', color: colors.accentText },
     code: {
       fontSize: font.xl,
       fontWeight: '700',
@@ -441,20 +586,63 @@ const styles = themedStyles(() =>
     },
     tabs: {
       flexDirection: 'row',
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+      marginTop: space.sm,
+      marginBottom: space.lg,
+    },
+    tab: {
+      flex: 1,
+      minHeight: 46,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderBottomWidth: 3,
+      borderBottomColor: 'transparent',
+    },
+    tabOn: { borderBottomColor: colors.primary },
+    tabText: { fontWeight: '600', color: colors.textMuted, fontSize: font.md },
+    tabTextOn: { color: colors.primary, fontWeight: '700' },
+    item: {
+      alignItems: 'center',
+      gap: space.md,
       backgroundColor: colors.surface,
-      borderRadius: radius.md,
+      borderRadius: radius.lg,
+      padding: space.md,
+      marginBottom: space.sm,
       borderWidth: 1,
       borderColor: colors.border,
-      padding: 3,
-      marginVertical: space.lg,
     },
-    tab: { flex: 1, paddingVertical: space.sm, borderRadius: radius.sm, alignItems: 'center' },
-    tabOn: { backgroundColor: colors.primary },
-    tabText: { fontWeight: '600', color: colors.text, fontSize: font.sm },
-    tabTextOn: { color: colors.primaryText },
     itemTitle: { fontSize: font.md, fontWeight: '600', color: colors.text },
     amount: { fontSize: font.md, fontWeight: '700', color: colors.text },
     struck: { textDecorationLine: 'line-through', color: colors.textMuted },
     deleted: { fontSize: font.sm, color: colors.danger },
+    actionBar: {
+      gap: space.md,
+      paddingHorizontal: space.lg,
+      paddingVertical: space.md,
+      backgroundColor: colors.surface,
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
+    },
+    needBtn: {
+      flex: 1,
+      minHeight: 52,
+      borderRadius: radius.lg,
+      backgroundColor: colors.payBg,
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: space.sm,
+    },
+    needText: { fontSize: font.md, fontWeight: '700', color: colors.payText },
+    addBtn: {
+      flex: 1.3,
+      minHeight: 52,
+      borderRadius: radius.lg,
+      backgroundColor: colors.primary,
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: space.sm,
+    },
+    addText: { fontSize: font.md, fontWeight: '700', color: colors.primaryText },
   }),
 );

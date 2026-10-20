@@ -92,7 +92,21 @@
     "pendingCount_one": "{{count}} जुड़ने का अनुरोध मंज़ूरी की प्रतीक्षा में है",
     "pendingCount_other": "{{count}} जुड़ने के अनुरोध मंज़ूरी की प्रतीक्षा में हैं",
     "admin": "एडमिन",
-    "member": "सदस्य"
+    "member": "सदस्य",
+    "hello": "नमस्ते, {{name}}",
+    "acrossRooms": "इस अवधि में, आपके सभी रूम",
+    "youPay": "आपको देना है",
+    "youReceive": "आपको मिलना है",
+    "quickAdd": "खर्च जोड़ें",
+    "quickNeed": "ज़रूरत की रिक्वेस्ट",
+    "quickSettle": "हिसाब और भुगतान",
+    "quickReports": "रिपोर्ट",
+    "pickRoom": "कौन सा रूम?",
+    "joinShort": "+ रूम में जुड़ें",
+    "createShort": "+ नया रूम बनाएँ",
+    "roomLine": "{{members}} सदस्य · इस अवधि {{total}}",
+    "waitingToJoin": "{{count}} जुड़ने के इंतज़ार में",
+    "openNeeds": "{{count}} खुली ज़रूरत की रिक्वेस्ट"
   },
   "room": {
     "createTitle": "रूम बनाएँ",
@@ -133,7 +147,11 @@
     "getsBack": "{{amount}} वापस मिलेंगे",
     "owes": "{{amount}} देने हैं",
     "settled": "हिसाब बराबर",
-    "showMore": "और दिखाएँ ({{count}} बाकी)"
+    "showMore": "और दिखाएँ ({{count}} बाकी)",
+    "invite": "आमंत्रण",
+    "youPaid": "आपने दिया",
+    "memberCount": "{{count}} सदस्य",
+    "needSomething": "कुछ चाहिए"
   },
   "members": {
     "title": "सदस्य",
@@ -727,5 +745,10 @@
     "pinnedChannel": "देखने के लिए हिसाब (पिन किया)",
     "settlementTitle": "हिसाब तैयार है · {{room}}",
     "settlementTap": "देखने और पुष्टि के लिए दबाएँ"
+  },
+  "nav": {
+    "home": "होम",
+    "inbox": "सूचनाएँ",
+    "me": "मैं"
   }
 }

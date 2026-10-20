@@ -15,7 +15,7 @@ export type AppStackParamList = {
   Home: undefined;
   CreateRoom: undefined;
   JoinRoom: undefined;
-  Room: { roomId: string };
+  Room: { roomId: string; tab?: 'expenses' | 'balances' | 'settlements' };
   RoomMembers: { roomId: string };
   RoomSettings: { roomId: string };
   AddExpense: { roomId: string; expenseId?: string; needId?: string; presetTitle?: string };

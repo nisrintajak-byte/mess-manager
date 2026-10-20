@@ -91,7 +91,21 @@
     "pendingCount_one": "{{count}} join request waiting for approval",
     "pendingCount_other": "{{count}} join requests waiting for approval",
     "admin": "Admin",
-    "member": "Member"
+    "member": "Member",
+    "hello": "Hello, {{name}}",
+    "acrossRooms": "This period, across your Rooms",
+    "youPay": "You pay",
+    "youReceive": "You receive",
+    "quickAdd": "Add expense",
+    "quickNeed": "Need request",
+    "quickSettle": "Settle & pay",
+    "quickReports": "Reports",
+    "pickRoom": "Which Room?",
+    "joinShort": "+ Join a Room",
+    "createShort": "+ Create a new Room",
+    "roomLine": "{{members}} members · this period {{total}}",
+    "waitingToJoin": "{{count}} waiting to join",
+    "openNeeds": "{{count}} open need requests"
   },
   "room": {
     "createTitle": "Create a Room",
@@ -132,7 +146,11 @@
     "getsBack": "gets back {{amount}}",
     "owes": "owes {{amount}}",
     "settled": "settled up",
-    "showMore": "Show more ({{count}} left)"
+    "showMore": "Show more ({{count}} left)",
+    "invite": "Invite",
+    "youPaid": "You paid",
+    "memberCount": "{{count}} members",
+    "needSomething": "Need something"
   },
   "members": {
     "title": "Members",
@@ -726,5 +744,10 @@
     "pinnedChannel": "Settlements to check (pinned)",
     "settlementTitle": "Settlement ready · {{room}}",
     "settlementTap": "tap to check and confirm"
+  },
+  "nav": {
+    "home": "Home",
+    "inbox": "Inbox",
+    "me": "Me"
   }
 }

@@ -13,6 +13,14 @@ describe('themes meet WCAG AA contrast', () => {
       expect(contrastRatio(p.danger, p.dangerBg)).toBeGreaterThanOrEqual(4.5);
       expect(contrastRatio(p.success, p.successBg)).toBeGreaterThanOrEqual(4.5);
       expect(contrastRatio(p.text, p.warnBg)).toBeGreaterThanOrEqual(4.5);
+      // the new top band and money tiles
+      expect(contrastRatio(p.heroText, p.hero)).toBeGreaterThanOrEqual(4.5);
+      expect(contrastRatio(p.heroMuted, p.hero)).toBeGreaterThanOrEqual(4.5);
+      expect(contrastRatio(p.heroText, p.heroTile)).toBeGreaterThanOrEqual(4.5);
+      expect(contrastRatio(p.heroMuted, p.heroTile)).toBeGreaterThanOrEqual(3);
+      expect(contrastRatio(p.accentText, p.accent)).toBeGreaterThanOrEqual(4.5);
+      expect(contrastRatio(p.payText, p.payBg)).toBeGreaterThanOrEqual(4.5);
+      expect(contrastRatio(p.getText, p.getBg)).toBeGreaterThanOrEqual(4.5);
     });
   }
 });

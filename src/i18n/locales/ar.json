@@ -96,7 +96,21 @@
     "pendingCount_many": "{{count}} طلب انضمام بانتظار الموافقة",
     "pendingCount_other": "{{count}} طلب انضمام بانتظار الموافقة",
     "admin": "مشرف",
-    "member": "عضو"
+    "member": "عضو",
+    "hello": "مرحبًا، {{name}}",
+    "acrossRooms": "هذه الفترة، في كل غرفك",
+    "youPay": "عليك دفع",
+    "youReceive": "لك استلام",
+    "quickAdd": "إضافة مصروف",
+    "quickNeed": "طلب احتياج",
+    "quickSettle": "التسوية والدفع",
+    "quickReports": "التقارير",
+    "pickRoom": "أي غرفة؟",
+    "joinShort": "+ انضم إلى غرفة",
+    "createShort": "+ أنشئ غرفة جديدة",
+    "roomLine": "{{members}} أعضاء · هذه الفترة {{total}}",
+    "waitingToJoin": "{{count}} بانتظار الانضمام",
+    "openNeeds": "{{count}} طلبات احتياج مفتوحة"
   },
   "room": {
     "createTitle": "إنشاء غرفة",
@@ -137,7 +151,11 @@
     "getsBack": "يسترد {{amount}}",
     "owes": "عليه {{amount}}",
     "settled": "لا مستحقات",
-    "showMore": "عرض المزيد (المتبقي {{count}})"
+    "showMore": "عرض المزيد (المتبقي {{count}})",
+    "invite": "دعوة",
+    "youPaid": "دفعت",
+    "memberCount": "{{count}} أعضاء",
+    "needSomething": "أحتاج شيئًا"
   },
   "members": {
     "title": "الأعضاء",
@@ -731,5 +749,10 @@
     "pinnedChannel": "تسويات للمراجعة (مثبتة)",
     "settlementTitle": "التسوية جاهزة · {{room}}",
     "settlementTap": "اضغط للمراجعة والتأكيد"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "inbox": "الإشعارات",
+    "me": "حسابي"
   }
 }

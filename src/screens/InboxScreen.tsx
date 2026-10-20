@@ -8,6 +8,7 @@ import { formatDateTime } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
 import { Body, Button, Card, Meta, Row } from '../ui/components';
 import { AdSlot } from '../ui/AdSlot';
+import { BottomBar } from '../ui/BottomBar';
 import { useLoader } from '../ui/hooks';
 import { colors, font, space, themedStyles } from '../ui/theme';
 
@@ -43,35 +44,38 @@ export function InboxScreen({ navigation }: Props) {
 
   const items = data ?? [];
   return (
-    <ScrollView
-      style={styles.bg}
-      contentContainerStyle={styles.pad}
-      refreshControl={<RefreshControl refreshing={loading} onRefresh={reload} />}
-    >
-      <View style={styles.column}>
-        <Row>
-          <Button title={t('inbox.markAll')} variant="link" onPress={markAll} />
-          <Button
-            title={t('inbox.settings')}
-            variant="link"
-            onPress={() => navigation.navigate('NotificationSettings')}
-          />
-        </Row>
-        {items.length === 0 && !loading ? <Body muted>{t('inbox.empty')}</Body> : null}
-        {items.map((n) => (
-          <Card key={n.id} onPress={() => open(n)}>
-            <Row>
-              <View style={styles.flex}>
-                <Text style={[styles.text, !n.read_at && styles.unread]}>{notificationText(n, t)}</Text>
-                <Meta>{formatDateTime(n.created_at, tz)}</Meta>
-              </View>
-              {!n.read_at ? <View style={styles.dot} /> : null}
-            </Row>
-          </Card>
-        ))}
-        <AdSlot screen="Inbox" />
-      </View>
-    </ScrollView>
+    <View style={styles.bg}>
+      <ScrollView
+        style={styles.bg}
+        contentContainerStyle={styles.pad}
+        refreshControl={<RefreshControl refreshing={loading} onRefresh={reload} />}
+      >
+        <View style={styles.column}>
+          <Row>
+            <Button title={t('inbox.markAll')} variant="link" onPress={markAll} />
+            <Button
+              title={t('inbox.settings')}
+              variant="link"
+              onPress={() => navigation.navigate('NotificationSettings')}
+            />
+          </Row>
+          {items.length === 0 && !loading ? <Body muted>{t('inbox.empty')}</Body> : null}
+          {items.map((n) => (
+            <Card key={n.id} onPress={() => open(n)}>
+              <Row>
+                <View style={styles.flex}>
+                  <Text style={[styles.text, !n.read_at && styles.unread]}>{notificationText(n, t)}</Text>
+                  <Meta>{formatDateTime(n.created_at, tz)}</Meta>
+                </View>
+                {!n.read_at ? <View style={styles.dot} /> : null}
+              </Row>
+            </Card>
+          ))}
+          <AdSlot screen="Inbox" />
+        </View>
+      </ScrollView>
+      <BottomBar current="Inbox" unread={items.filter((n) => !n.read_at).length} />
+    </View>
   );
 }
 

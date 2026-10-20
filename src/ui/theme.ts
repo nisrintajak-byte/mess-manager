@@ -18,36 +18,68 @@ export type Palette = {
   success: string;
   successBg: string;
   warnBg: string;
+  /** top band of Home / Room (brand navy in light themes) */
+  hero: string;
+  heroText: string;
+  heroMuted: string;
+  heroTile: string;
+  /** "you pay" (amber) and "you receive" (blue) tiles */
+  accent: string;
+  accentText: string;
+  payBg: string;
+  payText: string;
+  getBg: string;
+  getText: string;
 };
 
 export const palettes: Record<ThemeName, Palette> = {
   light: {
-    bg: '#F6F7F4',
+    bg: '#F3F5F8',
     surface: '#FFFFFF',
-    text: '#16201C',
-    textMuted: '#5B6762',
-    border: '#D9DED9',
-    primary: '#1F6F5C',
+    text: '#14202B',
+    textMuted: '#55667A',
+    border: '#DDE3EA',
+    primary: '#184670',
     primaryText: '#FFFFFF',
     danger: '#B42318',
     dangerBg: '#FDECEA',
-    success: '#1F6F5C',
-    successBg: '#E5F2EE',
-    warnBg: '#FFF4D6',
+    success: '#1B6B44',
+    successBg: '#E6F4EC',
+    warnBg: '#FFF4E0',
+    hero: '#184670',
+    heroText: '#FFFFFF',
+    heroMuted: '#C9D6E3',
+    heroTile: '#23527D',
+    accent: '#F2A33A',
+    accentText: '#14202B',
+    payBg: '#FDF1E3',
+    payText: '#7A4A12',
+    getBg: '#E6F0F8',
+    getText: '#184670',
   },
   dark: {
-    bg: '#0F1714',
-    surface: '#18231F',
-    text: '#E8EFEA',
-    textMuted: '#A3B1AA',
-    border: '#2C3A35',
-    primary: '#4FB89B',
-    primaryText: '#06201A',
+    bg: '#0C1E33',
+    surface: '#12283F',
+    text: '#E9EEF3',
+    textMuted: '#A9B8C7',
+    border: '#24405C',
+    primary: '#9CC3EA',
+    primaryText: '#0C1E33',
     danger: '#FF9A90',
     dangerBg: '#3A1816',
-    success: '#6FD3B5',
-    successBg: '#14332B',
+    success: '#7FD3A8',
+    successBg: '#123526',
     warnBg: '#3A3010',
+    hero: '#16304B',
+    heroText: '#FFFFFF',
+    heroMuted: '#A9B8C7',
+    heroTile: '#1F3D5C',
+    accent: '#E9B44C',
+    accentText: '#0C1E33',
+    payBg: '#3A2A12',
+    payText: '#F3C77A',
+    getBg: '#16304B',
+    getText: '#9CC3EA',
   },
   sand: {
     bg: '#FAF5EC',
@@ -62,6 +94,16 @@ export const palettes: Record<ThemeName, Palette> = {
     success: '#2F6B2F',
     successBg: '#E8F3E3',
     warnBg: '#FFF1CC',
+    hero: '#6E3B06',
+    heroText: '#FFFFFF',
+    heroMuted: '#F0DCC0',
+    heroTile: '#8A4B08',
+    accent: '#F2C94C',
+    accentText: '#2A2118',
+    payBg: '#FCEBD3',
+    payText: '#7A3E06',
+    getBg: '#EEF3E3',
+    getText: '#2F5A1F',
   },
   ocean: {
     bg: '#F2F6FB',
@@ -76,6 +118,16 @@ export const palettes: Record<ThemeName, Palette> = {
     success: '#1B6B4A',
     successBg: '#E1F2EA',
     warnBg: '#FFF4D6',
+    hero: '#1D5FA8',
+    heroText: '#FFFFFF',
+    heroMuted: '#D3E3F5',
+    heroTile: '#2A6CB5',
+    accent: '#F2A33A',
+    accentText: '#12202F',
+    payBg: '#FDF1E3',
+    payText: '#7A4A12',
+    getBg: '#E3EEFA',
+    getText: '#1D5FA8',
   },
 };
 
@@ -187,5 +239,5 @@ export function contrastRatio(a: string, b: string): number {
 }
 
 export const space = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32 };
-export const radius = { sm: 6, md: 10, lg: 14 };
+export const radius = { sm: 6, md: 12, lg: 16 };
 export const font = { sm: 13, md: 15, lg: 17, xl: 22, xxl: 28 };

@@ -84,6 +84,23 @@ export interface Payment {
   recorded_by_admin: boolean;
 }
 
+export interface RoomOverview {
+  room_id: string;
+  name: string;
+  currency: string;
+  decimals: number;
+  role: 'admin' | 'member';
+  members: number;
+  cycle_id: string | null;
+  starts_on: string | null;
+  ends_on: string | null;
+  total: number;
+  my_paid: number;
+  my_share: number;
+  open_needs: number;
+  pending_requests: number;
+}
+
 export interface Member {
   id: string;
   room_id: string;
@@ -219,6 +236,17 @@ function unwrap<T>({ data, error }: { data: T | null; error: { message: string }
 const n = (v: unknown) => Number(v);
 
 const rawApi = {
+  /** Home screen: every Room with this period's total, what I paid and my share. */
+  async myRoomsOverview(): Promise<RoomOverview[]> {
+    const rows: RoomOverview[] = unwrap(await supabase.rpc('my_rooms_overview'));
+    return rows.map((r) => ({
+      ...r,
+      total: n(r.total),
+      my_paid: n(r.my_paid),
+      my_share: n(r.my_share),
+    }));
+  },
+
   async myRooms(): Promise<Room[]> {
     return unwrap(await supabase.from('rooms').select('*').is('deleted_at', null).order('created_at'));
   },
@@ -936,6 +964,8 @@ const rawApi = {
 /** Reads that fall back to the last saved copy when the phone is offline (PRD §17.1). */
 const OFFLINE_READS = [
   'myRooms',
+  'myRoomsOverview',
+  'myOpenSettlements',
   'myPendingRequests',
   'room',
   'members',

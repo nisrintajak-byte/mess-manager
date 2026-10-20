@@ -92,7 +92,21 @@
     "pendingCount_one": "{{count}} شمولیت کی درخواست منظوری کی منتظر ہے",
     "pendingCount_other": "{{count}} شمولیت کی درخواستیں منظوری کی منتظر ہیں",
     "admin": "ایڈمن",
-    "member": "رکن"
+    "member": "رکن",
+    "hello": "السلام علیکم، {{name}}",
+    "acrossRooms": "اس مدت میں، آپ کے سب روم",
+    "youPay": "آپ کو دینا ہے",
+    "youReceive": "آپ کو ملنا ہے",
+    "quickAdd": "خرچہ درج کریں",
+    "quickNeed": "ضرورت کی درخواست",
+    "quickSettle": "حساب اور ادائیگی",
+    "quickReports": "رپورٹس",
+    "pickRoom": "کون سا روم؟",
+    "joinShort": "+ روم میں شامل ہوں",
+    "createShort": "+ نیا روم بنائیں",
+    "roomLine": "{{members}} ممبرز · اس مدت {{total}}",
+    "waitingToJoin": "{{count}} شامل ہونے کے انتظار میں",
+    "openNeeds": "{{count}} کھلی ضرورت کی درخواستیں"
   },
   "room": {
     "createTitle": "کمرہ بنائیں",
@@ -133,7 +147,11 @@
     "getsBack": "{{amount}} واپس ملیں گے",
     "owes": "{{amount}} دینے ہیں",
     "settled": "حساب برابر",
-    "showMore": "مزید دکھائیں ({{count}} باقی)"
+    "showMore": "مزید دکھائیں ({{count}} باقی)",
+    "invite": "دعوت",
+    "youPaid": "آپ نے دیا",
+    "memberCount": "{{count}} ممبرز",
+    "needSomething": "کچھ چاہیے"
   },
   "members": {
     "title": "ارکان",
@@ -727,5 +745,10 @@
     "pinnedChannel": "دیکھنے کے لیے حساب (پن شدہ)",
     "settlementTitle": "حساب تیار ہے · {{room}}",
     "settlementTap": "دیکھنے اور تصدیق کے لیے دبائیں"
+  },
+  "nav": {
+    "home": "ہوم",
+    "inbox": "اطلاعات",
+    "me": "میں"
   }
 }
