@@ -39,3 +39,9 @@
 - Lawyer: review src/legal texts; fill [city], Grievance Officer name/email, hosting region.
 - Meal-count split (PRD §28 #5) still undecided.
 - Founder (ad-free, after Play Console exists): create subscriptions `mm_adfree_monthly` + `mm_adfree_yearly` with prices; create a Google Cloud service account with Play Console access and add its JSON as Edge Function secret GOOGLE_PLAY_SERVICE_ACCOUNT (steps to follow).
+
+## 2026-10-20
+- Founder: Supabase → Authentication → Attack Protection → turn ON leaked-password protection (before launch).
+- Company support email + website domain for the Play listing.
+- Translators: also review docs/store/play-store-listing.md (AR/UR/HI).
+- No new EAS (APK) builds until really needed — monthly limit (founder 2026-10-20).

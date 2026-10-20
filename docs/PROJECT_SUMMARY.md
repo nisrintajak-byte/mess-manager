@@ -1,15 +1,17 @@
 # Project Summary
 
-**App:** Mess Manager — free, ad-supported, neutral (no flags) shared-expense app for Rooms. Every expense, payment and settlement is visible, provable and audited. Android first; 4 languages (EN, AR, UR, HI).
+**App:** Mess Manager — free, ad-supported, neutral (no flags) shared-expense app for Rooms. Every expense, payment and settlement is visible, provable and audited. Android first; 4 languages (EN, AR, UR, HI). Users 18+ only.
 
-**Status:** v0.1–v0.5 merged to main. v0.6 (reports, retention, deletion, browser notifications) and v0.7 (legal texts + consent versions, banner ads with placement guard) built, CI green, live at /next/. Founder: run deletion SQL, test, lawyer + AdMob + Expo/Firebase accounts.
+**Status:** v0.1–v0.5 merged to main. v0.6 (reports, retention, deletion, browser notifications) and v0.7 (legal texts + consent, banner ads, ad-free subscription code, former members list, security self-audit) built, CI green, live at /next/. Android test APK works (EAS build 5863f98e); no more APK builds until needed (EAS monthly limit) — founder tests in the browser.
 
 **Previews:** stable https://nisrintajak-byte.github.io/mess-manager/ (main = v0.5) · next …/mess-manager/next/ (v0.7) · pages …/next/delete-account/, /privacy/, /terms/.
 
-**Built:** auth (testing mode), Rooms, approval, roles; expenses (payer = creator, equal/selected split, receipts, 30-min edit, history); cycles + DB lock + settlement (incl. early), adjustments, payments with proof + Admin confirm; who-pays-whom; Room settings rules; same-name labels (Name1/Name2); notifications inbox + push pipeline (pg_net → Expo), optional prefs; settlement acknowledgement; disputes/flags with Admin resolution; Need Requests → one-tap expense; 4 languages + RTL, themes, App Lock; offline cache + outbox sync; PDF/CSV reports with reference numbers, data export, account deletion (app + web), retention purge, emailed PDF statements (HarfBuzz) via send-emails function.
+**Built:** auth (testing mode), Rooms, approval, roles; expenses (payer = creator, equal/selected split, receipts, 30-min edit, history); cycles + DB lock + settlement, adjustments, payments with proof + Admin confirm; who-pays-whom; same-name labels; former members (left/removed, date, by whom; names tagged in history); notifications inbox + push (Expo; browser Web Push live); disputes/flags; Need Requests; 4 languages + RTL, themes, App Lock; offline cache + outbox sync; PDF/CSV reports with reference numbers, data export, account deletion (app + web), retention purge, emailed PDF statements; legal consent versions; AdMob banners (test ids) + ad-free subscription (Monthly/Yearly, server-verified).
 
-**Next:** founder tests /next/ → merge v0.6 + v0.7 → v1.0 launch prep (Android build, TESTING_MODE off, email confirmation, security check).
+**Docs to use later:** docs/store/play-store-listing.md (Play listing in 4 languages, Data safety, content rating); docs/security/self-audit-2026-10-20.md.
 
-**Founder items:** PRD §28 decisions (memory/open-questions.md); later: Google Cloud OAuth client (v0.4), translators.
+**Next:** founder tests /next/ → merge v0.6 + v0.7 → v1.0 launch prep (TESTING_MODE off, email confirmation, leaked-password protection, Sentry, independent security test, production build).
 
-_Last updated: 2026-10-19 14:30 (UTC+3)_
+**Founder items:** Firebase (nisrintajak Gmail) for Android push; Play Console + D-U-N-S; AdMob; domain + Resend; lawyer (city, Grievance Officer); translators; meal-count split decision.
+
+_Last updated: 2026-10-20 08:10 (UTC+3)_

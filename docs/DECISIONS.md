@@ -69,3 +69,6 @@ Format: date — decision — why — alternatives considered
 - 2026-10-19 — Children (founder): parent-consent flow moves to a post-launch update (docs/versions/future-plan.md).
 - 2026-10-19 — Ad-free subscription (founder: monthly + yearly, build now): Google Play Billing via react-native-iap; product ids `mm_adfree_monthly`, `mm_adfree_yearly` (prices set in Play Console, suggested ₹29 / ₹249). Every purchase verified server-side (verify-purchase function → Google Play Developer API with a service account), entitlement per account (`ad_free_subscriptions`), daily re-check for renewals/cancellations/refunds; a token cannot move to another account. Terms/Privacy got a subscription section → legal version 2026-10-v3.
 - 2026-10-20 — Release builds use R8; Room/WorkManager/Nitro/Ads classes kept via expo-build-properties extraProguardRules (first APK crashed: 'Failed to create an instance of androidx.work.impl.WorkDatabase'). Every APK is opened on a CI emulator (apk-smoke) before it is shared.\n
+
+## 2026-10-20 — Save EAS builds
+Founder: free EAS plan has a monthly build limit, so no APK builds unless needed; changes are tested on the browser preview (/next/). Android-only parts (ads, subscription, native push) are batched into the next build.
