@@ -40,4 +40,19 @@ insert into public.room_members (room_id, user_id, status, joined_on)
 select room, 'bbbbbbbb-0000-0000-0000-000000000002', 'approved', current_date from t;
 select pg_temp.act('dddddddd-0000-0000-0000-000000000004');
 do $$ begin assert (select count(*) from public.room_former_members((select room from t))) = 1; end $$;
+-- the Admin still sees the email of the person who left (to invite again); members see none
+select pg_temp.act('aaaaaaaa-0000-0000-0000-000000000001');
+do $$ begin
+  assert (select email from public.room_member_emails((select room from t))
+           where user_id = 'cccccccc-0000-0000-0000-000000000003') = 'c@t.dev', 'left member email for Admin';
+  assert (select count(*) from public.room_member_emails((select room from t))) = 4, 'one row per person';
+end $$;
+select pg_temp.act('dddddddd-0000-0000-0000-000000000004');
+do $$ begin
+  begin
+    perform public.room_member_emails((select room from t));
+    assert false, 'members cannot see emails';
+  exception when insufficient_privilege then null;
+  end;
+end $$;
 select 'ALL DB TESTS PASSED' as result;

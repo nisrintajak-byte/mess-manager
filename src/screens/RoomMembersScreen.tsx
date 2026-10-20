@@ -137,6 +137,11 @@ export function RoomMembersScreen({ route }: Props) {
             {former.map((m) => (
               <Card key={m.id}>
                 <Text style={styles.name}>{m.former!.name}</Text>
+                {isAdmin && emails.get(m.user_id) ? (
+                  <Text style={styles.meta} selectable>
+                    {emails.get(m.user_id)}
+                  </Text>
+                ) : null}
                 <Text style={styles.meta}>
                   {m.former!.status === 'removed'
                     ? t('members.removedOn', {
