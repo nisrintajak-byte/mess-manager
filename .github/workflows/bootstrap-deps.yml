@@ -64,6 +64,7 @@ jobs:
             expo-notifications \
             expo-task-manager \
             expo-splash-screen \
+            react-native-svg \
             expo-device \
             expo-local-authentication \
             expo-font \
