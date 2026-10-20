@@ -19,6 +19,12 @@ Ideas the founder has approved for later. Each becomes its own version when star
 - Needs: Play Console organization account + merchant/payments profile, price decision,
   Terms/Privacy update (the only payment the app itself takes).
 
+## Meal-count split (founder 2026-10-20: after launch)
+- Food expenses split by meals eaten, not equally: per-meal rate = food total ÷ all meals in the
+  cycle; each member pays own meals × rate. Rent, electricity etc. stay equal/selected split.
+- Daily meal marks per member (self-marked or by Admin/Manager — Room setting), guest meals added
+  to the host member, every change in history, locked with the cycle after settlement.
+- Expense gets a "food (meal-count)" split type; settlement and reports show meals + rate.
+
 ## Other parked items
-- Meal-count split (PRD §28 #5) — undecided.
 - Web deletion page and legal pages move to the company website once there is a domain.

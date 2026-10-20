@@ -12,6 +12,6 @@
 
 **Next:** founder tests /next/ → merge v0.6 + v0.7 → v1.0 launch prep (TESTING_MODE off, email confirmation, leaked-password protection, Sentry, independent security test, production build).
 
-**Founder items:** Firebase (nisrintajak Gmail) for Android push; Play Console + D-U-N-S; AdMob; domain + Resend; lawyer (city, Grievance Officer); translators; meal-count split decision.
+**Founder items:** Firebase (nisrintajak Gmail) for Android push; Play Console + D-U-N-S; AdMob; domain + Resend; lawyer (city, Grievance Officer); translators. Meal-count split → after launch.
 
 _Last updated: 2026-10-20 08:10 (UTC+3)_

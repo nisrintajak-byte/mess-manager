@@ -72,3 +72,6 @@ Format: date — decision — why — alternatives considered
 
 ## 2026-10-20 — Save EAS builds
 Founder: free EAS plan has a monthly build limit, so no APK builds unless needed; changes are tested on the browser preview (/next/). Android-only parts (ads, subscription, native push) are batched into the next build.
+
+## 2026-10-20 — Meal-count split after launch
+PRD §28 #5: founder chose to ship v1.0 without meal-count split and add it in a later update (design notes in versions/future-plan.md).

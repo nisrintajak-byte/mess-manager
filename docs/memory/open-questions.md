@@ -9,7 +9,7 @@
 
 ## PRD §28 — needed before v0.6/v0.7 (not blocking v0.1)
 4. Ad approach ("khaas tareeka") for §19
-5. Meal-count split: in v1 or later?
+5. ~~Meal-count split~~ — after launch (2026-10-20)
 6. City for legal jurisdiction in Terms
 7. Grievance Officer name + email
 8. Company website domain (Privacy Policy + deletion page)
@@ -37,7 +37,7 @@
 ## v0.7 (2026-10-19)
 - Founder: AdMob account → real app id + banner unit id; in AdMob block categories (gambling, alcohol, dating, adult, political, religious, get-rich-quick).
 - Lawyer: review src/legal texts; fill [city], Grievance Officer name/email, hosting region.
-- Meal-count split (PRD §28 #5) still undecided.
+- ~~Meal-count split (PRD §28 #5)~~ — decided 2026-10-20: after launch (future-plan.md).
 - Founder (ad-free, after Play Console exists): create subscriptions `mm_adfree_monthly` + `mm_adfree_yearly` with prices; create a Google Cloud service account with Play Console access and add its JSON as Edge Function secret GOOGLE_PLAY_SERVICE_ACCOUNT (steps to follow).
 
 ## 2026-10-20
