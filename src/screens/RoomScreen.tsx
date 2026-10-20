@@ -457,7 +457,6 @@ export function RoomScreen({ navigation, route }: Props) {
           ) : null}
 
           <Spacer size="xl" />
-          <Button title={t('room.leave')} variant="link" onPress={leave} />
           <AdSlot screen="Room" />
         </View>
       </ScrollView>
