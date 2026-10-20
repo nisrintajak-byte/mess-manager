@@ -81,3 +81,6 @@ PRD §21 asks for crash reporting without personal data. A small `client_errors`
 
 ## 2026-10-20 — Company domain: uyoontech.com (planned)
 Founder likes uyoontech.com; will buy later. Plan when bought: Resend sending domain (no-reply@uyoontech.com, set EMAIL_FROM), website pages /mess-manager/privacy, /terms, /delete-account (Play Console URLs), support email.
+
+## 2026-10-20 — Logo keeps the ₹ (founder)
+Founder keeps the ₹ in the logo on purpose: it shows the app is run from India, and the other currency symbols around it show it is global. Exception to the PRD §16.1 neutrality rule for the logo only; the app UI stays neutral (no flags, ISO currency codes).
