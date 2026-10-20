@@ -22,6 +22,7 @@ function translator(dict: Record<string, unknown>, missing: string[]): Translate
 
 const A = 'a-user';
 const B = 'b-user';
+const C = 'c-user';
 const sample: ReportData = {
   ref: 'MM-20261019-ABCD1234',
   generated_at: '2026-10-19T08:30:00Z',
@@ -29,7 +30,30 @@ const sample: ReportData = {
   requester: A,
   room: { name: 'Flat <7>', currency: 'KWD', decimals: 3, time_zone: 'Asia/Kuwait' },
   period: { from: '2026-10-01', to: '2026-10-31' },
-  people: { [A]: { name: 'Asha', deleted: false }, [B]: { name: 'Bilal', deleted: true } },
+  people: {
+    [A]: {
+      name: 'Asha',
+      deleted: false,
+      role: 'admin',
+      status: 'approved',
+      joined_on: '2026-10-01',
+      left_on: null,
+    },
+    [B]: { name: 'Bilal', deleted: true },
+    [C]: {
+      name: 'Chen',
+      deleted: false,
+      role: 'member',
+      status: 'removed',
+      joined_on: '2026-10-01',
+      left_on: '2026-10-20',
+    },
+  },
+  members: [
+    { user_id: A, paid: 8000, share: 3750 },
+    { user_id: B, paid: -500, share: 3750 },
+    { user_id: C, paid: 0, share: 0 },
+  ],
   cycles: [
     {
       id: 'c1',
@@ -155,6 +179,19 @@ describe('reports', () => {
     expect(html).toContain('Bilal (account deleted)');
     expect(html).toContain('KWD 8.000');
     expect(html).toContain('Late entry (from 2026-09-30)');
+    expect(html).toContain('<h2>Members</h2>');
+    expect(html).toContain('Chen (removed)');
+    expect(html).toContain('Member · Removed on 2026-10-20');
+    expect(html).toContain('Admin · Active');
+    expect(html).toContain('KWD 4.250');
+  });
+
+  test('reports made before the Members list still render', () => {
+    const missing: string[] = [];
+    const old = { ...sample, members: undefined };
+    const html = buildReportHtml(old, fmt(translator(en, missing), false, 'en'));
+    expect(missing).toEqual([]);
+    expect(html).not.toContain('<h2>Members</h2>');
   });
 
   test('Arabic report is right-to-left with no missing labels', () => {
@@ -173,6 +210,7 @@ describe('reports', () => {
     expect(csv).toContain(',8.000,4.000,');
     expect(csv).toContain(`"'=HYPERLINK(""x"")"`);
     expect(csv).toContain('"rice, oil"');
+    expect(csv).toContain('Chen (removed),Member · Removed on 2026-10-20,0.000,0.000,0.000');
   });
 
   test('data export renders profile, memberships and each Room', () => {

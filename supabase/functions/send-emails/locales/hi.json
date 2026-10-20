@@ -81,7 +81,14 @@
   "mstatus_approved": "सदस्य",
   "mstatus_rejected": "अस्वीकृत",
   "mstatus_left": "छोड़ दिया",
-  "mstatus_removed": "हटाया गया"
+  "mstatus_removed": "हटाया गया",
+  "members": "सदस्य",
+  "membersNote": "इस अवधि में रूम के हर व्यक्ति का हिसाब — वही आँकड़े जो बैलेंस टैब में हैं।",
+  "st_active": "सक्रिय",
+  "st_left": "{{date}} को छोड़ दिया",
+  "st_removed": "{{date}} को हटाया गया",
+  "nameLeft": "{{name}} (छोड़ दिया)",
+  "nameRemoved": "{{name}} (हटाया गया)"
  },
  "email": {
   "footer": "आपको यह संदेश इसलिए मिला क्योंकि आपका Mess Manager खाता है। यह स्वचालित संदेश है — कृपया जवाब न दें।",

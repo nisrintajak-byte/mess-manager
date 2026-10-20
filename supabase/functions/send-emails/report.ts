@@ -11,6 +11,11 @@ export type ReportScope = 'mine' | 'room' | 'export';
 export interface ReportPerson {
   name: string;
   deleted: boolean;
+  /** latest membership in this Room (missing in reports made before 2026-10-20) */
+  role?: 'admin' | 'member' | null;
+  status?: 'pending' | 'approved' | 'rejected' | 'left' | 'removed' | null;
+  joined_on?: string | null;
+  left_on?: string | null;
 }
 
 export interface ReportData {
@@ -21,6 +26,8 @@ export interface ReportData {
   room: { name: string; currency: string; decimals: number; time_zone: string };
   period: { from: string | null; to: string | null };
   people: Record<string, ReportPerson>;
+  /** everyone in the Room during the period, with paid / share totals (all scopes) */
+  members?: { user_id: string; paid: number; share: number }[];
   cycles: {
     id: string;
     starts_on: string;
@@ -114,7 +121,35 @@ export function personName(data: ReportData, uid: string | null, t: Translate): 
   if (!uid) return '—';
   const p = data.people[uid];
   if (!p) return '—';
-  return p.deleted ? t('account.deletedName', { name: p.name }) : p.name;
+  if (p.deleted) return t('account.deletedName', { name: p.name });
+  if (p.status === 'left') return t('report.nameLeft', { name: p.name });
+  if (p.status === 'removed') return t('report.nameRemoved', { name: p.name });
+  return p.name;
+}
+
+/** "Admin · Active", "Member · Removed on 2026-10-19" — for the Members table. */
+export function memberStatus(p: ReportPerson | undefined, t: Translate, day: (d: string) => string): string {
+  if (!p) return '—';
+  const role = p.role ? t(`report.role_${p.role}`) : '';
+  const status = p.deleted
+    ? t('account.deletedUser')
+    : p.status === 'left'
+      ? t('report.st_left', { date: day(p.left_on ?? '—') })
+      : p.status === 'removed'
+        ? t('report.st_removed', { date: day(p.left_on ?? '—') })
+        : t('report.st_active');
+  return role ? `${role} · ${status}` : status;
+}
+
+/** Members table rows: name, role/status, paid, share, paid minus share. */
+export function memberRows(data: ReportData, t: Translate, day: (d: string) => string) {
+  return (data.members ?? []).map((x) => ({
+    name: personName(data, x.user_id, t),
+    status: memberStatus(data.people[x.user_id], t, day),
+    paid: x.paid,
+    share: x.share,
+    net: x.paid - x.share,
+  }));
 }
 
 /** Totals in the Room's currency for the summary box. */
@@ -308,6 +343,26 @@ export function buildReportBody(data: ReportData, f: ReportFormat): string {
 <div><span>${esc(t('report.yourShare'))}</span><b>${m(totals.myShare)}</b></div>
 <div><span>${esc(t('report.difference'))}</span><b>${m(totals.net)}</b></div></div>`;
 
+  const members = memberRows(data, t, (x) => iso(x));
+  const membersHtml = members.length
+    ? section(
+        t('report.members'),
+        `<p class="muted">${esc(t('report.membersNote'))}</p><table><thead><tr><th>${esc(t('report.colMember'))}</th><th>${esc(
+          t('report.colStatus'),
+        )}</th><th>${esc(t('report.colPaid'))}</th><th>${esc(t('report.colShare'))}</th><th>${esc(
+          t('report.colNet'),
+        )}</th></tr></thead><tbody>${members
+          .map(
+            (r) =>
+              `<tr><td>${esc(r.name)}</td><td>${esc(r.status)}</td><td class="num">${m(r.paid)}</td><td class="num">${m(
+                r.share,
+              )}</td><td class="num">${m(r.net)}</td></tr>`,
+          )
+          .join('')}</tbody></table>`,
+        false,
+      )
+    : '';
+
   const deleteOn = data.cycles
     .map((c) => c.delete_on)
     .filter((x): x is string => !!x)
@@ -323,6 +378,7 @@ export function buildReportBody(data: ReportData, f: ReportFormat): string {
 ${data.scope !== 'room' && data.requester ? `<span>${esc(t('report.for'))}: ${who(data.requester)}</span>` : ''}
 </div>
 ${summary}
+${membersHtml}
 ${section(t('report.expenses'), `<table><thead><tr><th>${esc(t('report.colDate'))}</th><th>${esc(t('report.colItem'))}</th><th>${esc(t('report.colPaidBy'))}</th><th>${esc(t('report.colAmount'))}</th><th>${esc(t('report.colMyShare'))}</th></tr></thead><tbody>${expenseRows}</tbody></table>`, data.expenses.length === 0)}
 ${section(t('report.settlements'), settlementBlocks, data.settlements.length === 0)}
 ${section(t('report.payments'), `<table><thead><tr><th>${esc(t('report.colDate'))}</th><th>${esc(t('report.colMember'))}</th><th>${esc(t('report.colAmount'))}</th><th>${esc(t('report.colMethod'))}</th><th>${esc(t('report.colStatus'))}</th></tr></thead><tbody>${paymentRows}</tbody></table>`, data.payments.length === 0)}
@@ -378,6 +434,28 @@ export function buildReportCsv(data: ReportData, t: Translate): string {
   rows.push([t('report.period'), dateOnly(data.period.from), dateOnly(data.period.to)]);
   rows.push([t('report.currency'), data.room.currency]);
   rows.push([]);
+
+  const members = memberRows(data, t, (x) => x);
+  if (members.length) {
+    rows.push([t('report.members')]);
+    rows.push([
+      t('report.colMember'),
+      t('report.colStatus'),
+      t('report.colPaid'),
+      t('report.colShare'),
+      t('report.colNet'),
+    ]);
+    for (const r of members) {
+      rows.push([
+        r.name,
+        r.status,
+        minorToDecimal(r.paid, dec),
+        minorToDecimal(r.share, dec),
+        minorToDecimal(r.net, dec),
+      ]);
+    }
+    rows.push([]);
+  }
 
   rows.push([t('report.expenses')]);
   rows.push([

@@ -624,7 +624,14 @@
     "mstatus_approved": "Member",
     "mstatus_rejected": "Declined",
     "mstatus_left": "Left",
-    "mstatus_removed": "Removed"
+    "mstatus_removed": "Removed",
+    "members": "Members",
+    "membersNote": "Totals for this period for everyone in the Room — the same numbers as the Balances tab.",
+    "st_active": "Active",
+    "st_left": "Left on {{date}}",
+    "st_removed": "Removed on {{date}}",
+    "nameLeft": "{{name}} (left)",
+    "nameRemoved": "{{name}} (removed)"
   },
   "account": {
     "title": "Your data and account",

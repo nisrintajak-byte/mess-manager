@@ -81,7 +81,14 @@
   "mstatus_approved": "ممبر",
   "mstatus_rejected": "مسترد",
   "mstatus_left": "چھوڑ دیا",
-  "mstatus_removed": "نکال دیا گیا"
+  "mstatus_removed": "نکال دیا گیا",
+  "members": "ممبرز",
+  "membersNote": "اس مدت میں روم کے ہر فرد کا حساب — وہی نمبر جو بیلنس ٹیب میں ہیں۔",
+  "st_active": "فعال",
+  "st_left": "{{date}} کو چھوڑ دیا",
+  "st_removed": "{{date}} کو نکالا گیا",
+  "nameLeft": "{{name}} (چھوڑ دیا)",
+  "nameRemoved": "{{name}} (نکالا گیا)"
  },
  "email": {
   "footer": "یہ پیغام آپ کو اس لیے ملا کیونکہ آپ کا Mess Manager اکاؤنٹ ہے۔ یہ خودکار پیغام ہے — براہِ کرم جواب نہ دیں۔",

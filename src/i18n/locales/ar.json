@@ -629,7 +629,14 @@
     "mstatus_approved": "عضو",
     "mstatus_rejected": "مرفوض",
     "mstatus_left": "غادر",
-    "mstatus_removed": "أُزيل"
+    "mstatus_removed": "أُزيل",
+    "members": "الأعضاء",
+    "membersNote": "المجاميع لهذه الفترة لكل من في الغرفة — نفس أرقام تبويب الأرصدة.",
+    "st_active": "نشط",
+    "st_left": "غادر بتاريخ {{date}}",
+    "st_removed": "أُزيل بتاريخ {{date}}",
+    "nameLeft": "{{name}} (غادر)",
+    "nameRemoved": "{{name}} (أُزيل)"
   },
   "account": {
     "title": "بياناتك وحسابك",

@@ -18,6 +18,7 @@ import {
   type ReportData,
   type ReportFormat,
   minorToDecimal,
+  memberRows,
   personName,
   reportTitle,
   reportTotals,
@@ -518,6 +519,22 @@ async function renderPass(
       [summary.map(([, v]) => v)],
       9.5,
     );
+
+    const members = memberRows(data, t, (x) => day(x));
+    if (members.length) {
+      w.heading(t('report.members'));
+      w.text(t('report.membersNote'), 8.5, { color: MUTED });
+      w.table(
+        [
+          { title: t('report.colMember'), w: 1.8 },
+          { title: t('report.colStatus'), w: 2.2 },
+          { title: t('report.colPaid'), w: 1.3, align: 'end' },
+          { title: t('report.colShare'), w: 1.3, align: 'end' },
+          { title: t('report.colNet'), w: 1.3, align: 'end' },
+        ],
+        members.map((r) => [r.name, r.status, m(r.paid), m(r.share), m(r.net)]),
+      );
+    }
 
     w.heading(t('report.expenses'));
     if (!data.expenses.length) w.text(t('report.none'), 9, { color: MUTED });
