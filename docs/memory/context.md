@@ -49,3 +49,5 @@ Imran Khan (Abu Uyoon), non-technical. Explain steps in simple Hinglish; Claude 
 - `pdf-samples` workflow renders PDFs in 4 languages → branch `ci-samples` (fetch + pdftoppm to look).
 - Secrets to set later (Edge Function secrets): RESEND_API_KEY, EMAIL_FROM, DELETE_PAGE_URL.
 - DB tests set timezone Asia/Kuwait (CI clock is UTC).
+
+- Founder rule (2026-10-20): whenever asking him to test in the browser, always give the direct link (https://nisrintajak-byte.github.io/mess-manager/next/ for new work, stable https://nisrintajak-byte.github.io/mess-manager/).
