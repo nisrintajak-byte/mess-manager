@@ -1,0 +1,24 @@
+name: APK size
+
+# Reports the size of an Android test app (PRD §21: install size under 40 MB).
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: APK download link
+        required: true
+
+jobs:
+  size:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download and measure
+        env:
+          URL: ${{ inputs.url }}
+        run: |
+          curl -sSL -o app.apk "$URL"
+          bytes=$(stat -c %s app.apk)
+          unzip -l app.apk > list.txt
+          echo "::notice title=apk size::$((bytes / 1024 / 1024)) MB download ($bytes bytes)"
+          sort -k1 -n -r list.txt | head -8 | awk '{printf "%d KB %s~", $1/1024, $4}' | sed 's/^/::notice title=largest files::/'
+          echo
