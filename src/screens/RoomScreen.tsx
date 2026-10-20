@@ -33,7 +33,7 @@ export function RoomScreen({ navigation, route }: Props) {
   const [cycleId, setCycleId] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const [shown, setShown] = useState(PAGE);
+  const [page, setPage] = useState<{ cycle: string; n: number }>({ cycle: '', n: PAGE });
   const queued = useOutbox().filter((i) => i.roomId === roomId && i.userId === me);
   const queuedCount = queued.length;
 
@@ -61,7 +61,8 @@ export function RoomScreen({ navigation, route }: Props) {
     return { expenses, balances };
   }, selected?.id ?? '');
 
-  useEffect(() => setShown(PAGE), [selected?.id]);
+  // a different cycle starts again at the first page
+  const shown = page.cycle === (selected?.id ?? '') ? page.n : PAGE;
 
   useLayoutEffect(() => {
     if (data) navigation.setOptions({ title: data.room.name });
@@ -357,7 +358,7 @@ export function RoomScreen({ navigation, route }: Props) {
               <Button
                 title={localizeDigits(t('room.showMore', { count: expenses.length - shown }))}
                 variant="secondary"
-                onPress={() => setShown((v) => v + PAGE)}
+                onPress={() => setPage({ cycle: selected?.id ?? '', n: shown + PAGE })}
               />
             ) : null}
           </>

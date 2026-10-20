@@ -7,7 +7,7 @@ self.addEventListener('push', (event) => {
   let d = {};
   try {
     d = event.data ? event.data.json() : {};
-  } catch (e) {
+  } catch {
     d = { body: event.data ? event.data.text() : '' };
   }
   event.waitUntil(
