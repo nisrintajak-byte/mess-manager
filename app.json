@@ -9,8 +9,15 @@
     "android": {
       "package": "com.uyoontech.messmanager",
       "predictiveBackGestureEnabled": false,
-      "permissions": ["android.permission.USE_BIOMETRIC", "android.permission.USE_FINGERPRINT"],
-      "googleServicesFile": "./google-services.json"
+      "permissions": [
+        "android.permission.USE_BIOMETRIC",
+        "android.permission.USE_FINGERPRINT"
+      ],
+      "googleServicesFile": "./google-services.json",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#184670"
+      }
     },
     "ios": {
       "bundleIdentifier": "com.uyoontech.messmanager",
@@ -18,14 +25,17 @@
       "infoPlist": {}
     },
     "web": {
-      "bundler": "metro"
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png"
     },
     "plugins": [
       [
         "expo-notifications",
         {
           "color": "#1F6F5C",
-          "sounds": ["./assets/sounds/need_alert.wav"]
+          "sounds": [
+            "./assets/sounds/need_alert.wav"
+          ]
         }
       ],
       "expo-localization",
@@ -47,6 +57,15 @@
             "extraProguardRules": "# Room/WorkManager: keep generated database implementations (crash: Failed to create an instance of androidx.work.impl.WorkDatabase)\n-keep class * extends androidx.room.RoomDatabase { <init>(); }\n-keep class androidx.work.impl.** { *; }\n-keep class androidx.room.** { *; }\n-dontwarn androidx.room.**\n# Nitro modules (react-native-iap) and Google Mobile Ads\n-keep class com.margelo.nitro.** { *; }\n-keep class com.google.android.gms.ads.** { *; }"
           }
         }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 220,
+          "resizeMode": "contain",
+          "backgroundColor": "#184670"
+        }
       ]
     ],
     "experiments": {
@@ -57,6 +76,7 @@
         "projectId": "e7c9027c-9e45-44e9-9c5f-fdb8e4122dc5"
       }
     },
-    "owner": "nisrintajak"
+    "owner": "nisrintajak",
+    "icon": "./assets/icon.png"
   }
 }

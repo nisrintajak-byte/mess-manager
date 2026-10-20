@@ -63,6 +63,7 @@ jobs:
             expo-document-picker \
             expo-notifications \
             expo-task-manager \
+            expo-splash-screen \
             expo-device \
             expo-local-authentication \
             expo-font \
