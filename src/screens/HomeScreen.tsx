@@ -22,7 +22,7 @@ import { WebPushCard } from '../ui/WebPushCard';
 type Props = NativeStackScreenProps<AppStackParamList, 'Home'>;
 type Action = 'add' | 'need' | 'settle' | 'reports';
 
-const LOGO = require('../../assets/icon.png');
+const LOGO = require('../../assets/logo-small.png');
 
 /**
  * Home (founder's design A + C's four big buttons, 2026-10-20): brand band, what I pay or

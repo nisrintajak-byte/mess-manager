@@ -8,6 +8,7 @@ import { authErrorKey } from '../../lib/errors';
 import { supabase } from '../../lib/supabase';
 import type { AuthStackParamList } from '../../navigation/types';
 import { GoogleButton } from '../../ui/GoogleButton';
+import { BrandMark } from '../../ui/BrandMark';
 import { LanguagePicker } from '../../ui/LanguagePicker';
 import { Body, Button, Checkbox, Field, Notice, Screen, Spacer, Title } from '../../ui/components';
 
@@ -50,6 +51,7 @@ export function LoginScreen({ navigation, route }: Props) {
   return (
     <Screen>
       <LanguagePicker />
+      <BrandMark />
       <Spacer size="xl" />
       <Title>{t('auth.loginTitle')}</Title>
       <Body muted>{t('auth.loginSubtitle')}</Body>
