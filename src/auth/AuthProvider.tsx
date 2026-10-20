@@ -4,7 +4,7 @@ import { createContext, ReactNode, useContext, useEffect, useMemo, useState } fr
 
 import { refreshAdFree } from '../lib/adFree';
 import { clearLock } from '../lib/appLock';
-import { clearCache, setCacheUser } from '../lib/offlineStore';
+import { clearCache, markOffline, setCacheUser } from '../lib/offlineStore';
 import { clearOutbox } from '../lib/outbox';
 import { registerForPush, unregisterPush } from '../lib/push';
 import { AUTH_STORAGE_KEY, authStorage, supabase } from '../lib/supabase';
@@ -77,6 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const saved = await readSavedSession();
         if (saved) {
           usingSaved = true;
+          markOffline(); // reads go straight to the saved copies
           s = saved;
         } else if (s === undefined) {
           s = await live;

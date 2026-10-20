@@ -68,8 +68,25 @@ export function useNetState(): NetState {
 /** Run a read; remember the result; on network failure fall back to the remembered copy. */
 export async function cachedRead<T>(name: string, args: unknown[], read: () => Promise<T>): Promise<T> {
   const key = `${PREFIX}${cacheUser}.${name}.${encode(args)}`;
+  if (net.offline) {
+    // known offline: show the saved copy at once and try the server in the background
+    let saved: string | null = null;
+    try {
+      saved = await AsyncStorage.getItem(key);
+    } catch {
+      saved = null;
+    }
+    if (saved !== null) {
+      void read()
+        .then((value) => {
+          markOnline();
+          void AsyncStorage.setItem(key, encode(value)).catch(() => undefined);
+        })
+        .catch(() => undefined);
+      return decode(saved) as T;
+    }
+  }
   try {
-    // known offline: try only briefly, then show the saved copy
     const value = await withTimeout(read(), net.offline ? 2500 : 9000);
     markOnline();
     void AsyncStorage.setItem(key, encode(value)).catch(() => undefined);
