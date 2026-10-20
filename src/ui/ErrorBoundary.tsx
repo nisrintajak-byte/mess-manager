@@ -11,17 +11,17 @@ import { colors, font, space } from './theme';
  * screen, and log the error (no personal data). Data is safe on the server and in the outbox.
  */
 export class ErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
-  state = { failed: false };
+  override state = { failed: false };
 
   static getDerivedStateFromError() {
     return { failed: true };
   }
 
-  componentDidCatch(error: unknown) {
+  override componentDidCatch(error: unknown) {
     reportError(error);
   }
 
-  render() {
+  override render() {
     if (!this.state.failed) return this.props.children;
     return (
       <View style={styles.wrap}>
