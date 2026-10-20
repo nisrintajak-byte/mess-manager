@@ -33,7 +33,6 @@ export async function previewNeedAlert(title: string, body: string): Promise<voi
   await Notifications.scheduleNotificationAsync({
     content: { title, body, sound: NEED_SOUND },
     trigger: {
-      // eslint-disable-next-line import/namespace
       type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
       seconds: 1,
       ...(Platform.OS === 'android' ? { channelId: NEED_CHANNEL } : {}),

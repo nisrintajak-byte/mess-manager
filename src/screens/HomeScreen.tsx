@@ -22,7 +22,6 @@ import { WebPushCard } from '../ui/WebPushCard';
 type Props = NativeStackScreenProps<AppStackParamList, 'Home'>;
 type Action = 'add' | 'need' | 'settle' | 'reports';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 const LOGO = require('../../assets/icon.png');
 
 /**
