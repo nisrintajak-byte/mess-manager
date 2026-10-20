@@ -13,6 +13,7 @@ import { minimalTransfers } from '../lib/transfers';
 import { formatDateTime } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
 import { Badge, Body, Button, Card, Meta, Notice, Row, Section, Spacer } from '../ui/components';
+import { Avatar } from '../ui/Avatar';
 import { ViewFileButton } from '../ui/FilePicker';
 import { useLoader } from '../ui/hooks';
 import { colors, font, radius, space, themedStyles } from '../ui/theme';
@@ -76,6 +77,7 @@ export function SettlementScreen({ navigation, route }: Props) {
   const adminCount = members.filter((m) => m.status === 'approved' && m.role === 'admin').length;
   const transfers = minimalTransfers(lines.map((l) => ({ userId: l.user_id, net: l.net })));
   const remaining = (l: (typeof lines)[number]) => Math.max(-l.net, 0) - l.confirmed - l.awaiting;
+  const myLine = lines.find((l) => l.user_id === me);
 
   async function decide(p: Payment, ok: boolean) {
     setError(null);
@@ -101,8 +103,67 @@ export function SettlementScreen({ navigation, route }: Props) {
     >
       <View style={styles.column}>
         {error ? <Notice tone="error">{error}</Notice> : null}
+        {/* my part first: what I pay or get, and the one thing to do next */}
+        {myLine ? (
+          <View style={[styles.mine, myLine.net < 0 ? styles.minePay : styles.mineGet]}>
+            <Text style={[styles.mineLabel, myLine.net < 0 ? styles.payText : styles.getText]}>
+              {t('cycle.range', { from: cycle.starts_on, to: cycle.ends_on })}
+            </Text>
+            <Text style={[styles.mineBig, myLine.net < 0 ? styles.payText : styles.getText]}>
+              {myLine.net === 0
+                ? t('settlement.even')
+                : myLine.net < 0
+                  ? t('settlement.toPay', { amount: money(-myLine.net) })
+                  : t('settlement.toReceive', { amount: money(myLine.net) })}
+            </Text>
+            <Badge tone={TONE[myLine.status]}>{t(`settlement.status_${myLine.status}`)}</Badge>
+            {myLine.net < 0 && remaining(myLine) > 0 ? (
+              <>
+                <Text style={[styles.mineLabel, styles.payText]}>
+                  {t('settlement.remaining', { amount: money(remaining(myLine)) })}
+                </Text>
+                <Spacer size="sm" />
+                <Button
+                  title={t('settlement.markPaid')}
+                  onPress={() =>
+                    navigation.navigate('Pay', {
+                      roomId,
+                      settlementId,
+                      lineId: myLine.line_id,
+                      mode: 'claim',
+                    })
+                  }
+                />
+              </>
+            ) : null}
+            {myAck && !myAck.acknowledged_at ? (
+              <Button
+                title={t('ack.button')}
+                variant={myLine.net < 0 && remaining(myLine) > 0 ? 'secondary' : 'primary'}
+                onPress={async () => {
+                  await api.acknowledgeSettlement(settlementId).catch(() => undefined);
+                  await unpinSettlement(settlementId);
+                  await reload();
+                }}
+              />
+            ) : myAck ? (
+              <Text style={[styles.mineLabel, myLine.net < 0 ? styles.payText : styles.getText]}>
+                ✓ {t('ack.done')}
+              </Text>
+            ) : null}
+          </View>
+        ) : myAck && !myAck.acknowledged_at ? (
+          <Button
+            title={t('ack.button')}
+            onPress={async () => {
+              await api.acknowledgeSettlement(settlementId).catch(() => undefined);
+              await unpinSettlement(settlementId);
+              await reload();
+            }}
+          />
+        ) : null}
+
         <Card>
-          <Text style={styles.title}>{t('cycle.range', { from: cycle.starts_on, to: cycle.ends_on })}</Text>
           <Row>
             <Body>{t('settlement.total')}</Body>
             <Text style={styles.big}>{money(settlement.total)}</Text>
@@ -116,25 +177,26 @@ export function SettlementScreen({ navigation, route }: Props) {
           <Badge tone="good">{t('cycle.locked')}</Badge>
         </Card>
 
-        {myAck ? (
-          myAck.acknowledged_at ? (
-            <Notice tone="success">{t('ack.done')}</Notice>
-          ) : (
-            <Button
-              title={t('ack.button')}
-              onPress={async () => {
-                await api.acknowledgeSettlement(settlementId).catch(() => undefined);
-                await unpinSettlement(settlementId);
-                await reload();
-              }}
-            />
-          )
-        ) : null}
+        <Section>{t('settlement.whoPaysWhom')}</Section>
+        <Meta>{t('settlement.whoPaysWhomNote')}</Meta>
+        <Spacer size="sm" />
+        <Card>
+          {transfers.length === 0 ? <Body muted>{t('settlement.nothing')}</Body> : null}
+          {transfers.map((x) => (
+            <Row key={`${x.from}-${x.to}`}>
+              <Text style={styles.line}>
+                {t('settlement.pays', { from: nameOf(x.from), to: nameOf(x.to) })}
+              </Text>
+              <Text style={styles.line}>{money(x.amount)}</Text>
+            </Row>
+          ))}
+        </Card>
 
         <Section>{t('settlement.lines')}</Section>
         {lines.map((l) => (
           <Card key={l.line_id}>
             <Row>
+              <Avatar name={nameOf(l.user_id)} />
               <View style={styles.flex}>
                 <Text style={styles.name}>
                   {nameOf(l.user_id)} {l.user_id === me ? t('members.you') : ''}
@@ -168,14 +230,6 @@ export function SettlementScreen({ navigation, route }: Props) {
             {l.net < 0 && remaining(l) > 0 ? (
               <>
                 <Meta>{t('settlement.remaining', { amount: money(remaining(l)) })}</Meta>
-                {l.user_id === me ? (
-                  <Button
-                    title={t('settlement.markPaid')}
-                    onPress={() =>
-                      navigation.navigate('Pay', { roomId, settlementId, lineId: l.line_id, mode: 'claim' })
-                    }
-                  />
-                ) : null}
                 {isAdmin && (l.user_id !== me || adminCount === 1) ? (
                   <Button
                     title={t('settlement.recordPayment')}
@@ -189,21 +243,6 @@ export function SettlementScreen({ navigation, route }: Props) {
             ) : null}
           </Card>
         ))}
-
-        <Section>{t('settlement.whoPaysWhom')}</Section>
-        <Meta>{t('settlement.whoPaysWhomNote')}</Meta>
-        <Spacer size="sm" />
-        <Card>
-          {transfers.length === 0 ? <Body muted>{t('settlement.nothing')}</Body> : null}
-          {transfers.map((x) => (
-            <Row key={`${x.from}-${x.to}`}>
-              <Text style={styles.line}>
-                {t('settlement.pays', { from: nameOf(x.from), to: nameOf(x.to) })}
-              </Text>
-              <Text style={styles.line}>{money(x.amount)}</Text>
-            </Row>
-          ))}
-        </Card>
 
         <Section>{t('settlement.payments')}</Section>
         {payments.length === 0 ? <Body muted>{t('settlement.noPayments')}</Body> : null}
@@ -300,6 +339,13 @@ const styles = themedStyles(() =>
       textAlign: 'right',
     },
     line: { fontSize: font.md, color: colors.text, paddingVertical: 4 },
+    mine: { borderRadius: radius.lg, padding: space.lg, marginBottom: space.md, gap: space.xs },
+    minePay: { backgroundColor: colors.payBg },
+    mineGet: { backgroundColor: colors.getBg },
+    mineLabel: { fontSize: font.sm },
+    mineBig: { fontSize: font.xl, fontWeight: '700' },
+    payText: { color: colors.payText },
+    getText: { color: colors.getText },
     input: {
       backgroundColor: colors.surface,
       borderWidth: 1,
