@@ -81,7 +81,13 @@ async function send(notificationId: string) {
   const { data: job, error } = await db.rpc('web_push_job', { p_notification: notificationId });
   if (error || !job) return { sent: 0 };
   const msg = pushText(job.kind, job.payload ?? {}, job.language ?? 'en');
-  const payload = JSON.stringify({ ...msg, tag: notificationId, kind: job.kind, room_id: job.room_id });
+  const payload = JSON.stringify({
+    ...msg,
+    tag: notificationId,
+    kind: job.kind,
+    room_id: job.room_id,
+    loud: job.loud === true,
+  });
   const vapidDetails = {
     subject: VAPID_SUBJECT,
     publicKey: VAPID_PUBLIC_KEY,

@@ -18,6 +18,11 @@ self.addEventListener('push', (event) => {
       lang: d.lang || '',
       icon: self.registration.scope + 'favicon.ico',
       data: { room_id: d.room_id || null },
+      // New Need Request with the special alert on: stays on screen until tapped or swiped away,
+      // and vibrates longer (browsers do not allow a custom sound here).
+      requireInteraction: !!d.loud,
+      renotify: !!d.loud && !!d.tag,
+      vibrate: d.loud ? [600, 250, 600, 250, 1000] : undefined,
     }),
   );
 });

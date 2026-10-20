@@ -393,7 +393,12 @@
     "need_completed": "Need Request completed",
     "pushOn": "Push notifications are on for this phone.",
     "pushWeb": "Push notifications arrive in the phone app. In the browser, check this inbox.",
-    "pushDenied": "Push permission was not given. You will still see everything in this inbox."
+    "pushDenied": "Push permission was not given. You will still see everything in this inbox.",
+    "needSound": "Special Need Request alert",
+    "needSoundHelp": "A longer bell sound (about 4 seconds) and long vibration, so everyone in the Room notices a new Need Request. Swipe the notification away to stop it.",
+    "needSoundPlay": "Play the sound",
+    "needSoundPreview": "This is how a new Need Request sounds.",
+    "needSoundChannel": "Need Requests (special alert)"
   },
   "ack": {
     "title": "Acknowledgement",
