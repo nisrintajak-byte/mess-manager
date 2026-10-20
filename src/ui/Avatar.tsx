@@ -33,18 +33,18 @@ export function Avatar({
   /** storage path of the person's profile photo, if any */
   photo?: string | null;
 }) {
-  const [uri, setUri] = useState<string | null>(null);
+  const [link, setLink] = useState<{ path: string; uri: string | null } | null>(null);
   useEffect(() => {
     let alive = true;
     if (photo)
       void avatarUrl(photo)
-        .then((u) => alive && setUri(u))
+        .then((u) => alive && setLink({ path: photo, uri: u }))
         .catch(() => undefined);
-    else setUri(null);
     return () => {
       alive = false;
     };
   }, [photo]);
+  const uri = photo && link?.path === photo ? link.uri : null;
   if (uri && !muted) {
     return (
       <Image
