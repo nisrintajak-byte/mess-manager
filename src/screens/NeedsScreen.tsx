@@ -8,12 +8,16 @@ import { api, NeedRequest, NeedStatus } from '../lib/api';
 import { dbErrorKey } from '../lib/errors';
 import { submitOrQueue } from '../lib/outbox';
 import type { AppStackParamList } from '../navigation/types';
-import { Badge, Body, Button, Card, Field, Meta, Notice, Row, Section } from '../ui/components';
+import { Badge, Body, Button, Card, Chip, Field, Meta, Notice, Section } from '../ui/components';
 import { AdSlot } from '../ui/AdSlot';
+import { Avatar } from '../ui/Avatar';
 import { useLoader } from '../ui/hooks';
-import { colors, font, space, themedStyles } from '../ui/theme';
+import { colors, font, radius, rowDirection, space, themedStyles } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'Needs'>;
+
+/** One-tap suggestions for the most common things a shared kitchen runs out of. */
+const QUICK = ['gas', 'rice', 'water', 'milk', 'oil', 'cleaning'] as const;
 
 const TONE: Record<NeedStatus, 'neutral' | 'good' | 'warn' | 'bad'> = {
   pending: 'bad',
@@ -105,6 +109,34 @@ export function NeedsScreen({ navigation, route }: Props) {
     return out;
   }
 
+  const open = needs.filter((n) => n.status === 'pending' || n.status === 'accepted');
+  const done = needs.filter((n) => n.status === 'completed' || n.status === 'cancelled').slice(0, 20);
+
+  function renderNeed(n: (typeof needs)[number]) {
+    return (
+      <Card key={n.id}>
+        <View style={[styles.needRow, { flexDirection: rowDirection() }]}>
+          <Avatar name={nameOf(n.created_by)} muted={n.status === 'cancelled'} />
+          <View style={styles.flex}>
+            <Text style={styles.name}>{n.title}</Text>
+            {n.note ? <Meta>{n.note}</Meta> : null}
+            <Meta>{t('need.by', { name: nameOf(n.created_by) })}</Meta>
+            {n.accepted_by ? <Meta>{t('need.acceptedBy', { name: nameOf(n.accepted_by) })}</Meta> : null}
+          </View>
+          <Badge tone={TONE[n.status]}>{t(`need.s_${n.status}`)}</Badge>
+        </View>
+        {n.expense_id ? (
+          <Button
+            title={t('flag.open')}
+            variant="link"
+            onPress={() => navigation.navigate('ExpenseDetail', { roomId, expenseId: n.expense_id! })}
+          />
+        ) : null}
+        {actions(n)}
+      </Card>
+    );
+  }
+
   return (
     <ScrollView
       style={styles.bg}
@@ -112,59 +144,57 @@ export function NeedsScreen({ navigation, route }: Props) {
       refreshControl={<RefreshControl refreshing={loading} onRefresh={reload} />}
     >
       <View style={styles.column}>
-        <Body muted>{t('need.explain')}</Body>
-        <Section>{t('need.new')}</Section>
-        {error ? <Notice tone="error">{error}</Notice> : null}
-        <Field
-          label={t('need.new')}
-          placeholder={t('need.placeholder')}
-          value={title}
-          onChangeText={setTitle}
-          maxLength={80}
-        />
-        <Field label={t('need.note')} value={note} onChangeText={setNote} maxLength={300} />
-        <Button
-          title={t('need.create')}
-          loading={busy}
-          disabled={!title.trim()}
-          onPress={() =>
-            run(async () => {
-              await submitOrQueue({
-                type: 'need_create',
-                userId: me ?? '',
-                roomId,
-                label: title,
-                payload: { title, note },
-              });
-              setTitle('');
-              setNote('');
-            })
-          }
-        />
-
-        <Section>{t('need.title')}</Section>
-        {needs.length === 0 ? <Body muted>{t('need.none')}</Body> : null}
-        {needs.map((n) => (
-          <Card key={n.id}>
-            <Row>
-              <View style={styles.flex}>
-                <Text style={styles.name}>{n.title}</Text>
-                {n.note ? <Meta>{n.note}</Meta> : null}
-                <Meta>{t('need.by', { name: nameOf(n.created_by) })}</Meta>
-                {n.accepted_by ? <Meta>{t('need.acceptedBy', { name: nameOf(n.accepted_by) })}</Meta> : null}
-              </View>
-              <Badge tone={TONE[n.status]}>{t(`need.s_${n.status}`)}</Badge>
-            </Row>
-            {n.expense_id ? (
-              <Button
-                title={t('flag.open')}
-                variant="link"
-                onPress={() => navigation.navigate('ExpenseDetail', { roomId, expenseId: n.expense_id! })}
+        <View style={styles.newBox}>
+          <Text style={styles.newTitle}>{t('need.new')}</Text>
+          <Text style={styles.newHelp}>{t('need.explain')}</Text>
+          <View style={styles.quick}>
+            {QUICK.map((q) => (
+              <Chip
+                key={q}
+                on={title === t(`need.q_${q}`)}
+                label={t(`need.q_${q}`)}
+                onPress={() => setTitle(t(`need.q_${q}`))}
               />
-            ) : null}
-            {actions(n)}
-          </Card>
-        ))}
+            ))}
+          </View>
+          {error ? <Notice tone="error">{error}</Notice> : null}
+          <Field
+            label={t('need.what')}
+            placeholder={t('need.placeholder')}
+            value={title}
+            onChangeText={setTitle}
+            maxLength={80}
+          />
+          <Field label={t('need.note')} value={note} onChangeText={setNote} maxLength={300} />
+          <Button
+            title={t('need.create')}
+            loading={busy}
+            disabled={!title.trim()}
+            onPress={() =>
+              run(async () => {
+                await submitOrQueue({
+                  type: 'need_create',
+                  userId: me ?? '',
+                  roomId,
+                  label: title,
+                  payload: { title, note },
+                });
+                setTitle('');
+                setNote('');
+              })
+            }
+          />
+        </View>
+
+        <Section>{t('need.openList')}</Section>
+        {open.length === 0 ? <Body muted>{t('need.none')}</Body> : null}
+        {open.map((n) => renderNeed(n))}
+        {done.length > 0 ? (
+          <>
+            <Section>{t('need.doneList')}</Section>
+            {done.map((n) => renderNeed(n))}
+          </>
+        ) : null}
         <AdSlot screen="Needs" />
       </View>
     </ScrollView>
@@ -178,5 +208,15 @@ const styles = themedStyles(() =>
     column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
     flex: { flex: 1 },
     name: { fontSize: font.md, fontWeight: '600', color: colors.text },
+    needRow: { alignItems: 'center', gap: space.md },
+    newBox: {
+      backgroundColor: colors.payBg,
+      borderRadius: radius.lg,
+      padding: space.lg,
+      marginBottom: space.md,
+    },
+    newTitle: { fontSize: font.lg, fontWeight: '700', color: colors.payText },
+    newHelp: { fontSize: font.sm, color: colors.payText, marginTop: 2, marginBottom: space.md },
+    quick: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm, marginBottom: space.md },
   }),
 );

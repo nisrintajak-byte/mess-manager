@@ -487,7 +487,16 @@
     "s_cancelled": "Cancelled",
     "by": "Asked by {{name}}",
     "acceptedBy": "{{name}} will buy it",
-    "explain": "Everyone gets a notification. Whoever accepts buys it — no duplicates."
+    "explain": "Everyone gets a notification. Whoever accepts buys it — no duplicates.",
+    "what": "What is needed?",
+    "openList": "Open requests",
+    "doneList": "Done",
+    "q_gas": "Gas cylinder",
+    "q_rice": "Rice",
+    "q_water": "Drinking water",
+    "q_milk": "Milk",
+    "q_oil": "Cooking oil",
+    "q_cleaning": "Cleaning items"
   },
   "prefs": {
     "title": "Preferences",
