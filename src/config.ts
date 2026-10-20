@@ -14,3 +14,6 @@ export const PASSWORD_MIN_LENGTH = TESTING_MODE ? 6 : 8;
  * provider is enabled in Supabase (Authentication → Providers → Google).
  */
 export const GOOGLE_SIGNIN_ENABLED = false;
+
+/** Link sent in Room invitations (Google Play once the app is published). */
+export const INVITE_APP_LINK = 'https://nisrintajak-byte.github.io/mess-manager/';

@@ -237,6 +237,33 @@ function unwrap<T>({ data, error }: { data: T | null; error: { message: string }
 const n = (v: unknown) => Number(v);
 
 const rawApi = {
+  // ---- v1.0: own profile + login lock ----
+  async myProfile(userId: string): Promise<{ display_name: string; avatar_url: string | null }> {
+    const rows = unwrap(
+      await supabase.from('profiles').select('display_name, avatar_url').eq('id', userId),
+    ) as { display_name: string; avatar_url: string | null }[];
+    return rows[0] ?? { display_name: '', avatar_url: null };
+  },
+
+  async updateProfile(name: string, avatarPath: string | null): Promise<void> {
+    unwrap(await supabase.rpc('update_profile', { p_name: name, p_avatar: avatarPath }));
+  },
+
+  /** Seconds until this email may try to sign in again (0 = now). */
+  async loginWait(email: string): Promise<number> {
+    const { data } = await supabase.rpc('login_wait', { p_email: email });
+    return Number(data ?? 0);
+  },
+
+  async loginFailed(email: string): Promise<number> {
+    const { data } = await supabase.rpc('login_failed', { p_email: email });
+    return Number(data ?? 0);
+  },
+
+  async loginSucceeded(): Promise<void> {
+    await supabase.rpc('login_succeeded');
+  },
+
   /** Home screen: every Room with this period's total, what I paid and my share. */
   async myRoomsOverview(): Promise<RoomOverview[]> {
     const rows: RoomOverview[] = unwrap(await supabase.rpc('my_rooms_overview'));

@@ -7,6 +7,7 @@ import { clearLock } from '../lib/appLock';
 import { clearCache, markOffline, setCacheUser } from '../lib/offlineStore';
 import { clearOutbox } from '../lib/outbox';
 import { registerForPush, unregisterPush } from '../lib/push';
+import { forgetSignInIfAsked } from '../lib/staySignedIn';
 import { AUTH_STORAGE_KEY, authStorage, supabase } from '../lib/supabase';
 
 interface AuthState {
@@ -66,6 +67,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     let alive = true;
     let usingSaved = false;
     (async () => {
+      await forgetSignInIfAsked();
       const kind = await handleAuthLink(await Linking.getInitialURL()).catch(() => null);
       if (kind === 'recovery' && alive) setRecovering(true);
       // Offline with an expired sign-in token, getSession() keeps retrying for ~30 s and then

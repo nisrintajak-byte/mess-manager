@@ -71,7 +71,10 @@
     "testingMode": "Testing mode: simple passwords (6+ characters) are allowed. Stronger rules will apply at launch.",
     "google": "Continue with Google",
     "googleFailed": "Google sign-in did not complete. Please try again.",
-    "googleNote": "Only your name, email and picture are used."
+    "googleNote": "Only your name, email and picture are used.",
+    "stay": "Keep me signed in on this phone",
+    "lockedFor": "Too many wrong passwords. Try again in {{minutes}} min.",
+    "attemptsLeft": "Email or password is incorrect. {{count}} tries left before a 15-minute lock."
   },
   "legal": {
     "draftNotice": "Draft — the final text will be reviewed by a lawyer before launch.",
@@ -154,7 +157,10 @@
     "details": "Room details",
     "dangerZone": "Leave this Room",
     "leaveExplain": "Leaving removes you from the Room. Your past expenses stay in its history and you will need Admin approval to join again. Settle what you owe first.",
-    "leaveConfirm2": "Last check: leave “{{room}}” now?"
+    "leaveConfirm2": "Last check: leave “{{room}}” now?",
+    "inviteSend": "Send invite",
+    "inviteMessage": "Join my Room “{{room}}” on Mess Manager.\nRoom code: {{code}}\nGet the app: {{link}}\nOpen the app → Join with a code. The Admin approves your request.",
+    "inviteFallback": "Copy this message and send it:"
   },
   "members": {
     "title": "Members",
@@ -559,9 +565,14 @@
     "done": "Password changed."
   },
   "profile": {
-    "title": "One more step",
+    "title": "My profile",
     "body": "Please confirm your date of birth and accept the terms to start using Mess Manager.",
-    "save": "Continue"
+    "save": "Save profile",
+    "name": "Name shown to Room members",
+    "gallery": "Choose photo",
+    "camera": "Take photo",
+    "removePhoto": "Remove photo",
+    "saved": "Profile saved."
   },
   "sync": {
     "offlineBanner": "You're offline — showing the last synced data",

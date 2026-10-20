@@ -1,9 +1,10 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text } from 'react-native';
+import { Share, StyleSheet, Text } from 'react-native';
 
 import { useAuth } from '../auth/AuthProvider';
+import { INVITE_APP_LINK } from '../config';
 import { api } from '../lib/api';
 import { getCountry, LanguageCode } from '../lib/countries';
 import { dbErrorKey } from '../lib/errors';
@@ -28,6 +29,7 @@ export function RoomInfoScreen({ navigation, route }: Props) {
   const me = session?.user.id;
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [fallback, setFallback] = useState<string | null>(null);
   const { data } = useLoader(async () => {
     const [room, members] = await Promise.all([api.room(roomId), api.members(roomId)]);
     return { room, members };
@@ -42,6 +44,16 @@ export function RoomInfoScreen({ navigation, route }: Props) {
   }
   const { room, members } = data;
   const isAdmin = members.some((m) => m.user_id === me && m.status === 'approved' && m.role === 'admin');
+
+  async function invite() {
+    const message = t('room.inviteMessage', { room: room.name, code: room.join_code, link: INVITE_APP_LINK });
+    try {
+      const r = await Share.share({ message });
+      if (r.action === Share.dismissedAction) return;
+    } catch {
+      setFallback(message); // browsers without a share menu: show the text to copy
+    }
+  }
 
   async function leave() {
     setError(null);
@@ -68,6 +80,16 @@ export function RoomInfoScreen({ navigation, route }: Props) {
           {room.join_code}
         </Text>
         <Meta>{t('room.joinCodeHint')}</Meta>
+        <Spacer size="sm" />
+        <Button title={t('room.inviteSend')} onPress={() => void invite()} />
+        {fallback ? (
+          <>
+            <Meta>{t('room.inviteFallback')}</Meta>
+            <Text selectable style={styles.message}>
+              {fallback}
+            </Text>
+          </>
+        ) : null}
       </Card>
 
       <Card>
@@ -121,5 +143,6 @@ const styles = themedStyles(() =>
       color: colors.text,
       marginVertical: space.xs,
     },
+    message: { fontSize: font.sm, color: colors.text, marginTop: space.xs },
   }),
 );

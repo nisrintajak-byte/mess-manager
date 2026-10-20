@@ -97,6 +97,7 @@ export function RoomScreen({ navigation, route }: Props) {
   const disputed = new Set(openFlags.map((f) => f.target_id));
   const openNeeds = needs.filter((n) => n.status === 'pending' || n.status === 'accepted').length;
   const nameOf = (uid: string) => members.find((m) => m.user_id === uid)?.profile?.display_name ?? '—';
+  const photoOf = (uid: string) => members.find((m) => m.user_id === uid)?.profile?.avatar_url ?? null;
   const mine = members.find((m) => m.user_id === me && m.status === 'approved');
   const isAdmin = mine?.role === 'admin';
   const pendingCount = members.filter((m) => m.status === 'pending').length;
@@ -368,7 +369,7 @@ export function RoomScreen({ navigation, route }: Props) {
                     pressed && styles.dim,
                   ]}
                 >
-                  <Avatar name={nameOf(e.paid_by)} muted={!!e.deleted_at} />
+                  <Avatar name={nameOf(e.paid_by)} muted={!!e.deleted_at} photo={photoOf(e.paid_by)} />
                   <View style={styles.flex}>
                     <Text style={[styles.itemTitle, e.deleted_at ? styles.struck : null]} numberOfLines={2}>
                       {e.title}
@@ -413,7 +414,7 @@ export function RoomScreen({ navigation, route }: Props) {
               {balances.map((b) => (
                 <Card key={b.user_id}>
                   <Row>
-                    <Avatar name={nameOf(b.user_id)} />
+                    <Avatar name={nameOf(b.user_id)} photo={photoOf(b.user_id)} />
                     <View style={styles.flex}>
                       <Text style={styles.itemTitle}>{nameOf(b.user_id)}</Text>
                       <Meta>

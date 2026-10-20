@@ -14,6 +14,7 @@ import { Body, Button, Card, Chip, ChipRow, Label, Screen, Title } from '../ui/c
 import { LanguagePicker } from '../ui/LanguagePicker';
 import { AccountDataCard } from '../ui/AccountCards';
 import { AdsCard } from '../ui/AdsCard';
+import { ProfileCard } from '../ui/ProfileCard';
 import { RemoveAdsCard } from '../ui/RemoveAdsCard';
 import { AppLockCard, ChangePasswordCard } from '../ui/SecurityCards';
 import { THEME_NAMES } from '../ui/theme';
@@ -28,6 +29,7 @@ export function PreferencesScreen() {
     <View style={{ flex: 1 }}>
       <Screen>
         <Title>{t('prefs.title')}</Title>
+        <ProfileCard />
         <Card>
           <Label>{t('home.signedInAs', { name: session?.user.email ?? '' })}</Label>
           <Button

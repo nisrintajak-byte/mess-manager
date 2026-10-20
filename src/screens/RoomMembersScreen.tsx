@@ -69,7 +69,7 @@ export function RoomMembersScreen({ route }: Props) {
             {pending.map((m) => (
               <Card key={m.id}>
                 <View style={[styles.person, { flexDirection: rowDirection() }]}>
-                  <Avatar name={name(m)} />
+                  <Avatar name={name(m)} photo={m.profile?.avatar_url} />
                   <View style={styles.flex}>
                     <Text style={styles.name}>{name(m)}</Text>
                     {emails.get(m.user_id) ? <Text style={styles.meta}>{emails.get(m.user_id)}</Text> : null}
@@ -100,7 +100,7 @@ export function RoomMembersScreen({ route }: Props) {
         {approved.map((m) => (
           <Card key={m.id}>
             <View style={[styles.person, { flexDirection: rowDirection() }]}>
-              <Avatar name={name(m)} />
+              <Avatar name={name(m)} photo={m.profile?.avatar_url} />
               <View style={styles.flex}>
                 <Text style={styles.name}>
                   {name(m)} {m.user_id === me ? t('members.you') : ''}

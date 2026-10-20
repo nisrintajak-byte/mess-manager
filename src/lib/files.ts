@@ -94,3 +94,52 @@ export async function uploadLocalFile(roomId: string, local: string): Promise<st
   const m = mime === 'application/pdf' ? 'application/pdf' : 'image/jpeg';
   return uploadRoomFile(roomId, { uri, mime: m, name: m === 'application/pdf' ? 'file.pdf' : 'image.jpg' });
 }
+
+// ---- profile photos (PRD §7.7): private 'avatars' bucket, <userId>/<uuid>.jpg ----
+export const AVATAR_BUCKET = 'avatars';
+
+/** Pick a square-ish photo, shrink it to 512 px and upload it; returns the storage path. */
+export async function pickAndUploadAvatar(
+  userId: string,
+  source: 'camera' | 'gallery',
+): Promise<string | null> {
+  if (source === 'camera') {
+    const perm = await ImagePicker.requestCameraPermissionsAsync();
+    if (!perm.granted) throw new FileError('files.cameraDenied');
+  }
+  const opts: ImagePicker.ImagePickerOptions = {
+    mediaTypes: ['images'],
+    quality: 1,
+    allowsEditing: true,
+    aspect: [1, 1],
+  };
+  const res =
+    source === 'camera'
+      ? await ImagePicker.launchCameraAsync(opts)
+      : await ImagePicker.launchImageLibraryAsync(opts);
+  if (res.canceled || !res.assets[0]) return null;
+  const out = await ImageManipulator.manipulateAsync(res.assets[0].uri, [{ resize: { width: 512 } }], {
+    compress: 0.75,
+    format: ImageManipulator.SaveFormat.JPEG,
+  });
+  const body = await (await fetch(out.uri)).arrayBuffer();
+  const path = `${userId}/${uuid()}.jpg`;
+  const { error } = await supabase.storage.from(AVATAR_BUCKET).upload(path, body, {
+    contentType: 'image/jpeg',
+    upsert: false,
+  });
+  if (error) throw new FileError(isNetworkError(error) ? 'files.offline' : 'files.uploadFailed');
+  return path;
+}
+
+const avatarLinks = new Map<string, { url: string; until: number }>();
+
+/** Short-lived link for a profile photo (cached for 50 minutes). */
+export async function avatarUrl(path: string): Promise<string | null> {
+  const hit = avatarLinks.get(path);
+  if (hit && hit.until > Date.now()) return hit.url;
+  const { data } = await supabase.storage.from(AVATAR_BUCKET).createSignedUrl(path, 3600);
+  if (!data?.signedUrl) return null;
+  avatarLinks.set(path, { url: data.signedUrl, until: Date.now() + 50 * 60 * 1000 });
+  return data.signedUrl;
+}

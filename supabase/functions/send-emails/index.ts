@@ -31,12 +31,25 @@ function toBase64(data: Uint8Array | string): string {
 }
 
 async function purgeFiles(): Promise<number> {
-  const { data: paths, error } = await db.rpc('storage_purge_claim', { p_limit: 100 });
-  if (error || !paths?.length) return 0;
-  const { error: rmError } = await db.storage.from('room-files').remove(paths as string[]);
-  if (rmError) return 0;
-  await db.rpc('storage_purge_done', { p_paths: paths });
-  return (paths as string[]).length;
+  // receipts/proofs live in 'room-files', profile photos in 'avatars'
+  const { data: rows, error } = await db
+    .from('storage_purge')
+    .select('path, bucket')
+    .is('done_at', null)
+    .order('created_at')
+    .limit(100);
+  if (error || !rows?.length) return 0;
+  const byBucket = new Map<string, string[]>();
+  for (const r of rows as { path: string; bucket: string }[])
+    byBucket.set(r.bucket, [...(byBucket.get(r.bucket) ?? []), r.path]);
+  let done = 0;
+  for (const [bucket, paths] of byBucket) {
+    const { error: rmError } = await db.storage.from(bucket).remove(paths);
+    if (rmError) continue;
+    await db.rpc('storage_purge_done', { p_paths: paths });
+    done += paths.length;
+  }
+  return done;
 }
 
 async function sendEmails(): Promise<{ sent: number; failed: number; held?: number } | 'not_configured'> {
