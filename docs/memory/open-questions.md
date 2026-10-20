@@ -45,3 +45,4 @@
 - Company support email + website domain for the Play listing.
 - Translators: also review docs/store/play-store-listing.md (AR/UR/HI).
 - No new EAS (APK) builds until really needed — monthly limit (founder 2026-10-20).
+- ~~Firebase for Android push~~ — done 2026-10-20 (project mess-manager-440b0); needs one APK build to test.
