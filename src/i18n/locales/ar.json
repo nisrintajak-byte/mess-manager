@@ -204,7 +204,11 @@
     "amountInvalid": "أدخل مبلغًا بحد أقصى {{decimals}} منازل عشرية.",
     "titleRequired": "يرجى وصف المصروف.",
     "dateInvalid": "استخدم الصيغة YYYY-MM-DD.",
-    "paidByYou": "أنت (من يضيف المصروف هو الدافع)"
+    "paidByYou": "أنت (من يضيف المصروف هو الدافع)",
+    "eachPays": "يدفع كل شخص نحو {{amount}}",
+    "today": "اليوم",
+    "yesterday": "أمس",
+    "otherDate": "أو تاريخ آخر"
   },
   "errors": {
     "not_allowed": "ليست لديك صلاحية للقيام بذلك.",

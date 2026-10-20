@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '../auth/AuthProvider';
 import { api, Member, Room } from '../lib/api';
+import { localizeDigits } from '../lib/digits';
 import { dbErrorKey } from '../lib/errors';
 import { formatMinor, formatMoney, parseAmount } from '../lib/money';
 import { submitOrQueue } from '../lib/outbox';
@@ -20,7 +21,6 @@ import {
   Notice,
   Screen,
   Spacer,
-  Title,
 } from '../ui/components';
 import { FilePicker } from '../ui/FilePicker';
 
@@ -158,11 +158,29 @@ export function AddExpenseScreen({ navigation, route }: Props) {
   }
 
   const name = (m: Member) => m.profile?.display_name ?? '—';
+  const minorNow = parseAmount(amount, room.currency_decimals);
+  const people = mode === 'selected' ? selected.size : members.length;
+  const each = minorNow && minorNow > 0 && people > 0 ? Math.floor(minorNow / people) : null;
+  const today = todayIn(room.time_zone);
+  const yesterday = shiftDay(today, -1);
 
   return (
-    <Screen>
-      <Title>{t(editing ? 'expense.editTitle' : 'expense.addTitle')}</Title>
-      <Spacer />
+    <Screen
+      footer={
+        <>
+          <Button title={t('expense.save')} onPress={save} loading={busy} />
+          {!editing ? <Body muted>{t('expense.editWindow')}</Body> : null}
+        </>
+      }
+    >
+      {/* Payer is always the member who added the expense (founder decision; enforced by the server). */}
+      <Body muted>
+        {room.name} ·{' '}
+        {paidBy === me
+          ? t('expense.paidByYou')
+          : name(members.find((m) => m.user_id === paidBy) ?? ({} as Member))}
+      </Body>
+      <Spacer size="md" />
       {serverError ? <Notice tone="error">{serverError}</Notice> : null}
       <Field
         label={t('expense.title')}
@@ -173,6 +191,7 @@ export function AddExpenseScreen({ navigation, route }: Props) {
         error={errors.title}
       />
       <Field
+        big
         label={t('expense.amount', { currency: room.currency })}
         value={amount}
         onChangeText={setAmount}
@@ -180,27 +199,14 @@ export function AddExpenseScreen({ navigation, route }: Props) {
         placeholder={formatMinor(0, room.currency_decimals)}
         error={errors.amount}
       />
-      <Field
-        label={t('expense.date')}
-        value={date}
-        onChangeText={setDate}
-        placeholder="YYYY-MM-DD"
-        maxLength={10}
-        error={errors.date}
-      />
-
-      {/* Payer is always the member who added the expense (founder decision; enforced by the server). */}
-      <Label>{t('expense.paidBy')}</Label>
-      <Body>
-        {paidBy === me
-          ? t('expense.paidByYou')
-          : name(members.find((m) => m.user_id === paidBy) ?? ({} as Member))}
-      </Body>
-      <Spacer />
 
       <Label>{t('split.title')}</Label>
       <ChipRow>
-        <Chip on={mode === 'equal'} onPress={() => setMode('equal')} label={t('split.everyone')} />
+        <Chip
+          on={mode === 'equal'}
+          onPress={() => setMode('equal')}
+          label={`${t('split.everyone')} (${localizeDigits(String(members.length))})`}
+        />
         <Chip on={mode === 'selected'} onPress={() => setMode('selected')} label={t('split.selected')} />
       </ChipRow>
       {mode === 'selected' ? (
@@ -215,12 +221,38 @@ export function AddExpenseScreen({ navigation, route }: Props) {
           {errors.split ? <Notice tone="error">{errors.split}</Notice> : null}
         </>
       ) : null}
-
-      <Field label={t('expense.notes')} value={notes} onChangeText={setNotes} multiline maxLength={1000} />
-      <FilePicker roomId={roomId} label={t('receipt.title')} value={receipt} onChange={setReceipt} />
+      {each !== null ? (
+        <Body muted>
+          {localizeDigits(
+            t('expense.eachPays', { amount: formatMoney(each, room.currency, room.currency_decimals) }),
+          )}
+        </Body>
+      ) : null}
       <Spacer />
-      <Button title={t('expense.save')} onPress={save} loading={busy} />
-      {!editing ? <Body muted>{t('expense.editWindow')}</Body> : null}
+
+      <Label>{t('expense.date')}</Label>
+      <ChipRow>
+        <Chip on={date === today} onPress={() => setDate(today)} label={t('expense.today')} />
+        <Chip on={date === yesterday} onPress={() => setDate(yesterday)} label={t('expense.yesterday')} />
+      </ChipRow>
+      <Field
+        label={t('expense.otherDate')}
+        value={date}
+        onChangeText={setDate}
+        placeholder="YYYY-MM-DD"
+        maxLength={10}
+        error={errors.date}
+      />
+
+      <FilePicker roomId={roomId} label={t('receipt.title')} value={receipt} onChange={setReceipt} />
+      <Field label={t('expense.notes')} value={notes} onChangeText={setNotes} multiline maxLength={1000} />
     </Screen>
   );
+}
+
+/** YYYY-MM-DD plus/minus whole days (calendar dates, no time zone involved). */
+function shiftDay(iso: string, days: number): string {
+  const d = new Date(`${iso}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
 }

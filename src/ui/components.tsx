@@ -15,7 +15,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors, font, radius, space, themedStyles } from './theme';
 
-export function Screen({ children, scroll = true }: { children: ReactNode; scroll?: boolean }) {
+export function Screen({
+  children,
+  scroll = true,
+  footer,
+}: {
+  children: ReactNode;
+  scroll?: boolean;
+  /** stays fixed at the bottom (main action of the screen) */
+  footer?: ReactNode;
+}) {
   const body = scroll ? (
     <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
       {children}
@@ -27,6 +36,11 @@ export function Screen({ children, scroll = true }: { children: ReactNode; scrol
     <SafeAreaView style={styles.safe} edges={['bottom', 'left', 'right']}>
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <View style={styles.column}>{body}</View>
+        {footer ? (
+          <View style={styles.footer}>
+            <View style={styles.footerInner}>{footer}</View>
+          </View>
+        ) : null}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -40,13 +54,18 @@ export function Body({ children, muted }: { children: ReactNode; muted?: boolean
   return <Text style={[styles.body, muted && styles.muted]}>{children}</Text>;
 }
 
-export function Field({ label, error, ...input }: TextInputProps & { label: string; error?: string | null }) {
+export function Field({
+  label,
+  error,
+  big,
+  ...input
+}: TextInputProps & { label: string; error?: string | null; big?: boolean }) {
   return (
     <View style={styles.field}>
       <Text style={styles.label}>{label}</Text>
       <TextInput
         placeholderTextColor={colors.textMuted}
-        style={[styles.input, error ? styles.inputError : null]}
+        style={[styles.input, big ? styles.inputBig : null, error ? styles.inputError : null]}
         accessibilityLabel={label}
         {...input}
       />
@@ -232,7 +251,23 @@ const styles = themedStyles(() =>
       fontSize: font.md,
       color: colors.text,
     },
+    inputBig: {
+      fontSize: font.xxl,
+      fontWeight: '700',
+      borderWidth: 2,
+      borderColor: colors.primary,
+      minHeight: 64,
+    },
     inputError: { borderColor: colors.danger },
+    footer: {
+      backgroundColor: colors.surface,
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
+      paddingHorizontal: space.lg,
+      paddingTop: space.md,
+      paddingBottom: space.sm,
+    },
+    footerInner: { width: '100%', maxWidth: 560, alignSelf: 'center' },
     error: { color: colors.danger, fontSize: font.sm, marginTop: space.xs },
     btn: {
       minHeight: 50,
