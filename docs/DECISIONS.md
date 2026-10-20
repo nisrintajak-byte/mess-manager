@@ -78,3 +78,6 @@ PRD §28 #5: founder chose to ship v1.0 without meal-count split and add it in a
 
 ## 2026-10-20 — Own crash log instead of Sentry (for now)
 PRD §21 asks for crash reporting without personal data. A small `client_errors` table (message, stack, screen, platform, version; emails and long numbers removed; one row per error per day) does this with no extra account or SDK, on web now and Android in the next build. Sentry can still be added later if needed.
+
+## 2026-10-20 — Company domain: uyoontech.com (planned)
+Founder likes uyoontech.com; will buy later. Plan when bought: Resend sending domain (no-reply@uyoontech.com, set EMAIL_FROM), website pages /mess-manager/privacy, /terms, /delete-account (Play Console URLs), support email.
