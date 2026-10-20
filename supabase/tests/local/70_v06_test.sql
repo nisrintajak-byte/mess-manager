@@ -185,6 +185,15 @@ do $$ declare n int; r record; begin
   end loop;
   assert (select status from public.email_outbox where kind = 'leave_statement') = 'queued', 'retried later';
 end $$;
+-- domain not verified yet: the email waits 6 hours and keeps its attempts
+do $$ declare r record; a int; begin
+  select id, attempts into r from public.email_outbox where kind = 'leave_statement';
+  perform public.email_hold(r.id, 'resend 403');
+  select attempts into a from public.email_outbox where id = r.id;
+  assert a = greatest(r.attempts - 1, 0), 'attempt given back';
+  assert (select status from public.email_outbox where id = r.id) = 'queued', 'still queued';
+  assert (select next_attempt_at from public.email_outbox where id = r.id) > now() + interval '5 hours', 'waits';
+end $$;
 
 -- 7. Retention: notice 7 days before, deletion after 2 calendar months
 update public.cycles set locked_at = now() - interval '4 months',

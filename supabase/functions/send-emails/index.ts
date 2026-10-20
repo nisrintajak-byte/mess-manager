@@ -39,7 +39,7 @@ async function purgeFiles(): Promise<number> {
   return (paths as string[]).length;
 }
 
-async function sendEmails(): Promise<{ sent: number; failed: number } | 'not_configured'> {
+async function sendEmails(): Promise<{ sent: number; failed: number; held?: number } | 'not_configured'> {
   if (!RESEND_API_KEY) return 'not_configured';
   const { data: batch, error } = await db.rpc('email_claim', { p_limit: 10 });
   if (error) throw error;
@@ -47,6 +47,7 @@ async function sendEmails(): Promise<{ sent: number; failed: number } | 'not_con
   fonts ??= await fetchFonts(async (url) => new Uint8Array(await (await fetch(url)).arrayBuffer()));
   let sent = 0;
   let failed = 0;
+  let held = 0;
   for (const e of batch as QueuedEmail[]) {
     try {
       const { data: prof } = await db
@@ -84,7 +85,16 @@ async function sendEmails(): Promise<{ sent: number; failed: number } | 'not_con
           attachments: mail.attachments.map((a) => ({ filename: a.filename, content: toBase64(a.content) })),
         }),
       });
-      if (!res.ok) throw new Error(`resend ${res.status}: ${(await res.text()).slice(0, 300)}`);
+      if (!res.ok) {
+        const why = `resend ${res.status}: ${(await res.text()).slice(0, 300)}`;
+        // 403 = domain not verified yet (Resend test mode): wait, do not count as a failure
+        if (res.status === 403) {
+          await db.rpc('email_hold', { p_id: e.id, p_error: why });
+          held++;
+          continue;
+        }
+        throw new Error(why);
+      }
       await db.rpc('email_done', { p_id: e.id, p_ok: true });
       sent++;
     } catch (err) {
@@ -96,7 +106,7 @@ async function sendEmails(): Promise<{ sent: number; failed: number } | 'not_con
       failed++;
     }
   }
-  return { sent, failed };
+  return { sent, failed, held };
 }
 
 /** Renders a small statement in every language to prove fonts + shaping work on the server. */
