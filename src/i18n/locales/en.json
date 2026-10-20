@@ -131,7 +131,8 @@
     "total": "Total Room expense",
     "getsBack": "gets back {{amount}}",
     "owes": "owes {{amount}}",
-    "settled": "settled up"
+    "settled": "settled up",
+    "showMore": "Show more ({{count}} left)"
   },
   "members": {
     "title": "Members",

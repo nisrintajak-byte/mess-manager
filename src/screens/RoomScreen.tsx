@@ -6,6 +6,7 @@ import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'r
 import { useAuth } from '../auth/AuthProvider';
 import { api, Cycle, OPEN_FLAG } from '../lib/api';
 import { getCountry, LanguageCode } from '../lib/countries';
+import { localizeDigits } from '../lib/digits';
 import { dbErrorKey } from '../lib/errors';
 import { estimateBalances } from '../lib/estimate';
 import { formatMoney } from '../lib/money';
@@ -20,6 +21,9 @@ import { colors, font, radius, space, themedStyles } from '../ui/theme';
 type Props = NativeStackScreenProps<AppStackParamList, 'Room'>;
 type Tab = 'expenses' | 'balances' | 'settlements';
 
+/** Long lists are drawn in pages so low-memory phones stay smooth (PRD §21). */
+const PAGE = 50;
+
 export function RoomScreen({ navigation, route }: Props) {
   const { roomId } = route.params;
   const { t, i18n } = useTranslation();
@@ -29,6 +33,7 @@ export function RoomScreen({ navigation, route }: Props) {
   const [cycleId, setCycleId] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [shown, setShown] = useState(PAGE);
   const queued = useOutbox().filter((i) => i.roomId === roomId && i.userId === me);
   const queuedCount = queued.length;
 
@@ -55,6 +60,8 @@ export function RoomScreen({ navigation, route }: Props) {
     ]);
     return { expenses, balances };
   }, selected?.id ?? '');
+
+  useEffect(() => setShown(PAGE), [selected?.id]);
 
   useLayoutEffect(() => {
     if (data) navigation.setOptions({ title: data.room.name });
@@ -319,7 +326,7 @@ export function RoomScreen({ navigation, route }: Props) {
             {expenses.length === 0 && queued.length === 0 && !detail.loading ? (
               <Body muted>{t('room.noExpenses')}</Body>
             ) : null}
-            {expenses.map((e) => (
+            {expenses.slice(0, shown).map((e) => (
               <Card
                 key={e.id}
                 onPress={() => navigation.navigate('ExpenseDetail', { roomId, expenseId: e.id })}
@@ -346,6 +353,13 @@ export function RoomScreen({ navigation, route }: Props) {
                 </Row>
               </Card>
             ))}
+            {expenses.length > shown ? (
+              <Button
+                title={localizeDigits(t('room.showMore', { count: expenses.length - shown }))}
+                variant="secondary"
+                onPress={() => setShown((v) => v + PAGE)}
+              />
+            ) : null}
           </>
         ) : null}
 

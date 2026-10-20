@@ -132,7 +132,8 @@
     "total": "रूम का कुल खर्च",
     "getsBack": "{{amount}} वापस मिलेंगे",
     "owes": "{{amount}} देने हैं",
-    "settled": "हिसाब बराबर"
+    "settled": "हिसाब बराबर",
+    "showMore": "और दिखाएँ ({{count}} बाकी)"
   },
   "members": {
     "title": "सदस्य",

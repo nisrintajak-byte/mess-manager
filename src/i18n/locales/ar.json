@@ -136,7 +136,8 @@
     "total": "إجمالي مصروفات الغرفة",
     "getsBack": "يسترد {{amount}}",
     "owes": "عليه {{amount}}",
-    "settled": "لا مستحقات"
+    "settled": "لا مستحقات",
+    "showMore": "عرض المزيد (المتبقي {{count}})"
   },
   "members": {
     "title": "الأعضاء",

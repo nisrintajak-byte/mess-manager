@@ -132,7 +132,8 @@
     "total": "کمرے کا کل خرچ",
     "getsBack": "{{amount}} واپس ملیں گے",
     "owes": "{{amount}} دینے ہیں",
-    "settled": "حساب برابر"
+    "settled": "حساب برابر",
+    "showMore": "مزید دکھائیں ({{count}} باقی)"
   },
   "members": {
     "title": "ارکان",
