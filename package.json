@@ -1,0 +1,193 @@
+{
+  "name": "react-native-iap",
+  "version": "17.1.0",
+  "description": "React Native In-App Purchases module for iOS and Android using Nitro",
+  "main": "./lib/module/index.js",
+  "types": "./lib/typescript/src/index.d.ts",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "react-native": "./src/index.ts",
+      "types": "./lib/typescript/src/index.d.ts",
+      "default": "./lib/module/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "lib",
+    "android",
+    "ios",
+    "cpp",
+    "nitrogen",
+    "nitro.json",
+    "openiap-versions.json",
+    "*.podspec",
+    "react-native.config.js",
+    "!ios/build",
+    "!android/build",
+    "!android/gradle",
+    "!android/gradlew",
+    "!android/gradlew.bat",
+    "!android/local.properties",
+    "!android/src/androidTest",
+    "!android/src/test",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__",
+    "!**/*.tsbuildinfo",
+    "!**/.*"
+  ],
+  "scripts": {
+    "example": "yarn workspace rn-iap-example",
+    "example:ios": "yarn workspace rn-iap-example ios",
+    "example:android": "yarn workspace rn-iap-example android",
+    "example:start": "yarn workspace rn-iap-example start",
+    "typecheck": "yarn typecheck:lib",
+    "typecheck:lib": "yarn tsc --noEmit",
+    "clean": "rm -rf android/build node_modules/**/android/build lib nitrogen/generated",
+    "lint": "eslint --ext .ts,.tsx,.js,.jsx src",
+    "lint:eslint": "eslint --no-warn-ignored --fix 'src/**/*.{ts,tsx}'",
+    "lint:prettier": "prettier --write \"**/*.{md,js,jsx,ts,tsx}\"",
+    "lint:tsc": "tsc -p tsconfig.json --noEmit --skipLibCheck",
+    "lint:ci": "yarn lint:tsc && yarn lint:eslint && yarn lint:prettier",
+    "prepare": "tsx scripts/check-nitro-versions.ts && bob build && yarn nitrogen",
+    "nitrogen": "node --stack-size=65536 node_modules/nitrogen/lib/index.js",
+    "specs": "yarn nitrogen --logLevel=\"debug\"",
+    "test": "jest --coverage",
+    "test:library": "jest --coverage",
+    "test:example": "yarn workspace rn-iap-example test --coverage",
+    "test:all": "yarn test:library && yarn test:example",
+    "test:ci": "jest --maxWorkers=2 --coverage",
+    "test:ci:example": "yarn workspace rn-iap-example test --coverage",
+    "verify:consumer-install": "node ../../scripts/verify-npm-consumer-install.mjs --package . --package-name react-native-iap --required openiap-versions.json --required lib/module/index.js --required lib/typescript/src/index.d.ts --required android/build.gradle --required android/openiap-store.gradle --required NitroIap.podspec --required nitro.json",
+    "prepare:husky": "husky",
+    "precommit": "lint-staged",
+    "ci:check": "./scripts/ci-check.sh",
+    "generate:types": "node scripts/update-types.mjs",
+    "generate:icon": "cd docs/static/img && npx sharp-cli resize 32 32 --input icon.png --output favicon-32x32.png && npx sharp-cli resize 16 16 --input icon.png --output favicon-16x16.png && npx sharp-cli resize 192 192 --input icon.png --output android-chrome-192x192.png && npx sharp-cli resize 512 512 --input icon.png --output android-chrome-512x512.png && npx sharp-cli resize 180 180 --input icon.png --output apple-touch-icon.png && npx sharp-cli resize 1200 630 --input icon.png --output og-image.png && npx sharp-cli resize 150 150 --input icon.png --output favicon.png && npx sharp-cli --input favicon-32x32.png --output favicon.ico",
+    "commitlint": "commitlint"
+  },
+  "keywords": [
+    "react-native",
+    "nitro"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyodotdev/openiap.git",
+    "directory": "libraries/react-native-iap"
+  },
+  "author": "hyochan <hyo@hyo.dev> (https://github.com/hyochan)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hyodotdev/openiap/issues"
+  },
+  "homepage": "https://github.com/hyodotdev/openiap/tree/main/libraries/react-native-iap",
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/hyodotdev"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/openiap"
+    },
+    {
+      "type": "paypal",
+      "url": "https://www.paypal.me/dooboolab"
+    }
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.7",
+    "@commitlint/cli": "^21.2.1",
+    "@commitlint/config-conventional": "^21.2.0",
+    "@react-native/babel-preset": "0.86.2",
+    "@react-native/jest-preset": "0.86.2",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^26.2.0",
+    "@types/react": "^19.2.18",
+    "babel-jest": "^29.7.0",
+    "eslint": "^9.39.5",
+    "eslint-config-expo": "^57.0.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.6",
+    "expo": "^57.0.11",
+    "globals": "^17.9.0",
+    "husky": "^9.1.7",
+    "jest": "^29.7.0",
+    "lint-staged": "^17.3.0",
+    "nitrogen": "^0.36.5",
+    "prettier": "^3.9.6",
+    "react": "19.2.8",
+    "react-native": "0.86.2",
+    "react-native-builder-bob": "^0.43.0",
+    "react-native-nitro-modules": "^0.36.5",
+    "test-renderer": "^1.2.0",
+    "tsx": "^4.23.11",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "@amazon-devices/keplerscript-appstore-iap-lib": "~2.13.0",
+    "@amazon-devices/package-manager-lib": "~1.0.1767254401",
+    "react": "*",
+    "react-native": "*",
+    "react-native-nitro-modules": ">=0.36.5"
+  },
+  "peerDependenciesMeta": {
+    "@amazon-devices/keplerscript-appstore-iap-lib": {
+      "optional": true
+    },
+    "@amazon-devices/package-manager-lib": {
+      "optional": true
+    }
+  },
+  "workspaces": [
+    "example"
+  ],
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      [
+        "custom",
+        {
+          "script": "nitrogen",
+          "clean": "nitrogen/"
+        }
+      ],
+      [
+        "module",
+        {
+          "esm": true
+        }
+      ],
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ]
+  },
+  "lint-staged": {
+    "!(docs)/**/*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "!(docs)/**/*.{js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "**/*.{json,md}": [
+      "prettier --write"
+    ]
+  },
+  "packageManager": "yarn@3.6.1",
+  "resolutions": {
+    "nitrogen@^0.36.5": "patch:nitrogen@npm%3A0.36.5#./.yarn/patches/nitrogen-npm-0.36.5-array-equatable.patch",
+    "uuid@^7.0.3": "11.1.1"
+  }
+}

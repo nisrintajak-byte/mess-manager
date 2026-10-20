@@ -1,0 +1,918 @@
+import type { HybridObject } from 'react-native-nitro-modules';
+import type { ActiveSubscription, AdvancedCommerceInfoIOS, AndroidSubscriptionOfferInput, DeepLinkOptions, InitConnectionConfig, ExternalPurchaseCustomLinkNoticeResultIOS, ExternalPurchaseCustomLinkTokenResultIOS, ExternalPurchaseCustomLinkTokenTypeIOS, ExternalPurchaseLinkResultIOS, ExternalPurchaseNoticeResultIOS, DeveloperBillingOptionParamsAndroid, DeveloperProvidedBillingDetailsAndroid, MutationFinishTransactionArgs, ProductCommon, PromotionalOfferJwsInputIOS, PurchaseCommon, PurchaseOptions, PurchaseUpdatedListenerOptions, VerifyPurchaseAppleOptions, VerifyPurchaseGoogleOptions, VerifyPurchaseHorizonOptions, VerifyPurchaseResultAndroid, VerifyPurchaseResultHorizon, RequestPurchaseIosProps, RequestPurchaseResult, RequestSubscriptionAndroidProps, RequestSubscriptionIosProps, UserChoiceBillingDetails, PaymentModeIOS, PendingPurchaseUpdateAndroid, RenewalCommitmentInfoIOS, SubscriptionBillingPlanTypeIOS, SubscriptionProductReplacementParamsAndroid, SubResponseCodeAndroid, TransactionCommitmentInfoIOS, WinBackOfferInputIOS } from '../types.js';
+export type ExternalPurchaseCustomLinkNoticeTypeIOS = 'browser' | 'unspecified';
+export type IapPlatform = 'ios' | 'android';
+export type IapkitPurchaseState = 'entitled' | 'pending-acknowledgment' | 'pending' | 'canceled' | 'expired' | 'ready-to-consume' | 'consumed' | 'unknown' | 'inauthentic';
+export type IapkitClientPayloadFormat = 'toml' | 'json' | 'text';
+export type IapStore = 'unknown' | 'apple' | 'google' | 'horizon' | 'amazon';
+export type PurchaseVerificationProvider = 'iapkit' | 'none';
+export type BillingProgramAndroid = 'unspecified' | 'external-content-link' | 'external-offer' | 'external-payments' | 'user-choice-billing' | 'billing-choice';
+export type BillingChoiceImageLayoutAndroid = 'rectangular-four-by-one' | 'rectangular-three-by-one' | 'rectangular-two-by-two';
+export type BillingChoiceScreenTypeAndroid = 'unspecified' | 'developer-rendered' | 'google-rendered';
+export type DeveloperBillingTypeAndroid = 'developer-billing-type-unspecified' | 'in-app' | 'external-link';
+export type InAppMessageCategoryAndroid = 'unknown-in-app-message-category-id' | 'transactional';
+export type InAppMessageResponseCodeAndroid = 'no-action-needed' | 'subscription-status-updated';
+export type DeveloperBillingLaunchModeAndroid = 'unspecified' | 'launch-in-external-browser-or-app' | 'caller-will-launch-link';
+export type ExternalLinkLaunchModeAndroid = 'unspecified' | 'launch-in-external-browser-or-app' | 'caller-will-launch-link';
+export type ExternalLinkTypeAndroid = 'unspecified' | 'link-to-digital-content-offer' | 'link-to-app-download';
+export interface NitroPurchaseVerificationAppleOptions {
+    sku: VerifyPurchaseAppleOptions['sku'];
+}
+export interface NitroPurchaseVerificationGoogleOptions {
+    accessToken: VerifyPurchaseGoogleOptions['accessToken'];
+    isSub?: VerifyPurchaseGoogleOptions['isSub'];
+    packageName: VerifyPurchaseGoogleOptions['packageName'];
+    purchaseToken: VerifyPurchaseGoogleOptions['purchaseToken'];
+    sku: VerifyPurchaseGoogleOptions['sku'];
+}
+export interface NitroPurchaseVerificationHorizonOptions {
+    accessToken: VerifyPurchaseHorizonOptions['accessToken'];
+    sku: VerifyPurchaseHorizonOptions['sku'];
+    userId: VerifyPurchaseHorizonOptions['userId'];
+}
+export type NitroPurchaseUpdatedListenerOptions = PurchaseUpdatedListenerOptions;
+export interface NitroPurchaseVerificationParams {
+    apple?: NitroPurchaseVerificationAppleOptions | null;
+    google?: NitroPurchaseVerificationGoogleOptions | null;
+    horizon?: NitroPurchaseVerificationHorizonOptions | null;
+}
+/**
+ * iOS-specific purchase request parameters
+ */
+export interface NitroRequestPurchaseIos {
+    sku: RequestPurchaseIosProps['sku'];
+    andDangerouslyFinishTransactionAutomatically?: RequestPurchaseIosProps['andDangerouslyFinishTransactionAutomatically'];
+    appAccountToken?: RequestPurchaseIosProps['appAccountToken'];
+    quantity?: RequestPurchaseIosProps['quantity'];
+    withOffer?: Record<string, string> | null;
+    /**
+     * Advanced commerce data for StoreKit 2's Product.PurchaseOption.custom API.
+     * Used to pass attribution data (campaign tokens, affiliate IDs) during purchases.
+     * Data is formatted as JSON: {"signatureInfo": {"token": "<value>"}}
+     * @platform iOS
+     */
+    advancedCommerceData?: RequestPurchaseIosProps['advancedCommerceData'];
+    /**
+     * Billing plan to use for annual subscriptions that offer monthly billing with
+     * a 12-month commitment (iOS 26.4+).
+     * @platform iOS
+     */
+    billingPlanType?: RequestSubscriptionIosProps['billingPlanType'];
+    /**
+     * Compact JWS string for overriding introductory offer eligibility
+     * (iOS 15+, WWDC 2025). When nil, the system determines eligibility.
+     * @platform iOS
+     */
+    compactJWS?: RequestSubscriptionIosProps['compactJWS'];
+    /**
+     * Promotional offer signed as a compact JWS (WWDC 2025, back-deployed to iOS 15).
+     * @platform iOS
+     */
+    promotionalOfferJWS?: PromotionalOfferJwsInputIOS | null;
+    /**
+     * Win-back offer to apply (iOS 18+).
+     * Used to re-engage churned subscribers with a discount or free trial.
+     * @platform iOS
+     */
+    winBackOffer?: WinBackOfferInputIOS | null;
+}
+export interface NitroRequestPurchaseAndroid {
+    skus: RequestSubscriptionAndroidProps['skus'];
+    obfuscatedAccountId?: RequestSubscriptionAndroidProps['obfuscatedAccountId'];
+    obfuscatedProfileId?: RequestSubscriptionAndroidProps['obfuscatedProfileId'];
+    isOfferPersonalized?: RequestSubscriptionAndroidProps['isOfferPersonalized'];
+    /**
+     * Offer token for one-time purchase discounts (8.0+).
+     * Pass an offer token from `discountOffers` to apply a discount offer.
+     */
+    offerToken?: string | null;
+    subscriptionOffers?: AndroidSubscriptionOfferInput[] | null;
+    purchaseToken?: RequestSubscriptionAndroidProps['purchaseToken'];
+    /** Original external transaction ID for developer-billed subscription replacement (9.1.0+). */
+    originalExternalTransactionId?: RequestSubscriptionAndroidProps['originalExternalTransactionId'];
+    /** Developer billing option for External Payments (8.3.0+) or Billing Choice (9.1.0+). */
+    developerBillingOption?: DeveloperBillingOptionParamsAndroid | null;
+    /**
+     * Product-level replacement parameters (8.1.0+)
+     * Use this instead of replacementMode for item-level replacement
+     */
+    subscriptionProductReplacementParams?: SubscriptionProductReplacementParamsAndroid | null;
+}
+export type NitroPurchaseRequestType = 'in-app' | 'subs';
+export interface NitroPurchaseRequest {
+    /** Canonical product type selected by the public request. */
+    type?: NitroPurchaseRequestType | null;
+    /** Apple-specific purchase parameters */
+    apple?: NitroRequestPurchaseIos | null;
+    /** Google-specific purchase parameters */
+    google?: NitroRequestPurchaseAndroid | null;
+}
+/**
+ * iOS-specific options for getting available purchases
+ */
+export interface NitroAvailablePurchasesIosOptions extends PurchaseOptions {
+    alsoPublishToEventListener?: null | boolean;
+    onlyIncludeActiveItems?: null | boolean;
+}
+type NitroAvailablePurchasesAndroidType = 'in-app' | 'subs';
+export interface NitroAvailablePurchasesAndroidOptions {
+    type?: NitroAvailablePurchasesAndroidType;
+    /**
+     * Include suspended subscriptions in the result (Android 8.1+).
+     * Suspended subscriptions have isSuspendedAndroid=true and should NOT be granted entitlements.
+     * Users should be directed to the subscription center to resolve payment issues.
+     * Default: false (only active subscriptions are returned)
+     */
+    includeSuspended?: null | boolean;
+}
+export interface NitroAvailablePurchasesOptions {
+    ios?: NitroAvailablePurchasesIosOptions | null;
+    android?: NitroAvailablePurchasesAndroidOptions | null;
+}
+/**
+ * iOS-specific parameters for finishing a transaction
+ */
+export interface NitroFinishTransactionIosParams {
+    transactionId: string;
+    purchaseJson?: string;
+    isConsumable?: boolean;
+}
+/**
+ * Android-specific parameters for finishing a transaction
+ */
+export interface NitroFinishTransactionAndroidParams {
+    purchaseToken: string;
+    purchaseJson?: string;
+    isConsumable?: MutationFinishTransactionArgs['isConsumable'];
+}
+/**
+ * Unified finish transaction parameters with platform-specific options
+ */
+export interface NitroFinishTransactionParams {
+    ios?: NitroFinishTransactionIosParams | null;
+    android?: NitroFinishTransactionAndroidParams | null;
+}
+export interface NitroDeepLinkOptionsAndroid {
+    skuAndroid?: DeepLinkOptions['skuAndroid'];
+    packageNameAndroid?: DeepLinkOptions['packageNameAndroid'];
+}
+/**
+ * Parameters for launching an external link (Android 8.2.0+)
+ */
+export interface NitroLaunchExternalLinkParamsAndroid {
+    /** The billing program (external-content-link, external-offer, or billing-choice) */
+    billingProgram: BillingProgramAndroid;
+    /** Reporting token for a developer-rendered Billing Choice external-link flow (9.1.0+). */
+    externalTransactionToken?: string | null;
+    /** The external link launch mode */
+    launchMode: ExternalLinkLaunchModeAndroid;
+    /** The type of the external link */
+    linkType: ExternalLinkTypeAndroid;
+    /** The URI where the content will be accessed from */
+    linkUri: string;
+}
+export interface NitroGetBillingChoiceInfoParamsAndroid {
+    billingProgram: BillingProgramAndroid;
+    playBillingChoiceImageLayout: BillingChoiceImageLayoutAndroid;
+    userLocale?: string | null;
+}
+export interface NitroBillingProgramInformationDialogParamsAndroid {
+    billingProgram: BillingProgramAndroid;
+    externalTransactionToken: string;
+}
+export interface NitroInAppMessageParamsAndroid {
+    categories?: null | InAppMessageCategoryAndroid[];
+}
+/**
+ * Subscription status information (iOS only)
+ */
+export interface NitroSubscriptionStatus {
+    /** StoreKit renewal-state name, e.g. "subscribed" or "inGracePeriod". */
+    state: string;
+    platform: string;
+    renewalInfo?: NitroRenewalInfoIOS | null;
+}
+/**
+ * Purchase result structure for Android operations
+ */
+export interface NitroPurchaseResult {
+    responseCode: number;
+    debugMessage?: string;
+    code: string;
+    message: string;
+    purchaseToken?: string;
+    productId?: string;
+    productIds?: string[];
+    productType?: string;
+    isEmptyProductList?: boolean;
+    subResponseCodeAndroid?: SubResponseCodeAndroid;
+}
+export interface NitroBillingResultAndroid {
+    responseCode: number;
+    debugMessage?: string | null;
+    subResponseCode?: SubResponseCodeAndroid | null;
+}
+export interface NitroBillingChoiceInfoAndroid {
+    playBillingChoiceImageUrl: string;
+    playBillingLoyaltyInfo?: string | null;
+}
+export interface NitroInAppMessageResultAndroid {
+    responseCode: InAppMessageResponseCodeAndroid;
+    purchaseToken?: string | null;
+}
+export interface NitroPurchaseVerificationResultIOS {
+    isValid: boolean;
+    receiptData: string;
+    jwsRepresentation: string;
+    latestTransaction?: NitroPurchase | null;
+}
+export interface NitroPurchaseVerificationResultAndroid {
+    isValid: VerifyPurchaseResultAndroid['isValid'];
+    autoRenewing: VerifyPurchaseResultAndroid['autoRenewing'];
+    betaProduct: VerifyPurchaseResultAndroid['betaProduct'];
+    cancelDate: VerifyPurchaseResultAndroid['cancelDate'];
+    cancelReason: VerifyPurchaseResultAndroid['cancelReason'];
+    deferredDate: VerifyPurchaseResultAndroid['deferredDate'];
+    deferredSku: VerifyPurchaseResultAndroid['deferredSku'];
+    freeTrialEndDate: VerifyPurchaseResultAndroid['freeTrialEndDate'];
+    gracePeriodEndDate: VerifyPurchaseResultAndroid['gracePeriodEndDate'];
+    parentProductId: VerifyPurchaseResultAndroid['parentProductId'];
+    productId: VerifyPurchaseResultAndroid['productId'];
+    productType: VerifyPurchaseResultAndroid['productType'];
+    purchaseDate: VerifyPurchaseResultAndroid['purchaseDate'];
+    quantity: VerifyPurchaseResultAndroid['quantity'];
+    receiptId: VerifyPurchaseResultAndroid['receiptId'];
+    renewalDate: VerifyPurchaseResultAndroid['renewalDate'];
+    term: VerifyPurchaseResultAndroid['term'];
+    termSku: VerifyPurchaseResultAndroid['termSku'];
+    testTransaction: VerifyPurchaseResultAndroid['testTransaction'];
+}
+export interface NitroPurchaseVerificationResultHorizon {
+    isValid: VerifyPurchaseResultHorizon['isValid'];
+    grantTime?: VerifyPurchaseResultHorizon['grantTime'];
+}
+export interface NitroVerifyPurchaseWithIapkitAppleProps {
+    /** The JWS token returned with the purchase response. */
+    jws: string;
+}
+export interface NitroVerifyPurchaseWithIapkitGoogleProps {
+    /** The token provided to the user's device when the product or subscription was purchased. */
+    purchaseToken: string;
+}
+export interface NitroVerifyPurchaseWithIapkitHorizonProps {
+    /** Meta Horizon product or subscription SKU. */
+    sku: string;
+    /** Meta app-scoped user ID. The openiap-google Horizon module resolves the logged-in user when omitted. */
+    userId?: string | null;
+}
+export interface NitroVerifyPurchaseWithIapkitAmazonProps {
+    /** Available in OpenIAP 3.2.0 / openiap-apple 3.2.0 / openiap-google 3.3.0. Optional Amazon product id that must match the product id verified by RVS. */
+    expectedProductId?: string | null;
+    /** Amazon Appstore receipt id returned by PurchaseResponse.getReceipt().getReceiptId(). */
+    receiptId: string;
+    /** Use Amazon RVS Cloud Sandbox for App Tester receipts. */
+    sandbox?: null | boolean;
+    /** Amazon Appstore user id returned by PurchaseResponse.getUserData().getUserId(). */
+    userId?: string | null;
+}
+export interface NitroVerifyPurchaseWithIapkitProps {
+    apiKey?: string | null;
+    amazon?: NitroVerifyPurchaseWithIapkitAmazonProps | null;
+    apple?: NitroVerifyPurchaseWithIapkitAppleProps | null;
+    /**
+     * Available in OpenIAP 2.3.1 / openiap-apple 2.4.0 / openiap-google 2.4.0.
+     * HTTP(S) origin for a self-hosted or local IAPKit server. The apiKey must
+     * come from the same IAPKit/Convex deployment.
+     */
+    baseUrl?: string | null;
+    google?: NitroVerifyPurchaseWithIapkitGoogleProps | null;
+    horizon?: NitroVerifyPurchaseWithIapkitHorizonProps | null;
+    /**
+     * Available in OpenIAP 2.4.0 / openiap-apple 2.4.1 / openiap-google 2.4.1.
+     * Include the product's public IAPKit client payload when available.
+     */
+    includeClientPayload?: boolean | null;
+}
+export interface NitroVerifyPurchaseWithProviderProps {
+    iapkit?: NitroVerifyPurchaseWithIapkitProps | null;
+    provider: PurchaseVerificationProvider;
+}
+export interface NitroVerifyPurchaseWithIapkitResult {
+    /** Available in OpenIAP 2.4.0 / openiap-apple 2.4.1 / openiap-google 2.4.1. */
+    clientPayload?: NitroIapkitProductClientPayload | null;
+    /** Available in OpenIAP 3.2.0 / openiap-apple 3.2.0 / openiap-google 3.3.0. Amazon RVS environment selected by IAPKit. */
+    environment?: string | null;
+    isValid: boolean;
+    /** Available in OpenIAP 2.4.0 / openiap-apple 2.4.1 / openiap-google 2.4.1. */
+    productId?: string | null;
+    state: IapkitPurchaseState;
+    store: IapStore;
+    storeId: string;
+}
+export interface NitroIapkitProductClientPayload {
+    body: string;
+    format: IapkitClientPayloadFormat;
+    updatedAt: number;
+    version: number;
+}
+export interface NitroVerifyPurchaseWithProviderError {
+    code?: string | null;
+    message: string;
+}
+export interface NitroVerifyPurchaseWithProviderResult {
+    iapkit?: NitroVerifyPurchaseWithIapkitResult | null;
+    errors?: NitroVerifyPurchaseWithProviderError[] | null;
+    provider: PurchaseVerificationProvider;
+}
+/**
+ * Result of checking billing program availability (Android 8.2.0+)
+ */
+export interface NitroBillingProgramAvailabilityResultAndroid {
+    /** The billing program that was checked */
+    billingProgram: BillingProgramAndroid;
+    /** Billing Choice screen renderer. Populated only for available Billing Choice results. */
+    choiceScreenType?: BillingChoiceScreenTypeAndroid | null;
+    /** Whether the billing program is available for the user */
+    isAvailable: boolean;
+    /** Whether external-link payment is available for Billing Choice. */
+    isExternalLinkAvailable?: null | boolean;
+}
+/**
+ * Reporting details for external transactions (Android 8.2.0+)
+ */
+export interface NitroBillingProgramReportingDetailsAndroid {
+    /** The billing program that the reporting details are associated with */
+    billingProgram: BillingProgramAndroid;
+    /** External transaction token used to report transactions to Google */
+    externalTransactionToken: string;
+}
+export interface NitroPurchase {
+    id: PurchaseCommon['id'];
+    transactionId?: string | null;
+    productId: PurchaseCommon['productId'];
+    transactionDate: PurchaseCommon['transactionDate'];
+    purchaseToken?: PurchaseCommon['purchaseToken'];
+    currentPlanId?: PurchaseCommon['currentPlanId'];
+    ids?: PurchaseCommon['ids'];
+    /** Store where purchase was made */
+    store: IapStore;
+    storeId: string;
+    platform?: IapPlatform;
+    quantity: PurchaseCommon['quantity'];
+    purchaseState: PurchaseCommon['purchaseState'];
+    isAutoRenewing: PurchaseCommon['isAutoRenewing'];
+    advancedCommerceInfoIOS?: AdvancedCommerceInfoIOS | null;
+    billingPlanTypeIOS?: SubscriptionBillingPlanTypeIOS | null;
+    bundleOriginalTransactionIdIOS?: string | null;
+    bundleProductIdIOS?: string | null;
+    bundleSubscriptionGroupIdIOS?: string | null;
+    bundleTransactionIdIOS?: string | null;
+    commitmentInfoIOS?: TransactionCommitmentInfoIOS | null;
+    quantityIOS?: number | null;
+    originalTransactionDateIOS?: number | null;
+    originalTransactionIdentifierIOS?: string | null;
+    previousOriginalTransactionIdIOS?: string | null;
+    appAccountToken?: string | null;
+    appBundleIdIOS?: string | null;
+    countryCodeIOS?: string | null;
+    currencyCodeIOS?: string | null;
+    currencySymbolIOS?: string | null;
+    environmentIOS?: string | null;
+    expirationDateIOS?: number | null;
+    isUpgradedIOS?: null | boolean;
+    offerIOS?: string | null;
+    ownershipTypeIOS?: string | null;
+    reasonIOS?: string | null;
+    reasonStringRepresentationIOS?: string | null;
+    revocationDateIOS?: number | null;
+    revocationReasonIOS?: string | null;
+    revocationTypeIOS?: string | null;
+    storefrontCountryCodeIOS?: string | null;
+    subscriptionGroupIdIOS?: string | null;
+    transactionReasonIOS?: string | null;
+    webOrderLineItemIdIOS?: string | null;
+    renewalInfoIOS?: NitroRenewalInfoIOS | null;
+    purchaseTokenAndroid?: string | null;
+    dataAndroid?: string | null;
+    signatureAndroid?: string | null;
+    autoRenewingAndroid?: null | boolean;
+    purchaseStateAndroid?: number | null;
+    isAcknowledgedAndroid?: null | boolean;
+    packageNameAndroid?: string | null;
+    obfuscatedAccountIdAndroid?: string | null;
+    obfuscatedProfileIdAndroid?: string | null;
+    developerPayloadAndroid?: string | null;
+    isSuspendedAndroid?: null | boolean;
+    pendingPurchaseUpdateAndroid?: PendingPurchaseUpdateAndroid | null;
+    userIdAmazon?: string | null;
+    userMarketplaceAmazon?: string | null;
+}
+/**
+ * Active subscription with renewalInfoIOS included
+ */
+export interface NitroActiveSubscription {
+    productId: ActiveSubscription['productId'];
+    isActive: ActiveSubscription['isActive'];
+    transactionId: ActiveSubscription['transactionId'];
+    purchaseToken?: ActiveSubscription['purchaseToken'];
+    transactionDate: ActiveSubscription['transactionDate'];
+    expirationDateIOS?: ActiveSubscription['expirationDateIOS'];
+    environmentIOS?: ActiveSubscription['environmentIOS'];
+    daysUntilExpirationIOS?: ActiveSubscription['daysUntilExpirationIOS'];
+    renewalInfoIOS?: NitroRenewalInfoIOS | null;
+    autoRenewingAndroid?: ActiveSubscription['autoRenewingAndroid'];
+    basePlanIdAndroid?: ActiveSubscription['basePlanIdAndroid'];
+    currentPlanId?: ActiveSubscription['currentPlanId'];
+    purchaseTokenAndroid?: ActiveSubscription['purchaseTokenAndroid'];
+}
+/**
+ * Renewal information from StoreKit 2 (iOS only)
+ * Must match RenewalInfoIOS from types.ts
+ */
+export interface NitroRenewalInfoIOS {
+    willAutoRenew: boolean;
+    autoRenewPreference?: string | null;
+    bundleOriginalTransactionId?: string | null;
+    bundleProductId?: string | null;
+    bundleSubscriptionGroupId?: string | null;
+    commitmentInfo?: RenewalCommitmentInfoIOS | null;
+    pendingUpgradeProductId?: string | null;
+    renewalDate?: number | null;
+    expirationReason?: string | null;
+    isInBillingRetry?: null | boolean;
+    gracePeriodExpirationDate?: number | null;
+    priceIncreaseStatus?: string | null;
+    renewalBillingPlanType?: SubscriptionBillingPlanTypeIOS | null;
+    renewalOfferType?: string | null;
+    renewalOfferId?: string | null;
+    jsonRepresentation?: string | null;
+    willUnbundle?: null | boolean;
+}
+export interface NitroProduct {
+    id: ProductCommon['id'];
+    title: ProductCommon['title'];
+    description: ProductCommon['description'];
+    debugDescription?: ProductCommon['debugDescription'];
+    type: string;
+    displayName?: ProductCommon['displayName'];
+    displayPrice?: ProductCommon['displayPrice'];
+    currency?: ProductCommon['currency'];
+    price?: ProductCommon['price'];
+    platform: IapPlatform;
+    typeIOS?: string | null;
+    isFamilyShareableIOS?: null | boolean;
+    jsonRepresentationIOS?: string | null;
+    pricingTermsIOS?: string | null;
+    /** Apple 27 Subscription Bundle/Suite components (JSON string). */
+    bundledSubscriptionsIOS?: string | null;
+    introductoryPriceIOS?: string | null;
+    introductoryPriceAsAmountIOS?: number | null;
+    introductoryPriceNumberOfPeriodsIOS?: number | null;
+    introductoryPricePaymentModeIOS: PaymentModeIOS;
+    introductoryPriceSubscriptionPeriodIOS?: string | null;
+    subscriptionGroupIdIOS?: string | null;
+    subscriptionPeriodNumberIOS?: number | null;
+    subscriptionPeriodUnitIOS?: string | null;
+    /** Standardized subscription offers (JSON string) - cross-platform */
+    subscriptionOffers?: string | null;
+    /** Standardized discount offers for one-time purchases (JSON string) - cross-platform */
+    discountOffers?: string | null;
+    nameAndroid?: string | null;
+    /** @deprecated Removed in the next major release. Use `subscriptionOffers` or `discountOffers`. */
+    originalPriceAndroid?: string | null;
+    /** @deprecated Removed in the next major release. Use `subscriptionOffers` or `discountOffers`. */
+    originalPriceAmountMicrosAndroid?: number | null;
+    /** @deprecated Removed in the next major release. Use `subscriptionOffers`. */
+    introductoryPriceCyclesAndroid?: number | null;
+    /** @deprecated Removed in the next major release. Use `subscriptionOffers`. */
+    introductoryPricePeriodAndroid?: string | null;
+    /** @deprecated Removed in the next major release. Use `subscriptionOffers`. */
+    introductoryPriceValueAndroid?: number | null;
+    /** @deprecated Removed in the next major release. Use `subscriptionOffers`. */
+    subscriptionPeriodAndroid?: string | null;
+    /** @deprecated Removed in the next major release. Use `subscriptionOffers`. */
+    freeTrialPeriodAndroid?: string | null;
+    /**
+     * Product fetch status (Play Billing 8.0.0+): OK, NOT_FOUND (SKU doesn't
+     * exist), or NO_OFFERS_AVAILABLE (user not eligible for any offers).
+     */
+    productStatusAndroid?: string | null;
+}
+/**
+ * Main RnIap HybridObject interface for native bridge
+ */
+export interface RnIap extends HybridObject<{
+    ios: 'swift';
+    android: 'kotlin';
+}> {
+    /**
+     * Initialize connection to the store
+     * @param config - Optional configuration including alternative billing mode for Android
+     * @returns Promise<boolean> - true if connection successful
+     */
+    initConnection(config?: InitConnectionConfig | null): Promise<boolean>;
+    /**
+     * End connection to the store
+     * @returns Promise<boolean> - true if disconnection successful
+     */
+    endConnection(): Promise<boolean>;
+    /**
+     * Fetch products from the store
+     * @param skus - Array of product SKUs to fetch
+     * @param type - Type of products: 'in-app' or 'subs'
+     * @returns Promise<NitroProduct[]> - Array of products from the store
+     */
+    fetchProducts(skus: string[], type: string): Promise<NitroProduct[]>;
+    /**
+     * Request a purchase (unified method for both platforms).
+     * Results arrive through purchaseUpdatedListener or purchaseErrorListener.
+     * @param request - Platform-specific purchase request parameters
+     * @returns The dispatched purchase payload; the outcome arrives through the listeners
+     */
+    requestPurchase(request: NitroPurchaseRequest): Promise<RequestPurchaseResult>;
+    /**
+     * Get available purchases (unified method for both platforms)
+     * @param options - Platform-specific options for getting available purchases
+     * @returns Promise<NitroPurchase[]> - Array of available purchases
+     */
+    getAvailablePurchases(options?: NitroAvailablePurchasesOptions): Promise<NitroPurchase[]>;
+    /**
+     * Get active subscriptions with renewalInfoIOS included
+     * @param subscriptionIds - Optional array of subscription IDs to filter
+     * @returns Promise<NitroActiveSubscription[]> - Array of active subscriptions with renewalInfoIOS
+     */
+    getActiveSubscriptions(subscriptionIds?: string[]): Promise<NitroActiveSubscription[]>;
+    /**
+     * Check if there are any active subscriptions
+     * @param subscriptionIds - Optional array of subscription IDs to filter
+     * @returns Promise<boolean> - True if there are active subscriptions
+     */
+    hasActiveSubscriptions(subscriptionIds?: string[]): Promise<boolean>;
+    /**
+     * Finish a transaction (unified method for both platforms)
+     * @param params - Platform-specific transaction finish parameters
+     * @returns Promise<NitroPurchaseResult | boolean> - Result (Android) or success flag (iOS)
+     */
+    finishTransaction(params: NitroFinishTransactionParams): Promise<NitroPurchaseResult | boolean>;
+    /**
+     * Internal to react-native-iap, not app API: claims the once-per-install flag
+     * for the first-purchase notice. True only the first time on this install.
+     * Synchronous: it only flips one flag.
+     */
+    claimFirstPurchaseNotice(): boolean;
+    /**
+     * Add a listener for purchase updates
+     * @param listener - Function to call when a purchase is updated
+     */
+    addPurchaseUpdatedListener(listener: (purchase: NitroPurchase) => void, options?: NitroPurchaseUpdatedListenerOptions): number;
+    /**
+     * Add a listener for purchase errors
+     * @param listener - Function to call when a purchase error occurs
+     */
+    addPurchaseErrorListener(listener: (error: NitroPurchaseResult) => void): void;
+    /**
+     * Remove a purchase updated listener
+     * @param token - Token returned from addPurchaseUpdatedListener
+     */
+    removePurchaseUpdatedListener(token: number): void;
+    /**
+     * Remove a purchase error listener
+     * @param listener - Function to remove from listeners
+     */
+    removePurchaseErrorListener(listener: (error: NitroPurchaseResult) => void): void;
+    /**
+     * Add a listener for iOS promoted product events
+     * @param listener - Function to call when a promoted product is selected in the App Store
+     * @platform iOS
+     */
+    addPromotedProductListenerIOS(listener: (product: NitroProduct) => void): void;
+    /**
+     * Remove a promoted product listener
+     * @param listener - Function to remove from listeners
+     * @platform iOS
+     */
+    removePromotedProductListenerIOS(listener: (product: NitroProduct) => void): void;
+    /**
+     * Get the original app transaction ID if the app was purchased from the App Store (iOS only)
+     * @returns Promise<string | null> - The original app transaction ID or null if not purchased
+     * @platform iOS
+     */
+    getAppTransactionIOS(): Promise<string | null>;
+    /**
+     * Retrieve the currently promoted product without initiating a purchase flow (iOS only)
+     * @returns Promise<NitroProduct | null> - The promoted product or null if none available
+     * @platform iOS
+     */
+    getPromotedProductIOS(): Promise<NitroProduct | null>;
+    /** Verify app acquisition and return store evidence as JSON. */
+    verifyAppOwnership(optionsJson: string): Promise<string>;
+    /** Open the store's offer-code flow; returns a purchase or null. */
+    openRedeemOfferCode(): Promise<NitroPurchase | null>;
+    /**
+     * Clear unfinished transactions (iOS only)
+     * @returns Promise<void>
+     * @platform iOS
+     */
+    clearTransactionIOS(): Promise<void>;
+    /**
+     * Begin a refund request for a product (iOS 15+ only)
+     * @param sku - The product SKU to refund
+     * @returns Promise<string | null> - The refund status or null if not available
+     * @platform iOS
+     */
+    beginRefundRequestIOS(sku: string): Promise<string | null>;
+    /**
+     * Get subscription status for a product (iOS only)
+     * @param sku - The product SKU
+     * @returns Promise<NitroSubscriptionStatus[] | null> - Array of subscription status objects
+     * @platform iOS
+     */
+    subscriptionStatusIOS(sku: string): Promise<NitroSubscriptionStatus[] | null>;
+    /**
+     * Get current entitlement for a product (iOS only)
+     * @param sku - The product SKU
+     * @returns Promise<NitroPurchase | null> - Current entitlement or null
+     * @platform iOS
+     */
+    currentEntitlementIOS(sku: string): Promise<NitroPurchase | null>;
+    /**
+     * Get latest transaction for a product (iOS only)
+     * @param sku - The product SKU
+     * @returns Promise<NitroPurchase | null> - Latest transaction or null
+     * @platform iOS
+     */
+    latestTransactionIOS(sku: string): Promise<NitroPurchase | null>;
+    /**
+     * Get pending transactions (iOS only)
+     * @returns Promise<NitroPurchase[]> - Array of pending transactions
+     * @platform iOS
+     */
+    getPendingTransactionsIOS(): Promise<NitroPurchase[]>;
+    /**
+     * Get the full StoreKit 2 transaction history as PurchaseIOS values.
+     * Requires SKIncludeConsumableInAppPurchaseHistory Info.plist key for finished consumables (iOS 18+).
+     * @returns Promise<NitroPurchase[]> - Array of all transactions
+     * @platform iOS
+     */
+    getAllTransactionsIOS(): Promise<NitroPurchase[]>;
+    /**
+     * Sync with the App Store (iOS only)
+     * @returns Promise<boolean> - Success flag
+     * @platform iOS
+     */
+    restorePurchases(): Promise<boolean>;
+    syncIOS(): Promise<boolean>;
+    /**
+     * Show manage subscriptions screen (iOS only)
+     * @returns Promise<NitroPurchase[]> - Array of updated subscriptions with renewal info
+     * @platform iOS
+     */
+    showManageSubscriptionsIOS(): Promise<NitroPurchase[]>;
+    /**
+     * Deep link to the native subscription management UI (iOS only)
+     * @returns Promise<boolean> - True if the deep link request succeeded
+     * @platform iOS
+     */
+    deepLinkToSubscriptionsIOS(): Promise<boolean>;
+    /**
+     * Check if user is eligible for intro offer (iOS only)
+     * @param groupID - The subscription group ID
+     * @returns Promise<boolean> - Eligibility status
+     * @platform iOS
+     */
+    isEligibleForIntroOfferIOS(groupID: string): Promise<boolean>;
+    /**
+     * Get the App Store receipt (iOS only).
+     *
+     * The receipt is cumulative: it holds every transaction for the app, does not
+     * update immediately after finishTransaction(), and must be parsed to find one
+     * transaction. To validate a single purchase, use `getTransactionJwsIOS(productId)`.
+     *
+     * @returns Promise<string> - Base64 encoded receipt data containing all app transactions
+     * @throws {Error} purchase-verification-failed if receipt is not available (e.g., immediately after purchase)
+     * @platform iOS
+     * @see getTransactionJwsIOS for validating individual transactions (recommended)
+     */
+    getReceiptDataIOS(): Promise<string>;
+    /**
+     * Refresh the receipt through syncIOS(), then return it (iOS only).
+     * Like getReceiptDataIOS(), it holds every transaction for the app.
+     *
+     * @returns Promise<string> - Updated Base64 encoded receipt data containing all app transactions
+     * @platform iOS
+     * @see getTransactionJwsIOS for validating individual transactions (recommended)
+     */
+    requestReceiptRefreshIOS(): Promise<string>;
+    /**
+     * Check if transaction is verified (iOS only)
+     * @param sku - The product SKU
+     * @returns Promise<boolean> - Verification status
+     * @platform iOS
+     */
+    isTransactionVerifiedIOS(sku: string): Promise<boolean>;
+    /**
+     * Get the JWS for one product's transaction (iOS only). Recommended for backend
+     * validation: unlike getReceiptDataIOS() it holds only this transaction, is
+     * signed by Apple, and is available immediately after purchase.
+     *
+     * @param sku - The product SKU/ID to get the transaction JWS for
+     * @returns Promise<string | null> - JWS string for the transaction, or null if not found
+     * @platform iOS
+     * @example
+     * ```typescript
+     * const jws = await getTransactionJwsIOS('com.example.product');
+     * // Send jws to your backend for validation
+     * ```
+     */
+    getTransactionJwsIOS(sku: string): Promise<string | null>;
+    /**
+     * Verify a purchase on the appropriate platform.
+     * @param params - Purchase verification parameters including platform-specific options
+     * @returns Promise with the platform-specific verification result
+     */
+    verifyPurchase(params: NitroPurchaseVerificationParams): Promise<NitroPurchaseVerificationResultIOS | NitroPurchaseVerificationResultAndroid | NitroPurchaseVerificationResultHorizon>;
+    /**
+     * Verify a purchase with an external provider such as IAPKit.
+     * @param params - Verification options including provider and credentials
+     * @returns Promise<NitroVerifyPurchaseWithProviderResult> - Provider-specific verification result
+     */
+    verifyPurchaseWithProvider(params: NitroVerifyPurchaseWithProviderProps): Promise<NitroVerifyPurchaseWithProviderResult>;
+    /**
+     * Get the storefront country/region code for the current user.
+     * @returns Promise<string> - The storefront country code (e.g., "USA")
+     * @platform ios | android
+     */
+    getStorefront(): Promise<string>;
+    /**
+     * Deep link to Play Store subscription management (Android)
+     * @platform Android
+     */
+    deepLinkToSubscriptionsAndroid?(options: NitroDeepLinkOptionsAndroid): Promise<void>;
+    /**
+     * Add a listener for user choice billing events (Android only).
+     * Fires when a user selects alternative billing in the User Choice Billing dialog.
+     *
+     * @param listener - Function to call when user chooses alternative billing
+     * @platform Android
+     */
+    addUserChoiceBillingListenerAndroid(listener: (details: UserChoiceBillingDetails) => void): void;
+    /**
+     * Remove a user choice billing listener (Android only).
+     *
+     * @param listener - Function to remove from listeners
+     * @platform Android
+     */
+    removeUserChoiceBillingListenerAndroid(listener: (details: UserChoiceBillingDetails) => void): void;
+    /**
+     * Add a listener for developer provided billing events (Android 8.3.0+).
+     * Fires for External Payments and Billing Choice developer billing flows.
+     *
+     * Billing Choice expands the payload with nullable link/original transaction
+     * fields and selected products in Billing Library 9.1.0+.
+     *
+     * @param listener - Function to call when user chooses developer billing
+     * @platform Android
+     * @since Billing Library 8.3.0+
+     */
+    addDeveloperProvidedBillingListenerAndroid(listener: (details: DeveloperProvidedBillingDetailsAndroid) => void): void;
+    /**
+     * Remove a developer provided billing listener (Android only).
+     *
+     * @param listener - Function to remove from listeners
+     * @platform Android
+     * @since Billing Library 8.3.0+
+     */
+    removeDeveloperProvidedBillingListenerAndroid(listener: (details: DeveloperProvidedBillingDetailsAndroid) => void): void;
+    /**
+     * Add a listener for active subscriptions that need payment attention (failed
+     * payment method, expired card). Sources: StoreKit 2 `Message.Reason.billingIssue`
+     * (iOS / Mac Catalyst 16.4+, visionOS 1.0+) and Play Billing 8.1+
+     * `Purchase.isSuspended`. Never fires on Meta Horizon: its Billing 7.0 compat
+     * SDK has no suspended signal.
+     * @param listener - Called with the affected Purchase
+     */
+    addSubscriptionBillingIssueListener(listener: (purchase: NitroPurchase) => void): void;
+    /**
+     * Remove a subscription billing-issue listener.
+     */
+    removeSubscriptionBillingIssueListener(listener: (purchase: NitroPurchase) => void): void;
+    /**
+     * Enable a billing program (Android only). Must be called before
+     * initConnection() to configure the BillingClient.
+     *
+     * @param program - The billing program to enable
+     * @platform Android
+     * @since Billing Library 8.2.0+
+     */
+    enableBillingProgramAndroid(program: BillingProgramAndroid): void;
+    /**
+     * Check if a billing program is available for this user/device (Android only).
+     *
+     * @param program - The billing program to check
+     * @returns Promise with availability result
+     * @platform Android
+     * @since Billing Library 8.2.0+
+     */
+    isBillingProgramAvailableAndroid(program: BillingProgramAndroid): Promise<NitroBillingProgramAvailabilityResultAndroid>;
+    /**
+     * Fetch Play Billing assets and loyalty text for developer-rendered Billing Choice screens.
+     *
+     * @param params - Billing Choice info request parameters
+     * @returns Promise with the Play-hosted image URL and optional loyalty info
+     * @platform Android
+     * @since Billing Library 9.1.0+
+     */
+    getBillingChoiceInfoAndroid(params: NitroGetBillingChoiceInfoParamsAndroid): Promise<NitroBillingChoiceInfoAndroid>;
+    /**
+     * Create billing program reporting details for external transactions (Android only).
+     * Used to get the external transaction token needed for reporting to Google.
+     *
+     * @param program - The billing program to create reporting details for
+     * @returns Promise with reporting details including external transaction token
+     * @platform Android
+     * @since Billing Library 8.2.0+
+     */
+    createBillingProgramReportingDetailsAndroid(program: BillingProgramAndroid, developerBillingType?: DeveloperBillingTypeAndroid | null): Promise<NitroBillingProgramReportingDetailsAndroid>;
+    /**
+     * Show the Play-provided Billing Choice information dialog.
+     *
+     * @param params - Billing Choice dialog parameters
+     * @returns Promise with BillingResult
+     * @platform Android
+     * @since Billing Library 9.1.0+
+     */
+    showBillingProgramInformationDialogAndroid(params: NitroBillingProgramInformationDialogParamsAndroid): Promise<NitroBillingResultAndroid>;
+    /**
+     * Show Play Billing in-app messages, such as transactional subscription updates.
+     *
+     * @param params - Optional in-app message categories
+     * @returns Promise with in-app message result
+     * @platform Android
+     * @since Billing Library 4.1.0+
+     */
+    showInAppMessagesAndroid(params?: NitroInAppMessageParamsAndroid | null): Promise<NitroInAppMessageResultAndroid>;
+    /**
+     * Launch external link for external offers or app download (Android only).
+     *
+     * @param params - Parameters for launching the external link
+     * @returns Promise<boolean> - true if user accepted, false otherwise
+     * @platform Android
+     * @since Billing Library 8.2.0+
+     */
+    launchExternalLinkAndroid(params: NitroLaunchExternalLinkParamsAndroid): Promise<boolean>;
+    /**
+     * Check if the device can present an external purchase notice sheet (iOS 17.4+).
+     *
+     * @returns Promise<boolean> - true if notice sheet can be presented
+     * @platform iOS
+     */
+    canPresentExternalPurchaseNoticeIOS(): Promise<boolean>;
+    /**
+     * Present an external purchase notice sheet to inform users about external purchases (iOS 17.4+).
+     * This must be called before opening an external purchase link.
+     *
+     * @returns Promise<ExternalPurchaseNoticeResultIOS> - Result with action and error if any
+     * @platform iOS
+     */
+    presentExternalPurchaseNoticeSheetIOS(): Promise<ExternalPurchaseNoticeResultIOS>;
+    /**
+     * Present an external purchase link to redirect users to your website (iOS 16.0+).
+     *
+     * @param url - The external purchase URL to open
+     * @returns Promise<ExternalPurchaseLinkResultIOS> - Result with success status and error if any
+     * @platform iOS
+     */
+    presentExternalPurchaseLinkIOS(url: string): Promise<ExternalPurchaseLinkResultIOS>;
+    /**
+     * Check if app is eligible for ExternalPurchaseCustomLink API (iOS 18.1+).
+     * Returns true if the app can use custom external purchase links.
+     *
+     * @returns Promise<boolean> - true if eligible
+     * @platform iOS
+     * @see https://developer.apple.com/documentation/storekit/externalpurchasecustomlink/iseligible
+     */
+    isEligibleForExternalPurchaseCustomLinkIOS(): Promise<boolean>;
+    /**
+     * Get external purchase token for reporting to Apple (iOS 18.1+).
+     * Use this token with Apple's External Purchase Server API to report transactions.
+     *
+     * @param tokenType - Token type: 'acquisition' (new customers) or 'services' (existing customers)
+     * @returns Promise<ExternalPurchaseCustomLinkTokenResultIOS> - Result with token string or error
+     * @platform iOS
+     * @see https://developer.apple.com/documentation/storekit/externalpurchasecustomlink/token(for:)
+     */
+    getExternalPurchaseCustomLinkTokenIOS(tokenType: ExternalPurchaseCustomLinkTokenTypeIOS): Promise<ExternalPurchaseCustomLinkTokenResultIOS>;
+    /**
+     * Show ExternalPurchaseCustomLink notice sheet (iOS 18.1+).
+     * Displays the system disclosure notice sheet for custom external purchase links.
+     * Call this after a deliberate customer interaction before linking out to external purchases.
+     *
+     * @param noticeType - Notice type: 'browser' (external purchases displayed in browser)
+     * @returns Promise<ExternalPurchaseCustomLinkNoticeResultIOS> - Result with continued status and error if any
+     * @platform iOS
+     * @see https://developer.apple.com/documentation/storekit/externalpurchasecustomlink/shownotice(type:)
+     */
+    showExternalPurchaseCustomLinkNoticeIOS(noticeType: ExternalPurchaseCustomLinkNoticeTypeIOS): Promise<ExternalPurchaseCustomLinkNoticeResultIOS>;
+}
+export {};
+//# sourceMappingURL=RnIap.nitro.d.ts.map
