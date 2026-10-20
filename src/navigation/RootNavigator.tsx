@@ -35,6 +35,7 @@ import { DeleteAccountScreen } from '../screens/DeleteAccountScreen';
 import { PreferencesScreen } from '../screens/PreferencesScreen';
 import { RoomMembersScreen } from '../screens/RoomMembersScreen';
 import { RoomScreen } from '../screens/RoomScreen';
+import { RoomInfoScreen } from '../screens/RoomInfoScreen';
 import { RoomSettingsScreen } from '../screens/RoomSettingsScreen';
 import { SettlementScreen } from '../screens/SettlementScreen';
 import { colors, currentTheme } from '../ui/theme';
@@ -145,6 +146,11 @@ export function RootNavigator() {
             name="RoomSettings"
             component={RoomSettingsScreen}
             options={{ title: t('settings.title') }}
+          />
+          <AppStack.Screen
+            name="RoomInfo"
+            component={RoomInfoScreen}
+            options={{ title: t('room.settings') }}
           />
           <AppStack.Screen name="Adjust" component={AdjustScreen} options={{ title: t('adjust.title') }} />
           <AppStack.Screen

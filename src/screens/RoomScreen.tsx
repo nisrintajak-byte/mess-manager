@@ -3,9 +3,10 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 import { useAuth } from '../auth/AuthProvider';
 import { api, Cycle, OPEN_FLAG } from '../lib/api';
-import { getCountry, LanguageCode } from '../lib/countries';
 import { localizeDigits } from '../lib/digits';
 import { dbErrorKey } from '../lib/errors';
 import { estimateBalances } from '../lib/estimate';
@@ -28,11 +29,11 @@ const PAGE = 50;
 
 export function RoomScreen({ navigation, route }: Props) {
   const { roomId } = route.params;
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { session } = useAuth();
+  const insets = useSafeAreaInsets();
   const me = session?.user.id;
   const [tab, setTab] = useState<Tab>(route.params.tab ?? 'expenses');
-  const [showCode, setShowCode] = useState(false);
   const [cycleId, setCycleId] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -95,7 +96,6 @@ export function RoomScreen({ navigation, route }: Props) {
   const openFlags = flags.filter((f) => OPEN_FLAG.includes(f.status));
   const disputed = new Set(openFlags.map((f) => f.target_id));
   const openNeeds = needs.filter((n) => n.status === 'pending' || n.status === 'accepted').length;
-  const lang = (i18n.language as LanguageCode) ?? 'en';
   const nameOf = (uid: string) => members.find((m) => m.user_id === uid)?.profile?.display_name ?? '—';
   const mine = members.find((m) => m.user_id === me && m.status === 'approved');
   const isAdmin = mine?.role === 'admin';
@@ -128,17 +128,6 @@ export function RoomScreen({ navigation, route }: Props) {
       setActionError(t(dbErrorKey(e as { message?: string })));
     } finally {
       setBusy(false);
-    }
-  }
-
-  async function leave() {
-    setActionError(null);
-    if (!(await confirm(t('room.leaveConfirm'), t('common.yes'), t('common.no')))) return;
-    try {
-      await api.leaveRoom(roomId);
-      navigation.popToTop();
-    } catch (e) {
-      setActionError(t(dbErrorKey(e as { message?: string })));
     }
   }
 
@@ -200,17 +189,12 @@ export function RoomScreen({ navigation, route }: Props) {
       label: t('report.title'),
       onPress: () => navigation.navigate('Reports', { roomId, cycleId: cur?.id }),
     },
-    { key: 'invite', icon: 'key', label: t('room.invite'), onPress: () => setShowCode((v) => !v) },
-    ...(isAdmin
-      ? [
-          {
-            key: 'settings',
-            icon: 'gear' as IconName,
-            label: t('room.settings'),
-            onPress: () => navigation.navigate('RoomSettings', { roomId }),
-          },
-        ]
-      : []),
+    {
+      key: 'settings',
+      icon: 'gear',
+      label: t('room.settings'),
+      onPress: () => navigation.navigate('RoomInfo', { roomId }),
+    },
   ];
 
   return (
@@ -274,33 +258,6 @@ export function RoomScreen({ navigation, route }: Props) {
               </Pressable>
             ))}
           </View>
-
-          {showCode ? (
-            <Card>
-              <Meta>{t('room.joinCode')}</Meta>
-              <Text selectable style={styles.code}>
-                {room.join_code}
-              </Text>
-              <Meta>{t('room.joinCodeHint')}</Meta>
-              <Spacer size="sm" />
-              <Meta>
-                {getCountry(room.country_code)?.names[lang] ?? room.country_code} · {room.currency} ·{' '}
-                {room.time_zone.replace(/_/g, ' ')} · {t(`room.cycle_${room.settlement_cycle}`)}
-              </Meta>
-              {room.pending_time_zone || room.pending_settlement_cycle ? (
-                <Meta>
-                  {t('settings.pending', {
-                    what: [
-                      room.pending_time_zone?.replace(/_/g, ' '),
-                      room.pending_settlement_cycle ? t(`room.cycle_${room.pending_settlement_cycle}`) : null,
-                    ]
-                      .filter(Boolean)
-                      .join(' · '),
-                  })}
-                </Meta>
-              ) : null}
-            </Card>
-          ) : null}
 
           {actionError ? <Notice tone="error">{actionError}</Notice> : null}
           {isAdmin && pendingCount > 0 ? (
@@ -504,7 +461,9 @@ export function RoomScreen({ navigation, route }: Props) {
           <AdSlot screen="Room" />
         </View>
       </ScrollView>
-      <View style={[styles.actionBar, { flexDirection: rowDirection() }]}>
+      <View
+        style={[styles.actionBar, { flexDirection: rowDirection(), paddingBottom: insets.bottom + space.md }]}
+      >
         <Pressable
           accessibilityRole="button"
           onPress={() => navigation.navigate('Needs', { roomId })}

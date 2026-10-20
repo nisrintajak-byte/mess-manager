@@ -18,6 +18,7 @@ export type AppStackParamList = {
   Room: { roomId: string; tab?: 'expenses' | 'balances' | 'settlements' };
   RoomMembers: { roomId: string };
   RoomSettings: { roomId: string };
+  RoomInfo: { roomId: string };
   AddExpense: { roomId: string; expenseId?: string; needId?: string; presetTitle?: string };
   ExpenseDetail: { roomId: string; expenseId: string };
   Adjust: { roomId: string; expenseId: string };

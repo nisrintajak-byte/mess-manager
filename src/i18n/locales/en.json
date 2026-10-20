@@ -150,7 +150,11 @@
     "invite": "Invite",
     "youPaid": "You paid",
     "memberCount": "{{count}} members",
-    "needSomething": "Need something"
+    "needSomething": "Need something",
+    "details": "Room details",
+    "dangerZone": "Leave this Room",
+    "leaveExplain": "Leaving removes you from the Room. Your past expenses stay in its history and you will need Admin approval to join again. Settle what you owe first.",
+    "leaveConfirm2": "Last check: leave “{{room}}” now?"
   },
   "members": {
     "title": "Members",
