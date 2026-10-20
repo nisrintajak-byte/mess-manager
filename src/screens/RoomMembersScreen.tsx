@@ -10,9 +10,10 @@ import { dbErrorKey } from '../lib/errors';
 import { requireReauth } from '../lib/reauth';
 import { formatDateTime } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
+import { Avatar } from '../ui/Avatar';
 import { Body, Button, Card, Notice, Spacer } from '../ui/components';
 import { confirm, useLoader } from '../ui/hooks';
-import { colors, font, space, themedStyles } from '../ui/theme';
+import { colors, font, rowDirection, space, themedStyles } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'RoomMembers'>;
 
@@ -67,8 +68,13 @@ export function RoomMembersScreen({ route }: Props) {
             {pending.length === 0 ? <Body muted>{t('members.none')}</Body> : null}
             {pending.map((m) => (
               <Card key={m.id}>
-                <Text style={styles.name}>{name(m)}</Text>
-                {emails.get(m.user_id) ? <Text style={styles.meta}>{emails.get(m.user_id)}</Text> : null}
+                <View style={[styles.person, { flexDirection: rowDirection() }]}>
+                  <Avatar name={name(m)} />
+                  <View style={styles.flex}>
+                    <Text style={styles.name}>{name(m)}</Text>
+                    {emails.get(m.user_id) ? <Text style={styles.meta}>{emails.get(m.user_id)}</Text> : null}
+                  </View>
+                </View>
                 <Text style={styles.meta}>
                   {t('members.requested', { when: formatDateTime(m.requested_at, room.time_zone) })}
                 </Text>
@@ -93,13 +99,18 @@ export function RoomMembersScreen({ route }: Props) {
         <Text style={styles.section}>{t('members.approved')}</Text>
         {approved.map((m) => (
           <Card key={m.id}>
-            <Text style={styles.name}>
-              {name(m)} {m.user_id === me ? t('members.you') : ''}
-            </Text>
-            <Text style={styles.meta}>
-              {t(m.role === 'admin' ? 'home.admin' : 'home.member')}
-              {isAdmin && emails.get(m.user_id) ? ` · ${emails.get(m.user_id)}` : ''}
-            </Text>
+            <View style={[styles.person, { flexDirection: rowDirection() }]}>
+              <Avatar name={name(m)} />
+              <View style={styles.flex}>
+                <Text style={styles.name}>
+                  {name(m)} {m.user_id === me ? t('members.you') : ''}
+                </Text>
+                <Text style={styles.meta}>
+                  {t(m.role === 'admin' ? 'home.admin' : 'home.member')}
+                  {isAdmin && emails.get(m.user_id) ? ` · ${emails.get(m.user_id)}` : ''}
+                </Text>
+              </View>
+            </View>
             {isAdmin ? (
               <>
                 <Spacer size="sm" />
@@ -169,6 +180,8 @@ export function RoomMembersScreen({ route }: Props) {
 
 const styles = themedStyles(() =>
   StyleSheet.create({
+    person: { alignItems: 'center', gap: space.md },
+    flex: { flex: 1 },
     bg: { flex: 1, backgroundColor: colors.bg },
     pad: { padding: space.lg, paddingBottom: space.xxl },
     column: { width: '100%', maxWidth: 560, alignSelf: 'center' },
