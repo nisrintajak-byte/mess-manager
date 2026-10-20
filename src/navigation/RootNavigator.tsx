@@ -61,22 +61,31 @@ const navTheme = () => ({
 
 const linking = { prefixes: [Linking.createURL('/')] };
 
+type ProfileCheck = { id: string; state: 'incomplete' | 'outdated' | 'ok' };
+/** Kept across redraws (language/theme change) so the check does not run again. */
+let lastProfile: ProfileCheck | null = null;
+
 export function RootNavigator() {
   const { t } = useTranslation();
   const { session, loading, recovering, emailVerified } = useAuth();
 
   const verifiedId = session && emailVerified ? session.user.id : null;
-  const [profile, setProfile] = useState<{ id: string; state: 'incomplete' | 'outdated' | 'ok' } | null>(
-    null,
-  );
+  const [profile, setProfileState] = useState<ProfileCheck | null>(lastProfile);
+  const setProfile = (p: ProfileCheck) => {
+    lastProfile = p;
+    setProfileState(p);
+  };
   const profileState = profile && profile.id === verifiedId ? profile.state : null;
   const profileOk = profileState === null ? null : profileState === 'ok';
   useEffect(() => {
-    if (!verifiedId) return;
+    if (!verifiedId || lastProfile?.id === verifiedId) return;
     void api
-      .profileState(LEGAL_VERSION)
+      .profileState(LEGAL_VERSION, verifiedId)
       .catch(() => 'ok' as const)
-      .then((state) => setProfile({ id: verifiedId, state }));
+      .then((state) => {
+        lastProfile = { id: verifiedId, state };
+        setProfileState(lastProfile);
+      });
   }, [verifiedId]);
 
   if (loading || (verifiedId && profileOk === null)) {

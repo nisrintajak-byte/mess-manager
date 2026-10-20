@@ -7,7 +7,7 @@ import { clearLock } from '../lib/appLock';
 import { clearCache, setCacheUser } from '../lib/offlineStore';
 import { clearOutbox } from '../lib/outbox';
 import { registerForPush, unregisterPush } from '../lib/push';
-import { supabase } from '../lib/supabase';
+import { AUTH_STORAGE_KEY, authStorage, supabase } from '../lib/supabase';
 
 interface AuthState {
   session: Session | null;
@@ -42,6 +42,21 @@ export async function handleAuthLink(url: string | null): Promise<'recovery' | '
   return null;
 }
 
+const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/** The sign-in saved on this phone, read without contacting the server. */
+async function readSavedSession(): Promise<Session | null> {
+  try {
+    const raw = await authStorage.getItem(AUTH_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as Session | { currentSession?: Session };
+    const s = 'access_token' in parsed ? parsed : (parsed.currentSession ?? null);
+    return s && s.user ? s : null;
+  } catch {
+    return null;
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
@@ -49,17 +64,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let alive = true;
+    let usingSaved = false;
     (async () => {
       const kind = await handleAuthLink(await Linking.getInitialURL()).catch(() => null);
       if (kind === 'recovery' && alive) setRecovering(true);
-      const { data } = await supabase.auth.getSession();
+      // Offline with an expired sign-in token, getSession() keeps retrying for ~30 s and then
+      // returns nothing. Wait at most 2.5 s, then use the saved sign-in so the app opens with
+      // its offline copies; the token refreshes by itself once the network is back.
+      const live = supabase.auth.getSession().then(({ data }) => data.session);
+      let s = await Promise.race([live, wait(2500).then(() => undefined)]);
+      if (!s) {
+        const saved = await readSavedSession();
+        if (saved) {
+          usingSaved = true;
+          s = saved;
+        } else if (s === undefined) {
+          s = await live;
+        }
+      }
       if (alive) {
-        setSession(data.session);
+        setSession(s ?? null);
         setLoading(false);
       }
     })();
 
     const { data } = supabase.auth.onAuthStateChange((event, s) => {
+      // a failed refresh while offline must not sign the person out
+      if (!s && usingSaved && event !== 'SIGNED_OUT') return;
+      if (s) usingSaved = false;
       setSession(s);
       if (event === 'PASSWORD_RECOVERY') setRecovering(true);
     });

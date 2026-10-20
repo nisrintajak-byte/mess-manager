@@ -34,9 +34,25 @@ const secureStorage = {
   },
 };
 
+/** Same name the library would pick by itself (kept explicit so the app can read it offline). */
+export const AUTH_STORAGE_KEY = `sb-${new URL(SUPABASE_URL).hostname.split('.')[0]}-auth-token`;
+
+/** Where the sign-in is kept: SecureStore on phones, the browser's localStorage on the web. */
+export const authStorage = {
+  async getItem(key: string): Promise<string | null> {
+    if (Platform.OS !== 'web') return secureStorage.getItem(key);
+    try {
+      return globalThis.localStorage?.getItem(key) ?? null;
+    } catch {
+      return null;
+    }
+  },
+};
+
 export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
   auth: {
     storage: Platform.OS === 'web' ? undefined : secureStorage,
+    storageKey: AUTH_STORAGE_KEY,
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: Platform.OS === 'web',

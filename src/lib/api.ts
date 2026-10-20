@@ -5,6 +5,7 @@
 import i18n from '../i18n';
 import { cachedRead } from './offlineStore';
 import type { ReportData } from './report';
+import { withTimeout } from './net';
 import { supabase } from './supabase';
 
 export interface Room {
@@ -255,13 +256,12 @@ const rawApi = {
    * 'incomplete' = Google sign-in without date of birth/consent yet; 'outdated' = the legal texts
    * changed since the user accepted them (they must accept again); otherwise 'ok'.
    */
-  async profileState(currentLegalVersion: string): Promise<'incomplete' | 'outdated' | 'ok'> {
-    const { data: u } = await supabase.auth.getUser();
+  async profileState(currentLegalVersion: string, userId: string): Promise<'incomplete' | 'outdated' | 'ok'> {
     const rows = unwrap(
-      await supabase
-        .from('profiles')
-        .select('consent_version')
-        .eq('id', u.user?.id ?? ''),
+      await withTimeout(
+        Promise.resolve(supabase.from('profiles').select('consent_version').eq('id', userId)),
+        4000,
+      ),
     ) as { consent_version: string }[];
     const v = rows[0]?.consent_version;
     if (!v) return 'ok';

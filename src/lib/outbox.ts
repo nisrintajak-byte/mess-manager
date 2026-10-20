@@ -5,7 +5,7 @@ import { AppState } from 'react-native';
 import { api } from './api';
 import { dbErrorKey } from './errors';
 import { isLocalFile, uploadLocalFile } from './files';
-import { isNetworkError } from './net';
+import { isNetworkError, withTimeout } from './net';
 import { markOffline, markOnline } from './offlineStore';
 import { supabase } from './supabase';
 import { uuid } from './util';
@@ -216,7 +216,9 @@ export async function submitOrQueue(input: SubmitInput): Promise<{ queued: boole
     attempts: 0,
   };
   try {
-    await send(item, false);
+    // offline: queue after a short wait instead of the sign-in library's long retries.
+    // Safe to retry later: every create carries an idempotency key.
+    await withTimeout(send(item, false), 10000);
     markOnline();
     return { queued: false };
   } catch (e) {

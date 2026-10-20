@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSyncExternalStore } from 'react';
 
-import { isNetworkError } from './net';
+import { isNetworkError, withTimeout } from './net';
 
 /**
  * Offline reading (PRD §17.1): every successful read is saved on the phone; when the network is
@@ -69,7 +69,8 @@ export function useNetState(): NetState {
 export async function cachedRead<T>(name: string, args: unknown[], read: () => Promise<T>): Promise<T> {
   const key = `${PREFIX}${cacheUser}.${name}.${encode(args)}`;
   try {
-    const value = await read();
+    // known offline: try only briefly, then show the saved copy
+    const value = await withTimeout(read(), net.offline ? 2500 : 9000);
     markOnline();
     void AsyncStorage.setItem(key, encode(value)).catch(() => undefined);
     return value;
