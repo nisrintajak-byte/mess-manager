@@ -10,7 +10,7 @@ import { colors, font, radius, rowDirection, space, themedStyles } from '../../u
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'Welcome'>;
 
-const LOGO = require('../../../assets/logo-small.png');
+const LOGO = require('../../../assets/logo-large.png');
 
 /**
  * First screen (founder 2026-10-21: as simple as possible): logo, one line about the app, and
