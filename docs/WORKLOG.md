@@ -45,3 +45,8 @@ Format: `YYYY-MM-DD HH:MM | version | what was done | files | next`
 - 2026-10-21 08:30 | v1.0 | Founder: (1) Admin picks the last day a settlement covers (generate_settlement_until, applied, DB test; later expenses move to the next cycle); (2) dates typed as Day / Month / Year boxes with separators and auto-jump (signup DOB, complete profile, expense date, settle date); (3) Privacy Policy & Terms readable anytime in Me and Room settings + withdraw consent → delete account. Fixed: 'profile' i18n keys overwritten earlier (now myProfile.*) | migrations 20261023170000, src/ui/{DateInput,LegalCard}.tsx | founder tests /next/
 - 2026-10-21 09:20 | v1.0 | In-app user guide (src/help/{en,ar,ur,hi}.json, 9 member + 4 Admin topics, button names match the app; parity test), Help screen (accordion), welcome card on Home until closed, ? button in Home band, links in Me, Room settings and Login | src/help, src/screens/HelpScreen.tsx | founder reads/edits the guide
 - 2026-10-21 09:40 | v1.0 | Founder: no 'selected members' split — Add expense always shares with the whole Room (old selected-split expenses keep their people); guide updated | AddExpenseScreen, help, DECISIONS | —
+
+## 2026-10-21 — Simpler first screen
+- New Welcome screen (founder asked, Splitwise as example): language, big logo, one-line tagline, Sign up / Log in / Google, footer Terms | Privacy | Help.
+- Privacy policy now starts with a 4-line "In short" summary (4 languages, own wording; no change to the legal substance, so LEGAL_VERSION not bumped).
+- Web smoke check accepts the new first screen.
