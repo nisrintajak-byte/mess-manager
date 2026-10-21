@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { type ComponentRef, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
@@ -25,8 +25,8 @@ export function DateInput({
   const [d, setD] = useState(init?.[3] ?? '');
   const [m, setM] = useState(init?.[2] ?? '');
   const [y, setY] = useState(init?.[1] ?? '');
-  const monthRef = useRef<TextInput>(null);
-  const yearRef = useRef<TextInput>(null);
+  const monthRef = useRef<ComponentRef<typeof TextInput>>(null);
+  const yearRef = useRef<ComponentRef<typeof TextInput>>(null);
   // follow outside changes (e.g. "Today" / "Yesterday" buttons)
   const [seen, setSeen] = useState(value);
   if (value !== seen) {
