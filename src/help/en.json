@@ -24,7 +24,7 @@
       "steps": [
         "Home → \"Add expense\", or inside the Room → \"+ Add expense\".",
         "Write what you bought and the amount. You are always the person who paid.",
-        "Shared with: \"Everyone active on this date\" splits it among all members, \"Selected members\" only among the people you tick. The app shows what each person pays.",
+        "The expense is shared equally by everyone in the Room; the app shows what each person pays.",
         "Pick Today, Yesterday or type another date. A receipt photo is optional.",
         "You can edit or delete your own expense for 30 minutes. After that only an Admin can, and never after the cycle is settled. Every change stays in the history."
       ]

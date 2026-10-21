@@ -353,7 +353,9 @@
     "selected": "Selected members",
     "selectedHint": "Tick who shares this expense.",
     "pickOne": "Select at least one member.",
-    "sharedBy": "Shared by {{count}}"
+    "sharedBy": "Shared by {{count}}",
+    "wholeRoom": "Shared equally by everyone in the Room ({{count}} members).",
+    "keptSelected": "This older expense stays shared by: {{names}}."
   },
   "receipt": {
     "title": "Receipt (optional)",

@@ -10,18 +10,7 @@ import { formatMinor, formatMoney, parseAmount } from '../lib/money';
 import { submitOrQueue } from '../lib/outbox';
 import { isIsoDate, shiftDay, todayIn, uuid } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
-import {
-  Body,
-  Button,
-  Checkbox,
-  Chip,
-  ChipRow,
-  Field,
-  Label,
-  Notice,
-  Screen,
-  Spacer,
-} from '../ui/components';
+import { Body, Button, Chip, ChipRow, Field, Label, Notice, Screen, Spacer } from '../ui/components';
 import { DateInput } from '../ui/DateInput';
 import { FilePicker } from '../ui/FilePicker';
 
@@ -84,15 +73,6 @@ export function AddExpenseScreen({ navigation, route }: Props) {
   useEffect(() => {
     navigation.setOptions({ title: t(editing ? 'expense.editTitle' : 'expense.addTitle') });
   }, [navigation, editing, t]);
-
-  function toggle(uid: string) {
-    setSelected((prev) => {
-      const next = new Set(prev);
-      if (next.has(uid)) next.delete(uid);
-      else next.add(uid);
-      return next;
-    });
-  }
 
   async function save() {
     if (!room) return;
@@ -201,27 +181,19 @@ export function AddExpenseScreen({ navigation, route }: Props) {
         error={errors.amount}
       />
 
+      {/* Every expense is shared by the whole Room (founder 2026-10-21). An older expense that
+          was shared by selected members keeps its people when edited. */}
       <Label>{t('split.title')}</Label>
-      <ChipRow>
-        <Chip
-          on={mode === 'equal'}
-          onPress={() => setMode('equal')}
-          label={`${t('split.everyone')} (${localizeDigits(String(members.length))})`}
-        />
-        <Chip on={mode === 'selected'} onPress={() => setMode('selected')} label={t('split.selected')} />
-      </ChipRow>
-      {mode === 'selected' ? (
-        <>
-          <Body muted>{t('split.selectedHint')}</Body>
-          <Spacer size="sm" />
-          {members.map((m) => (
-            <Checkbox key={m.user_id} checked={selected.has(m.user_id)} onToggle={() => toggle(m.user_id)}>
-              <Body>{name(m)}</Body>
-            </Checkbox>
-          ))}
-          {errors.split ? <Notice tone="error">{errors.split}</Notice> : null}
-        </>
-      ) : null}
+      <Body>
+        {mode === 'selected'
+          ? t('split.keptSelected', {
+              names: members
+                .filter((m) => selected.has(m.user_id))
+                .map(name)
+                .join(', '),
+            })
+          : localizeDigits(t('split.wholeRoom', { count: members.length }))}
+      </Body>
       {each !== null ? (
         <Body muted>
           {localizeDigits(

@@ -84,3 +84,6 @@ Founder likes uyoontech.com; will buy later. Plan when bought: Resend sending do
 
 ## 2026-10-20 — Logo keeps the ₹ (founder)
 Founder keeps the ₹ in the logo on purpose: it shows the app is run from India, and the other currency symbols around it show it is global. Exception to the PRD §16.1 neutrality rule for the logo only; the app UI stays neutral (no flags, ISO currency codes).
+
+## 2026-10-21 — No "selected members" split for new expenses
+Founder: Mess Manager is a whole-Room expense portal, so every new expense is shared by everyone in the Room (pro-rated by stay). The option is removed from Add expense (PRD §10.1 "Selected members" withdrawn). Older expenses that used it keep their people when edited; the database still accepts it so history and offline edits stay valid.
