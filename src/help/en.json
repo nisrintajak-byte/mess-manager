@@ -1,0 +1,160 @@
+{
+  "title": "How to use Mess Manager",
+  "intro": "Short guides for every part of the app. Tap a topic to open it.",
+  "everyone": "For everyone",
+  "admins": "For Room Admins",
+  "topics": [
+    {
+      "id": "start",
+      "icon": "home",
+      "admin": false,
+      "title": "Getting started",
+      "steps": [
+        "A Room is one shared kitchen, flat or group. Everyone in it sees the same expenses.",
+        "To start a new Room: Home → \"+ Create a new Room\". Pick the country — the currency and time zone are set for you. You become its Admin.",
+        "To join a Room: ask its Admin for the Room code, then Home → \"+ Join a Room\" and type the code. The Admin must approve you before you can see anything.",
+        "The menu at the bottom: Home (your Rooms and quick buttons), Inbox (all notifications) and Me (profile and settings)."
+      ]
+    },
+    {
+      "id": "expense",
+      "icon": "plus",
+      "admin": false,
+      "title": "Adding an expense",
+      "steps": [
+        "Home → \"Add expense\", or inside the Room → \"+ Add expense\".",
+        "Write what you bought and the amount. You are always the person who paid.",
+        "Shared with: \"Everyone active on this date\" splits it among all members, \"Selected members\" only among the people you tick. The app shows what each person pays.",
+        "Pick Today, Yesterday or type another date. A receipt photo is optional.",
+        "You can edit or delete your own expense for 30 minutes. After that only an Admin can, and never after the cycle is settled. Every change stays in the history."
+      ]
+    },
+    {
+      "id": "need",
+      "icon": "bag",
+      "admin": false,
+      "title": "Need Requests",
+      "steps": [
+        "Use it when something runs out: Home → \"Need request\" or Room → \"Need something\". Tap a suggestion (Gas, Rice, Milk…) or type your own.",
+        "Everyone in the Room gets a phone notification with a special longer sound. You can turn that sound off in Me → Notification settings.",
+        "Whoever will buy it taps \"I'll buy it\", so nobody buys it twice.",
+        "After buying, tap \"Bought — add expense\": the expense form opens already filled in."
+      ]
+    },
+    {
+      "id": "balance",
+      "icon": "coins",
+      "admin": false,
+      "title": "Balances: who pays, who gets back",
+      "steps": [
+        "Room → Balances shows, for this cycle, what each person paid and their share.",
+        "\"You pay\" (orange) means you owe money; \"You receive\" (blue) means others owe you.",
+        "Every person pays only for the days they were in the Room."
+      ]
+    },
+    {
+      "id": "settlement",
+      "icon": "check",
+      "admin": false,
+      "title": "Settlement and paying",
+      "steps": [
+        "At the end of a cycle the Admin creates the settlement. It stays pinned on your phone and on Home until you open it and tap \"I have seen this settlement\".",
+        "At the top you see your part: how much you pay or get, and what is still left.",
+        "\"Who pays whom\" shows the fewest payments that settle everyone.",
+        "After paying, tap \"Mark as paid\": enter the amount and method. For bank or wallet transfers add a screenshot or the transaction number.",
+        "The Admin confirms your payment. Until it is fully paid you get a reminder every morning."
+      ]
+    },
+    {
+      "id": "dispute",
+      "icon": "flag",
+      "admin": false,
+      "title": "Something looks wrong? Raise a dispute",
+      "steps": [
+        "Open the expense, payment or settlement line and tap \"Report a problem\".",
+        "Choose the reason and add a short note. Everyone sees an \"Under dispute\" mark.",
+        "An Admin checks it and accepts or rejects it with a reason. Mistakes in a settled cycle are fixed with an adjustment in the open cycle."
+      ]
+    },
+    {
+      "id": "reports",
+      "icon": "file",
+      "admin": false,
+      "title": "Reports and your records",
+      "steps": [
+        "Home → \"Reports\" (or Room → Reports): download a PDF or CSV of a cycle or of all records.",
+        "Each report has a reference number that anyone can check in Reports → Check a report.",
+        "Records are kept for 2 complete months after a cycle is settled, then deleted. A week before, everyone gets the PDF by email — keep it as your copy."
+      ]
+    },
+    {
+      "id": "offline",
+      "icon": "list",
+      "admin": false,
+      "title": "Using the app without internet",
+      "steps": [
+        "You can still open your Rooms and see the last saved expenses and balances.",
+        "Expenses, Need Requests and payment claims you add offline wait on the phone with a \"Waiting to sync\" mark and are sent automatically when the internet is back.",
+        "Balances shown offline are marked \"Estimated\". Approving members, confirming payments and settling need internet."
+      ]
+    },
+    {
+      "id": "account",
+      "icon": "user",
+      "admin": false,
+      "title": "Your profile, privacy and account",
+      "steps": [
+        "Me → My profile: change your name and photo. Only people in your Rooms see them; only Admins see your email.",
+        "Me: language, theme, App Lock (PIN or fingerprint), notification settings and ad choices.",
+        "Me → Privacy Policy & Terms: read them again at any time.",
+        "Me → Your data: download everything about you, or delete your account. Leaving a Room is in Room → Room settings."
+      ]
+    },
+    {
+      "id": "approve",
+      "icon": "users",
+      "admin": true,
+      "title": "Members: approve, roles, remove",
+      "steps": [
+        "Room → Members: approve or reject join requests. Nobody gets in without approval.",
+        "Make another member an Admin so the Room never depends on one person. The last Admin cannot leave.",
+        "Removing a member needs your password. Their past expenses stay, marked \"(removed)\", and Admins still see their email to invite them again.",
+        "Invite people with Room → Room settings → \"Send invite\" (WhatsApp, SMS…)."
+      ]
+    },
+    {
+      "id": "settle",
+      "icon": "check",
+      "admin": true,
+      "title": "Creating a settlement",
+      "steps": [
+        "In the Room, on the cycle card tap \"Generate settlement\".",
+        "Choose the last day it covers: the cycle end, yesterday, or any day you type. Expenses after that day move to the next cycle.",
+        "The settled cycle is locked: nobody can add, edit or delete its expenses. A later correction is made with an adjustment.",
+        "You see who has seen the settlement (Delivered / Seen / Acknowledged)."
+      ]
+    },
+    {
+      "id": "confirm",
+      "icon": "coins",
+      "admin": true,
+      "title": "Confirming payments",
+      "steps": [
+        "When a member marks a payment as paid, all Admins are notified. Check the proof and tap Confirm, or Reject with a reason.",
+        "Cash received in hand: open the settlement and use \"Record payment received\".",
+        "An Admin cannot confirm their own payment if another Admin exists. Admins get a daily reminder while payments wait."
+      ]
+    },
+    {
+      "id": "roomsettings",
+      "icon": "gear",
+      "admin": true,
+      "title": "Room settings",
+      "steps": [
+        "Room → Room settings → Settings: name, country, time zone and cycle (daily, weekly, monthly).",
+        "Time zone and cycle changes start from the next cycle; currency can change only at the start of a new cycle. Every member is told about each change."
+      ]
+    }
+  ],
+  "contact": "Still stuck? Write to us from the Play Store page of Mess Manager."
+}

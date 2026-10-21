@@ -1,5 +1,5 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -8,6 +8,7 @@ import { useAuth } from '../auth/AuthProvider';
 import { api, RoomOverview } from '../lib/api';
 import { localizeDigits } from '../lib/digits';
 import { formatMoney } from '../lib/money';
+import { getPref, setPref } from '../lib/prefs';
 import type { AppStackParamList } from '../navigation/types';
 import { AdSlot } from '../ui/AdSlot';
 import { Avatar } from '../ui/Avatar';
@@ -33,6 +34,15 @@ export function HomeScreen({ navigation }: Props) {
   const { session } = useAuth();
   const insets = useSafeAreaInsets();
   const [picking, setPicking] = useState<Action | null>(null);
+  // first-time users see a "how to use" card until they close it
+  const [showWelcome, setShowWelcome] = useState(false);
+  useEffect(() => {
+    void getPref('helpSeen').then((v) => setShowWelcome(v !== '1'));
+  }, []);
+  async function hideWelcome() {
+    setShowWelcome(false);
+    await setPref('helpSeen', '1');
+  }
   const { data, error, loading, reload } = useLoader(async () => {
     const [rooms, pending, unread, open] = await Promise.all([
       api.myRoomsOverview(),
@@ -85,6 +95,14 @@ export function HomeScreen({ navigation }: Props) {
           <View style={[styles.heroRow, { flexDirection: rowDirection() }]}>
             <Image source={LOGO} style={styles.logo} accessibilityIgnoresInvertColors />
             <Text style={styles.brand}>{t('app.name')}</Text>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={t('help.open')}
+              onPress={() => navigation.navigate('Help')}
+              style={styles.helpBtn}
+            >
+              <Icon name="help" size={24} color={colors.heroText} />
+            </Pressable>
           </View>
           {name ? <Text style={styles.hello}>{t('home.hello', { name })}</Text> : null}
         </View>
@@ -142,6 +160,24 @@ export function HomeScreen({ navigation }: Props) {
             </Pressable>
           ))}
 
+          {showWelcome ? (
+            <View style={styles.welcome}>
+              <Text style={styles.pinnedTitle}>{t('help.welcomeTitle')}</Text>
+              <Text style={styles.meta}>{t('help.welcomeBody')}</Text>
+              <View style={[styles.welcomeRow, { flexDirection: rowDirection() }]}>
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => navigation.navigate('Help')}
+                  style={styles.welcomeBtn}
+                >
+                  <Text style={styles.welcomeBtnText}>{t('help.open')}</Text>
+                </Pressable>
+                <Pressable accessibilityRole="button" onPress={() => void hideWelcome()} style={styles.link}>
+                  <Text style={styles.linkText}>{t('help.dismiss')}</Text>
+                </Pressable>
+              </View>
+            </View>
+          ) : null}
           <WebPushCard compact />
 
           <View style={styles.grid}>
@@ -257,7 +293,24 @@ const styles = themedStyles(() =>
     hero: { backgroundColor: colors.hero, paddingHorizontal: space.lg, paddingBottom: 56, gap: space.md },
     heroRow: { alignItems: 'center', gap: space.md, width: '100%', maxWidth: 560, alignSelf: 'center' },
     logo: { width: 40, height: 40, borderRadius: 10 },
-    brand: { fontSize: font.lg, fontWeight: '700', color: colors.heroText },
+    brand: { flex: 1, fontSize: font.lg, fontWeight: '700', color: colors.heroText },
+    helpBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
+    welcome: {
+      backgroundColor: colors.getBg,
+      borderRadius: radius.lg,
+      padding: space.md,
+      marginBottom: space.md,
+      gap: space.xs,
+    },
+    welcomeRow: { alignItems: 'center', gap: space.md, marginTop: space.sm },
+    welcomeBtn: {
+      minHeight: 44,
+      paddingHorizontal: space.lg,
+      borderRadius: radius.md,
+      backgroundColor: colors.primary,
+      justifyContent: 'center',
+    },
+    welcomeBtnText: { color: colors.primaryText, fontWeight: '700', fontSize: font.md },
     hello: { fontSize: font.md, color: colors.heroMuted, width: '100%', maxWidth: 560, alignSelf: 'center' },
     column: { width: '100%', maxWidth: 560, alignSelf: 'center', paddingHorizontal: space.lg },
     summary: {

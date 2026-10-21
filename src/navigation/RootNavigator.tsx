@@ -25,6 +25,7 @@ import { FlagScreen } from '../screens/FlagScreen';
 import { HomeScreen } from '../screens/HomeScreen';
 import { InboxScreen } from '../screens/InboxScreen';
 import { JoinRoomScreen } from '../screens/JoinRoomScreen';
+import { HelpScreen } from '../screens/HelpScreen';
 import { LegalScreen } from '../screens/LegalScreen';
 import { NeedsScreen } from '../screens/NeedsScreen';
 import { NotificationSettingsScreen } from '../screens/NotificationSettingsScreen';
@@ -178,6 +179,7 @@ export function RootNavigator() {
           <AppStack.Screen name="Disputes" component={DisputesScreen} options={{ title: t('flag.list') }} />
           <AppStack.Screen name="Needs" component={NeedsScreen} options={{ title: t('need.title') }} />
           <AppStack.Screen name="Legal" component={LegalScreen} options={{ title: '' }} />
+          <AppStack.Screen name="Help" component={HelpScreen} options={{ title: t('help.short') }} />
           <AppStack.Screen name="Sync" component={SyncScreen} options={{ title: t('sync.title') }} />
           <AppStack.Screen name="Reports" component={ReportsScreen} options={{ title: t('report.title') }} />
           <AppStack.Screen
@@ -205,6 +207,7 @@ export function RootNavigator() {
           <AuthStack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: '' }} />
           <AuthStack.Screen name="CheckEmail" component={CheckEmailScreen} options={{ title: '' }} />
           <AuthStack.Screen name="Legal" component={LegalScreen} options={{ title: '' }} />
+          <AuthStack.Screen name="Help" component={HelpScreen} options={{ title: t('help.short') }} />
         </AuthStack.Navigator>
       )}
     </NavigationContainer>

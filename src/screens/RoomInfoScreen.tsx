@@ -123,6 +123,7 @@ export function RoomInfoScreen({ navigation, route }: Props) {
         ) : null}
       </Card>
 
+      <Button title={t('help.open')} variant="secondary" onPress={() => navigation.navigate('Help')} />
       <LegalCard />
 
       <Spacer size="xxl" />

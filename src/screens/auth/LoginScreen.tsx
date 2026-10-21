@@ -87,6 +87,7 @@ export function LoginScreen({ navigation, route }: Props) {
       />
       <Spacer />
       <GoogleButton />
+      <Button title={t('help.howItWorks')} variant="link" onPress={() => navigation.navigate('Help')} />
       <Spacer size="xl" />
       <Button title={t('auth.noAccount')} variant="secondary" onPress={() => navigation.navigate('Signup')} />
     </Screen>

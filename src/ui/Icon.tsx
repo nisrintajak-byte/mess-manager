@@ -21,7 +21,8 @@ export type IconName =
   | 'key'
   | 'list'
   | 'coins'
-  | 'chevron';
+  | 'chevron'
+  | 'help';
 
 const PATHS: Record<IconName, string[]> = {
   home: ['M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z'],
@@ -47,12 +48,14 @@ const PATHS: Record<IconName, string[]> = {
   list: ['M9 5h11', 'M9 12h11', 'M9 19h11', 'm3 5 1 1 2-2', 'm3 12 1 1 2-2', 'm3 19 1 1 2-2'],
   coins: ['M12 2v20', 'M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'],
   chevron: ['m9 18 6-6-6-6'],
+  help: ['M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3', 'M12 17h.01'],
 };
 
 const CIRCLES: Partial<Record<IconName, [number, number, number][]>> = {
   user: [[12, 8, 4]],
   users: [[9, 7, 4]],
   gear: [[12, 12, 3]],
+  help: [[12, 12, 10]],
 };
 
 export function Icon({ name, size = 22, color }: { name: IconName; size?: number; color?: string }) {

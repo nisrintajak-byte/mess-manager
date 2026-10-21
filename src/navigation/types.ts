@@ -9,6 +9,7 @@ export type AuthStackParamList = {
   Disputes: { roomId: string };
   Needs: { roomId: string };
   Legal: { doc: 'privacy' | 'terms' };
+  Help: { topic?: string } | undefined;
 };
 
 export type AppStackParamList = {
@@ -30,6 +31,7 @@ export type AppStackParamList = {
   Disputes: { roomId: string };
   Needs: { roomId: string };
   Legal: { doc: 'privacy' | 'terms' };
+  Help: { topic?: string } | undefined;
   Preferences: undefined;
   Sync: undefined;
   Reports: { roomId: string; cycleId?: string };

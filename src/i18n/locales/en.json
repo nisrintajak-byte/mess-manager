@@ -805,5 +805,13 @@
     "terms": "Read the Terms & Conditions",
     "withdrawNote": "You accepted these when you signed up. If you no longer agree, you can withdraw your consent by deleting your account — your Room records are kept read-only for 2 months, then erased.",
     "withdraw": "Withdraw consent (delete my account)"
+  },
+  "help": {
+    "short": "Help",
+    "open": "How to use the app",
+    "welcomeTitle": "New to Mess Manager?",
+    "welcomeBody": "A short guide shows how to add expenses, ask for things the Room needs and settle up.",
+    "dismiss": "Close",
+    "howItWorks": "How does Mess Manager work?"
   }
 }

@@ -30,6 +30,7 @@ export function PreferencesScreen() {
     <View style={{ flex: 1 }}>
       <Screen>
         <Title>{t('prefs.title')}</Title>
+        <Button title={t('help.open')} variant="secondary" onPress={() => nav.navigate('Help')} />
         <ProfileCard />
         <Card>
           <Label>{t('home.signedInAs', { name: session?.user.email ?? '' })}</Label>
