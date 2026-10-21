@@ -27,6 +27,7 @@ import { InboxScreen } from '../screens/InboxScreen';
 import { JoinRoomScreen } from '../screens/JoinRoomScreen';
 import { HelpScreen } from '../screens/HelpScreen';
 import { LegalScreen } from '../screens/LegalScreen';
+import { WelcomeScreen } from '../screens/auth/WelcomeScreen';
 import { NeedsScreen } from '../screens/NeedsScreen';
 import { NotificationSettingsScreen } from '../screens/NotificationSettingsScreen';
 import { PayScreen } from '../screens/PayScreen';
@@ -202,8 +203,9 @@ export function RootNavigator() {
             headerShadowVisible: false,
           }}
         >
-          <AuthStack.Screen name="Login" component={LoginScreen} options={{ title: t('app.name') }} />
-          <AuthStack.Screen name="Signup" component={SignupScreen} options={{ title: t('app.name') }} />
+          <AuthStack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
+          <AuthStack.Screen name="Login" component={LoginScreen} options={{ title: t('welcome.logIn') }} />
+          <AuthStack.Screen name="Signup" component={SignupScreen} options={{ title: t('welcome.signUp') }} />
           <AuthStack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: '' }} />
           <AuthStack.Screen name="CheckEmail" component={CheckEmailScreen} options={{ title: '' }} />
           <AuthStack.Screen name="Legal" component={LegalScreen} options={{ title: '' }} />

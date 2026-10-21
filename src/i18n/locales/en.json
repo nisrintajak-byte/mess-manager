@@ -815,5 +815,12 @@
     "welcomeBody": "A short guide shows how to add expenses, ask for things the Room needs and settle up.",
     "dismiss": "Close",
     "howItWorks": "How does Mess Manager work?"
+  },
+  "welcome": {
+    "tagline": "Shared expenses of your Room — clear, fair and visible to everyone.",
+    "signUp": "Sign up",
+    "logIn": "Log in",
+    "terms": "Terms",
+    "privacy": "Privacy Policy"
   }
 }

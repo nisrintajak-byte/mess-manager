@@ -1,4 +1,5 @@
 export type AuthStackParamList = {
+  Welcome: undefined;
   Login: { notice?: string } | undefined;
   Signup: undefined;
   ForgotPassword: { email?: string } | undefined;

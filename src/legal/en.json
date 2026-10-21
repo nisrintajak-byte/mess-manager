@@ -5,6 +5,15 @@
     "title": "Privacy Policy",
     "sections": [
       {
+        "h": "In short",
+        "p": [
+          "We collect only what the app needs: your name, email, date of birth and your Room records.",
+          "Only approved members of your Room see its records. Your email is shown only to Room Admins.",
+          "Free app with small ads. Your expenses, receipts and Room details are never shared with advertisers. Mess Manager does not hold or move money.",
+          "You can read this policy anytime in the app, download your data, or delete your account."
+        ]
+      },
+      {
         "h": "Who we are",
         "p": [
           "Mess Manager is provided by Uyoon Tech Solutions, a unit of Unifair Trading Pvt. Ltd., India (\"we\"). This policy explains what personal data the app uses, why, and the choices you have."
