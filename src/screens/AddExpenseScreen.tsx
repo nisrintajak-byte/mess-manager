@@ -8,7 +8,7 @@ import { localizeDigits } from '../lib/digits';
 import { dbErrorKey } from '../lib/errors';
 import { formatMinor, formatMoney, parseAmount } from '../lib/money';
 import { submitOrQueue } from '../lib/outbox';
-import { isIsoDate, todayIn, uuid } from '../lib/util';
+import { isIsoDate, shiftDay, todayIn, uuid } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
 import {
   Body,
@@ -22,6 +22,7 @@ import {
   Screen,
   Spacer,
 } from '../ui/components';
+import { DateInput } from '../ui/DateInput';
 import { FilePicker } from '../ui/FilePicker';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'AddExpense'>;
@@ -235,24 +236,10 @@ export function AddExpenseScreen({ navigation, route }: Props) {
         <Chip on={date === today} onPress={() => setDate(today)} label={t('expense.today')} />
         <Chip on={date === yesterday} onPress={() => setDate(yesterday)} label={t('expense.yesterday')} />
       </ChipRow>
-      <Field
-        label={t('expense.otherDate')}
-        value={date}
-        onChangeText={setDate}
-        placeholder="YYYY-MM-DD"
-        maxLength={10}
-        error={errors.date}
-      />
+      <DateInput label={t('expense.otherDate')} value={date} onChange={setDate} error={errors.date} />
 
       <FilePicker roomId={roomId} label={t('receipt.title')} value={receipt} onChange={setReceipt} />
       <Field label={t('expense.notes')} value={notes} onChangeText={setNotes} multiline maxLength={1000} />
     </Screen>
   );
-}
-
-/** YYYY-MM-DD plus/minus whole days (calendar dates, no time zone involved). */
-function shiftDay(iso: string, days: number): string {
-  const d = new Date(`${iso}T00:00:00Z`);
-  d.setUTCDate(d.getUTCDate() + days);
-  return d.toISOString().slice(0, 10);
 }

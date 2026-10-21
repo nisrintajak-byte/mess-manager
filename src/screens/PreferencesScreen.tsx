@@ -14,6 +14,7 @@ import { Body, Button, Card, Chip, ChipRow, Label, Screen, Title } from '../ui/c
 import { LanguagePicker } from '../ui/LanguagePicker';
 import { AccountDataCard } from '../ui/AccountCards';
 import { AdsCard } from '../ui/AdsCard';
+import { LegalCard } from '../ui/LegalCard';
 import { ProfileCard } from '../ui/ProfileCard';
 import { RemoveAdsCard } from '../ui/RemoveAdsCard';
 import { AppLockCard, ChangePasswordCard } from '../ui/SecurityCards';
@@ -82,6 +83,7 @@ export function PreferencesScreen() {
         <ChangePasswordCard />
         <RemoveAdsCard />
         <AdsCard />
+        <LegalCard />
         <AccountDataCard />
       </Screen>
       <BottomBar current="Preferences" />

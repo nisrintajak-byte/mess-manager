@@ -12,6 +12,7 @@ import { requireReauth } from '../lib/reauth';
 import type { AppStackParamList } from '../navigation/types';
 import { Body, Button, Card, Label, Meta, Notice, Screen, Section, Spacer } from '../ui/components';
 import { confirm, useLoader } from '../ui/hooks';
+import { LegalCard } from '../ui/LegalCard';
 import { colors, font, space, themedStyles } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'RoomInfo'>;
@@ -121,6 +122,8 @@ export function RoomInfoScreen({ navigation, route }: Props) {
           </>
         ) : null}
       </Card>
+
+      <LegalCard />
 
       <Spacer size="xxl" />
       <Section>{t('room.dangerZone')}</Section>

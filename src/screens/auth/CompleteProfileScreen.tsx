@@ -5,7 +5,8 @@ import { useAuth } from '../../auth/AuthProvider';
 import { api } from '../../lib/api';
 import { dbErrorKey } from '../../lib/errors';
 import { ageOn, CONSENT_VERSION, parseDateOfBirth } from '../../lib/validation';
-import { Body, Button, Checkbox, Field, Notice, Screen, Spacer, Title } from '../../ui/components';
+import { Body, Button, Checkbox, Notice, Screen, Spacer, Title } from '../../ui/components';
+import { DateInput } from '../../ui/DateInput';
 
 /** Shown once after Google Sign-In: date of birth + consent (PRD §7.1, §20.4). */
 export function CompleteProfileScreen({ onDone }: { onDone: () => void }) {
@@ -40,14 +41,7 @@ export function CompleteProfileScreen({ onDone }: { onDone: () => void }) {
       <Body muted>{t('profile.body')}</Body>
       <Spacer />
       {error ? <Notice tone="error">{error}</Notice> : null}
-      <Field
-        label={t('auth.dateOfBirth')}
-        value={dob}
-        onChangeText={setDob}
-        placeholder={t('auth.dobPlaceholder')}
-        keyboardType="numbers-and-punctuation"
-        autoCapitalize="none"
-      />
+      <DateInput label={t('auth.dateOfBirth')} value={dob} onChange={setDob} />
       <Checkbox checked={consent} onToggle={() => setConsent(!consent)}>
         {t('auth.consent')}
       </Checkbox>

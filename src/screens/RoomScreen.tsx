@@ -12,10 +12,11 @@ import { dbErrorKey } from '../lib/errors';
 import { estimateBalances } from '../lib/estimate';
 import { formatMoney } from '../lib/money';
 import { useOutbox } from '../lib/outbox';
-import { todayIn } from '../lib/util';
+import { shiftDay, todayIn } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
 import { Badge, Body, Button, Card, Chip, ChipRow, Meta, Notice, Row, Spacer } from '../ui/components';
 import { AdSlot } from '../ui/AdSlot';
+import { DateInput } from '../ui/DateInput';
 import { Avatar } from '../ui/Avatar';
 import { Icon, IconName } from '../ui/Icon';
 import { confirm, useLoader } from '../ui/hooks';
@@ -37,6 +38,7 @@ export function RoomScreen({ navigation, route }: Props) {
   const [cycleId, setCycleId] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [settleUntil, setSettleUntil] = useState<string | null>(null);
   const [page, setPage] = useState<{ cycle: string; n: number }>({ cycle: '', n: PAGE });
   const queued = useOutbox().filter((i) => i.roomId === roomId && i.userId === me);
   const queuedCount = queued.length;
@@ -114,15 +116,23 @@ export function RoomScreen({ navigation, route }: Props) {
     await detail.reload();
   }
 
+  // last day the settlement covers: the cycle's end, or yesterday while it is still running
+  const defaultUntil = cur ? (cur.ends_on < today ? cur.ends_on : shiftDay(today, -1)) : '';
   async function settle() {
-    if (!cur) return;
+    if (!cur || !settleUntil) return;
     setActionError(null);
+    if (settleUntil < cur.starts_on || settleUntil > defaultUntil) {
+      setActionError(t('cycle.untilInvalid', { from: cur.starts_on, to: defaultUntil }));
+      return;
+    }
     const msg =
-      t('cycle.settleConfirm', { range: range(cur) }) + (running ? `\n\n${t('cycle.settleEarlyNote')}` : '');
+      t('cycle.settleConfirm', { range: t('cycle.range', { from: cur.starts_on, to: settleUntil }) }) +
+      (settleUntil < cur.ends_on ? `\n\n${t('cycle.settleUntilNote', { date: settleUntil })}` : '');
     if (!(await confirm(msg, t('common.yes'), t('common.no')))) return;
     setBusy(true);
     try {
-      const sid = await api.generateSettlement(cur.id);
+      const sid = await api.generateSettlementUntil(cur.id, settleUntil);
+      setSettleUntil(null);
       await refreshAll();
       navigation.navigate('Settlement', { roomId, settlementId: sid });
     } catch (e) {
@@ -338,15 +348,42 @@ export function RoomScreen({ navigation, route }: Props) {
                     ) : null}
                   </>
                 ) : isAdmin && cur.starts_on < today ? (
-                  <>
-                    <Spacer size="sm" />
-                    <Button
-                      title={t(running ? 'cycle.settleEarly' : 'cycle.settle')}
-                      variant="secondary"
-                      loading={busy}
-                      onPress={settle}
-                    />
-                  </>
+                  settleUntil === null ? (
+                    <>
+                      <Spacer size="sm" />
+                      <Button
+                        title={t('cycle.settle')}
+                        variant="secondary"
+                        onPress={() => setSettleUntil(defaultUntil)}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Spacer size="sm" />
+                      <Body>{t('cycle.untilQuestion')}</Body>
+                      <ChipRow>
+                        <Chip
+                          on={settleUntil === defaultUntil}
+                          onPress={() => setSettleUntil(defaultUntil)}
+                          label={t(running ? 'cycle.untilYesterday' : 'cycle.untilEnd')}
+                        />
+                      </ChipRow>
+                      <DateInput label={t('cycle.untilDate')} value={settleUntil} onChange={setSettleUntil} />
+                      <Meta>{t('cycle.untilHint')}</Meta>
+                      <Spacer size="sm" />
+                      <Button
+                        title={t('cycle.settleNow')}
+                        loading={busy}
+                        disabled={!settleUntil}
+                        onPress={settle}
+                      />
+                      <Button
+                        title={t('common.cancel')}
+                        variant="link"
+                        onPress={() => setSettleUntil(null)}
+                      />
+                    </>
+                  )
                 ) : null}
               </Card>
             </>

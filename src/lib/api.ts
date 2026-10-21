@@ -558,6 +558,10 @@ const rawApi = {
     );
   },
 
+  async generateSettlementUntil(cycleId: string, until: string): Promise<string> {
+    return unwrap(await supabase.rpc('generate_settlement_until', { p_cycle: cycleId, p_until: until }));
+  },
+
   async generateSettlement(cycleId: string): Promise<string> {
     return unwrap(await supabase.rpc('generate_settlement', { p_cycle: cycleId }));
   },

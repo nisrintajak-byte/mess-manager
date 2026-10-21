@@ -52,7 +52,7 @@ export function ProfileCard() {
       // keep the greeting on Home in step
       await supabase.auth.updateUser({ data: { display_name: name.trim() } }).catch(() => undefined);
       setSaved({ name: name.trim(), photo });
-      setMsg({ tone: 'success', text: t('profile.saved') });
+      setMsg({ tone: 'success', text: t('myProfile.saved') });
     } catch (e) {
       setMsg({ tone: 'error', text: t(dbErrorKey(e as { message?: string })) });
     } finally {
@@ -63,23 +63,23 @@ export function ProfileCard() {
   const changed = !!saved && (saved.name !== name.trim() || saved.photo !== photo);
   return (
     <Card>
-      <Label>{t('profile.title')}</Label>
+      <Label>{t('myProfile.title')}</Label>
       <View
         style={{ flexDirection: rowDirection(), alignItems: 'center', gap: space.md, marginBottom: space.md }}
       >
         <Avatar name={name || '?'} photo={photo} size={64} />
         <View style={{ flex: 1 }}>
-          <Button title={t('profile.gallery')} variant="secondary" onPress={() => void choose('gallery')} />
-          <Button title={t('profile.camera')} variant="secondary" onPress={() => void choose('camera')} />
+          <Button title={t('myProfile.gallery')} variant="secondary" onPress={() => void choose('gallery')} />
+          <Button title={t('myProfile.camera')} variant="secondary" onPress={() => void choose('camera')} />
           {photo ? (
-            <Button title={t('profile.removePhoto')} variant="link" onPress={() => setPhoto(null)} />
+            <Button title={t('myProfile.removePhoto')} variant="link" onPress={() => setPhoto(null)} />
           ) : null}
         </View>
       </View>
-      <Field label={t('profile.name')} value={name} onChangeText={setName} maxLength={80} />
+      <Field label={t('myProfile.name')} value={name} onChangeText={setName} maxLength={80} />
       {msg ? <Notice tone={msg.tone}>{msg.text}</Notice> : null}
       <Button
-        title={t('profile.save')}
+        title={t('myProfile.save')}
         loading={busy}
         disabled={!changed || !name.trim()}
         onPress={() => void save()}

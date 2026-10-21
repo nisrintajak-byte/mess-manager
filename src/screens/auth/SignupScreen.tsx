@@ -11,6 +11,7 @@ import { CONSENT_VERSION, SignupErrors, validateSignup } from '../../lib/validat
 import type { AuthStackParamList } from '../../navigation/types';
 import { GoogleButton } from '../../ui/GoogleButton';
 import { BrandMark } from '../../ui/BrandMark';
+import { DateInput } from '../../ui/DateInput';
 import { LanguagePicker } from '../../ui/LanguagePicker';
 import { Body, Button, Checkbox, Field, Notice, Screen, Spacer, Title } from '../../ui/components';
 import { colors } from '../../ui/theme';
@@ -109,13 +110,10 @@ export function SignupScreen({ navigation }: Props) {
         autoComplete="new-password"
         error={err('confirmPassword')}
       />
-      <Field
+      <DateInput
         label={t('auth.dateOfBirth')}
-        placeholder={t('auth.dobPlaceholder')}
         value={form.dateOfBirth}
-        onChangeText={set('dateOfBirth')}
-        keyboardType="numbers-and-punctuation"
-        maxLength={10}
+        onChange={set('dateOfBirth')}
         error={err('dateOfBirth')}
       />
       <Checkbox

@@ -59,7 +59,7 @@
       "passwordShort": "Password is too short.",
       "passwordCommon": "This password is too common. Please choose another.",
       "passwordMismatch": "Passwords do not match.",
-      "dobInvalid": "Enter your date of birth as YYYY-MM-DD.",
+      "dobInvalid": "Please enter a valid date of birth.",
       "minorNotYet": "Accounts for people under 18 need a parent or guardian's consent. This option is coming soon.",
       "consentRequired": "Please accept the Privacy Policy and Terms to continue.",
       "invalidCredentials": "Email or password is incorrect.",
@@ -260,7 +260,8 @@
     "idempotency_required": "Could not send this action. Please try again.",
     "reauth_required": "Please confirm it is you, then try again.",
     "account_deleted": "This account has been deleted.",
-    "not_found": "Not found."
+    "not_found": "Not found.",
+    "date_invalid": "Pick a day inside this cycle, before today."
   },
   "cycle": {
     "current": "Current cycle",
@@ -271,13 +272,21 @@
     "kind_weekly": "Weekly",
     "kind_monthly": "Monthly",
     "pick": "Cycle",
-    "settle": "Settle this cycle",
+    "settle": "Generate settlement",
     "settleEarly": "Settle up to yesterday",
     "settleConfirm": "Generate the settlement for {{range}}? The cycle will be locked: nobody can add, edit or delete its expenses afterwards. Mistakes are fixed with an adjustment in the open cycle.",
     "settleEarlyNote": "This cycle is still running. Settling now closes it up to yesterday; today's expenses move to a new cycle.",
     "lockedNote": "This cycle is locked. Expenses can't be changed. Admins can add an adjustment to correct mistakes.",
     "outstanding": "Earlier cycles with unpaid dues",
-    "viewSettlement": "View settlement"
+    "viewSettlement": "View settlement",
+    "untilQuestion": "Settle expenses up to which day?",
+    "untilYesterday": "Up to yesterday",
+    "untilEnd": "Up to the cycle end",
+    "untilDate": "Last day included",
+    "untilHint": "Expenses after this day move to the next cycle.",
+    "settleNow": "Generate settlement",
+    "settleUntilNote": "Expenses after {{date}} move to the next cycle.",
+    "untilInvalid": "Pick a day from {{from}} to {{to}}."
   },
   "settlement": {
     "title": "Settlement",
@@ -565,14 +574,9 @@
     "done": "Password changed."
   },
   "profile": {
-    "title": "My profile",
+    "title": "One more step",
     "body": "Please confirm your date of birth and accept the terms to start using Mess Manager.",
-    "save": "Save profile",
-    "name": "Name shown to Room members",
-    "gallery": "Choose photo",
-    "camera": "Take photo",
-    "removePhoto": "Remove photo",
-    "saved": "Profile saved."
+    "save": "Continue"
   },
   "sync": {
     "offlineBanner": "You're offline — showing the last synced data",
@@ -777,5 +781,29 @@
     "home": "Home",
     "inbox": "Inbox",
     "me": "Me"
+  },
+  "myProfile": {
+    "title": "My profile",
+    "name": "Name shown to Room members",
+    "gallery": "Choose photo",
+    "camera": "Take photo",
+    "removePhoto": "Remove photo",
+    "save": "Save profile",
+    "saved": "Profile saved."
+  },
+  "date": {
+    "dd": "DD",
+    "mm": "MM",
+    "yyyy": "YYYY",
+    "day": "day",
+    "month": "month",
+    "year": "year"
+  },
+  "legalCard": {
+    "title": "Privacy Policy & Terms",
+    "privacy": "Read the Privacy Policy",
+    "terms": "Read the Terms & Conditions",
+    "withdrawNote": "You accepted these when you signed up. If you no longer agree, you can withdraw your consent by deleting your account — your Room records are kept read-only for 2 months, then erased.",
+    "withdraw": "Withdraw consent (delete my account)"
   }
 }
