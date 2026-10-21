@@ -50,3 +50,9 @@ Format: `YYYY-MM-DD HH:MM | version | what was done | files | next`
 - New Welcome screen (founder asked, Splitwise as example): language, big logo, one-line tagline, Sign up / Log in / Google, footer Terms | Privacy | Help.
 - Privacy policy now starts with a 4-line "In short" summary (4 languages, own wording; no change to the legal substance, so LEGAL_VERSION not bumped).
 - Web smoke check accepts the new first screen.
+
+## 2026-10-21 — Terms rewrite (Splitwise as style example)
+- Terms: "In short" summary; records are informal notes, not legal contracts; content rules; fair suspension with reason; liability wording; other legal points (severability, waiver, entire agreement); notice before closing the service.
+- Privacy: disclose to authorities only when law requires.
+- LEGAL_VERSION 2026-10-v4 (users re-accept). Still DRAFT for lawyer review.
+- Not adopted: change-without-notice, terminate-for-any-reason, broad indemnity, age 13.
