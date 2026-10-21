@@ -1,6 +1,6 @@
 {
   "draft": "DRAFT for review by a qualified lawyer before launch. Items in [brackets] are still to be filled in.",
-  "updated": "Last updated: 19 October 2026",
+  "updated": "Last updated: 21 October 2026",
   "privacy": {
     "title": "Privacy Policy",
     "sections": [
@@ -45,7 +45,8 @@
         "h": "Who can see your data",
         "p": [
           "Only approved members of a Room see that Room's records. Your email address is visible only to the Room's Admins; other members see your display name.",
-          "We never share financial data, receipts, Room names or expense details with advertisers, and never use them to target ads."
+          "We never share financial data, receipts, Room names or expense details with advertisers, and never use them to target ads.",
+          "We share your data with authorities only when the law requires it, for example a court order."
         ]
       },
       {
@@ -97,21 +98,44 @@
     "title": "Terms & Conditions",
     "sections": [
       {
+        "h": "In short",
+        "p": [
+          "Mess Manager is a shared notebook for a Room's expenses. It never holds or moves money.",
+          "What members write is an informal record between them, not a legal contract. Each person is responsible for what they enter.",
+          "Be honest and respectful. Don't upload anything illegal, abusive or someone else's private data.",
+          "The app is free with small ads and keeps improving, so features can change. We tell you in the app before important changes to these Terms."
+        ]
+      },
+      {
         "h": "The service",
         "p": [
-          "Mess Manager is a record-keeping tool only. It does not hold, transfer or process money and is not a bank, wallet or payment service."
+          "Mess Manager is a record-keeping tool only. It does not hold, transfer or process money and is not a bank, wallet or payment service.",
+          "Expenses, shares, settlements and payments recorded in the app are informal notes among Room members. They are not a legally binding contract or a guarantee that anyone owes or has paid money. The app does the arithmetic, but it cannot check that what users enter is correct.",
+          "The app is continually improving. Some features may not always work as planned, and we may change, limit or stop a feature. Before we close the service we will give notice so you can download your records."
         ]
       },
       {
         "h": "Who can use it",
         "p": [
-          "You must be 18 or older and give true information. You are responsible for keeping your password and phone secure."
+          "You must be 18 or older, give true information about yourself, and be allowed to use such a service under the laws that apply to you. You may not open a new account if we closed your earlier one for breaking these Terms.",
+          "You are responsible for keeping your password and phone secure. Tell us at once if you think someone else has used your account."
         ]
       },
       {
         "h": "Your responsibility",
         "p": [
           "Users and Room Admins are solely responsible for the accuracy of what they enter and for settling money among themselves. Admins decide who joins their Room and confirm payments."
+        ]
+      },
+      {
+        "h": "What you may not post",
+        "p": [
+          "You are responsible for everything you add: names, descriptions, comments, photos, receipts and payment proofs. Do not add anything that:",
+          "• you have no right to share, or that exposes another person's private information (for example ID cards, bank details or phone numbers) to harass, blackmail or target them;",
+          "• is false or misleading, including pretending to be someone else;",
+          "• is obscene, sexual, abusive, threatening or hateful towards any person or group, for any reason such as religion, caste, race, nationality, gender, disability or age;",
+          "• is illegal or promotes illegal activity, or is spam, a pyramid scheme or other promotion.",
+          "We do not check every entry, but we may remove content or limit an account that breaks these rules or the law."
         ]
       },
       {
@@ -129,13 +153,15 @@
       {
         "h": "Acceptable use",
         "p": [
-          "No illegal transactions, money laundering, gambling pools, harassment or abuse. We may suspend accounts that misuse the service."
+          "Use the app only for its purpose and within the law. No illegal transactions, fraud, money laundering, gambling pools, harassment or abuse, and no attempts to break, overload or get around the app's security.",
+          "If an account misuses the service, we may suspend or close it. Where it is safe and lawful, we will tell you why and give you a chance to respond and to download your records."
         ]
       },
       {
         "h": "No warranty and limited liability",
         "p": [
-          "The service is provided \"as is\". To the maximum extent permitted by law we are not liable for losses caused by user error, network failure or third-party services."
+          "The service is provided \"as is\" and \"as available\". We do our best, but we do not promise that it will be error-free or always available.",
+          "To the maximum extent permitted by law we are not liable for losses caused by what users enter, by disagreements between members, by user error, network failure or third-party services, or for indirect losses. Nothing in these Terms limits liability that the law does not allow us to limit."
         ]
       },
       {
@@ -151,9 +177,15 @@
         ]
       },
       {
+        "h": "Other legal points",
+        "p": [
+          "If any part of these Terms is found invalid, the rest still applies and the invalid part is replaced by a valid one as close as possible to its purpose. If we do not enforce a term at once, we do not give up the right to enforce it later. These Terms and the Privacy Policy are the whole agreement between you and us about the app."
+        ]
+      },
+      {
         "h": "Changes",
         "p": [
-          "We may change these Terms with notice in the app. Important changes need your fresh acceptance."
+          "We may change these Terms. We will tell you in the app first, and important changes need your fresh acceptance before you continue."
         ]
       }
     ]
