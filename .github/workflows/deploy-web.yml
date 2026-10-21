@@ -102,11 +102,11 @@ jobs:
             let ok = false;
             for (let i = 0; i < 10 && !ok; i++) {
               await page.goto(url, { waitUntil: 'networkidle' });
-              ok = (await page.getByText('Welcome back').count()) > 0;
+              ok = (await page.getByText(/Welcome back|^Log in$/).count()) > 0;
               if (!ok) await page.waitForTimeout(15000);
             }
             await page.screenshot({ path: `${name}.png`, fullPage: true });
-            if (ok) console.log(`::notice::${name} preview OK — login screen rendered`);
+            if (ok) console.log(`::notice::${name} preview OK — first screen rendered`);
             else { console.log(`::error::${name} preview did not render`); failed = true; }
           }
           {
