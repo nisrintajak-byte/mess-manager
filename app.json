@@ -62,7 +62,7 @@
         "expo-splash-screen",
         {
           "image": "./assets/splash-icon.png",
-          "imageWidth": 220,
+          "imageWidth": 288,
           "resizeMode": "contain",
           "backgroundColor": "#184670"
         }

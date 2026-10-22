@@ -65,3 +65,4 @@ Format: `YYYY-MM-DD HH:MM | version | what was done | files | next`
 ## 2026-10-22 — Android test build 2baefff0
 - All v1.0 work up to the legal details; emulator smoke test OK.
 - Founder: lawyer review later; first launch/testing in Kuwait / GCC; founder handles domain + D-U-N-S; AdMob account next.
+- Splash logo was cut by Android 12+'s round splash mask (founder screenshot): splash-icon.png now has the logo at 46% of a transparent 1024 canvas (fits inside the circle), imageWidth 288. Check on the next APK.
