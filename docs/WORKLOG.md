@@ -61,3 +61,7 @@ Format: `YYYY-MM-DD HH:MM | version | what was done | files | next`
 - Terms: courts of Indore (Madhya Pradesh) have jurisdiction (company is established in Indore).
 - Privacy: Grievance Officer Khijryar Khan, unifairtrading@gmail.com (4 languages; AR/UR/HI spelling confirmed by founder).
 - Contact details only, so LEGAL_VERSION stays 2026-10-v4. Still DRAFT for lawyer review.
+
+## 2026-10-22 — Android test build 2baefff0
+- All v1.0 work up to the legal details; emulator smoke test OK.
+- Founder: lawyer review later; first launch/testing in Kuwait / GCC; founder handles domain + D-U-N-S; AdMob account next.
