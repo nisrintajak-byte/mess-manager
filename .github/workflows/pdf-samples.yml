@@ -43,7 +43,7 @@ jobs:
             exit 1
           fi
           cat /tmp/samples-log.txt
-          sudo apt-get install -y poppler-utils >/dev/null
+          sudo apt-get update -qq >/dev/null && sudo apt-get install -y poppler-utils >/dev/null
           for p in /tmp/samples/*.pdf; do pdftoppm -r 60 -png "$p" "${p%.pdf}"; done
           ls -la /tmp/samples
       - name: Commit to ci-samples branch
