@@ -8,9 +8,10 @@ import { api, NeedRequest, NeedStatus } from '../lib/api';
 import { dbErrorKey } from '../lib/errors';
 import { submitOrQueue } from '../lib/outbox';
 import type { AppStackParamList } from '../navigation/types';
-import { Badge, Body, Button, Card, Chip, Field, Meta, Notice, Section } from '../ui/components';
+import { Badge, Button, Card, Chip, Field, Meta, Notice, Section } from '../ui/components';
 import { AdSlot } from '../ui/AdSlot';
 import { Avatar } from '../ui/Avatar';
+import { EmptyState } from '../ui/EmptyState';
 import { useLoader } from '../ui/hooks';
 import { colors, font, radius, rowDirection, space, themedStyles } from '../ui/theme';
 
@@ -187,7 +188,7 @@ export function NeedsScreen({ navigation, route }: Props) {
         </View>
 
         <Section>{t('need.openList')}</Section>
-        {open.length === 0 ? <Body muted>{t('need.none')}</Body> : null}
+        {open.length === 0 ? <EmptyState art="needs" size={150} body={t('empty.needsBody')} /> : null}
         {open.map((n) => renderNeed(n))}
         {done.length > 0 ? (
           <>

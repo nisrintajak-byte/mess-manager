@@ -17,6 +17,7 @@ import type { AppStackParamList } from '../navigation/types';
 import { Badge, Body, Button, Card, Chip, ChipRow, Meta, Notice, Row, Spacer } from '../ui/components';
 import { AdSlot } from '../ui/AdSlot';
 import { DateInput } from '../ui/DateInput';
+import { EmptyState } from '../ui/EmptyState';
 import { Avatar } from '../ui/Avatar';
 import { Icon, IconName } from '../ui/Icon';
 import { confirm, useLoader } from '../ui/hooks';
@@ -406,7 +407,15 @@ export function RoomScreen({ navigation, route }: Props) {
                 </Card>
               ))}
               {expenses.length === 0 && queued.length === 0 && !detail.loading ? (
-                <Body muted>{t('room.noExpenses')}</Body>
+                <EmptyState
+                  art="expense"
+                  title={t('empty.expensesTitle')}
+                  body={t('empty.expensesBody')}
+                  action={{
+                    label: t('home.quickAdd'),
+                    onPress: () => navigation.navigate('AddExpense', { roomId }),
+                  }}
+                />
               ) : null}
               {expenses.slice(0, shown).map((e) => (
                 <Pressable
@@ -487,7 +496,9 @@ export function RoomScreen({ navigation, route }: Props) {
 
           {tab === 'settlements' ? (
             <>
-              {settlements.length === 0 ? <Body muted>{t('settlement.none')}</Body> : null}
+              {settlements.length === 0 ? (
+                <EmptyState art="calendar" title={t('settlement.none')} body={t('empty.settlementsBody')} />
+              ) : null}
               {settlements.map((s) => {
                 const c = cycles.find((x) => x.id === s.cycle_id);
                 return (

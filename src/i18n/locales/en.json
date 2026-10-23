@@ -86,7 +86,6 @@
   },
   "home": {
     "title": "Your Rooms",
-    "empty": "You are not in any Room yet. Create one, or join with a code from your Room Admin.",
     "signedInAs": "Signed in as {{name}}",
     "createRoom": "Create a Room",
     "joinRoom": "Join with a code",
@@ -108,7 +107,14 @@
     "createShort": "+ Create a new Room",
     "roomLine": "{{members}} members · this period {{total}}",
     "waitingToJoin": "{{count}} waiting to join",
-    "openNeeds": "{{count}} open need requests"
+    "openNeeds": "{{count}} open need requests",
+    "welcomeTitle": "Welcome to Mess Manager!",
+    "welcomeName": "Welcome, {{name}}!",
+    "emptyBody": "Your Rooms will show here. Create a Room for your flat or mess, or join one with the code your Room Admin shared.",
+    "joinWithCode": "Join with a code",
+    "waitingTitle": "Request sent",
+    "waitingBody": "Your request to join is waiting for the Room Admin's approval. We will let you know as soon as you are in.",
+    "joinAnother": "Join another Room"
   },
   "room": {
     "createTitle": "Create a Room",
@@ -811,9 +817,6 @@
   "help": {
     "short": "Help",
     "open": "How to use the app",
-    "welcomeTitle": "New to Mess Manager?",
-    "welcomeBody": "A short guide shows how to add expenses, ask for things the Room needs and settle up.",
-    "dismiss": "Close",
     "howItWorks": "How does Mess Manager work?"
   },
   "welcome": {
@@ -822,5 +825,66 @@
     "logIn": "Log in",
     "terms": "Terms",
     "privacy": "Privacy Policy"
+  },
+  "tour": {
+    "step": "{{n}} of {{total}}",
+    "skip": "Skip",
+    "next": "Next",
+    "start": "Let's start",
+    "again": "Watch the app tour",
+    "open_title": "Welcome to Mess Manager!",
+    "open_titleName": "Welcome to Mess Manager, {{name}}!",
+    "open_body": "Keep your Room's shared expenses in one place. Everyone sees the same numbers, so there is nothing to argue about.",
+    "split_title": "Add an expense, the split is done",
+    "split_body": "Paid for something? Add it with the receipt and the app shares it equally across the Room. Everyone sees their part.",
+    "settle_title": "Settle up, all clear",
+    "settle_body": "At the end of the period the Admin closes the accounts. The app shows who pays whom, payments are confirmed with proof, and you get a PDF report."
+  },
+  "setup": {
+    "title": "Get started",
+    "progress": "{{done}} of {{total}} done",
+    "photo": "Add your profile photo",
+    "room": "Create or join a Room",
+    "expense": "Add your first expense",
+    "hide": "Hide this list"
+  },
+  "empty": {
+    "expensesTitle": "No expenses yet",
+    "expensesBody": "Bought something for the Room? Add it here and the app splits it for everyone.",
+    "settlementsBody": "When the Admin closes a period, its settlement (who pays whom) will show here.",
+    "needsBody": "Nothing needed right now. Ask above when the Room runs out of something.",
+    "disputesBody": "If something looks wrong in an expense or payment, report it from its page and it will show here.",
+    "inboxBody": "Updates about expenses, payments and your Rooms will show here."
+  },
+  "me": {
+    "account": "Account",
+    "security": "Security",
+    "securityHint": "App Lock, password",
+    "app": "App",
+    "appearance": "Language and look",
+    "appearanceHint": "Language, theme, digits",
+    "ads": "Remove ads",
+    "adsHint": "Ad-free plan, ad settings",
+    "help": "Help and support",
+    "contact": "Contact support",
+    "rate": "Rate Mess Manager",
+    "legal": "Privacy and data",
+    "data": "My data and account",
+    "dataHint": "Download my data, delete account",
+    "editProfile": "Edit profile",
+    "supportSubject": "Mess Manager support",
+    "madeBy": "Made by Uyoon Tech Solutions",
+    "unitOf": "A unit of Unifair Trading Pvt Ltd, India",
+    "version": "Version {{version}}",
+    "page_profile": "My profile",
+    "page_security": "Security",
+    "page_appearance": "Language and look",
+    "page_ads": "Remove ads",
+    "page_data": "My data and account"
+  },
+  "cleared": {
+    "title": "Your account is clear!",
+    "body": "Your payment of {{amount}} in {{room}} is fully confirmed. Nothing is left to pay for this period. Thank you!",
+    "button": "Great!"
   }
 }

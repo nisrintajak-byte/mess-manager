@@ -8,6 +8,7 @@ import { localizeDigits } from '../lib/digits';
 import { dbErrorKey } from '../lib/errors';
 import { formatMinor, formatMoney, parseAmount } from '../lib/money';
 import { submitOrQueue } from '../lib/outbox';
+import { setPref } from '../lib/prefs';
 import { isIsoDate, shiftDay, todayIn, uuid } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
 import { Body, Button, Chip, ChipRow, Field, Label, Notice, Screen, Spacer } from '../ui/components';
@@ -121,6 +122,8 @@ export function AddExpenseScreen({ navigation, route }: Props) {
           amountText,
           payload: { title, amount: minor, date, notes, participants, receiptPath: receipt, needId },
         });
+        // ticks "Add your first expense" in the Home setup list
+        void setPref('firstExpense', '1');
       }
       navigation.goBack();
     } catch (err) {

@@ -66,3 +66,12 @@ Format: `YYYY-MM-DD HH:MM | version | what was done | files | next`
 - All v1.0 work up to the legal details; emulator smoke test OK.
 - Founder: lawyer review later; first launch/testing in Kuwait / GCC; founder handles domain + D-U-N-S; AdMob account next.
 - Splash logo was cut by Android 12+'s round splash mask (founder screenshot): splash-icon.png now has the logo at 46% of a transparent 1024 canvas (fits inside the circle), imageWidth 288. Check on the next APK.
+
+## 2026-10-23 — Onboarding, empty screens, Me redesign, settle celebration
+- Intro slides (OnboardingScreen, swipe/Next/Skip, RTL), opened once for a member with no Room and no request; "Watch the app tour" in Me.
+- Home for a new member: welcome picture + Create a new Room / Join with a code; waiting-for-approval state; setup checklist (photo, Room, first expense) with progress, hideable. Old "New to Mess Manager?" card replaced.
+- Empty states with pictures: Room expenses (Add expense), settlements, Needs, Disputes, Inbox (src/ui/EmptyState.tsx, src/ui/Illustration.tsx — drawn in code, follow themes).
+- Me: profile header (photo, name, email, Edit profile), sections with icon rows, settings pages (Settings route: profile, security, appearance, ads, data), Contact support (mailto with app version), Log out, company footer + version.
+- Confetti "Your account is clear!" on the Settlement screen once per line when the member's payable amount is fully confirmed (src/ui/Celebration.tsx).
+- 4 languages; help guide contact line points to Me → Contact support. Ranking idea parked in future-plan.
+- Checked in a local web build (screenshots of slides EN/UR, Me EN/AR, empty screens, celebration); typecheck, lint, 67 tests pass.

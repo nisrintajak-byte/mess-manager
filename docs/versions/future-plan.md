@@ -26,5 +26,12 @@ Ideas the founder has approved for later. Each becomes its own version when star
   to the host member, every change in history, locked with the cycle after settlement.
 - Expense gets a "food (meal-count)" split type; settlement and reports show meals + rate.
 
+## On-time payer ranking (founder 2026-10-23: parked, after launch)
+- Idea: rank members by how quickly they pay their settlement share (no delay), so members are
+  encouraged to settle fast.
+- Not final: to be discussed with the founder before design (what counts as "on time", per Room
+  or global, who can see it, how to keep it friendly and not shaming, privacy).
+- Data already there: settlement generated time, payment claim/confirm times per line.
+
 ## Other parked items
 - Web deletion page and legal pages move to the company website once there is a domain.

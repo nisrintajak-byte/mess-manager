@@ -1,5 +1,5 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { RefreshControl, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -9,11 +9,13 @@ import { api, LineStatus, OPEN_FLAG, Payment } from '../lib/api';
 import { unpinSettlement } from '../lib/pinned';
 import { dbErrorKey } from '../lib/errors';
 import { formatMoney } from '../lib/money';
+import { getPref, setPref } from '../lib/prefs';
 import { minimalTransfers } from '../lib/transfers';
 import { formatDateTime } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
 import { Badge, Body, Button, Card, Meta, Notice, Row, Section, Spacer } from '../ui/components';
 import { Avatar } from '../ui/Avatar';
+import { Celebration } from '../ui/Celebration';
 import { ViewFileButton } from '../ui/FilePicker';
 import { useLoader } from '../ui/hooks';
 import { colors, font, radius, space, themedStyles } from '../ui/theme';
@@ -63,6 +65,18 @@ export function SettlementScreen({ navigation, route }: Props) {
     return { room, members, ...s, acks, disputed };
   }, settlementId);
 
+  // founder 2026-10-23: when my whole payable amount is confirmed, celebrate once
+  const [cheer, setCheer] = useState(false);
+  const clearLine = data?.lines.find((l) => l.user_id === me && l.net < 0 && l.status === 'paid')?.line_id;
+  useEffect(() => {
+    if (!clearLine) return;
+    void getPref(`cleared.${clearLine}`).then((v) => {
+      if (v === '1') return;
+      setCheer(true);
+      void setPref(`cleared.${clearLine}`, '1');
+    });
+  }, [clearLine]);
+
   if (!data) return <View style={styles.bg} />;
   const { room, members, settlement, cycle, lines, payments, acks, disputed } = data;
   const myAck = acks.find((a) => a.user_id === me);
@@ -96,230 +110,244 @@ export function SettlementScreen({ navigation, route }: Props) {
   }
 
   return (
-    <ScrollView
-      style={styles.bg}
-      contentContainerStyle={styles.pad}
-      refreshControl={<RefreshControl refreshing={loading} onRefresh={reload} />}
-    >
-      <View style={styles.column}>
-        {error ? <Notice tone="error">{error}</Notice> : null}
-        {/* my part first: what I pay or get, and the one thing to do next */}
-        {myLine ? (
-          <View style={[styles.mine, myLine.net < 0 ? styles.minePay : styles.mineGet]}>
-            <Text style={[styles.mineLabel, myLine.net < 0 ? styles.payText : styles.getText]}>
-              {t('cycle.range', { from: cycle.starts_on, to: cycle.ends_on })}
-            </Text>
-            <Text style={[styles.mineBig, myLine.net < 0 ? styles.payText : styles.getText]}>
-              {myLine.net === 0
-                ? t('settlement.even')
-                : myLine.net < 0
-                  ? t('settlement.toPay', { amount: money(-myLine.net) })
-                  : t('settlement.toReceive', { amount: money(myLine.net) })}
-            </Text>
-            <Badge tone={TONE[myLine.status]}>{t(`settlement.status_${myLine.status}`)}</Badge>
-            {myLine.net < 0 && remaining(myLine) > 0 ? (
-              <>
-                <Text style={[styles.mineLabel, styles.payText]}>
-                  {t('settlement.remaining', { amount: money(remaining(myLine)) })}
-                </Text>
-                <Spacer size="sm" />
-                <Button
-                  title={t('settlement.markPaid')}
-                  onPress={() =>
-                    navigation.navigate('Pay', {
-                      roomId,
-                      settlementId,
-                      lineId: myLine.line_id,
-                      mode: 'claim',
-                    })
-                  }
-                />
-              </>
-            ) : null}
-            {myAck && !myAck.acknowledged_at ? (
-              <Button
-                title={t('ack.button')}
-                variant={myLine.net < 0 && remaining(myLine) > 0 ? 'secondary' : 'primary'}
-                onPress={async () => {
-                  await api.acknowledgeSettlement(settlementId).catch(() => undefined);
-                  await unpinSettlement(settlementId);
-                  await reload();
-                }}
-              />
-            ) : myAck ? (
+    <>
+      <Celebration
+        visible={cheer}
+        title={t('cleared.title')}
+        body={t('cleared.body', { room: room.name, amount: money(-(myLine?.net ?? 0)) })}
+        button={t('cleared.button')}
+        onClose={() => setCheer(false)}
+      />
+      <ScrollView
+        style={styles.bg}
+        contentContainerStyle={styles.pad}
+        refreshControl={<RefreshControl refreshing={loading} onRefresh={reload} />}
+      >
+        <View style={styles.column}>
+          {error ? <Notice tone="error">{error}</Notice> : null}
+          {/* my part first: what I pay or get, and the one thing to do next */}
+          {myLine ? (
+            <View style={[styles.mine, myLine.net < 0 ? styles.minePay : styles.mineGet]}>
               <Text style={[styles.mineLabel, myLine.net < 0 ? styles.payText : styles.getText]}>
-                ✓ {t('ack.done')}
+                {t('cycle.range', { from: cycle.starts_on, to: cycle.ends_on })}
               </Text>
-            ) : null}
-          </View>
-        ) : myAck && !myAck.acknowledged_at ? (
-          <Button
-            title={t('ack.button')}
-            onPress={async () => {
-              await api.acknowledgeSettlement(settlementId).catch(() => undefined);
-              await unpinSettlement(settlementId);
-              await reload();
-            }}
-          />
-        ) : null}
-
-        <Card>
-          <Row>
-            <Body>{t('settlement.total')}</Body>
-            <Text style={styles.big}>{money(settlement.total)}</Text>
-          </Row>
-          <Meta>
-            {t('settlement.generated', {
-              when: formatDateTime(settlement.generated_at, room.time_zone),
-              name: nameOf(settlement.generated_by),
-            })}
-          </Meta>
-          <Badge tone="good">{t('cycle.locked')}</Badge>
-        </Card>
-
-        <Section>{t('settlement.whoPaysWhom')}</Section>
-        <Meta>{t('settlement.whoPaysWhomNote')}</Meta>
-        <Spacer size="sm" />
-        <Card>
-          {transfers.length === 0 ? <Body muted>{t('settlement.nothing')}</Body> : null}
-          {transfers.map((x) => (
-            <Row key={`${x.from}-${x.to}`}>
-              <Text style={styles.line}>
-                {t('settlement.pays', { from: nameOf(x.from), to: nameOf(x.to) })}
-              </Text>
-              <Text style={styles.line}>{money(x.amount)}</Text>
-            </Row>
-          ))}
-        </Card>
-
-        <Section>{t('settlement.lines')}</Section>
-        {lines.map((l) => (
-          <Card key={l.line_id}>
-            <Row>
-              <Avatar name={nameOf(l.user_id)} />
-              <View style={styles.flex}>
-                <Text style={styles.name}>
-                  {nameOf(l.user_id)} {l.user_id === me ? t('members.you') : ''}
-                </Text>
-                <Meta>
-                  {t('settlement.share')} {money(l.share)} · {t('settlement.paid')} {money(l.paid)}
-                </Meta>
-                <Badge tone={TONE[l.status]}>{t(`settlement.status_${l.status}`)}</Badge>
-              </View>
-              <Text style={[styles.amount, { color: l.net < 0 ? colors.danger : colors.success }]}>
-                {l.net === 0
+              <Text style={[styles.mineBig, myLine.net < 0 ? styles.payText : styles.getText]}>
+                {myLine.net === 0
                   ? t('settlement.even')
-                  : l.net < 0
-                    ? t('settlement.toPay', { amount: money(-l.net) })
-                    : t('settlement.toReceive', { amount: money(l.net) })}
+                  : myLine.net < 0
+                    ? t('settlement.toPay', { amount: money(-myLine.net) })
+                    : t('settlement.toReceive', { amount: money(myLine.net) })}
               </Text>
-            </Row>
-            {isAdmin ? (
-              <Meta>
-                {t('ack.status')}: {t(`ack.${ackState(l.user_id)}`)}
-              </Meta>
-            ) : null}
-            {disputed.has(l.line_id) ? <Badge tone="bad">{t('flag.badge')}</Badge> : null}
-            <Button
-              title={t('flag.raise')}
-              variant="link"
-              onPress={() =>
-                navigation.navigate('Flag', { roomId, type: 'settlement_line', targetId: l.line_id })
-              }
-            />
-            {l.net < 0 && remaining(l) > 0 ? (
-              <>
-                <Meta>{t('settlement.remaining', { amount: money(remaining(l)) })}</Meta>
-                {isAdmin && (l.user_id !== me || adminCount === 1) ? (
+              <Badge tone={TONE[myLine.status]}>{t(`settlement.status_${myLine.status}`)}</Badge>
+              {myLine.net < 0 && remaining(myLine) > 0 ? (
+                <>
+                  <Text style={[styles.mineLabel, styles.payText]}>
+                    {t('settlement.remaining', { amount: money(remaining(myLine)) })}
+                  </Text>
+                  <Spacer size="sm" />
                   <Button
-                    title={t('settlement.recordPayment')}
-                    variant="secondary"
+                    title={t('settlement.markPaid')}
                     onPress={() =>
-                      navigation.navigate('Pay', { roomId, settlementId, lineId: l.line_id, mode: 'record' })
+                      navigation.navigate('Pay', {
+                        roomId,
+                        settlementId,
+                        lineId: myLine.line_id,
+                        mode: 'claim',
+                      })
                     }
                   />
-                ) : null}
-              </>
-            ) : null}
-          </Card>
-        ))}
+                </>
+              ) : null}
+              {myAck && !myAck.acknowledged_at ? (
+                <Button
+                  title={t('ack.button')}
+                  variant={myLine.net < 0 && remaining(myLine) > 0 ? 'secondary' : 'primary'}
+                  onPress={async () => {
+                    await api.acknowledgeSettlement(settlementId).catch(() => undefined);
+                    await unpinSettlement(settlementId);
+                    await reload();
+                  }}
+                />
+              ) : myAck ? (
+                <Text style={[styles.mineLabel, myLine.net < 0 ? styles.payText : styles.getText]}>
+                  ✓ {t('ack.done')}
+                </Text>
+              ) : null}
+            </View>
+          ) : myAck && !myAck.acknowledged_at ? (
+            <Button
+              title={t('ack.button')}
+              onPress={async () => {
+                await api.acknowledgeSettlement(settlementId).catch(() => undefined);
+                await unpinSettlement(settlementId);
+                await reload();
+              }}
+            />
+          ) : null}
 
-        <Section>{t('settlement.payments')}</Section>
-        {payments.length === 0 ? <Body muted>{t('settlement.noPayments')}</Body> : null}
-        {payments.map((p) => {
-          const canDecide = isAdmin && p.status === 'awaiting' && (p.payer_id !== me || adminCount === 1);
-          return (
-            <Card key={p.id}>
-              <Row>
-                <View style={styles.flex}>
-                  <Text style={styles.name}>{nameOf(p.payer_id)}</Text>
-                  <Meta>
-                    {t(`payment.method_${p.method}`)}
-                    {p.reference ? ` · ${p.reference}` : ''}
-                  </Meta>
-                  <Meta>
-                    {t('payment.by', {
-                      name: nameOf(p.claimed_by),
-                      when: formatDateTime(p.claimed_at, room.time_zone),
-                    })}
-                  </Meta>
-                </View>
-                <Text style={styles.amount}>{money(p.amount)}</Text>
+          <Card>
+            <Row>
+              <Body>{t('settlement.total')}</Body>
+              <Text style={styles.big}>{money(settlement.total)}</Text>
+            </Row>
+            <Meta>
+              {t('settlement.generated', {
+                when: formatDateTime(settlement.generated_at, room.time_zone),
+                name: nameOf(settlement.generated_by),
+              })}
+            </Meta>
+            <Badge tone="good">{t('cycle.locked')}</Badge>
+          </Card>
+
+          <Section>{t('settlement.whoPaysWhom')}</Section>
+          <Meta>{t('settlement.whoPaysWhomNote')}</Meta>
+          <Spacer size="sm" />
+          <Card>
+            {transfers.length === 0 ? <Body muted>{t('settlement.nothing')}</Body> : null}
+            {transfers.map((x) => (
+              <Row key={`${x.from}-${x.to}`}>
+                <Text style={styles.line}>
+                  {t('settlement.pays', { from: nameOf(x.from), to: nameOf(x.to) })}
+                </Text>
+                <Text style={styles.line}>{money(x.amount)}</Text>
               </Row>
-              <Badge tone={p.status === 'confirmed' ? 'good' : p.status === 'rejected' ? 'bad' : 'warn'}>
-                {t(`payment.status_${p.status}`)}
-              </Badge>
-              {p.self_confirmed ? <Meta>{t('payment.selfConfirmed')}</Meta> : null}
-              {p.recorded_by_admin ? <Meta>{t('payment.recordedByAdmin')}</Meta> : null}
-              {p.reject_reason ? <Meta>{t('payment.rejected', { reason: p.reject_reason })}</Meta> : null}
-              {p.note ? <Meta>{p.note}</Meta> : null}
-              {p.proof_path ? <ViewFileButton path={p.proof_path} title={t('payment.viewProof')} /> : null}
-              {disputed.has(p.id) ? <Badge tone="bad">{t('flag.badge')}</Badge> : null}
+            ))}
+          </Card>
+
+          <Section>{t('settlement.lines')}</Section>
+          {lines.map((l) => (
+            <Card key={l.line_id}>
+              <Row>
+                <Avatar name={nameOf(l.user_id)} />
+                <View style={styles.flex}>
+                  <Text style={styles.name}>
+                    {nameOf(l.user_id)} {l.user_id === me ? t('members.you') : ''}
+                  </Text>
+                  <Meta>
+                    {t('settlement.share')} {money(l.share)} · {t('settlement.paid')} {money(l.paid)}
+                  </Meta>
+                  <Badge tone={TONE[l.status]}>{t(`settlement.status_${l.status}`)}</Badge>
+                </View>
+                <Text style={[styles.amount, { color: l.net < 0 ? colors.danger : colors.success }]}>
+                  {l.net === 0
+                    ? t('settlement.even')
+                    : l.net < 0
+                      ? t('settlement.toPay', { amount: money(-l.net) })
+                      : t('settlement.toReceive', { amount: money(l.net) })}
+                </Text>
+              </Row>
+              {isAdmin ? (
+                <Meta>
+                  {t('ack.status')}: {t(`ack.${ackState(l.user_id)}`)}
+                </Meta>
+              ) : null}
+              {disputed.has(l.line_id) ? <Badge tone="bad">{t('flag.badge')}</Badge> : null}
               <Button
                 title={t('flag.raise')}
                 variant="link"
-                onPress={() => navigation.navigate('Flag', { roomId, type: 'payment', targetId: p.id })}
+                onPress={() =>
+                  navigation.navigate('Flag', { roomId, type: 'settlement_line', targetId: l.line_id })
+                }
               />
-              {canDecide ? (
-                rejecting === p.id ? (
-                  <>
-                    <TextInput
-                      style={styles.input}
-                      placeholder={t('payment.rejectReasonPlaceholder')}
-                      placeholderTextColor={colors.textMuted}
-                      value={reason}
-                      onChangeText={setReason}
-                      accessibilityLabel={t('payment.rejectReason')}
-                    />
+              {l.net < 0 && remaining(l) > 0 ? (
+                <>
+                  <Meta>{t('settlement.remaining', { amount: money(remaining(l)) })}</Meta>
+                  {isAdmin && (l.user_id !== me || adminCount === 1) ? (
                     <Button
-                      title={t('payment.reject')}
-                      variant="danger"
-                      loading={busyId === p.id}
-                      onPress={() => decide(p, false)}
-                    />
-                    <Button title={t('common.cancel')} variant="link" onPress={() => setRejecting(null)} />
-                  </>
-                ) : (
-                  <>
-                    <Spacer size="sm" />
-                    <Button
-                      title={t('payment.confirm')}
-                      loading={busyId === p.id}
-                      onPress={() => decide(p, true)}
-                    />
-                    <Button
-                      title={t('payment.reject')}
+                      title={t('settlement.recordPayment')}
                       variant="secondary"
-                      onPress={() => setRejecting(p.id)}
+                      onPress={() =>
+                        navigation.navigate('Pay', {
+                          roomId,
+                          settlementId,
+                          lineId: l.line_id,
+                          mode: 'record',
+                        })
+                      }
                     />
-                  </>
-                )
+                  ) : null}
+                </>
               ) : null}
             </Card>
-          );
-        })}
-      </View>
-    </ScrollView>
+          ))}
+
+          <Section>{t('settlement.payments')}</Section>
+          {payments.length === 0 ? <Body muted>{t('settlement.noPayments')}</Body> : null}
+          {payments.map((p) => {
+            const canDecide = isAdmin && p.status === 'awaiting' && (p.payer_id !== me || adminCount === 1);
+            return (
+              <Card key={p.id}>
+                <Row>
+                  <View style={styles.flex}>
+                    <Text style={styles.name}>{nameOf(p.payer_id)}</Text>
+                    <Meta>
+                      {t(`payment.method_${p.method}`)}
+                      {p.reference ? ` · ${p.reference}` : ''}
+                    </Meta>
+                    <Meta>
+                      {t('payment.by', {
+                        name: nameOf(p.claimed_by),
+                        when: formatDateTime(p.claimed_at, room.time_zone),
+                      })}
+                    </Meta>
+                  </View>
+                  <Text style={styles.amount}>{money(p.amount)}</Text>
+                </Row>
+                <Badge tone={p.status === 'confirmed' ? 'good' : p.status === 'rejected' ? 'bad' : 'warn'}>
+                  {t(`payment.status_${p.status}`)}
+                </Badge>
+                {p.self_confirmed ? <Meta>{t('payment.selfConfirmed')}</Meta> : null}
+                {p.recorded_by_admin ? <Meta>{t('payment.recordedByAdmin')}</Meta> : null}
+                {p.reject_reason ? <Meta>{t('payment.rejected', { reason: p.reject_reason })}</Meta> : null}
+                {p.note ? <Meta>{p.note}</Meta> : null}
+                {p.proof_path ? <ViewFileButton path={p.proof_path} title={t('payment.viewProof')} /> : null}
+                {disputed.has(p.id) ? <Badge tone="bad">{t('flag.badge')}</Badge> : null}
+                <Button
+                  title={t('flag.raise')}
+                  variant="link"
+                  onPress={() => navigation.navigate('Flag', { roomId, type: 'payment', targetId: p.id })}
+                />
+                {canDecide ? (
+                  rejecting === p.id ? (
+                    <>
+                      <TextInput
+                        style={styles.input}
+                        placeholder={t('payment.rejectReasonPlaceholder')}
+                        placeholderTextColor={colors.textMuted}
+                        value={reason}
+                        onChangeText={setReason}
+                        accessibilityLabel={t('payment.rejectReason')}
+                      />
+                      <Button
+                        title={t('payment.reject')}
+                        variant="danger"
+                        loading={busyId === p.id}
+                        onPress={() => decide(p, false)}
+                      />
+                      <Button title={t('common.cancel')} variant="link" onPress={() => setRejecting(null)} />
+                    </>
+                  ) : (
+                    <>
+                      <Spacer size="sm" />
+                      <Button
+                        title={t('payment.confirm')}
+                        loading={busyId === p.id}
+                        onPress={() => decide(p, true)}
+                      />
+                      <Button
+                        title={t('payment.reject')}
+                        variant="secondary"
+                        onPress={() => setRejecting(p.id)}
+                      />
+                    </>
+                  )
+                ) : null}
+              </Card>
+            );
+          })}
+        </View>
+      </ScrollView>
+    </>
   );
 }
 

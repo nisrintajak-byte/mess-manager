@@ -37,4 +37,6 @@ export type AppStackParamList = {
   Sync: undefined;
   Reports: { roomId: string; cycleId?: string };
   DeleteAccount: undefined;
+  Settings: { page: 'profile' | 'security' | 'appearance' | 'ads' | 'data' };
+  Onboarding: undefined;
 };

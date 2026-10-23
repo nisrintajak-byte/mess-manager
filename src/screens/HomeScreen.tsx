@@ -1,5 +1,5 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -10,10 +10,12 @@ import { localizeDigits } from '../lib/digits';
 import { formatMoney } from '../lib/money';
 import { getPref, setPref } from '../lib/prefs';
 import type { AppStackParamList } from '../navigation/types';
+import { TOUR_PREF } from './OnboardingScreen';
 import { AdSlot } from '../ui/AdSlot';
 import { Avatar } from '../ui/Avatar';
 import { BottomBar } from '../ui/BottomBar';
-import { Body, Notice } from '../ui/components';
+import { Notice } from '../ui/components';
+import { EmptyState } from '../ui/EmptyState';
 import { useLoader } from '../ui/hooks';
 import { Icon, IconName } from '../ui/Icon';
 import { RoomPicker } from '../ui/RoomPicker';
@@ -34,24 +36,40 @@ export function HomeScreen({ navigation }: Props) {
   const { session } = useAuth();
   const insets = useSafeAreaInsets();
   const [picking, setPicking] = useState<Action | null>(null);
-  // first-time users see a "how to use" card until they close it
-  const [showWelcome, setShowWelcome] = useState(false);
+  // first-time setup checklist (founder 2026-10-23) until done or closed
+  const [setupHidden, setSetupHidden] = useState(true);
+  const [firstExpense, setFirstExpense] = useState(false);
   useEffect(() => {
-    void getPref('helpSeen').then((v) => setShowWelcome(v !== '1'));
+    void getPref('setupHidden').then((v) => setSetupHidden(v === '1'));
   }, []);
-  async function hideWelcome() {
-    setShowWelcome(false);
-    await setPref('helpSeen', '1');
+  async function hideSetup() {
+    setSetupHidden(true);
+    await setPref('setupHidden', '1');
   }
+  const uid = session?.user.id ?? '';
   const { data, error, loading, reload } = useLoader(async () => {
-    const [rooms, pending, unread, open] = await Promise.all([
+    const [rooms, pending, unread, open, profile, expensePref] = await Promise.all([
       api.myRoomsOverview(),
       api.myPendingRequests(),
       api.unreadCount().catch(() => 0),
       api.myOpenSettlements().catch(() => []),
+      api.myProfile(uid).catch(() => null),
+      getPref('firstExpense'),
     ]);
-    return { rooms, pending, unread, open };
+    setFirstExpense(expensePref === '1');
+    return { rooms, pending, unread, open, profile };
   });
+  // a brand-new member (no Room, no request) sees the intro slides once on this device
+  const tourChecked = useRef(false);
+  useEffect(() => {
+    if (!data || tourChecked.current) return;
+    tourChecked.current = true;
+    void getPref(TOUR_PREF).then((v) => {
+      if (v === '1') return;
+      if (data.rooms.length === 0 && data.pending.length === 0) navigation.navigate('Onboarding');
+      else void setPref(TOUR_PREF, '1');
+    });
+  }, [data, navigation]);
   const name = (session?.user.user_metadata?.display_name as string | undefined) ?? '';
   const rooms = data?.rooms ?? [];
   const money = (v: number, r: { currency: string; decimals: number }) =>
@@ -60,6 +78,27 @@ export function HomeScreen({ navigation }: Props) {
   // one total only when every Room uses the same currency
   const oneCurrency = rooms.length > 0 && rooms.every((r) => r.currency === rooms[0]?.currency);
   const first = rooms[0];
+  const fresh = !!data && rooms.length === 0;
+  const steps = [
+    {
+      key: 'photo',
+      done: !!data?.profile?.avatar_url,
+      go: () => navigation.navigate('Settings', { page: 'profile' }),
+    },
+    {
+      key: 'room',
+      done: rooms.length > 0 || (data?.pending.length ?? 0) > 0,
+      go: () => navigation.navigate('CreateRoom'),
+    },
+    {
+      key: 'expense',
+      done: firstExpense || rooms.some((r) => r.my_paid > 0),
+      go: () => quick('add'),
+    },
+  ] as const;
+  const stepsDone = steps.filter((x) => x.done).length;
+  // a new member first sees the welcome card; the list follows once they have a Room
+  const showSetup = !!data && !fresh && !setupHidden && stepsDone < steps.length;
   const pay = rooms.reduce((s, r) => s + Math.max(r.my_share - r.my_paid, 0), 0);
   const get = rooms.reduce((s, r) => s + Math.max(r.my_paid - r.my_share, 0), 0);
 
@@ -160,73 +199,118 @@ export function HomeScreen({ navigation }: Props) {
             </Pressable>
           ))}
 
-          {showWelcome ? (
-            <View style={styles.welcome}>
-              <Text style={styles.pinnedTitle}>{t('help.welcomeTitle')}</Text>
-              <Text style={styles.meta}>{t('help.welcomeBody')}</Text>
-              <View style={[styles.welcomeRow, { flexDirection: rowDirection() }]}>
-                <Pressable
-                  accessibilityRole="button"
-                  onPress={() => navigation.navigate('Help')}
-                  style={styles.welcomeBtn}
-                >
-                  <Text style={styles.welcomeBtnText}>{t('help.open')}</Text>
-                </Pressable>
-                <Pressable accessibilityRole="button" onPress={() => void hideWelcome()} style={styles.link}>
-                  <Text style={styles.linkText}>{t('help.dismiss')}</Text>
-                </Pressable>
+          {showSetup ? (
+            <View style={styles.setup}>
+              <View style={[styles.setupHead, { flexDirection: rowDirection() }]}>
+                <Text style={[styles.pinnedTitle, styles.flex]}>{t('setup.title')}</Text>
+                <Text style={styles.meta}>
+                  {localizeDigits(t('setup.progress', { done: stepsDone, total: steps.length }))}
+                </Text>
               </View>
+              <View style={styles.bar}>
+                <View style={[styles.barFill, { width: `${(stepsDone / steps.length) * 100}%` }]} />
+              </View>
+              {steps.map((x) => (
+                <Pressable
+                  key={x.key}
+                  accessibilityRole="button"
+                  accessibilityState={{ checked: x.done, disabled: x.done }}
+                  onPress={x.done ? undefined : x.go}
+                  style={({ pressed }) => [
+                    styles.stepRow,
+                    { flexDirection: rowDirection() },
+                    pressed && styles.dim,
+                  ]}
+                >
+                  <View style={[styles.stepDot, x.done && styles.stepDotDone]}>
+                    {x.done ? <Icon name="check" size={14} color={colors.primaryText} /> : null}
+                  </View>
+                  <Text style={[styles.stepText, x.done && styles.stepTextDone]}>{t(`setup.${x.key}`)}</Text>
+                  {!x.done ? (
+                    <View style={rowDirection() === 'row-reverse' ? styles.flip : null}>
+                      <Icon name="chevron" size={16} color={colors.textMuted} />
+                    </View>
+                  ) : null}
+                </Pressable>
+              ))}
+              <Pressable accessibilityRole="button" onPress={() => void hideSetup()} style={styles.link}>
+                <Text style={styles.linkText}>{t('setup.hide')}</Text>
+              </Pressable>
             </View>
           ) : null}
           <WebPushCard compact />
 
-          <View style={styles.grid}>
-            {tiles.map((x) => (
-              <Pressable
-                key={x.key}
-                accessibilityRole="button"
-                accessibilityLabel={x.label}
-                onPress={() => quick(x.key)}
-                style={({ pressed }) => [styles.action, { backgroundColor: x.bg }, pressed && styles.dim]}
-              >
-                <Icon name={x.icon} size={28} color={x.fg} />
-                <Text style={[styles.actionText, { color: x.fg }]}>{x.label}</Text>
-              </Pressable>
-            ))}
-          </View>
-
-          <View style={[styles.sectionRow, { flexDirection: rowDirection() }]}>
-            <Text style={styles.section}>{t('home.title')}</Text>
-            <Pressable
-              accessibilityRole="button"
-              onPress={() => navigation.navigate('JoinRoom')}
-              style={styles.link}
-            >
-              <Text style={styles.linkText}>{t('home.joinShort')}</Text>
-            </Pressable>
-          </View>
-
-          {data && data.pending.length > 0 ? (
-            <Notice tone="info">{t('home.pendingCount', { count: data.pending.length })}</Notice>
+          {fresh && data.pending.length > 0 ? (
+            <View style={styles.emptyCard}>
+              <EmptyState
+                art="waiting"
+                title={t('home.waitingTitle')}
+                body={t('home.waitingBody', { count: data.pending.length })}
+                secondary={{ label: t('home.joinAnother'), onPress: () => navigation.navigate('JoinRoom') }}
+              />
+            </View>
+          ) : fresh ? (
+            <View style={styles.emptyCard}>
+              <EmptyState
+                art="welcome"
+                title={name ? t('home.welcomeName', { name }) : t('home.welcomeTitle')}
+                body={t('home.emptyBody')}
+                action={{ label: t('home.createShort'), onPress: () => navigation.navigate('CreateRoom') }}
+                secondary={{ label: t('home.joinWithCode'), onPress: () => navigation.navigate('JoinRoom') }}
+              />
+            </View>
           ) : null}
-          {data && rooms.length === 0 ? <Body muted>{t('home.empty')}</Body> : null}
 
-          {rooms.map((r) => (
-            <RoomRow
-              key={r.room_id}
-              r={r}
-              money={money}
-              onPress={() => navigation.navigate('Room', { roomId: r.room_id })}
-            />
-          ))}
+          {!fresh ? (
+            <>
+              <View style={styles.grid}>
+                {tiles.map((x) => (
+                  <Pressable
+                    key={x.key}
+                    accessibilityRole="button"
+                    accessibilityLabel={x.label}
+                    onPress={() => quick(x.key)}
+                    style={({ pressed }) => [styles.action, { backgroundColor: x.bg }, pressed && styles.dim]}
+                  >
+                    <Icon name={x.icon} size={28} color={x.fg} />
+                    <Text style={[styles.actionText, { color: x.fg }]}>{x.label}</Text>
+                  </Pressable>
+                ))}
+              </View>
 
-          <Pressable
-            accessibilityRole="button"
-            onPress={() => navigation.navigate('CreateRoom')}
-            style={({ pressed }) => [styles.create, pressed && styles.dim]}
-          >
-            <Text style={styles.createText}>{t('home.createShort')}</Text>
-          </Pressable>
+              <View style={[styles.sectionRow, { flexDirection: rowDirection() }]}>
+                <Text style={styles.section}>{t('home.title')}</Text>
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => navigation.navigate('JoinRoom')}
+                  style={styles.link}
+                >
+                  <Text style={styles.linkText}>{t('home.joinShort')}</Text>
+                </Pressable>
+              </View>
+
+              {data && data.pending.length > 0 ? (
+                <Notice tone="info">{t('home.pendingCount', { count: data.pending.length })}</Notice>
+              ) : null}
+
+              {rooms.map((r) => (
+                <RoomRow
+                  key={r.room_id}
+                  r={r}
+                  money={money}
+                  onPress={() => navigation.navigate('Room', { roomId: r.room_id })}
+                />
+              ))}
+
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => navigation.navigate('CreateRoom')}
+                style={({ pressed }) => [styles.create, pressed && styles.dim]}
+              >
+                <Text style={styles.createText}>{t('home.createShort')}</Text>
+              </Pressable>
+            </>
+          ) : null}
           <AdSlot screen="Home" />
         </View>
       </ScrollView>
@@ -295,22 +379,46 @@ const styles = themedStyles(() =>
     logo: { width: 40, height: 40, borderRadius: 10 },
     brand: { flex: 1, fontSize: font.lg, fontWeight: '700', color: colors.heroText },
     helpBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
-    welcome: {
-      backgroundColor: colors.getBg,
+    setup: {
+      backgroundColor: colors.surface,
       borderRadius: radius.lg,
       padding: space.md,
       marginBottom: space.md,
+      borderWidth: 1,
+      borderColor: colors.border,
       gap: space.xs,
     },
-    welcomeRow: { alignItems: 'center', gap: space.md, marginTop: space.sm },
-    welcomeBtn: {
-      minHeight: 44,
-      paddingHorizontal: space.lg,
-      borderRadius: radius.md,
-      backgroundColor: colors.primary,
+    setupHead: { alignItems: 'center', gap: space.md },
+    bar: {
+      height: 6,
+      borderRadius: 3,
+      backgroundColor: colors.getBg,
+      overflow: 'hidden',
+      marginVertical: space.xs,
+    },
+    barFill: { height: 6, borderRadius: 3, backgroundColor: colors.success },
+    stepRow: { alignItems: 'center', gap: space.md, minHeight: 44 },
+    stepDot: {
+      width: 24,
+      height: 24,
+      borderRadius: 12,
+      borderWidth: 2,
+      borderColor: colors.border,
+      alignItems: 'center',
       justifyContent: 'center',
     },
-    welcomeBtnText: { color: colors.primaryText, fontWeight: '700', fontSize: font.md },
+    stepDotDone: { backgroundColor: colors.success, borderColor: colors.success },
+    stepText: { flex: 1, fontSize: font.md, color: colors.text, fontWeight: '600' },
+    stepTextDone: { color: colors.textMuted, textDecorationLine: 'line-through', fontWeight: '400' },
+    flip: { transform: [{ scaleX: -1 }] },
+    emptyCard: {
+      backgroundColor: colors.surface,
+      borderRadius: radius.lg,
+      paddingHorizontal: space.lg,
+      marginBottom: space.lg,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
     hello: { fontSize: font.md, color: colors.heroMuted, width: '100%', maxWidth: 560, alignSelf: 'center' },
     column: { width: '100%', maxWidth: 560, alignSelf: 'center', paddingHorizontal: space.lg },
     summary: {

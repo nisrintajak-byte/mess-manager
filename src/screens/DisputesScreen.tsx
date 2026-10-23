@@ -9,7 +9,8 @@ import { dbErrorKey } from '../lib/errors';
 import { supabase } from '../lib/supabase';
 import { formatDateTime } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
-import { Badge, Body, Button, Card, Meta, Notice, Row } from '../ui/components';
+import { Badge, Button, Card, Meta, Notice, Row } from '../ui/components';
+import { EmptyState } from '../ui/EmptyState';
 import { ViewFileButton } from '../ui/FilePicker';
 import { useLoader } from '../ui/hooks';
 import { colors, font, radius, space, themedStyles } from '../ui/theme';
@@ -99,7 +100,9 @@ export function DisputesScreen({ navigation, route }: Props) {
     >
       <View style={styles.column}>
         {error ? <Notice tone="error">{error}</Notice> : null}
-        {flags.length === 0 ? <Body muted>{t('flag.none')}</Body> : null}
+        {flags.length === 0 && !loading ? (
+          <EmptyState art="shield" title={t('flag.none')} body={t('empty.disputesBody')} />
+        ) : null}
         {flags.map((f) => {
           const open = f.status === 'open' || f.status === 'under_review';
           const involved = f.target_owner === me;

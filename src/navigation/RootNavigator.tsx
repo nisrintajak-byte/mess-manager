@@ -29,6 +29,8 @@ import { HelpScreen } from '../screens/HelpScreen';
 import { LegalScreen } from '../screens/LegalScreen';
 import { WelcomeScreen } from '../screens/auth/WelcomeScreen';
 import { NeedsScreen } from '../screens/NeedsScreen';
+import { OnboardingScreen } from '../screens/OnboardingScreen';
+import { SettingsPageScreen } from '../screens/SettingsPageScreen';
 import { NotificationSettingsScreen } from '../screens/NotificationSettingsScreen';
 import { PayScreen } from '../screens/PayScreen';
 import { SyncScreen } from '../screens/SyncScreen';
@@ -191,7 +193,17 @@ export function RootNavigator() {
           <AppStack.Screen
             name="Preferences"
             component={PreferencesScreen}
-            options={{ title: t('prefs.title') }}
+            options={{ title: t('nav.me'), headerShown: false }}
+          />
+          <AppStack.Screen
+            name="Settings"
+            component={SettingsPageScreen}
+            options={({ route }) => ({ title: t(`me.page_${route.params.page}`) })}
+          />
+          <AppStack.Screen
+            name="Onboarding"
+            component={OnboardingScreen}
+            options={{ headerShown: false, presentation: 'fullScreenModal', animation: 'fade' }}
           />
         </AppStack.Navigator>
       ) : (

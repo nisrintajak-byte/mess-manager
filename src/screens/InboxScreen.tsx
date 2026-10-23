@@ -6,9 +6,10 @@ import { api, AppNotification } from '../lib/api';
 import { notificationText } from '../lib/notifText';
 import { formatDateTime } from '../lib/util';
 import type { AppStackParamList } from '../navigation/types';
-import { Body, Button, Card, Meta, Row } from '../ui/components';
+import { Button, Card, Meta, Row } from '../ui/components';
 import { AdSlot } from '../ui/AdSlot';
 import { BottomBar } from '../ui/BottomBar';
+import { EmptyState } from '../ui/EmptyState';
 import { useLoader } from '../ui/hooks';
 import { colors, font, space, themedStyles } from '../ui/theme';
 
@@ -59,7 +60,9 @@ export function InboxScreen({ navigation }: Props) {
               onPress={() => navigation.navigate('NotificationSettings')}
             />
           </Row>
-          {items.length === 0 && !loading ? <Body muted>{t('inbox.empty')}</Body> : null}
+          {items.length === 0 && !loading ? (
+            <EmptyState art="inbox" title={t('inbox.empty')} body={t('empty.inboxBody')} />
+          ) : null}
           {items.map((n) => (
             <Card key={n.id} onPress={() => open(n)}>
               <Row>
