@@ -52,7 +52,7 @@ export function InboxScreen({ navigation }: Props) {
         refreshControl={<RefreshControl refreshing={loading} onRefresh={reload} />}
       >
         <View style={styles.column}>
-          <Row>
+          <Row wrap>
             <Button title={t('inbox.markAll')} variant="link" onPress={markAll} />
             <Button
               title={t('inbox.settings')}

@@ -57,6 +57,10 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
     persistSession: true,
     detectSessionInUrl: Platform.OS === 'web',
   },
+  // The library retries failed reads 3 times (1 + 2 + 4 s) before giving up. The app has its own
+  // offline handling (saved copies, outbox, timeouts), so fail fast: offline, screens such as
+  // Add expense otherwise sat ~7 s before they could show the saved copy and save.
+  db: { retry: false },
 });
 
 export const isSupabaseConfigured = SUPABASE_URL !== '' && SUPABASE_KEY !== '';
