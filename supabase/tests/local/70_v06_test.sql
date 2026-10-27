@@ -34,20 +34,23 @@ create temp table t as select public.create_room('Flat', 'KW', 'KWD', 3, 'Asia/K
 grant select on t to authenticated;
 select pg_temp.act(null);
 create temp table d as select (now() at time zone 'Asia/Kuwait')::date as today;
+-- first cycle starts on a month's 1st so the old expense below always falls inside it, whatever today's date
+alter table d add column start date;
+update d set start = date_trunc('month', today - 150)::date;
 grant select on d to authenticated;
 -- the Room started ~5 months ago; first cycle is that month
 update public.rooms set created_at = now() - interval '150 days';
-update public.cycles set starts_on = (select today from d) - 150,
-  ends_on = public.cycle_end((select today from d) - 150, 'monthly');
-update public.room_members set joined_on = (select today from d) - 150;
+update public.cycles set starts_on = (select start from d),
+  ends_on = public.cycle_end((select start from d), 'monthly');
+update public.room_members set joined_on = (select start from d);
 insert into public.room_members (room_id, user_id, role, status, joined_on)
-select room, u::uuid, 'member'::public.member_role, 'approved'::public.member_status, (select today from d) - 150
+select room, u::uuid, 'member'::public.member_role, 'approved'::public.member_status, (select start from d)
   from t, unnest(array['bbbbbbbb-0000-0000-0000-000000000002', 'cccccccc-0000-0000-0000-000000000003',
                        'dddddddd-0000-0000-0000-000000000004']) u;
 
 -- old cycle: expense with receipt, settlement, payment, dispute; later: an adjustment
 select pg_temp.act('aaaaaaaa-0000-0000-0000-000000000001');
-create temp table e1 as select public.create_expense((select room from t), 'Rice', 8000, (select today from d) - 148,
+create temp table e1 as select public.create_expense((select room from t), 'Rice', 8000, (select start from d) + 2,
   'aaaaaaaa-0000-0000-0000-000000000001') as id;
 grant select on e1 to authenticated;
 select pg_temp.act(null);
