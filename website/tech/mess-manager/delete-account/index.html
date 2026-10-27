@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Delete your Mess Manager account</title>
+<style>
+  :root { --bg:#F6F7F4; --card:#fff; --ink:#16201C; --muted:#5B6762; --line:#D9DED9; --accent:#1F6F5C; --danger:#B42318; --dangerBg:#FDECEA; --okBg:#E5F2EE; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0F1714; --card:#18231F; --ink:#E8EFEA; --muted:#A3B1AA; --line:#2C3A35; --accent:#4FB89B; --danger:#FF9A90; --dangerBg:#3A1816; --okBg:#14332B; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Noto Naskh Arabic", "Noto Sans Devanagari", sans-serif; }
+  html[lang=ur] body { font-family: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Noto Naskh Arabic", system-ui, sans-serif; line-height: 2; }
+  main { max-width: 560px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 24px; margin: 8px 0 4px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; margin:16px 0; }
+  .muted { color:var(--muted); font-size:14px; }
+  ul { padding-inline-start: 20px; margin: 8px 0; }
+  li { margin: 6px 0; }
+  label { display:block; font-weight:600; margin: 8px 0 6px; }
+  input[type=email] { width:100%; padding:12px; font-size:16px; border:1px solid var(--line); border-radius:10px; background:var(--bg); color:var(--ink); }
+  button { width:100%; margin-top:12px; padding:13px; font-size:16px; font-weight:600; border:0; border-radius:10px; background:var(--accent); color:#fff; cursor:pointer; }
+  button.danger { background:var(--danger); }
+  button:disabled { opacity:.55; cursor:default; }
+  .notice { padding:12px; border-radius:10px; margin:12px 0; }
+  .notice.err { background:var(--dangerBg); color:var(--danger); }
+  .notice.ok { background:var(--okBg); }
+  .langs { display:flex; gap:8px; flex-wrap:wrap; }
+  .langs a { color:var(--accent); text-decoration:none; padding:4px 10px; border:1px solid var(--line); border-radius:999px; font-size:14px; }
+  .langs a[aria-current] { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .check { display:flex; gap:10px; align-items:flex-start; margin-top:12px; }
+  .check input { width:20px; height:20px; margin-top:4px; flex:none; }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<main>
+  <nav class="langs" id="langs" aria-label="Language"></nav>
+  <h1 data-t="title"></h1>
+  <p class="muted" data-t="intro"></p>
+
+  <section class="card">
+    <strong data-t="whatTitle"></strong>
+    <ul>
+      <li data-t="what1"></li>
+      <li data-t="what2"></li>
+      <li data-t="what3"></li>
+      <li data-t="what4"></li>
+    </ul>
+    <p class="muted" data-t="inApp"></p>
+  </section>
+
+  <section class="card" id="request">
+    <form id="reqForm">
+      <label for="email" data-t="emailLabel"></label>
+      <input id="email" type="email" autocomplete="email" required>
+      <button id="reqBtn" type="submit" data-t="send"></button>
+    </form>
+    <div id="reqDone" class="notice ok" hidden data-t="sent"></div>
+    <div id="reqErr" class="notice err" hidden data-t="error"></div>
+  </section>
+
+  <section class="card" id="confirm" hidden>
+    <strong data-t="confirmTitle"></strong>
+    <div class="check"><input type="checkbox" id="agree"><label for="agree" style="font-weight:400;margin:0" data-t="understand"></label></div>
+    <button id="confirmBtn" class="danger" type="button" disabled data-t="confirmBtn"></button>
+    <div id="confirmMsg" class="notice" hidden></div>
+  </section>
+
+  <p class="muted" data-t="contact"></p>
+  <p class="muted"><a href="../index.html" style="color:inherit">Mess Manager</a> · <a href="../../index.html" style="color:inherit">Uyoon Tech Solutions</a> · <a href="../../support/index.html" style="color:inherit">Support</a></p>
+</main>
+<script>
+(() => {
+  const SUPABASE_URL = 'https://egylgjgimuytmnmrvzhs.supabase.co';
+  const KEY = 'sb_publishable_gPryt81NP50aGXuKoo6hOg_qMgzBk4M';
+  const T = {
+    en: {
+      title: 'Delete your Mess Manager account',
+      intro: 'You can delete your account here without installing the app. In the app, the same option is under Preferences → Your data and account → Delete account.',
+      whatTitle: 'What happens',
+      what1: 'You are signed out everywhere and cannot sign in again. You leave all your Rooms today.',
+      what2: 'Your financial records stay read-only for 2 months, only for the Rooms’ accounts and disputes — never for ads or marketing.',
+      what3: 'After 2 months you and your former Room members receive a final PDF statement by email, then all data linked to you, including your email address, is permanently deleted.',
+      what4: 'This cannot be undone. If you are the only Admin of a Room with other members, make someone else an Admin first.',
+      inApp: 'For your security we first send a confirmation link to the email address of the account.',
+      emailLabel: 'Email address of your account',
+      send: 'Send confirmation link',
+      sent: 'If an account uses this email address, a confirmation link has been sent. It is valid for 24 hours. Check your spam folder too.',
+      error: 'Something went wrong. Please check your connection and try again.',
+      confirmTitle: 'Confirm deleting your account',
+      understand: 'I understand that this cannot be undone.',
+      confirmBtn: 'Delete my account',
+      done: 'Your account has been deleted. You will receive a confirmation email.',
+      invalid: 'This link is not valid any more (used or older than 24 hours). Request a new one below.',
+      lastAdmin: 'You are the only Admin of: {rooms}. Open the app and make another member an Admin first, then use this link again.',
+      notReady: 'Account deletion is being switched on. Please try again later.',
+      contact: 'Questions about your data? Contact the Grievance Officer of Uyoon Tech Solutions. Requests are answered within 30 days.'
+    },
+    ar: {
+      title: 'احذف حسابك في Mess Manager',
+      intro: 'يمكنك حذف حسابك هنا دون تثبيت التطبيق. في التطبيق، يوجد الخيار نفسه في التفضيلات ← بياناتك وحسابك ← حذف الحساب.',
+      whatTitle: 'ماذا يحدث',
+      what1: 'يُسجَّل خروجك من كل مكان ولا يمكنك الدخول مجدداً. تغادر كل غرفك اليوم.',
+      what2: 'تبقى سجلاتك المالية للقراءة فقط لمدة شهرين، لحسابات الغرف ونزاعاتها فقط — ولن تُستخدم أبداً للإعلانات أو التسويق.',
+      what3: 'بعد شهرين تستلم أنت وأعضاء غرفك السابقون كشف حساب نهائياً بصيغة PDF بالبريد، ثم تُحذف نهائياً كل البيانات المرتبطة بك بما فيها بريدك الإلكتروني.',
+      what4: 'لا يمكن التراجع عن هذا. إن كنت المشرف الوحيد في غرفة فيها أعضاء آخرون، اجعل شخصاً آخر مشرفاً أولاً.',
+      inApp: 'لحمايتك نرسل أولاً رابط تأكيد إلى البريد الإلكتروني للحساب.',
+      emailLabel: 'البريد الإلكتروني لحسابك',
+      send: 'أرسل رابط التأكيد',
+      sent: 'إن كان هناك حساب بهذا البريد فقد أُرسل رابط التأكيد. الرابط صالح لمدة 24 ساعة. تحقق أيضاً من مجلد الرسائل غير المرغوب فيها.',
+      error: 'حدث خطأ. تحقق من اتصالك وحاول مرة أخرى.',
+      confirmTitle: 'تأكيد حذف حسابك',
+      understand: 'أفهم أنه لا يمكن التراجع عن هذا.',
+      confirmBtn: 'احذف حسابي',
+      done: 'تم حذف حسابك. ستصلك رسالة تأكيد بالبريد.',
+      invalid: 'هذا الرابط لم يعد صالحاً (استُخدم أو مضى عليه أكثر من 24 ساعة). اطلب رابطاً جديداً أدناه.',
+      lastAdmin: 'أنت المشرف الوحيد في: {rooms}. افتح التطبيق واجعل عضواً آخر مشرفاً أولاً، ثم استخدم هذا الرابط مرة أخرى.',
+      notReady: 'يجري تفعيل حذف الحساب. حاول مرة أخرى لاحقاً.',
+      contact: 'أسئلة عن بياناتك؟ تواصل مع مسؤول التظلمات في Uyoon Tech Solutions. يُرد على الطلبات خلال 30 يوماً.'
+    },
+    ur: {
+      title: 'اپنا Mess Manager اکاؤنٹ حذف کریں',
+      intro: 'آپ ایپ انسٹال کیے بغیر یہاں اپنا اکاؤنٹ حذف کر سکتے ہیں۔ ایپ میں یہی آپشن ترجیحات ← آپ کا ڈیٹا اور اکاؤنٹ ← اکاؤنٹ حذف کریں میں ہے۔',
+      whatTitle: 'کیا ہوتا ہے',
+      what1: 'آپ ہر جگہ سے سائن آؤٹ ہو جائیں گے اور دوبارہ سائن ان نہیں کر سکیں گے۔ آپ آج اپنے تمام روم چھوڑ دیں گے۔',
+      what2: 'آپ کے مالی ریکارڈ 2 مہینے تک صرف پڑھنے کے لیے رہیں گے، صرف روم کے حساب اور تنازعات کے لیے — کبھی اشتہارات یا مارکیٹنگ کے لیے نہیں۔',
+      what3: '2 مہینے بعد آپ اور آپ کے سابقہ روم ممبرز کو ای میل پر آخری PDF اسٹیٹمنٹ ملے گا، پھر آپ سے جڑا تمام ڈیٹا بشمول ای میل ایڈریس مستقل طور پر حذف ہو جائے گا۔',
+      what4: 'یہ واپس نہیں ہو سکتا۔ اگر آپ کسی ایسے روم کے واحد ایڈمن ہیں جس میں دوسرے ممبرز ہیں تو پہلے کسی اور کو ایڈمن بنائیں۔',
+      inApp: 'آپ کی حفاظت کے لیے ہم پہلے اکاؤنٹ کی ای میل پر تصدیقی لنک بھیجتے ہیں۔',
+      emailLabel: 'آپ کے اکاؤنٹ کی ای میل',
+      send: 'تصدیقی لنک بھیجیں',
+      sent: 'اگر اس ای میل سے کوئی اکاؤنٹ ہے تو تصدیقی لنک بھیج دیا گیا ہے۔ یہ 24 گھنٹے کے لیے درست ہے۔ اسپام فولڈر بھی دیکھیں۔',
+      error: 'کچھ غلط ہو گیا۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔',
+      confirmTitle: 'اکاؤنٹ حذف کرنے کی تصدیق',
+      understand: 'میں سمجھتا/سمجھتی ہوں کہ یہ واپس نہیں ہو سکتا۔',
+      confirmBtn: 'میرا اکاؤنٹ حذف کریں',
+      done: 'آپ کا اکاؤنٹ حذف کر دیا گیا ہے۔ آپ کو تصدیقی ای میل ملے گی۔',
+      invalid: 'یہ لنک اب درست نہیں (استعمال ہو چکا یا 24 گھنٹے سے پرانا)۔ نیچے سے نیا لنک منگوائیں۔',
+      lastAdmin: 'آپ ان روم کے واحد ایڈمن ہیں: {rooms}۔ ایپ کھولیں، پہلے کسی اور ممبر کو ایڈمن بنائیں، پھر یہ لنک دوبارہ استعمال کریں۔',
+      notReady: 'اکاؤنٹ حذف کرنے کی سہولت فعال کی جا رہی ہے۔ براہِ کرم بعد میں کوشش کریں۔',
+      contact: 'اپنے ڈیٹا کے بارے میں سوالات؟ Uyoon Tech Solutions کے شکایات افسر سے رابطہ کریں۔ درخواستوں کا جواب 30 دن میں دیا جاتا ہے۔'
+    },
+    hi: {
+      title: 'अपना Mess Manager खाता हटाएँ',
+      intro: 'आप ऐप इंस्टॉल किए बिना यहाँ अपना खाता हटा सकते हैं। ऐप में यही विकल्प प्राथमिकताएँ → आपका डेटा और खाता → खाता हटाएँ में है।',
+      whatTitle: 'क्या होता है',
+      what1: 'आप हर जगह से साइन आउट हो जाएँगे और फिर साइन इन नहीं कर पाएँगे। आप आज अपने सभी रूम छोड़ देंगे।',
+      what2: 'आपके वित्तीय रिकॉर्ड 2 महीने तक सिर्फ़ पढ़ने के लिए रहेंगे, केवल रूम के हिसाब और विवादों के लिए — कभी विज्ञापन या मार्केटिंग के लिए नहीं।',
+      what3: '2 महीने बाद आपको और आपके पुराने रूम सदस्यों को ईमेल पर अंतिम PDF स्टेटमेंट मिलेगा, फिर आपसे जुड़ा सारा डेटा, ईमेल पते सहित, हमेशा के लिए हटा दिया जाएगा।',
+      what4: 'इसे वापस नहीं किया जा सकता। अगर आप किसी ऐसे रूम के अकेले एडमिन हैं जिसमें दूसरे सदस्य हैं, तो पहले किसी और को एडमिन बनाएँ।',
+      inApp: 'आपकी सुरक्षा के लिए हम पहले खाते के ईमेल पर पुष्टि लिंक भेजते हैं।',
+      emailLabel: 'आपके खाते का ईमेल',
+      send: 'पुष्टि लिंक भेजें',
+      sent: 'अगर इस ईमेल से कोई खाता है, तो पुष्टि लिंक भेज दिया गया है। यह 24 घंटे तक मान्य है। स्पैम फ़ोल्डर भी देखें।',
+      error: 'कुछ गलत हो गया। अपना कनेक्शन जाँचें और फिर कोशिश करें।',
+      confirmTitle: 'खाता हटाने की पुष्टि करें',
+      understand: 'मैं समझता/समझती हूँ कि इसे वापस नहीं किया जा सकता।',
+      confirmBtn: 'मेरा खाता हटाएँ',
+      done: 'आपका खाता हटा दिया गया है। आपको पुष्टि ईमेल मिलेगा।',
+      invalid: 'यह लिंक अब मान्य नहीं है (इस्तेमाल हो चुका या 24 घंटे से पुराना)। नीचे से नया लिंक मँगवाएँ।',
+      lastAdmin: 'आप इन रूम के अकेले एडमिन हैं: {rooms}। ऐप खोलें, पहले किसी और सदस्य को एडमिन बनाएँ, फिर यह लिंक दोबारा इस्तेमाल करें।',
+      notReady: 'खाता हटाने की सुविधा चालू की जा रही है। कृपया बाद में कोशिश करें।',
+      contact: 'अपने डेटा के बारे में सवाल? Uyoon Tech Solutions के शिकायत अधिकारी से संपर्क करें। अनुरोधों का जवाब 30 दिनों में दिया जाता है।'
+    }
+  };
+  const NAMES = { en: 'English', ar: 'العربية', ur: 'اردو', hi: 'हिन्दी' };
+  const params = new URLSearchParams(location.search);
+  const browser = (navigator.language || 'en').slice(0, 2);
+  let lang = T[params.get('lang')] ? params.get('lang') : T[browser] ? browser : 'en';
+  const token = new URLSearchParams(location.hash.slice(1)).get('t');
+
+  function render() {
+    const t = T[lang];
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' || lang === 'ur' ? 'rtl' : 'ltr';
+    document.title = t.title;
+    document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = t[el.dataset.t]; });
+    const nav = document.getElementById('langs');
+    nav.innerHTML = '';
+    for (const code of Object.keys(NAMES)) {
+      const a = document.createElement('a');
+      a.href = '?lang=' + code + location.hash;
+      a.textContent = NAMES[code];
+      a.lang = code;
+      if (code === lang) a.setAttribute('aria-current', 'true');
+      a.addEventListener('click', (e) => { e.preventDefault(); lang = code; history.replaceState(null, '', a.href); render(); });
+      nav.appendChild(a);
+    }
+  }
+
+  async function rpc(name, args) {
+    const res = await fetch(SUPABASE_URL + '/rest/v1/rpc/' + name, {
+      method: 'POST',
+      headers: { apikey: KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify(args),
+    });
+    const body = await res.json().catch(() => null);
+    if (!res.ok) throw Object.assign(new Error('rpc'), { status: res.status, body });
+    return body;
+  }
+
+  document.getElementById('reqForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('reqBtn');
+    btn.disabled = true;
+    document.getElementById('reqErr').hidden = true;
+    try {
+      await rpc('request_account_deletion', { p_email: document.getElementById('email').value });
+      document.getElementById('reqForm').hidden = true;
+      document.getElementById('reqDone').hidden = false;
+    } catch {
+      document.getElementById('reqErr').hidden = false;
+      btn.disabled = false;
+    }
+  });
+
+  if (token) {
+    document.getElementById('confirm').hidden = false;
+    const agree = document.getElementById('agree');
+    const btn = document.getElementById('confirmBtn');
+    const msg = document.getElementById('confirmMsg');
+    agree.addEventListener('change', () => { btn.disabled = !agree.checked; });
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      const t = T[lang];
+      const show = (text, ok) => { msg.hidden = false; msg.className = 'notice ' + (ok ? 'ok' : 'err'); msg.textContent = text; };
+      try {
+        const r = await rpc('confirm_account_deletion', { p_token: token });
+        if (r && r.ok) {
+          show(t.done, true);
+          history.replaceState(null, '', location.pathname + location.search);
+          agree.disabled = true;
+          return;
+        }
+        if (r && r.error === 'last_admin') show(t.lastAdmin.replace('{rooms}', (r.rooms || []).join(', ')), false);
+        else show(t.invalid, false);
+      } catch (err) {
+        show(err && err.status === 404 ? t.notReady : t.error, false);
+      }
+      btn.disabled = !agree.checked;
+    });
+  }
+  render();
+})();
+</script>
+</body>
+</html>
