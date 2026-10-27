@@ -33,6 +33,7 @@ describe('password rules', () => {
   it('launch rules: 8+ chars and not a common password', () => {
     expect(passwordError('short', false)).toBe('auth.errors.passwordShort');
     expect(passwordError('Password123', false)).toBe('auth.errors.passwordCommon');
+    expect(passwordError('Bismillah786', false)).toBe('auth.errors.passwordCommon');
     expect(passwordError('blue-tea-garden', false)).toBeNull();
   });
 

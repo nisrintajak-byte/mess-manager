@@ -1,5 +1,5 @@
 /** Signup validation rules (PRD §7.2). Returns i18n keys for errors. */
-import { PASSWORD_MIN_LENGTH, TESTING_MODE } from '../config';
+import { TESTING_MODE } from '../config';
 
 // Small built-in list; Supabase's leaked-password protection adds a larger check server-side.
 const COMMON_PASSWORDS = new Set([
@@ -24,6 +24,66 @@ const COMMON_PASSWORDS = new Set([
   'football',
   'baseball',
   'sunshine',
+  'password12',
+  'password1234',
+  'passw0rd',
+  'p@ssw0rd',
+  '12341234',
+  '12121212',
+  '87654321',
+  '123123123',
+  '1q2w3e4r',
+  '1qaz2wsx',
+  'qwerty12',
+  'qwerty1234',
+  'asdfghjkl',
+  'zxcvbnm1',
+  '11223344',
+  'abc12345',
+  'aa123456',
+  'iloveyou1',
+  'princess',
+  'superman',
+  'starwars',
+  'trustno1',
+  'whatever',
+  'computer',
+  'internet',
+  'master123',
+  'changeme',
+  'welcome123',
+  'monkey123',
+  'dragon123',
+  'mustang1',
+  'charlie1',
+  'michelle',
+  'jennifer',
+  '12345678910',
+  '9876543210',
+  '987654321',
+  '00001111',
+  '55555555',
+  '66666666',
+  '77777777',
+  '88888888',
+  '99999999',
+  '22222222',
+  '33333333',
+  '44444444',
+  'india1234',
+  'pakistan123',
+  'bangladesh',
+  'allah786',
+  '786786786',
+  'bismillah786',
+  'alhamdulillah',
+  'mashaallah',
+  'cricket1',
+  'cricket123',
+  'imran123',
+  'mohammad',
+  'muhammad',
+  'secret123',
 ]);
 
 export { LEGAL_VERSION as CONSENT_VERSION } from '../legal';
@@ -33,7 +93,7 @@ export function isValidEmail(email: string): boolean {
 }
 
 export function passwordError(password: string, testing = TESTING_MODE): string | null {
-  const min = testing ? PASSWORD_MIN_LENGTH : 8;
+  const min = testing ? 6 : 8;
   if (password.length < min) return 'auth.errors.passwordShort';
   if (!testing && COMMON_PASSWORDS.has(password.toLowerCase())) return 'auth.errors.passwordCommon';
   return null;
