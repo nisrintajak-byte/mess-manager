@@ -16,7 +16,9 @@
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#184670"
+        "backgroundColor": "#0B2A40",
+        "backgroundImage": "./assets/adaptive-icon-background.png",
+        "monochromeImage": "./assets/adaptive-icon-monochrome.png"
       }
     },
     "ios": {
@@ -64,7 +66,7 @@
           "image": "./assets/splash-icon.png",
           "imageWidth": 288,
           "resizeMode": "contain",
-          "backgroundColor": "#184670"
+          "backgroundColor": "#0A2233"
         }
       ]
     ],
