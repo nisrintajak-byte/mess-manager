@@ -47,8 +47,7 @@ select room, u::uuid, 'member'::public.member_role, 'approved'::public.member_st
 
 -- old cycle: expense with receipt, settlement, payment, dispute; later: an adjustment
 select pg_temp.act('aaaaaaaa-0000-0000-0000-000000000001');
--- on the first cycle's first day, so it stays in that cycle whatever day of the month today is
-create temp table e1 as select public.create_expense((select room from t), 'Rice', 8000, (select today from d) - 150,
+create temp table e1 as select public.create_expense((select room from t), 'Rice', 8000, (select today from d) - 148,
   'aaaaaaaa-0000-0000-0000-000000000001') as id;
 grant select on e1 to authenticated;
 select pg_temp.act(null);
