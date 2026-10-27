@@ -1,6 +1,6 @@
 # Google Play — listing, Data safety and review notes (DRAFT)
 
-Status: draft by Claude, 2026-10-20. Arabic, Urdu and Hindi texts need the professional translators before launch.
+Status: draft by Claude, 2026-10-20 (links and screenshots updated 2026-10-27). Arabic, Urdu and Hindi texts need the professional translators before launch.
 Use this when the Play Console account exists (needs D-U-N-S). Rules: no flags, maps or borders in any text or screenshot (PRD §16.1).
 
 ---
@@ -14,10 +14,12 @@ Use this when the Play Console account exists (needs D-U-N-S). Rules: no flags, 
 | Developer name | Uyoon Tech Solutions (Unifair Trading Pvt. Ltd.) |
 | Category | **Finance** (alternative: Productivity) |
 | Tags | Budgeting, Expense tracking |
-| Contact email | *(company support email — to decide)* |
-| Website | *(company domain — to decide)* |
-| Privacy Policy URL | now: https://nisrintajak-byte.github.io/mess-manager/privacy/ → later the company domain |
-| Account deletion URL | now: https://nisrintajak-byte.github.io/mess-manager/delete-account/ → later the company domain |
+| Contact email | unifairtrading@gmail.com (until a support@ address on the company domain exists) |
+| Website | https://tech.utplgroup.com/mess-manager/ |
+| Privacy Policy URL | https://tech.utplgroup.com/mess-manager/privacy/ |
+| Terms of Use URL | https://tech.utplgroup.com/mess-manager/terms/ |
+| Account deletion URL | https://tech.utplgroup.com/mess-manager/delete-account/ |
+| Support page | https://tech.utplgroup.com/support/ |
 | Price | Free, contains ads, in-app purchases (ad-free Monthly / Yearly) |
 | Default language | English (en-US); add ar, ur, hi-IN |
 
@@ -152,17 +154,25 @@ Mess Manager फ़्लैट, हॉस्टल, मेस, ऑफ़िस 
 
 ---
 
-## 3. Graphics plan (no flags, maps or borders)
-- App icon 512×512 (current app icon, no text).
-- Feature graphic 1024×500: app name + "Every shared expense, visible and fair" on a plain background with an abstract receipt/notebook shape.
-- Phone screenshots (at least 4, 1080×1920), made from a demo Room with invented names (e.g. "Flat 4B", members "Asha, Bilal, Chen, Dina"), currency USD:
-  1. Room home with balances
-  2. Add expense with split
-  3. Settlement: who pays whom
-  4. Payment proof + Admin confirmation
-  5. History showing an edit
-  6. Same Room in Arabic (right-to-left)
-- Repeat 1–3 per language for the ar / ur / hi listings when translations are final.
+## 3. Graphics (no flags, maps or borders)
+- **App icon 512×512:** `assets/play-store-icon-512.png` (logo B, "Ribbon UM").
+- **Feature graphic 1024×500:** `play-feature-graphic-1024x500.png` from the logo pack (project files → brand/mess-manager-logo/png/).
+- **Phone screenshots (1080×1920 JPEG, 7 per language):** `docs/store/screenshots/<en|ar|ur|hi>/`.
+  Taken from the real app (web build) with an invented demo Room — "Flat 4B", members Asha, Bilal, Chen, Dina — in each language's own script and a local currency (en USD, ar SAR, ur PKR, hi INR). No real user data.
+
+| # | Screen | Caption (en) |
+|---|---|---|
+| 1 | Home | Every shared expense, visible and fair |
+| 2 | Room expenses | All Room expenses in one place |
+| 3 | Add expense | Add an expense in seconds |
+| 4 | Settlement — who pays whom | Settle up with the fewest payments |
+| 5 | Payment proof + Admin confirm | Payments need proof |
+| 6 | Expense history (edit kept) | Every edit stays visible |
+| 7 | Need Requests | Need something? Ask the Room |
+
+  Arabic, Urdu and Hindi captions are draft translations (same review as the store texts). Captions live in `scripts/store-screenshots/captions.json`.
+- **Re-make them** after UI changes: `npx expo export -p web --output-dir scripts/store-screenshots/web-dist`, then `node scripts/store-screenshots/capture.js <lang>` for each language and `node scripts/store-screenshots/compose.js`. The app's server calls are answered by `mock.js` (demo data), so no account or network is needed.
+- Upload in Play Console: Main store listing → Phone screenshots (en-US); each translation (ar, ur, hi-IN) → its own folder.
 
 ---
 
@@ -223,13 +233,3 @@ Mess Manager फ़्लैट, हॉस्टल, मेस, ऑफ़िस 
 4. In-app products → subscriptions `mm_adfree_monthly`, `mm_adfree_yearly`
 5. Upload the **production** build (AAB) from EAS → Internal testing first
 6. Closed/Open testing → staged rollout (10% → 50% → 100%)
-EOF
-python3 - <<'EOF'
-import re
-s=open('/home/claude/mess-manager/docs/store/play-store-listing.md').read()
-for lang in ['English','العربية','اردو','हिन्दी']:
-    i=s.index('### '+lang); seg=s[i:]
-    sd=re.search(r'\*\*[^\n]*\*\*\n(.+)\n',seg).group(1)
-    fd_start=seg.index('\n\n',seg.index(sd)+len(sd))
-    print(lang,len(sd))
-EOF

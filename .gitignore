@@ -7,3 +7,7 @@ dist/
 web-build/
 *.log
 .DS_Store
+
+# store screenshot work files
+scripts/store-screenshots/raw/
+scripts/store-screenshots/web-dist/

@@ -15,8 +15,8 @@ export const PASSWORD_MIN_LENGTH = TESTING_MODE ? 6 : 8;
  */
 export const GOOGLE_SIGNIN_ENABLED = false;
 
-/** Link sent in Room invitations (Google Play once the app is published). */
-export const INVITE_APP_LINK = 'https://nisrintajak-byte.github.io/mess-manager/';
+/** Link sent in Room invitations: the app's page on the company site (Google Play once published). */
+export const INVITE_APP_LINK = 'https://tech.utplgroup.com/mess-manager/';
 
 /**
  * Contact support (founder 2026-10-23: use the Grievance Officer's address until the company
