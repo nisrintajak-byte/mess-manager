@@ -13,17 +13,15 @@ import {
   TextInputProps,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { colors, font, radius, space, themedStyles } from './theme';
 
 /**
- * Height of the on-screen keyboard on Android. Android apps now draw edge-to-edge, so the
- * window no longer shrinks when the keyboard opens and inputs near the bottom end up hidden
- * behind it. Screens add this as bottom padding; the scroll view then keeps the focused
- * input in sight. iOS uses KeyboardAvoidingView instead, web needs nothing.
+ * Height of the on-screen keyboard on Android (above the navigation bar). Android apps now draw
+ * edge-to-edge, so the window no longer shrinks when the keyboard opens.
  */
-export function useKeyboardInset() {
+function useKeyboardInset() {
   const [height, setHeight] = useState(0);
   useEffect(() => {
     if (Platform.OS !== 'android') return;
@@ -35,6 +33,21 @@ export function useKeyboardInset() {
     };
   }, []);
   return height;
+}
+
+/**
+ * Wraps the whole app once: on Android it ends the app's area at the top of the keyboard, so every
+ * page (and every scroll view in it) shrinks and keeps the focused input in sight. iOS uses
+ * KeyboardAvoidingView in Screen instead; web needs nothing.
+ */
+export function KeyboardSpace({ children }: { children: ReactNode }) {
+  const keyboard = useKeyboardInset();
+  const insets = useSafeAreaInsets();
+  return (
+    <View style={[styles.flex, keyboard ? { paddingBottom: keyboard + insets.bottom } : null]}>
+      {children}
+    </View>
+  );
 }
 
 export function Screen({
@@ -54,13 +67,9 @@ export function Screen({
   ) : (
     <View style={styles.scroll}>{children}</View>
   );
-  const keyboard = useKeyboardInset();
   return (
     <SafeAreaView style={styles.safe} edges={['bottom', 'left', 'right']}>
-      <KeyboardAvoidingView
-        style={[styles.flex, keyboard ? { paddingBottom: keyboard } : null]}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      >
+      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <View style={styles.column}>{body}</View>
         {footer ? (
           <View style={styles.footer}>

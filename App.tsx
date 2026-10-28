@@ -13,7 +13,7 @@ import { initAds } from './src/lib/ads';
 import { installCrashHandlers } from './src/lib/crash';
 import { AppLockGate } from './src/ui/AppLockGate';
 import { ErrorBoundary } from './src/ui/ErrorBoundary';
-import { Notice, Screen } from './src/ui/components';
+import { KeyboardSpace, Notice, Screen } from './src/ui/components';
 import { ReauthHost } from './src/ui/ReauthHost';
 import { SyncBanner } from './src/ui/SyncBanner';
 
@@ -35,27 +35,29 @@ export default function App() {
     <SafeAreaProvider>
       {/* light icons: every screen now starts with the navy band */}
       <StatusBar style="light" />
-      {isSupabaseConfigured ? (
-        <AuthProvider>
-          <AppLockGate>
-            {/* `rev` changes with language or theme: only the screens are redrawn, the sign-in
+      <KeyboardSpace>
+        {isSupabaseConfigured ? (
+          <AuthProvider>
+            <AppLockGate>
+              {/* `rev` changes with language or theme: only the screens are redrawn, the sign-in
                 is kept (re-creating it made language changes slow while offline) */}
-            <View key={rev} style={{ flex: 1 }}>
-              <View style={{ flex: 1 }}>
-                <ErrorBoundary>
-                  <RootNavigator />
-                </ErrorBoundary>
+              <View key={rev} style={{ flex: 1 }}>
+                <View style={{ flex: 1 }}>
+                  <ErrorBoundary>
+                    <RootNavigator />
+                  </ErrorBoundary>
+                </View>
+                <SyncBanner />
               </View>
-              <SyncBanner />
-            </View>
-          </AppLockGate>
-          <ReauthHost />
-        </AuthProvider>
-      ) : (
-        <Screen>
-          <Notice tone="error">{t('common.notConfigured')}</Notice>
-        </Screen>
-      )}
+            </AppLockGate>
+            <ReauthHost />
+          </AuthProvider>
+        ) : (
+          <Screen>
+            <Notice tone="error">{t('common.notConfigured')}</Notice>
+          </Screen>
+        )}
+      </KeyboardSpace>
     </SafeAreaProvider>
   );
 }

@@ -90,3 +90,9 @@ Founder: Mess Manager is a whole-Room expense portal, so every new expense is sh
 
 ## 2026-10-23 — First-time onboarding and a cleaner Me (Splitwise as style example)
 Founder approved: 3 intro slides (own text and pictures, not copied), shown once on the device to a brand-new member (no Room, no join request) and again from Me/Help ("Watch the app tour"); Home for a new member shows a welcome with Create / Join buttons and a 3-step setup list (photo, Room, first expense); friendly empty screens with pictures; Me reorganised into sections (Account, App, Help and support, Privacy and data), Log out, company footer and app version. Contact support uses unifairtrading@gmail.com until the company domain has a helpdesk address. "Rate Mess Manager" appears once the Play listing is public (PLAY_LISTING_LIVE). Confetti "Your account is clear!" once when a member's whole payable amount in a settlement is confirmed. On-time payer ranking parked for after launch (versions/future-plan.md).
+
+## 2026-10-28 — APK builds only with the founder's OK
+Founder: no Android APK (EAS) build is started without their explicit permission for that build, even when the month's free quota has room. Fixes are tested on the web preview first; the founder decides when a new APK is worth a build.
+
+## 2026-10-28 — Keyboard never covers inputs on Android
+Android draws edge-to-edge, so the window no longer shrinks for the keyboard. `KeyboardSpace` (src/ui/components.tsx) wraps the whole app in App.tsx and ends the app's area at the keyboard's top on Android; screens need nothing of their own. Every password/PIN box (`Field` with `secureTextEntry`) has a Show/Hide button.
