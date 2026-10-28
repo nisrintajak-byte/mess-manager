@@ -6,6 +6,7 @@ import { api } from '../lib/api';
 import { dbErrorKey } from '../lib/errors';
 import type { AppStackParamList } from '../navigation/types';
 import { Body, Button, Field, Notice, Screen, Spacer, Title } from '../ui/components';
+import { RoomAllowanceNote, useRoomAllowance } from '../ui/RoomAllowance';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'JoinRoom'>;
 
@@ -15,6 +16,8 @@ export function JoinRoomScreen({ navigation }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
+  const allowance = useRoomAllowance();
+  const full = !!allowance && allowance.used >= allowance.limit;
 
   async function send() {
     setError(null);
@@ -33,6 +36,7 @@ export function JoinRoomScreen({ navigation }: Props) {
     <Screen>
       <Title>{t('room.joinTitle')}</Title>
       <Body muted>{t('room.joinBody')}</Body>
+      {!sent ? <RoomAllowanceNote allowance={allowance} /> : null}
       <Spacer size="xl" />
       {error ? <Notice tone="error">{error}</Notice> : null}
       {sent ? (
@@ -61,7 +65,7 @@ export function JoinRoomScreen({ navigation }: Props) {
             title={t('room.sendRequest')}
             onPress={send}
             loading={busy}
-            disabled={code.trim().length < 8}
+            disabled={full || code.trim().length < 8}
           />
         </>
       )}

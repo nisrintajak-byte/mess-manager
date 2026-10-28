@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useAdFreeUntil } from '../lib/adFree';
-import { ADS_ENABLED } from '../lib/adsConfig';
 import {
   BILLING_SUPPORTED,
   buy,
@@ -15,7 +14,10 @@ import {
 import { localizeDigits } from '../lib/digits';
 import { Body, Button, Card, Label, Notice } from './components';
 
-/** Ad-free subscription (monthly / yearly) through Google Play. Android app only. */
+/**
+ * Mess Manager Plus (monthly / yearly) through Google Play: no ads and up to 10 Rooms (founder
+ * 2026-10-28; Play product ids keep their original mm_adfree_* names). Android app only.
+ */
 export function RemoveAdsCard() {
   const { t } = useTranslation();
   const until = useAdFreeUntil();
@@ -24,9 +26,9 @@ export function RemoveAdsCard() {
   const [result, setResult] = useState<BuyResult | null>(null);
 
   useEffect(() => {
-    if (BILLING_SUPPORTED && ADS_ENABLED) void loadPlans().then(setPlans);
+    if (BILLING_SUPPORTED) void loadPlans().then(setPlans);
   }, []);
-  if (!BILLING_SUPPORTED || !ADS_ENABLED) return null;
+  if (!BILLING_SUPPORTED) return null;
 
   async function run(key: string, action: () => Promise<BuyResult>) {
     setBusy(key);
