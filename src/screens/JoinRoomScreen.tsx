@@ -45,7 +45,7 @@ export function JoinRoomScreen({ navigation }: Props) {
           <Field
             label={t('room.joinCodeLabel')}
             value={code}
-            onChangeText={(v) => setCode(v.toUpperCase())}
+            onChangeText={(v) => setCode(v.toUpperCase().replace(/[^A-Z0-9]/g, ''))}
             autoCapitalize="characters"
             autoCorrect={false}
             maxLength={8}
