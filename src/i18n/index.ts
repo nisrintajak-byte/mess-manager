@@ -45,7 +45,13 @@ void i18n
     },
     lng: 'en',
     fallbackLng: 'en',
-    interpolation: { escapeValue: false },
+    interpolation: {
+      // Not HTML escaping (React does that): in Arabic/Urdu each inserted value (a Latin name, a
+      // date, an amount) is wrapped in Unicode isolate marks so it cannot reorder the words around
+      // it, e.g. "أنشأها Imran 2026/10/28" showed as "2026/10/Imran 28".
+      escapeValue: true,
+      escape: (value: string) => (isRtlLanguage(i18n.language) ? `\u2068${value}\u2069` : value),
+    },
   });
 
 export default i18n;
