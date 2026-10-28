@@ -91,6 +91,9 @@ Founder: Mess Manager is a whole-Room expense portal, so every new expense is sh
 ## 2026-10-23 — First-time onboarding and a cleaner Me (Splitwise as style example)
 Founder approved: 3 intro slides (own text and pictures, not copied), shown once on the device to a brand-new member (no Room, no join request) and again from Me/Help ("Watch the app tour"); Home for a new member shows a welcome with Create / Join buttons and a 3-step setup list (photo, Room, first expense); friendly empty screens with pictures; Me reorganised into sections (Account, App, Help and support, Privacy and data), Log out, company footer and app version. Contact support uses unifairtrading@gmail.com until the company domain has a helpdesk address. "Rate Mess Manager" appears once the Play listing is public (PLAY_LISTING_LIVE). Confetti "Your account is clear!" once when a member's whole payable amount in a settlement is confirmed. On-time payer ranking parked for after launch (versions/future-plan.md).
 
+## 2026-10-28 — Home shows only Rooms (founder)
+Home lists the member's Rooms with Join / Create (plus pinned settlements and the first-time checklist). The four quick buttons (Add expense, Need request, Settle & pay, Reports) and the "across Rooms" total are removed: those actions happen inside a Room, so they always apply to that Room. To work in another Room the member goes back to Home and opens it.
+
 ## 2026-10-28 — APK builds only with the founder's OK
 Founder: no Android APK (EAS) build is started without their explicit permission for that build, even when the month's free quota has room. Fixes are tested on the web preview first; the founder decides when a new APK is worth a build.
 

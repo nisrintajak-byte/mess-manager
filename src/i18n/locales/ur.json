@@ -110,7 +110,7 @@
     "pickRoom": "کون سا روم؟",
     "joinShort": "+ روم میں شامل ہوں",
     "createShort": "+ نیا روم بنائیں",
-    "roomLine": "{{members}} ممبرز · اس مدت {{total}}",
+    "roomLine": "{{members}} · اس مدت {{total}}",
     "waitingToJoin": "{{count}} شامل ہونے کے انتظار میں",
     "openNeeds_one": "{{count}} کھلی ضرورت کی درخواست",
     "openNeeds_other": "{{count}} کھلی ضرورت کی درخواستیں",
