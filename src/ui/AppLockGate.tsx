@@ -14,7 +14,7 @@ import {
   type LockConfig,
 } from '../lib/appLock';
 import { createAttemptLimiter } from '../lib/attemptLimiter';
-import { Body, Button, Field, Notice, Spacer, Title } from './components';
+import { Body, Button, Field, Notice, Spacer, Title, useKeyboardInset } from './components';
 import { colors, space, themedStyles } from './theme';
 
 /**
@@ -76,6 +76,7 @@ function LockScreen({ cfg, onUnlock }: { cfg: LockConfig | null; onUnlock: () =>
   const { t } = useTranslation();
   const { signOut } = useAuth();
   const [pin, setPin] = useState('');
+  const keyboard = useKeyboardInset();
   const [error, setError] = useState<string | null>(null);
   const [wait, setWait] = useState(0);
   const [limiter] = useState(() => createAttemptLimiter());
@@ -113,7 +114,7 @@ function LockScreen({ cfg, onUnlock }: { cfg: LockConfig | null; onUnlock: () =>
   }
 
   return (
-    <View style={styles.wrap}>
+    <View style={[styles.wrap, keyboard ? { paddingBottom: keyboard } : null]}>
       <View style={styles.column}>
         <Title>{t('lock.unlockTitle')}</Title>
         <Body muted>{t('app.name')}</Body>

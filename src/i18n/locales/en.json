@@ -4,6 +4,10 @@
     "tagline": "Every shared expense, transparent and fair."
   },
   "common": {
+    "show": "Show",
+    "hide": "Hide",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
     "back": "Back",
     "cancel": "Cancel",
     "save": "Save",
