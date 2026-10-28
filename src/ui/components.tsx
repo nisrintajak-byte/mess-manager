@@ -1,6 +1,8 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   ActivityIndicator,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -11,9 +13,42 @@ import {
   TextInputProps,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { colors, font, radius, space, themedStyles } from './theme';
+
+/**
+ * Height of the on-screen keyboard on Android (above the navigation bar). Android apps now draw
+ * edge-to-edge, so the window no longer shrinks when the keyboard opens.
+ */
+function useKeyboardInset() {
+  const [height, setHeight] = useState(0);
+  useEffect(() => {
+    if (Platform.OS !== 'android') return;
+    const show = Keyboard.addListener('keyboardDidShow', (e) => setHeight(e.endCoordinates.height));
+    const hide = Keyboard.addListener('keyboardDidHide', () => setHeight(0));
+    return () => {
+      show.remove();
+      hide.remove();
+    };
+  }, []);
+  return height;
+}
+
+/**
+ * Wraps the whole app once: on Android it ends the app's area at the top of the keyboard, so every
+ * page (and every scroll view in it) shrinks and keeps the focused input in sight. iOS uses
+ * KeyboardAvoidingView in Screen instead; web needs nothing.
+ */
+export function KeyboardSpace({ children }: { children: ReactNode }) {
+  const keyboard = useKeyboardInset();
+  const insets = useSafeAreaInsets();
+  return (
+    <View style={[styles.flex, keyboard ? { paddingBottom: keyboard + insets.bottom } : null]}>
+      {children}
+    </View>
+  );
+}
 
 export function Screen({
   children,
@@ -58,17 +93,45 @@ export function Field({
   label,
   error,
   big,
+  secureTextEntry,
   ...input
 }: TextInputProps & { label: string; error?: string | null; big?: boolean }) {
+  const { t } = useTranslation();
+  // Password boxes get a Show/Hide button so people can check what they typed.
+  const [shown, setShown] = useState(false);
+  const box = (
+    <TextInput
+      placeholderTextColor={colors.textMuted}
+      style={[
+        styles.input,
+        big ? styles.inputBig : null,
+        error ? styles.inputError : null,
+        secureTextEntry ? styles.inputSecret : null,
+      ]}
+      accessibilityLabel={label}
+      secureTextEntry={secureTextEntry && !shown}
+      {...input}
+    />
+  );
   return (
     <View style={styles.field}>
       <Text style={styles.label}>{label}</Text>
-      <TextInput
-        placeholderTextColor={colors.textMuted}
-        style={[styles.input, big ? styles.inputBig : null, error ? styles.inputError : null]}
-        accessibilityLabel={label}
-        {...input}
-      />
+      {secureTextEntry ? (
+        <View style={styles.secretWrap}>
+          {box}
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={t(shown ? 'common.hidePassword' : 'common.showPassword')}
+            onPress={() => setShown((v) => !v)}
+            hitSlop={8}
+            style={styles.secretToggle}
+          >
+            <Text style={styles.secretToggleText}>{t(shown ? 'common.hide' : 'common.show')}</Text>
+          </Pressable>
+        </View>
+      ) : (
+        box
+      )}
       {error ? <Text style={styles.error}>{error}</Text> : null}
     </View>
   );
@@ -261,6 +324,19 @@ const styles = themedStyles(() =>
       minHeight: 64,
     },
     inputError: { borderColor: colors.danger },
+    secretWrap: { justifyContent: 'center' },
+    inputSecret: { paddingRight: 84 },
+    secretToggle: {
+      position: 'absolute',
+      right: 0,
+      top: 0,
+      bottom: 0,
+      minWidth: 72,
+      paddingHorizontal: space.md,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    secretToggleText: { color: colors.primary, fontWeight: '600', fontSize: font.sm },
     footer: {
       backgroundColor: colors.surface,
       borderTopWidth: 1,

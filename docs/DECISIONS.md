@@ -96,3 +96,9 @@ Home lists the member's Rooms with Join / Create (plus pinned settlements and th
 
 ## 2026-10-28 — Free plan: 2 Rooms; Mess Manager Plus: no ads + 10 Rooms (founder)
 One paid plan instead of a separate ad-free plan. Free accounts can be in up to 2 Rooms at a time (Rooms created, joined, and join requests still pending; left/removed/rejected and deleted Rooms don't count). **Mess Manager Plus** removes ads on all devices and allows up to 10 Rooms. Price for now (set in Play Console, may change later): **₹79/month, ₹699/year**. The Play product ids stay `mm_adfree_monthly` / `mm_adfree_yearly` (Play ids can't be renamed); only the name and benefits change. Enforced in the database (trigger on `room_members`, codes `room_limit_free` / `room_limit_max`); people already over the limit keep their Rooms but can't add another. Terms/Privacy updated → legal version 2026-10-v5 (everyone accepts once more).
+
+## 2026-10-28 — APK builds only with the founder's OK
+Founder: no Android APK (EAS) build is started without their explicit permission for that build, even when the month's free quota has room. Fixes are tested on the web preview first; the founder decides when a new APK is worth a build.
+
+## 2026-10-28 — Keyboard never covers inputs on Android
+Android draws edge-to-edge, so the window no longer shrinks for the keyboard. `KeyboardSpace` (src/ui/components.tsx) wraps the whole app in App.tsx and ends the app's area at the keyboard's top on Android; screens need nothing of their own. Every password/PIN box (`Field` with `secureTextEntry`) has a Show/Hide button.
