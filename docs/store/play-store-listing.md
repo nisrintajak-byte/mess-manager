@@ -14,7 +14,7 @@ Use this when the Play Console account exists (needs D-U-N-S). Rules: no flags, 
 | Developer name | Uyoon Tech Solutions (Unifair Trading Pvt. Ltd.) |
 | Category | **Finance** (alternative: Productivity) |
 | Tags | Budgeting, Expense tracking |
-| Contact email | unifairtrading@gmail.com (until a support@ address on the company domain exists) |
+| Contact email | support@utplgroup.com |
 | Website | https://tech.utplgroup.com/mess-manager/ |
 | Privacy Policy URL | https://tech.utplgroup.com/mess-manager/privacy/ |
 | Terms of Use URL | https://tech.utplgroup.com/mess-manager/terms/ |
