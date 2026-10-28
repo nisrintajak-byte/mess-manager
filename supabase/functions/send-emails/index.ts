@@ -19,7 +19,7 @@ const db = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SE
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
 const EMAIL_FROM = Deno.env.get('EMAIL_FROM') ?? 'Mess Manager <onboarding@resend.dev>';
 const DELETE_PAGE_URL =
-  Deno.env.get('DELETE_PAGE_URL') ?? 'https://nisrintajak-byte.github.io/mess-manager/delete-account/';
+  Deno.env.get('DELETE_PAGE_URL') ?? 'https://tech.utplgroup.com/mess-manager/delete-account/';
 
 let fonts: FontBytes | null = null;
 

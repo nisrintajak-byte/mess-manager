@@ -13,7 +13,7 @@ import { minorToDecimal } from '../send-emails/report.ts';
 
 export const VAPID_PUBLIC_KEY =
   'BNRRwCWd99HH-Wg5i9vDtXrn9lGUmBxelxp2fVdDKeA0VBfcY3z5ditTurTLpyesdnuwMcp3jGQZ-3QghQWa7FQ';
-const VAPID_SUBJECT = 'https://nisrintajak-byte.github.io/mess-manager/';
+const VAPID_SUBJECT = 'https://tech.utplgroup.com/mess-manager/';
 
 const db = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, {
   auth: { persistSession: false },
