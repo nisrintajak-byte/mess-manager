@@ -110,7 +110,7 @@
     "pickRoom": "أي غرفة؟",
     "joinShort": "+ انضم إلى غرفة",
     "createShort": "+ أنشئ غرفة جديدة",
-    "roomLine": "{{members}} أعضاء · هذه الفترة {{total}}",
+    "roomLine": "{{members}} · هذه الفترة {{total}}",
     "waitingToJoin": "{{count}} بانتظار الانضمام",
     "openNeeds_zero": "لا توجد طلبات احتياج مفتوحة",
     "openNeeds_one": "طلب احتياج مفتوح واحد",
