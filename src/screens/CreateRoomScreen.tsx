@@ -8,6 +8,7 @@ import { countriesSorted, Country, defaultTimeZone, LanguageCode } from '../lib/
 import { dbErrorKey } from '../lib/errors';
 import type { AppStackParamList } from '../navigation/types';
 import { Body, Button, Field, Notice, Screen, Spacer, Title } from '../ui/components';
+import { RoomAllowanceNote, useRoomAllowance } from '../ui/RoomAllowance';
 import { colors, font, radius, space, themedStyles } from '../ui/theme';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'CreateRoom'>;
@@ -23,6 +24,8 @@ export function CreateRoomScreen({ navigation }: Props) {
   const [zone, setZone] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const allowance = useRoomAllowance();
+  const full = !!allowance && allowance.used >= allowance.limit;
 
   const matches = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -63,6 +66,7 @@ export function CreateRoomScreen({ navigation }: Props) {
   return (
     <Screen>
       <Title>{t('room.createTitle')}</Title>
+      <RoomAllowanceNote allowance={allowance} />
       <Spacer />
       {error ? <Notice tone="error">{error}</Notice> : null}
       <Field
@@ -129,7 +133,7 @@ export function CreateRoomScreen({ navigation }: Props) {
         title={t('room.create')}
         onPress={create}
         loading={busy}
-        disabled={!name.trim() || !country || !zone}
+        disabled={full || !name.trim() || !country || !zone}
       />
     </Screen>
   );
