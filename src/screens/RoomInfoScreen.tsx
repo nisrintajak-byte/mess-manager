@@ -47,7 +47,13 @@ export function RoomInfoScreen({ navigation, route }: Props) {
   const isAdmin = members.some((m) => m.user_id === me && m.status === 'approved' && m.role === 'admin');
 
   async function invite() {
-    const message = t('room.inviteMessage', { room: room.name, code: room.join_code, link: INVITE_APP_LINK });
+    // plain text for other apps: no RTL isolate marks around the code and link (see i18n/index.ts)
+    const message = t('room.inviteMessage', {
+      room: room.name,
+      code: room.join_code,
+      link: INVITE_APP_LINK,
+      interpolation: { escapeValue: false },
+    });
     try {
       const r = await Share.share({ message });
       if (r.action === Share.dismissedAction) return;

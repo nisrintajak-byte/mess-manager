@@ -95,3 +95,16 @@ describe('no hard-coded UI text (PRD §16.2)', () => {
     expect(offenders).toEqual([]);
   });
 });
+
+describe('server error codes', () => {
+  test('every code the database raises has an errors.<code> text (else the raw key shows)', () => {
+    const dir = path.join(process.cwd(), 'supabase/migrations');
+    const codes = new Set<string>();
+    for (const f of fs.readdirSync(dir)) {
+      const sql = fs.readFileSync(path.join(dir, f), 'utf8');
+      for (const m of sql.matchAll(/raise exception '([a-z_]+)'/gi)) codes.add(m[1]!);
+    }
+    const missing = [...codes].filter((c) => base[`errors.${c}`] === undefined).sort();
+    expect(missing).toEqual([]);
+  });
+});

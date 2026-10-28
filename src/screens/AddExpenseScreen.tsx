@@ -127,7 +127,13 @@ export function AddExpenseScreen({ navigation, route }: Props) {
       }
       navigation.goBack();
     } catch (err) {
-      setServerError(t(dbErrorKey(err as { message?: string })));
+      const key = dbErrorKey(err as { message?: string });
+      // The server's date says otherwise although the phone picked "today": the phone clock is off.
+      const today = todayIn(room.time_zone);
+      const clockOff =
+        (key === 'errors.future_date' && date <= today) ||
+        (key === 'errors.before_room_start' && date >= today);
+      setServerError(clockOff ? `${t(key)} ${t('expense.checkPhoneClock')}` : t(key));
     } finally {
       setBusy(false);
     }

@@ -1,4 +1,4 @@
-import { type ComponentRef, useRef, useState } from 'react';
+import { type ComponentRef, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
@@ -25,6 +25,12 @@ export function DateInput({
   const [d, setD] = useState(init?.[3] ?? '');
   const [m, setM] = useState(init?.[2] ?? '');
   const [y, setY] = useState(init?.[1] ?? '');
+  // Latest typed values. The auto-jump focus() blurs the previous box in the same event, before
+  // React re-renders, so onBlur must not read the (stale) state from its render.
+  const cur = useRef({ d, m, y });
+  useEffect(() => {
+    cur.current = { d, m, y };
+  });
   const monthRef = useRef<ComponentRef<typeof TextInput>>(null);
   const yearRef = useRef<ComponentRef<typeof TextInput>>(null);
   // follow outside changes (e.g. "Today" / "Yesterday" buttons)
@@ -56,13 +62,15 @@ export function DateInput({
           onChangeText={(v) => {
             const x = digits(v, 2);
             setD(x);
-            emit(x, m, y);
+            cur.current.d = x;
+            emit(x, cur.current.m, cur.current.y);
             if (x.length === 2) monthRef.current?.focus();
           }}
           onBlur={() => {
-            const x = pad(d);
+            const x = pad(cur.current.d);
             setD(x);
-            emit(x, m, y);
+            cur.current.d = x;
+            emit(x, cur.current.m, cur.current.y);
           }}
           keyboardType="number-pad"
           maxLength={2}
@@ -78,13 +86,15 @@ export function DateInput({
           onChangeText={(v) => {
             const x = digits(v, 2);
             setM(x);
-            emit(d, x, y);
+            cur.current.m = x;
+            emit(cur.current.d, x, cur.current.y);
             if (x.length === 2) yearRef.current?.focus();
           }}
           onBlur={() => {
-            const x = pad(m);
+            const x = pad(cur.current.m);
             setM(x);
-            emit(d, x, y);
+            cur.current.m = x;
+            emit(cur.current.d, x, cur.current.y);
           }}
           keyboardType="number-pad"
           maxLength={2}
@@ -100,7 +110,8 @@ export function DateInput({
           onChangeText={(v) => {
             const x = digits(v, 4);
             setY(x);
-            emit(d, m, x);
+            cur.current.y = x;
+            emit(cur.current.d, cur.current.m, x);
           }}
           keyboardType="number-pad"
           maxLength={4}

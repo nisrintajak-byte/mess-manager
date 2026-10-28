@@ -172,8 +172,9 @@ export function Card({ children, onPress }: { children: ReactNode; onPress?: () 
   );
 }
 
-export function Row({ children }: { children: ReactNode }) {
-  return <View style={styles.row}>{children}</View>;
+/** `wrap`: let the items flow onto a second line on narrow phones (e.g. two link buttons). */
+export function Row({ children, wrap }: { children: ReactNode; wrap?: boolean }) {
+  return <View style={[styles.row, wrap && styles.rowWrap]}>{children}</View>;
 }
 
 export function Chip({ on, onPress, label }: { on: boolean; onPress: () => void; label: string }) {
@@ -312,6 +313,7 @@ const styles = themedStyles(() =>
       elevation: 1,
     },
     row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: space.md },
+    rowWrap: { flexWrap: 'wrap' },
     chips: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm, marginBottom: space.lg },
     chip: {
       paddingHorizontal: space.md,

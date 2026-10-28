@@ -107,7 +107,8 @@
     "createShort": "+ Create a new Room",
     "roomLine": "{{members}} members · this period {{total}}",
     "waitingToJoin": "{{count}} waiting to join",
-    "openNeeds": "{{count}} open need requests",
+    "openNeeds_one": "{{count}} open need request",
+    "openNeeds_other": "{{count}} open need requests",
     "welcomeTitle": "Welcome to Mess Manager!",
     "welcomeName": "Welcome, {{name}}!",
     "emptyBody": "Your Rooms will show here. Create a Room for your flat or mess, or join one with the code your Room Admin shared.",
@@ -158,7 +159,8 @@
     "showMore": "Show more ({{count}} left)",
     "invite": "Invite",
     "youPaid": "You paid",
-    "memberCount": "{{count}} members",
+    "memberCount_one": "{{count}} member",
+    "memberCount_other": "{{count}} members",
     "needSomething": "Need something",
     "details": "Room details",
     "dangerZone": "Leave this Room",
@@ -207,6 +209,7 @@
     "deleteConfirm": "Delete this expense? It will be removed from totals but stay in history.",
     "deleted": "Deleted",
     "editWindow": "You can edit or delete your own expense for 30 minutes after adding it.",
+    "checkPhoneClock": "Your phone's date may be wrong. Please check the date and time in your phone settings.",
     "action_create": "Added",
     "action_update": "Edited",
     "action_delete": "Deleted",
@@ -222,6 +225,8 @@
     "otherDate": "Or another date"
   },
   "errors": {
+    "name_invalid": "Please enter a name (up to 80 characters).",
+    "not_authenticated": "Please sign in again.",
     "not_allowed": "You don't have permission to do that.",
     "email_not_verified": "Please confirm your email first.",
     "room_not_found": "No Room found with that code. Check it and try again.",
@@ -360,7 +365,8 @@
     "selectedHint": "Tick who shares this expense.",
     "pickOne": "Select at least one member.",
     "sharedBy": "Shared by {{count}}",
-    "wholeRoom": "Shared equally by everyone in the Room ({{count}} members).",
+    "wholeRoom_one": "Shared by everyone in the Room ({{count}} member).",
+    "wholeRoom_other": "Shared equally by everyone in the Room ({{count}} members).",
     "keptSelected": "This older expense stays shared by: {{names}}."
   },
   "receipt": {
