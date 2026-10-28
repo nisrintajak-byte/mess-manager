@@ -276,7 +276,9 @@
     "reauth_required": "Please confirm it is you, then try again.",
     "account_deleted": "This account has been deleted.",
     "not_found": "Not found.",
-    "date_invalid": "Pick a day inside this cycle, before today."
+    "date_invalid": "Pick a day inside this cycle, before today.",
+    "room_limit_free": "On the free plan you can be in up to 2 Rooms (requests waiting for approval count too). Leave a Room, or get Mess Manager Plus for up to 10.",
+    "room_limit_max": "You can be in at most 10 Rooms. Leave a Room to create or join another."
   },
   "cycle": {
     "current": "Current cycle",
@@ -774,15 +776,15 @@
     "privacyOptions": "Ad privacy options"
   },
   "adFree": {
-    "title": "Remove ads",
-    "explain": "Don't want to see banners? Subscribe and Mess Manager shows no ads on any of your phones. Cancel anytime in Google Play.",
+    "title": "Mess Manager Plus",
+    "explain": "Plus removes ads on all your phones and lets you be in up to 10 Rooms (free plan: 2). Cancel anytime in Google Play.",
     "buyMonthly": "Monthly — {{price}}",
     "buyYearly": "Yearly — {{price}} (best value)",
     "restore": "Already subscribed? Restore",
     "manage": "Manage or cancel in Google Play",
-    "active": "Ad-free until {{date}} (renews automatically unless cancelled). Thank you!",
-    "thanks": "Thank you! Ads are now off on all your phones.",
-    "pending": "Payment is pending. Ads turn off as soon as Google confirms it.",
+    "active": "Plus is active until {{date}} (renews automatically unless cancelled). Thank you!",
+    "thanks": "Thank you! Plus is on: no ads, and up to 10 Rooms.",
+    "pending": "Payment is pending. Plus turns on as soon as Google confirms it.",
     "error": "The purchase could not be confirmed. If you were charged, tap Restore later; Google refunds purchases that are not confirmed within 3 days.",
     "notAvailable": "Subscriptions are not available yet. They will appear once the app is published on Google Play."
   },
@@ -874,8 +876,8 @@
     "app": "App",
     "appearance": "Language and look",
     "appearanceHint": "Language, theme, digits",
-    "ads": "Remove ads",
-    "adsHint": "Ad-free plan, ad settings",
+    "ads": "Mess Manager Plus",
+    "adsHint": "No ads, up to 10 Rooms",
     "help": "Help and support",
     "contact": "Contact support",
     "rate": "Rate Mess Manager",
@@ -897,5 +899,12 @@
     "title": "Your account is clear!",
     "body": "Your payment of {{amount}} in {{room}} is fully confirmed. Nothing is left to pay for this period. Thank you!",
     "button": "Great!"
+  },
+  "plan": {
+    "usage": "{{used}} of {{limit}} Rooms used",
+    "fullFree": "You are already in 2 Rooms, the most on the free plan (requests waiting for approval count too). Leave a Room, or get Mess Manager Plus for up to 10 Rooms and no ads.",
+    "fullPlus": "You are already in 10 Rooms, the most allowed. Leave a Room to create or join another.",
+    "getPlus": "Get Mess Manager Plus",
+    "appOnly": "Plus can be bought in the Mess Manager Android app."
   }
 }

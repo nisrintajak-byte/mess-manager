@@ -671,6 +671,14 @@ const rawApi = {
     unwrap(await supabase.rpc('register_push_token', { p_token: token, p_platform: platform }));
   },
 
+  /** Rooms I'm in or waiting for, my limit (free 2, Plus 10) and whether I have Plus. */
+  async myRoomAllowance(): Promise<{ used: number; limit: number; plus: boolean }> {
+    const rows = unwrap(await supabase.rpc('my_room_allowance')) as
+      { used: number; room_limit: number; plus: boolean }[] | null;
+    const r = rows?.[0];
+    return { used: r?.used ?? 0, limit: r?.room_limit ?? 2, plus: !!r?.plus };
+  },
+
   async myAdFree(): Promise<string | null> {
     return unwrap(await supabase.rpc('my_ad_free')) as string | null;
   },

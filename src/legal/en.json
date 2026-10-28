@@ -1,6 +1,6 @@
 {
   "draft": "DRAFT for review by a qualified lawyer before launch. Items in [brackets] are still to be filled in.",
-  "updated": "Last updated: 21 October 2026",
+  "updated": "Last updated: 28 October 2026",
   "privacy": {
     "title": "Privacy Policy",
     "sections": [
@@ -73,7 +73,7 @@
         "h": "Ads",
         "p": [
           "The free phone app shows small banner ads, never on screens about payments, settlements, disputes, sign-in or account deletion. Where the law requires it (for example the EEA, UK and Switzerland) you are asked before any personalised ad. Everywhere else you can switch to non-personalised ads at any time in Preferences.",
-          "Payments for the ad-free subscription are processed by Google Play; we receive only whether your subscription is active and until when, never your card or bank details."
+          "Payments for Mess Manager Plus are processed by Google Play; we receive only whether your subscription is active and until when, never your card or bank details."
         ]
       },
       {
@@ -84,7 +84,9 @@
       },
       {
         "h": "Age",
-        "p": ["Mess Manager is for people aged 18 or older. We do not knowingly collect data from children."]
+        "p": [
+          "Mess Manager is for people aged 18 or older. We do not knowingly collect data from children."
+        ]
       },
       {
         "h": "Changes",
@@ -165,9 +167,9 @@
         ]
       },
       {
-        "h": "Ad-free subscription",
+        "h": "Free plan and Mess Manager Plus",
         "p": [
-          "You can pay a monthly or yearly subscription through Google Play to remove ads on all your devices. Price, renewal and cancellation are handled by Google Play under its terms; you can cancel anytime in Google Play and keep the ad-free period you paid for. Refunds follow Google Play's policy. The subscription only removes ads; it does not change how Rooms or records work."
+          "Mess Manager is free to use. On the free plan an account can be in up to 2 Rooms at a time, counting Rooms it created, Rooms it joined and join requests still waiting for approval; Rooms you left or were removed from do not count. Mess Manager Plus is a monthly or yearly subscription through Google Play that removes ads on all your devices and raises the limit to 10 Rooms. Price, renewal and cancellation are handled by Google Play under its terms; you can cancel anytime in Google Play and keep Plus for the period you paid for. Refunds follow Google Play's policy. If Plus ends while you are in more than 2 Rooms, you keep those Rooms and all their records, but you cannot create or join another one until you are below the limit."
         ]
       },
       {
