@@ -9,7 +9,8 @@
     "production": {
       "channel": "production",
       "autoIncrement": true,
-      "android": { "buildType": "app-bundle" }
+      "android": { "buildType": "app-bundle" },
+      "env": { "EXPO_PUBLIC_REAL_ADS": "1" }
     }
   }
 }

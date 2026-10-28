@@ -102,3 +102,4 @@ Founder: no Android APK (EAS) build is started without their explicit permission
 
 ## 2026-10-28 — Keyboard never covers inputs on Android
 Android draws edge-to-edge, so the window no longer shrinks for the keyboard. `KeyboardSpace` (src/ui/components.tsx) wraps the whole app in App.tsx and ends the app's area at the keyboard's top on Android; screens need nothing of their own. Every password/PIN box (`Field` with `secureTextEntry`) has a Show/Hide button.
+- 2026-10-28 — Real AdMob ids (founder account, publisher pub-8476518444023309): Android app id in app.json; the real Home banner unit is used only in EAS "production" builds (EXPO_PUBLIC_REAL_ADS=1). Dev and preview APKs keep Google test ids so our own testing never hits the live account. iOS stays on test ids (no iOS app in AdMob yet).

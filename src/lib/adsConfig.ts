@@ -1,8 +1,9 @@
 /**
  * Ads (PRD §19): small banners only, on a short list of screens. Never on screens where money or
  * trust decisions happen, never next to an action button, never in emails/PDFs/notifications.
- * Unit ids are Google's TEST ids until the founder's AdMob account exists (then replace them and
- * the app ids in app.json).
+ * The real Android unit id is used only in store builds (EAS "production" profile sets
+ * EXPO_PUBLIC_REAL_ADS=1). Dev and preview/test builds keep Google's TEST ids, so our own testing
+ * never counts as invalid clicks on the live AdMob account. iOS has no AdMob app yet: test ids.
  */
 export const ADS_ENABLED = true;
 
@@ -33,7 +34,11 @@ export const NO_AD_SCREENS = [
   'auth/ConsentUpdateScreen',
 ] as const;
 
+const REAL_ADS = !__DEV__ && process.env.EXPO_PUBLIC_REAL_ADS === '1';
+
 export const BANNER_UNIT_ID = {
-  android: 'ca-app-pub-3940256099942544/9214589741', // Google test adaptive banner
+  android: REAL_ADS
+    ? 'ca-app-pub-8476518444023309/3308172610' // AdMob "Mess Manager" → Home banner
+    : 'ca-app-pub-3940256099942544/9214589741', // Google test adaptive banner
   ios: 'ca-app-pub-3940256099942544/2435281174', // Google test adaptive banner
 };
