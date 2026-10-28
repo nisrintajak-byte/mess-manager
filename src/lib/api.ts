@@ -371,7 +371,9 @@ const rawApi = {
     for (const [uid, label] of labels) {
       if (known.has(uid)) continue;
       const f = formerById.get(uid);
-      const status = f?.status ?? 'left';
+      // only people who left or were removed; a rejected join request was never a member
+      if (!f) continue;
+      const status = f.status;
       out.push({
         id: `former:${uid}`,
         room_id: roomId,
@@ -379,10 +381,10 @@ const rawApi = {
         role: 'member',
         status,
         requested_at: '',
-        joined_on: f?.joined_on ?? null,
-        left_on: f?.left_on ?? null,
+        joined_on: f.joined_on,
+        left_on: f.left_on,
         profile: { display_name: i18n.t(`members.tag_${status}`, { name: label }), avatar_url: null },
-        former: { status, name: label, removedByName: f?.removed_by_name ?? null },
+        former: { status, name: label, removedByName: f.removed_by_name },
       });
     }
     return out;

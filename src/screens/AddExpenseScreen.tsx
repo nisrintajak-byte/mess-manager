@@ -26,6 +26,9 @@ export function AddExpenseScreen({ navigation, route }: Props) {
 
   const [room, setRoom] = useState<Room | null>(null);
   const [members, setMembers] = useState<Member[]>([]);
+  // approved + former members: the server shares an expense among everyone in the Room on its
+  // date, including someone who left or was removed that day (join/leave days count)
+  const [everyone, setEveryone] = useState<Member[]>([]);
   const [title, setTitle] = useState(presetTitle ?? '');
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState('');
@@ -49,6 +52,7 @@ export function AddExpenseScreen({ navigation, route }: Props) {
       const approved = m.filter((x) => x.status === 'approved');
       setRoom(r);
       setMembers(approved);
+      setEveryone(m.filter((x) => x.status === 'approved' || x.former));
       setSelected(new Set(approved.map((x) => x.user_id)));
       if (expenseId) {
         const { expense, participants } = await api.expense(expenseId);
@@ -149,7 +153,10 @@ export function AddExpenseScreen({ navigation, route }: Props) {
 
   const name = (m: Member) => m.profile?.display_name ?? '—';
   const minorNow = parseAmount(amount, room.currency_decimals);
-  const people = mode === 'selected' ? selected.size : members.length;
+  const onDate = isIsoDate(date)
+    ? everyone.filter((m) => !!m.joined_on && m.joined_on <= date && (!m.left_on || m.left_on >= date))
+    : members;
+  const people = mode === 'selected' ? selected.size : onDate.length;
   const each = minorNow && minorNow > 0 && people > 0 ? Math.floor(minorNow / people) : null;
   const today = todayIn(room.time_zone);
   const yesterday = shiftDay(today, -1);
@@ -201,7 +208,9 @@ export function AddExpenseScreen({ navigation, route }: Props) {
                 .map(name)
                 .join(', '),
             })
-          : localizeDigits(t('split.wholeRoom', { count: members.length }))}
+          : onDate.length !== members.length || onDate.some((m) => m.former)
+            ? t('split.onDate', { names: onDate.map(name).join(', ') })
+            : localizeDigits(t('split.wholeRoom', { count: onDate.length }))}
       </Body>
       {each !== null ? (
         <Body muted>
