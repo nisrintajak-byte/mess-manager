@@ -181,6 +181,7 @@ export function Chip({ on, onPress, label }: { on: boolean; onPress: () => void;
   return (
     <Pressable
       onPress={onPress}
+      hitSlop={6}
       style={[styles.chip, on && styles.chipOn]}
       accessibilityRole="radio"
       accessibilityState={{ selected: on }}

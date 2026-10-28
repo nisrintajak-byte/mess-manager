@@ -3,7 +3,7 @@
     "name": "Mess Manager",
     "slug": "mess-manager",
     "scheme": "messmanager",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "android": {

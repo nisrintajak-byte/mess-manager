@@ -5,6 +5,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
+import { PASSWORD_MIN_LENGTH } from '../config';
 import { localizeDigits } from '../lib/digits';
 import ar from './locales/ar.json';
 import en from './locales/en.json';
@@ -50,6 +51,7 @@ void i18n
       // date, an amount) is wrapped in Unicode isolate marks so it cannot reorder the words around
       // it, e.g. "أنشأها Imran 2026/10/28" showed as "2026/10/Imran 28".
       escapeValue: true,
+      defaultVariables: { minPassword: PASSWORD_MIN_LENGTH },
       escape: (value: string) => (isRtlLanguage(i18n.language) ? `\u2068${value}\u2069` : value),
     },
   });
