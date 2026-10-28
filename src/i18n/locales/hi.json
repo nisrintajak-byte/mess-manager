@@ -106,7 +106,7 @@
     "pickRoom": "कौन सा रूम?",
     "joinShort": "+ रूम में जुड़ें",
     "createShort": "+ नया रूम बनाएँ",
-    "roomLine": "{{members}} सदस्य · इस अवधि {{total}}",
+    "roomLine": "{{members}} · इस अवधि {{total}}",
     "waitingToJoin": "{{count}} जुड़ने के इंतज़ार में",
     "openNeeds_one": "{{count}} खुली ज़रूरत की रिक्वेस्ट",
     "openNeeds_other": "{{count}} खुली ज़रूरत की रिक्वेस्ट",

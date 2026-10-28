@@ -105,7 +105,7 @@
     "pickRoom": "Which Room?",
     "joinShort": "+ Join a Room",
     "createShort": "+ Create a new Room",
-    "roomLine": "{{members}} members · this period {{total}}",
+    "roomLine": "{{members}} · this period {{total}}",
     "waitingToJoin": "{{count}} waiting to join",
     "openNeeds_one": "{{count}} open need request",
     "openNeeds_other": "{{count}} open need requests",
