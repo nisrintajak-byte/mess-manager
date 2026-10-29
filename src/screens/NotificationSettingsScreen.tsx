@@ -57,9 +57,7 @@ export function NotificationSettingsScreen() {
           <Button
             title={t('notifPrefs.needSoundPlay')}
             variant="secondary"
-            onPress={() =>
-              void previewNeedAlert(t('notifPrefs.need_created'), t('notifPrefs.needSoundPreview'))
-            }
+            onPress={() => void previewNeedAlert()}
           />
         </Card>
       ) : null}

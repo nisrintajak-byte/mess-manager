@@ -478,7 +478,6 @@
     "needSound": "تنبيه خاص لطلبات الاحتياج",
     "needSoundHelp": "صوت جرس أطول (نحو 4 ثوانٍ) واهتزاز طويل، ليلاحظ كل أعضاء الغرفة طلب الاحتياج الجديد. اسحب الإشعار لإيقافه.",
     "needSoundPlay": "تشغيل الصوت",
-    "needSoundPreview": "هكذا يبدو صوت طلب احتياج جديد.",
     "needSoundChannel": "طلبات الاحتياج (تنبيه خاص)"
   },
   "ack": {
@@ -909,7 +908,7 @@
     "page_profile": "ملفي الشخصي",
     "page_security": "الأمان",
     "page_appearance": "اللغة والمظهر",
-    "page_ads": "إزالة الإعلانات",
+    "page_ads": "Mess Manager Plus",
     "page_data": "بياناتي وحسابي"
   },
   "cleared": {

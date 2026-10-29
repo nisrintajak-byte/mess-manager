@@ -75,6 +75,8 @@ export async function loadPlans(): Promise<Plan[]> {
         const token = (offer as { offerTokenAndroid?: string | null } | undefined)?.offerTokenAndroid ?? null;
         return { id: p.id, price: offer?.displayPrice ?? p.displayPrice, offerToken: token };
       })
+      // A plan Play returns without a price (base plan not active yet) cannot be bought.
+      .filter((p) => !!p.price)
       .sort((a, b) => AD_FREE_PRODUCTS.indexOf(a.id) - AD_FREE_PRODUCTS.indexOf(b.id));
   } catch {
     return [];
