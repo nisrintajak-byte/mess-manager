@@ -52,7 +52,7 @@
       {
         "h": "Service providers",
         "p": [
-          "We use: Supabase (database, sign-in and file storage), an email service for statements and account emails, Google AdMob for ads in the phone app, and Expo / Google Firebase for push notifications. They process data only on our instructions. [Hosting region and list to be confirmed.]"
+          "We use: Supabase (database, sign-in and file storage), an email service for statements and account emails, Google AdMob for ads in the phone app, and Expo / Google Firebase for push notifications. They process data only on our instructions. Your account and Room data are stored in India (Mumbai). Emails are sent through Resend; Resend, Google and Expo may process the data they handle outside India."
         ]
       },
       {
