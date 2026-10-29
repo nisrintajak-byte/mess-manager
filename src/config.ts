@@ -22,7 +22,7 @@ export const INVITE_APP_LINK = 'https://tech.utplgroup.com/mess-manager/';
  * Contact support (founder 2026-10-23: use the Grievance Officer's address until the company
  * domain has its own helpdesk address).
  */
-export const SUPPORT_EMAIL = 'unifairtrading@gmail.com';
+export const SUPPORT_EMAIL = 'support@utplgroup.com';
 
 /** "Rate Mess Manager" appears in Me once the Play Store listing is public. */
 export const PLAY_LISTING_LIVE = false;
