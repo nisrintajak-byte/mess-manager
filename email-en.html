@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" dir="ltr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mess Manager</title>
+<style>
+@page { size: A4; margin: 14mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Noto Sans', 'Segoe UI', Roboto, Arial, sans-serif; color: #16201C; font-size: 11pt; line-height: 1.45; margin: 0; padding: 16px; }
+h1 { font-size: 18pt; margin: 0 0 4px; }
+h2 { font-size: 13pt; margin: 22px 0 8px; border-bottom: 2px solid #1F6F5C; padding-bottom: 4px; }
+h3 { font-size: 11pt; margin: 14px 0 6px; }
+.muted { color: #5B6762; font-size: 9.5pt; }
+.meta { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 8px 0 12px; }
+.box { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.box > div { flex: 1 1 140px; border: 1px solid #D9DED9; border-radius: 8px; padding: 8px 10px; }
+.box span { display: block; color: #5B6762; font-size: 9.5pt; }
+.box b { font-size: 12pt; }
+table { width: 100%; border-collapse: collapse; margin: 4px 0 8px; page-break-inside: auto; }
+tr { page-break-inside: avoid; }
+th, td { border-bottom: 1px solid #E3E7E3; padding: 5px 6px; text-align: start; vertical-align: top; }
+th { background: #F1F4F1; font-size: 9.5pt; }
+.num { text-align: end; white-space: nowrap; unicode-bidi: plaintext; }
+.struck td { color: #8A948F; text-decoration: line-through; }
+.tags span { display: inline-block; font-size: 8.5pt; background: #FFF4D6; border-radius: 4px; padding: 0 5px; margin: 2px 4px 0 0; }
+.ref { font-family: monospace; unicode-bidi: plaintext; }
+footer { margin-top: 24px; border-top: 1px solid #D9DED9; padding-top: 8px; }
+.report + .report, .report.break { page-break-before: always; }
+.kv td:first-child { color: #5B6762; width: 40%; }
+</style></head><body>
+<section class="report"><p>Hello أحمد,</p><p>Mess Manager keeps records for 2 complete calendar months after a cycle is settled. The records of Flat 12 — شقة for 2026-10-01 – 2026-10-31 will be deleted on 2027-01-01. Your statement is attached as PDF and CSV — please keep it, it is your permanent copy.</p><p>Attached: MessManager-Flat-12-شقة-MM-20261019-SAMPLE01.pdf, MessManager-Flat-12-شقة-MM-20261019-SAMPLE01.csv</p><section class="report">
+<h1>Room report</h1>
+<div><b>Flat 12 — شقة</b> · KWD</div>
+<div class="meta muted">
+<span>Period: 2026-10-01 – 2026-10-31</span>
+<span>Created: 2026-10-19 08:30 UTC</span>
+<span>Reference number: <span class="ref">MM-20261019-SAMPLE01</span></span>
+
+</div>
+<div class="box"><div><span>Total expenses</span><b>KWD 15.500</b></div></div>
+
+<h2>Expenses</h2><table><thead><tr><th>Date</th><th>Item</th><th>Paid by</th><th>Amount</th><th>My share</th></tr></thead><tbody><tr class="">
+<td>2026-10-02</td><td>چاول 5kg (basmati)<div class="muted">من السوق المركزي</div><div class="tags"><span>Receipt</span></div></td><td>أحمد</td><td class="num">KWD 12.500</td><td class="num">KWD 4.167</td></tr><tr class="">
+<td>2026-10-05</td><td>दूध और सब्ज़ी<div class="tags"><span>Late entry (from 2026-09-30)</span></div></td><td>राजेश</td><td class="num">KWD 3.000</td><td class="num">KWD 1.000</td></tr><tr class="struck">
+<td>2026-10-07</td><td>Gas cylinder<div class="muted">Monthly refill — very long note to check that wrapping inside a table cell works across several lines without overflowing the column</div><div class="tags"><span>Deleted</span></div></td><td>Bilal (account deleted)</td><td class="num">KWD 2.000</td><td class="num">KWD 0.667</td></tr></tbody></table>
+<h2>Settlements</h2><h3>2026-10-01 – 2026-10-31 · Total KWD 15.500</h3>
+<table><thead><tr><th>Member</th><th>Share</th><th>Paid</th><th>Net</th><th>Status</th></tr></thead><tbody><tr><td>Bilal (account deleted)</td><td class="num">KWD 5.166</td><td class="num">KWD 0.000</td><td class="num">KWD -5.166</td><td>Awaiting confirmation</td></tr><tr><td>राजेश</td><td class="num">KWD 5.167</td><td class="num">KWD 3.000</td><td class="num">KWD -2.167</td><td>Paid</td></tr><tr><td>أحمد</td><td class="num">KWD 5.167</td><td class="num">KWD 12.500</td><td class="num">KWD 7.333</td><td>Receives</td></tr></tbody></table>
+<h2>Payments</h2><table><thead><tr><th>Date</th><th>Member</th><th>Amount</th><th>Method</th><th>Status</th></tr></thead><tbody><tr><td>2026-11-01 09:00</td><td>राजेश</td><td class="num">KWD 2.167</td><td>Bank<div class="muted">Reference: UTR 4455-ABC</div><div class="muted">Proof attached</div></td><td>Confirmed<div class="muted">أحمد · 2026-11-01 12:00</div></td></tr></tbody></table>
+<h2>Disputes</h2><table><thead><tr><th>Date</th><th>By</th><th>Item</th><th>Reason</th><th>Status</th></tr></thead><tbody><tr><td>2026-10-04 09:00</td><td>राजेश</td><td>Expense</td><td>Wrong amount<div class="muted">كان 10 فقط</div></td><td>Open</td></tr></tbody></table>
+<h2>History</h2><table><thead><tr><th>Time</th><th>By</th><th>Action</th><th>Item</th></tr></thead><tbody><tr><td>2026-10-02 10:00</td><td>أحمد</td><td>Expense · created</td><td>چاول 5kg (basmati)</td></tr><tr><td>2026-10-07 11:00</td><td>Bilal (account deleted)</td><td>Expense · changed</td><td>Gas cylinder</td></tr><tr><td>2026-10-31 20:00</td><td>أحمد</td><td>Settlement · created</td><td></td></tr></tbody></table>
+<footer class="muted">
+<p>Mess Manager keeps records for 2 complete calendar months after a cycle is settled, then deletes them. Downloaded and emailed reports are your permanent copy. The oldest records in this report will be deleted on 2027-01-01.</p>
+<p>Reference MM-20261019-SAMPLE01 can be checked in the Mess Manager app under Reports → Check a report.</p>
+<p>Mess Manager · Uyoon Tech Solutions</p>
+</footer>
+</section>
+<footer class="muted"><p>You receive this because you have a Mess Manager account. This is an automatic message — please do not reply.</p><p>Mess Manager · Uyoon Tech Solutions</p></footer></section>
+</body></html>

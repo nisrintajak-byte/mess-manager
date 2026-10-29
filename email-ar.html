@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mess Manager</title>
+<style>
+@page { size: A4; margin: 14mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Noto Naskh Arabic', 'Noto Sans Arabic', 'Segoe UI', Tahoma, sans-serif; color: #16201C; font-size: 11pt; line-height: 1.45; margin: 0; padding: 16px; }
+h1 { font-size: 18pt; margin: 0 0 4px; }
+h2 { font-size: 13pt; margin: 22px 0 8px; border-bottom: 2px solid #1F6F5C; padding-bottom: 4px; }
+h3 { font-size: 11pt; margin: 14px 0 6px; }
+.muted { color: #5B6762; font-size: 9.5pt; }
+.meta { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 8px 0 12px; }
+.box { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.box > div { flex: 1 1 140px; border: 1px solid #D9DED9; border-radius: 8px; padding: 8px 10px; }
+.box span { display: block; color: #5B6762; font-size: 9.5pt; }
+.box b { font-size: 12pt; }
+table { width: 100%; border-collapse: collapse; margin: 4px 0 8px; page-break-inside: auto; }
+tr { page-break-inside: avoid; }
+th, td { border-bottom: 1px solid #E3E7E3; padding: 5px 6px; text-align: start; vertical-align: top; }
+th { background: #F1F4F1; font-size: 9.5pt; }
+.num { text-align: end; white-space: nowrap; unicode-bidi: plaintext; }
+.struck td { color: #8A948F; text-decoration: line-through; }
+.tags span { display: inline-block; font-size: 8.5pt; background: #FFF4D6; border-radius: 4px; padding: 0 5px; margin: 2px 4px 0 0; }
+.ref { font-family: monospace; unicode-bidi: plaintext; }
+footer { margin-top: 24px; border-top: 1px solid #D9DED9; padding-top: 8px; }
+.report + .report, .report.break { page-break-before: always; }
+.kv td:first-child { color: #5B6762; width: 40%; }
+</style></head><body>
+<section class="report"><p>مرحباً أحمد،</p><p>يحتفظ Mess Manager بالسجلات لمدة شهرين تقويميين كاملين بعد تسوية الدورة. ستُحذف سجلات Flat 12 — شقة للفترة 2026-10-01 – 2026-10-31 بتاريخ 2027-01-01. كشف حسابك مرفق بصيغتي PDF وCSV — يرجى الاحتفاظ به فهو نسختك الدائمة.</p><p>المرفقات: MessManager-Flat-12-شقة-MM-20261019-SAMPLE01.pdf, MessManager-Flat-12-شقة-MM-20261019-SAMPLE01.csv</p><section class="report">
+<h1>تقرير الغرفة</h1>
+<div><b>Flat 12 — شقة</b> · KWD</div>
+<div class="meta muted">
+<span>الفترة: ⁦2026-10-01⁩ – ⁦2026-10-31⁩</span>
+<span>تاريخ الإنشاء: ⁦2026-10-19 08:30⁩ UTC</span>
+<span>الرقم المرجعي: <span class="ref">MM-20261019-SAMPLE01</span></span>
+
+</div>
+<div class="box"><div><span>إجمالي المصروفات</span><b>KWD 15.500</b></div></div>
+
+<h2>المصروفات</h2><table><thead><tr><th>التاريخ</th><th>البند</th><th>دفعه</th><th>المبلغ</th><th>حصتي</th></tr></thead><tbody><tr class="">
+<td>⁦2026-10-02⁩</td><td>چاول 5kg (basmati)<div class="muted">من السوق المركزي</div><div class="tags"><span>إيصال</span></div></td><td>أحمد</td><td class="num">KWD 12.500</td><td class="num">KWD 4.167</td></tr><tr class="">
+<td>⁦2026-10-05⁩</td><td>दूध और सब्ज़ी<div class="tags"><span>إدخال متأخر (من 2026-09-30)</span></div></td><td>राजेश</td><td class="num">KWD 3.000</td><td class="num">KWD 1.000</td></tr><tr class="struck">
+<td>⁦2026-10-07⁩</td><td>Gas cylinder<div class="muted">Monthly refill — very long note to check that wrapping inside a table cell works across several lines without overflowing the column</div><div class="tags"><span>محذوف</span></div></td><td>Bilal (حساب محذوف)</td><td class="num">KWD 2.000</td><td class="num">KWD 0.667</td></tr></tbody></table>
+<h2>التسويات</h2><h3>⁦2026-10-01⁩ – ⁦2026-10-31⁩ · الإجمالي KWD 15.500</h3>
+<table><thead><tr><th>العضو</th><th>الحصة</th><th>المدفوع</th><th>الصافي</th><th>الحالة</th></tr></thead><tbody><tr><td>Bilal (حساب محذوف)</td><td class="num">KWD 5.166</td><td class="num">KWD 0.000</td><td class="num">KWD -5.166</td><td>بانتظار التأكيد</td></tr><tr><td>राजेश</td><td class="num">KWD 5.167</td><td class="num">KWD 3.000</td><td class="num">KWD -2.167</td><td>مدفوع</td></tr><tr><td>أحمد</td><td class="num">KWD 5.167</td><td class="num">KWD 12.500</td><td class="num">KWD 7.333</td><td>يستلم</td></tr></tbody></table>
+<h2>المدفوعات</h2><table><thead><tr><th>التاريخ</th><th>العضو</th><th>المبلغ</th><th>الطريقة</th><th>الحالة</th></tr></thead><tbody><tr><td>⁦2026-11-01 09:00⁩</td><td>राजेश</td><td class="num">KWD 2.167</td><td>بنك<div class="muted">المرجع: UTR 4455-ABC</div><div class="muted">إثبات مرفق</div></td><td>مؤكدة<div class="muted">أحمد · ⁦2026-11-01 12:00⁩</div></td></tr></tbody></table>
+<h2>النزاعات</h2><table><thead><tr><th>التاريخ</th><th>بواسطة</th><th>البند</th><th>السبب</th><th>الحالة</th></tr></thead><tbody><tr><td>⁦2026-10-04 09:00⁩</td><td>राजेश</td><td>مصروف</td><td>مبلغ خاطئ<div class="muted">كان 10 فقط</div></td><td>مفتوح</td></tr></tbody></table>
+<h2>السجل</h2><table><thead><tr><th>الوقت</th><th>بواسطة</th><th>الإجراء</th><th>البند</th></tr></thead><tbody><tr><td>⁦2026-10-02 10:00⁩</td><td>أحمد</td><td>مصروف · أُنشئ</td><td>چاول 5kg (basmati)</td></tr><tr><td>⁦2026-10-07 11:00⁩</td><td>Bilal (حساب محذوف)</td><td>مصروف · عُدّل</td><td>Gas cylinder</td></tr><tr><td>⁦2026-10-31 20:00⁩</td><td>أحمد</td><td>تسوية · أُنشئ</td><td></td></tr></tbody></table>
+<footer class="muted">
+<p>يحتفظ Mess Manager بالسجلات لمدة شهرين تقويميين كاملين بعد تسوية الدورة ثم يحذفها. التقارير المنزّلة والمرسلة بالبريد هي نسختك الدائمة. ستُحذف أقدم السجلات في هذا التقرير بتاريخ 2027-01-01.</p>
+<p>يمكن التحقق من المرجع MM-20261019-SAMPLE01 في تطبيق Mess Manager من التقارير ← التحقق من تقرير.</p>
+<p>Mess Manager · Uyoon Tech Solutions</p>
+</footer>
+</section>
+<footer class="muted"><p>تصلك هذه الرسالة لأن لديك حساباً في Mess Manager. هذه رسالة تلقائية — يرجى عدم الرد.</p><p>Mess Manager · Uyoon Tech Solutions</p></footer></section>
+</body></html>
