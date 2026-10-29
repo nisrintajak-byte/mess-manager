@@ -59,7 +59,7 @@ Format: `YYYY-MM-DD HH:MM | version | what was done | files | next`
 
 ## 2026-10-22 — Legal details filled
 - Terms: courts of Indore (Madhya Pradesh) have jurisdiction (company is established in Indore).
-- Privacy: Grievance Officer Khijryar Khan, unifairtrading@gmail.com (4 languages; AR/UR/HI spelling confirmed by founder).
+- Privacy: Grievance Officer Khizar Yar Khan, unifairtrading@gmail.com (4 languages; AR/UR/HI spelling confirmed by founder).
 - Contact details only, so LEGAL_VERSION stays 2026-10-v4. Still DRAFT for lawyer review.
 
 ## 2026-10-22 — Android test build 2baefff0
