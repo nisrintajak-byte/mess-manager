@@ -461,7 +461,6 @@
     "needSound": "Special Need Request alert",
     "needSoundHelp": "A longer bell sound (about 4 seconds) and long vibration, so everyone in the Room notices a new Need Request. Swipe the notification away to stop it.",
     "needSoundPlay": "Play the sound",
-    "needSoundPreview": "This is how a new Need Request sounds.",
     "needSoundChannel": "Need Requests (special alert)"
   },
   "ack": {
@@ -892,7 +891,7 @@
     "page_profile": "My profile",
     "page_security": "Security",
     "page_appearance": "Language and look",
-    "page_ads": "Plus and ads",
+    "page_ads": "Mess Manager Plus",
     "page_data": "My data and account"
   },
   "cleared": {
