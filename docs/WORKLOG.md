@@ -93,3 +93,10 @@ Format: `YYYY-MM-DD HH:MM | version | what was done | files | next`
 - All v1.0 work incl. splash fix, email confirm (SMTP + base-path redirect), deleted-account email freeing, Plus plan, keyboard fix. Emulator smoke test OK.
 - PRs #21 (website Grievance Officer name + hosting region) and #22 (worklog name) merged.
 - Pending: founder applies the free-email-on-delete function to the live Supabase project (SQL editor).
+
+## 2026-11-04 — Last member / only Admin can leave or delete a Room
+- Founder report: the only Admin, or the last person in a Room (e.g. someone who created a Room and never used it), could neither leave nor delete it — and the stuck Room kept counting against the Room limit.
+- Migration 20261104110000 (function replace only): leave_room hands Admin to the longest-standing member when the only Admin leaves, and closes the Room (soft delete, pending requests declined) when the last person leaves. delete_room: alone → always allowed; with members → allowed once nothing is unsettled (no open-cycle expenses, every settlement line paid and confirmed); members get a room_deleted notification and their leaving statement.
+- App: Room details shows what will happen before leaving (Room closes / who becomes Admin); texts + help in 4 languages; room_deleted notification text in app and email worker.
+- Tests: new 99_last_member_test; 10/20 updated for the new rules; leavePlan unit test. Full DB suite + typecheck + lint + jest green.
+- NOTE: to be applied to the live Supabase project (SQL editor).

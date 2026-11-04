@@ -109,6 +109,7 @@ export interface Member {
   role: 'admin' | 'member';
   status: 'pending' | 'approved' | 'rejected' | 'left' | 'removed';
   requested_at: string;
+  decided_at?: string | null;
   joined_on: string | null;
   left_on: string | null;
   profile?: { display_name: string; avatar_url: string | null } | null;

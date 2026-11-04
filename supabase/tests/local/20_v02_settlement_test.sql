@@ -231,8 +231,8 @@ begin
   assert (select time_zone from public.rooms where id = (select room from t)) = 'Asia/Riyadh';
 end $$;
 
--- 11. Delete Room blocked while members exist
-select pg_temp.expect_error($$select public.delete_room((select room from t))$$, 'room_has_members');
+-- 11. Delete Room blocked while members exist and something is unsettled
+select pg_temp.expect_error($$select public.delete_room((select room from t))$$, 'room_has_unsettled_cycle');
 
 -- 12. Outsider sees nothing new
 select pg_temp.act(null);

@@ -105,3 +105,6 @@ Android draws edge-to-edge, so the window no longer shrinks for the keyboard. `K
 
 ## 2026-10-28 — Real AdMob ids only in store builds
 Founder's AdMob account (publisher pub-8476518444023309). The real Android app id is in app.json. The real Home banner unit is used only in EAS "production" builds (`EXPO_PUBLIC_REAL_ADS=1`); dev and preview APKs keep Google's test ids so our own testing never hits the live account. iOS stays on test ids (no iOS app in AdMob yet).
+
+## 2026-11-04 — Nobody is stuck in a Room
+The last person in a Room can always leave; the Room then closes (records kept for reports and retention). When the only Admin leaves, Admin passes to the longest-standing member. An Admin alone in a Room can always delete it; with other members it can be deleted once everything is settled, and every member is notified.

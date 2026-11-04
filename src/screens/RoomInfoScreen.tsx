@@ -8,6 +8,7 @@ import { INVITE_APP_LINK } from '../config';
 import { api } from '../lib/api';
 import { getCountry, LanguageCode } from '../lib/countries';
 import { dbErrorKey } from '../lib/errors';
+import { leavePlan } from '../lib/leavePlan';
 import { requireReauth } from '../lib/reauth';
 import type { AppStackParamList } from '../navigation/types';
 import { Body, Button, Card, Label, Meta, Notice, Screen, Section, Spacer } from '../ui/components';
@@ -45,6 +46,14 @@ export function RoomInfoScreen({ navigation, route }: Props) {
   }
   const { room, members } = data;
   const isAdmin = members.some((m) => m.user_id === me && m.status === 'approved' && m.role === 'admin');
+  // founder 2026-11-04: the last person or the only Admin can always leave
+  const plan = leavePlan(members, me);
+  const leaveNote =
+    plan.kind === 'alone'
+      ? t('room.leaveAlone')
+      : plan.kind === 'handover'
+        ? t('room.leaveHandover', { name: plan.successor.profile?.display_name ?? '' })
+        : null;
 
   async function invite() {
     // plain text for other apps: no RTL isolate marks around the code and link (see i18n/index.ts)
@@ -64,7 +73,8 @@ export function RoomInfoScreen({ navigation, route }: Props) {
 
   async function leave() {
     setError(null);
-    if (!(await confirm(t('room.leaveConfirm'), t('common.yes'), t('common.no')))) return;
+    const first = leaveNote ? `${t('room.leaveConfirm')}\n\n${leaveNote}` : t('room.leaveConfirm');
+    if (!(await confirm(first, t('common.yes'), t('common.no')))) return;
     if (!(await confirm(t('room.leaveConfirm2', { room: room.name }), t('room.leave'), t('common.cancel'))))
       return;
     if (!(await requireReauth())) return;
@@ -136,6 +146,12 @@ export function RoomInfoScreen({ navigation, route }: Props) {
       <Section>{t('room.dangerZone')}</Section>
       <Card>
         <Body muted>{t('room.leaveExplain')}</Body>
+        {leaveNote ? (
+          <>
+            <Spacer size="sm" />
+            <Notice tone="info">{leaveNote}</Notice>
+          </>
+        ) : null}
         <Spacer size="sm" />
         {error ? <Notice tone="error">{error}</Notice> : null}
         <Button title={t('room.leave')} variant="danger" loading={busy} onPress={() => void leave()} />
