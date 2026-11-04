@@ -117,7 +117,7 @@
       "title": "Members: approve, roles, remove",
       "steps": [
         "Room → Members: approve or reject join requests. Nobody gets in without approval.",
-        "Make another member an Admin so the Room never depends on one person. The last Admin cannot leave.",
+        "Make another member an Admin so the Room never depends on one person. If the only Admin leaves, the longest-standing member becomes Admin. The last person in a Room can leave, which closes it.",
         "Removing a member needs your password. Their past expenses stay, marked \"(removed)\", and Admins still see their email to invite them again.",
         "Invite people with Room → Room settings → \"Send invite\" (WhatsApp, SMS…)."
       ]

@@ -170,6 +170,8 @@
     "dangerZone": "Leave this Room",
     "leaveExplain": "Leaving removes you from the Room. Your past expenses stay in its history and you will need Admin approval to join again. Settle what you owe first.",
     "leaveConfirm2": "Last check: leave “{{room}}” now?",
+    "leaveAlone": "You are the only member left. Leaving closes this Room; its records stay in your reports.",
+    "leaveHandover": "You are the only Admin. When you leave, {{name}} (the longest-standing member) becomes Admin.",
     "inviteSend": "Send invite",
     "inviteMessage": "Join my Room “{{room}}” on Mess Manager.\nRoom code: {{code}}\nGet the app: {{link}}\nOpen the app → Join with a code. The Admin approves your request.",
     "inviteFallback": "Copy this message and send it:"
@@ -260,7 +262,7 @@
     "other_admin_must_confirm": "Another Admin must confirm your own payment.",
     "currency_change_not_allowed": "Currency can't change now. It can change at the start of a new cycle, before the first expense, once the previous cycle is settled.",
     "room_has_members": "Remove all other members before deleting the Room.",
-    "room_has_unsettled_cycle": "Settle all cycles before deleting the Room.",
+    "room_has_unsettled_cycle": "Settle everything first: no open expenses and every payment confirmed. Then the Room can be deleted.",
     "mandatory_notification": "This notification can't be turned off.",
     "already_flagged": "You have already raised a dispute on this item.",
     "other_admin_must_resolve": "Another Admin must resolve a dispute about your own item.",
@@ -413,7 +415,7 @@
     "currencyRule": "Currency can only change at the start of a new cycle, before its first expense, with the previous cycle settled.",
     "pending": "Pending change from next cycle: {{what}}",
     "deleteRoom": "Delete Room",
-    "deleteConfirm": "Delete this Room? Only possible when no other members remain and nothing is unsettled.",
+    "deleteConfirm": "Delete this Room? If other members are still in it, everything must be settled first; they will be told and the Room closes for everyone.",
     "open": "Settings"
   },
   "inbox": {
@@ -442,6 +444,7 @@
     "k_other": "New notification",
     "k_expense_late_entry": "“{{title}}” was added as a late entry — its cycle was settled meanwhile (original date {{date}})",
     "k_member_account_deleted": "{{name}} deleted their account and left {{room}}",
+    "k_room_deleted": "{{name}} deleted the Room {{room}}",
     "k_retention_reminder": "Records of {{room}} for {{from}} – {{to}} will be deleted on {{deleteOn}}. Download your reports now.",
     "k_payment_reminder": "Reminder: please pay {{amount}} for {{room}} ({{from}} – {{to}}), due {{due}}. Mark it as paid in the app after paying.",
     "k_confirm_reminder": "{{count}} payment(s) in {{room}} are waiting for your confirmation."

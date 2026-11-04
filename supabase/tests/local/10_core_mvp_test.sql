@@ -157,9 +157,8 @@ reset role;
 select pg_temp.expect_error($$update public.audit_log set action = 'x'$$, 'append-only');
 select pg_temp.expect_error($$delete from public.audit_log$$, 'append-only');
 
--- 11. Last Admin rule
+-- 11. Last Admin rule: demoting the last Admin is refused; leaving hands Admin over (see 99_last_member_test)
 select pg_temp.act('aaaaaaaa-0000-0000-0000-000000000001');
-select pg_temp.expect_error($$select public.leave_room((select id from t_room))$$, 'last_admin');
 select public.set_member_role((select id from public.room_members where user_id = 'bbbbbbbb-0000-0000-0000-000000000002' and status = 'approved'), 'admin');
 select public.leave_room((select id from t_room));
 reset role;
