@@ -148,6 +148,12 @@ do $$ begin
           and kind = 'account_deleted') = 1;
   assert (select count(*) from public.email_outbox where user_id = 'cccccccc-0000-0000-0000-000000000003'
           and kind = 'leave_statement') = 0, 'no separate leave mail on deletion';
+  -- the address is freed so the person can register again (fresh, confirmed account),
+  -- while the account-deleted email kept its own copy of the real address
+  assert (select email from auth.users where id = 'cccccccc-0000-0000-0000-000000000003')
+         = 'deleted+cccccccc-0000-0000-0000-000000000003@deleted.invalid', 'email freed for re-signup';
+  assert (select to_email from public.email_outbox where user_id = 'cccccccc-0000-0000-0000-000000000003'
+          and kind = 'account_deleted') not like 'deleted+%', 'deletion email keeps the real address';
 end $$;
 select pg_temp.act('cccccccc-0000-0000-0000-000000000003', true);
 select pg_temp.expect_error($$select public.report_data((select room from t), null, 'mine')$$, 'account_deleted');

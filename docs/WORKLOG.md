@@ -83,3 +83,8 @@ Format: `YYYY-MM-DD HH:MM | version | what was done | files | next`
 ## 2026-11-04 — Email confirm link 404 on web
 - Resend domain utplgroup.com verified; new API key (same account) in Supabase; EMAIL_FROM = no-reply@utplgroup.com; custom SMTP (smtp.resend.com:465) set for auth emails; Confirm email turned ON. First confirm email delivered.
 - Bug: confirm link opened GitHub Pages root (404). Cause: emailRedirectTo used Linking.createURL('/') which on web returns the bare origin, but the app is served under /mess-manager/next/. New authRedirectTo() returns origin+pathname on web, deep link on native; used in Signup, ForgotPassword, CheckEmail. Supabase URL config (Site URL + redirect allowlist incl. messmanager://) set by founder.
+
+## 2026-11-04 — Deleted account can register again (with confirmation)
+- Founder report: after deleting an account from the app, re-signing up with the same email sent no confirmation email. Cause: perform_account_deletion banned the auth user and kept the email for the 2-month retention window, so Supabase saw a repeated signup.
+- Fix (migration 20261104100000): on deletion the email is moved to a tombstone (deleted+<uuid>@deleted.invalid) on auth.users and the email provider's identity, so the real address is free for a fresh, confirmed signup. The 'account deleted' email keeps its own copy (queue_email snapshots the address before). Records stay under the old banned user id until the purge. DB test 70 updated; full suite green.
+- NOTE: still to be applied to the live Supabase project (function replace only).
