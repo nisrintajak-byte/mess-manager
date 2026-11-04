@@ -88,3 +88,8 @@ Format: `YYYY-MM-DD HH:MM | version | what was done | files | next`
 - Founder report: after deleting an account from the app, re-signing up with the same email sent no confirmation email. Cause: perform_account_deletion banned the auth user and kept the email for the 2-month retention window, so Supabase saw a repeated signup.
 - Fix (migration 20261104100000): on deletion the email is moved to a tombstone (deleted+<uuid>@deleted.invalid) on auth.users and the email provider's identity, so the real address is free for a fresh, confirmed signup. The 'account deleted' email keeps its own copy (queue_email snapshots the address before). Records stay under the old banned user id until the purge. DB test 70 updated; full suite green.
 - NOTE: still to be applied to the live Supabase project (function replace only).
+
+## 2026-11-04 — Android test build 8147b715
+- All v1.0 work incl. splash fix, email confirm (SMTP + base-path redirect), deleted-account email freeing, Plus plan, keyboard fix. Emulator smoke test OK.
+- PRs #21 (website Grievance Officer name + hosting region) and #22 (worklog name) merged.
+- Pending: founder applies the free-email-on-delete function to the live Supabase project (SQL editor).
