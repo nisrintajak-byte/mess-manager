@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="hi" dir="ltr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mess Manager</title>
+<style>
+@page { size: A4; margin: 14mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Noto Sans Devanagari', 'Mangal', 'Nirmala UI', sans-serif; color: #16201C; font-size: 11pt; line-height: 1.45; margin: 0; padding: 16px; }
+h1 { font-size: 18pt; margin: 0 0 4px; }
+h2 { font-size: 13pt; margin: 22px 0 8px; border-bottom: 2px solid #1F6F5C; padding-bottom: 4px; }
+h3 { font-size: 11pt; margin: 14px 0 6px; }
+.muted { color: #5B6762; font-size: 9.5pt; }
+.meta { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 8px 0 12px; }
+.box { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.box > div { flex: 1 1 140px; border: 1px solid #D9DED9; border-radius: 8px; padding: 8px 10px; }
+.box span { display: block; color: #5B6762; font-size: 9.5pt; }
+.box b { font-size: 12pt; }
+table { width: 100%; border-collapse: collapse; margin: 4px 0 8px; page-break-inside: auto; }
+tr { page-break-inside: avoid; }
+th, td { border-bottom: 1px solid #E3E7E3; padding: 5px 6px; text-align: start; vertical-align: top; }
+th { background: #F1F4F1; font-size: 9.5pt; }
+.num { text-align: end; white-space: nowrap; unicode-bidi: plaintext; }
+.struck td { color: #8A948F; text-decoration: line-through; }
+.tags span { display: inline-block; font-size: 8.5pt; background: #FFF4D6; border-radius: 4px; padding: 0 5px; margin: 2px 4px 0 0; }
+.ref { font-family: monospace; unicode-bidi: plaintext; }
+footer { margin-top: 24px; border-top: 1px solid #D9DED9; padding-top: 8px; }
+.report + .report, .report.break { page-break-before: always; }
+.kv td:first-child { color: #5B6762; width: 40%; }
+</style></head><body>
+<section class="report"><p>नमस्ते أحمد,</p><p>Mess Manager साइकिल सेटल होने के बाद रिकॉर्ड 2 पूरे कैलेंडर महीनों तक रखता है। Flat 12 — شقة के 2026-10-01 – 2026-10-31 के रिकॉर्ड 2027-01-01 को हटाए जाएँगे। आपका स्टेटमेंट PDF और CSV में संलग्न है — कृपया इसे संभालकर रखें, यही आपकी स्थायी कॉपी है।</p><p>संलग्न: MessManager-Flat-12-شقة-MM-20261019-SAMPLE01.pdf, MessManager-Flat-12-شقة-MM-20261019-SAMPLE01.csv</p><section class="report">
+<h1>रूम रिपोर्ट</h1>
+<div><b>Flat 12 — شقة</b> · KWD</div>
+<div class="meta muted">
+<span>अवधि: 2026-10-01 – 2026-10-31</span>
+<span>बनाई गई: 2026-10-19 08:30 UTC</span>
+<span>संदर्भ संख्या: <span class="ref">MM-20261019-SAMPLE01</span></span>
+
+</div>
+<div class="box"><div><span>कुल खर्च</span><b>KWD 15.500</b></div></div>
+
+<h2>खर्च</h2><table><thead><tr><th>तारीख़</th><th>मद</th><th>किसने चुकाया</th><th>राशि</th><th>मेरा हिस्सा</th></tr></thead><tbody><tr class="">
+<td>2026-10-02</td><td>چاول 5kg (basmati)<div class="muted">من السوق المركزي</div><div class="tags"><span>रसीद</span></div></td><td>أحمد</td><td class="num">KWD 12.500</td><td class="num">KWD 4.167</td></tr><tr class="">
+<td>2026-10-05</td><td>दूध और सब्ज़ी<div class="tags"><span>देर से प्रविष्टि (2026-09-30 से)</span></div></td><td>राजेश</td><td class="num">KWD 3.000</td><td class="num">KWD 1.000</td></tr><tr class="struck">
+<td>2026-10-07</td><td>Gas cylinder<div class="muted">Monthly refill — very long note to check that wrapping inside a table cell works across several lines without overflowing the column</div><div class="tags"><span>हटाया गया</span></div></td><td>Bilal (खाता हटाया गया)</td><td class="num">KWD 2.000</td><td class="num">KWD 0.667</td></tr></tbody></table>
+<h2>सेटलमेंट</h2><h3>2026-10-01 – 2026-10-31 · कुल KWD 15.500</h3>
+<table><thead><tr><th>सदस्य</th><th>हिस्सा</th><th>चुकाया</th><th>शुद्ध</th><th>स्थिति</th></tr></thead><tbody><tr><td>Bilal (खाता हटाया गया)</td><td class="num">KWD 5.166</td><td class="num">KWD 0.000</td><td class="num">KWD -5.166</td><td>पुष्टि की प्रतीक्षा</td></tr><tr><td>राजेश</td><td class="num">KWD 5.167</td><td class="num">KWD 3.000</td><td class="num">KWD -2.167</td><td>चुका दिया</td></tr><tr><td>أحمد</td><td class="num">KWD 5.167</td><td class="num">KWD 12.500</td><td class="num">KWD 7.333</td><td>पाएगा</td></tr></tbody></table>
+<h2>भुगतान</h2><table><thead><tr><th>तारीख़</th><th>सदस्य</th><th>राशि</th><th>तरीका</th><th>स्थिति</th></tr></thead><tbody><tr><td>2026-11-01 09:00</td><td>राजेश</td><td class="num">KWD 2.167</td><td>बैंक<div class="muted">संदर्भ: UTR 4455-ABC</div><div class="muted">प्रमाण संलग्न</div></td><td>पुष्ट<div class="muted">أحمد · 2026-11-01 12:00</div></td></tr></tbody></table>
+<h2>विवाद</h2><table><thead><tr><th>तारीख़</th><th>द्वारा</th><th>मद</th><th>कारण</th><th>स्थिति</th></tr></thead><tbody><tr><td>2026-10-04 09:00</td><td>राजेश</td><td>खर्च</td><td>गलत राशि<div class="muted">كان 10 فقط</div></td><td>खुला</td></tr></tbody></table>
+<h2>इतिहास</h2><table><thead><tr><th>समय</th><th>द्वारा</th><th>कार्रवाई</th><th>मद</th></tr></thead><tbody><tr><td>2026-10-02 10:00</td><td>أحمد</td><td>खर्च · बनाया</td><td>چاول 5kg (basmati)</td></tr><tr><td>2026-10-07 11:00</td><td>Bilal (खाता हटाया गया)</td><td>खर्च · बदला</td><td>Gas cylinder</td></tr><tr><td>2026-10-31 20:00</td><td>أحمد</td><td>सेटलमेंट · बनाया</td><td></td></tr></tbody></table>
+<footer class="muted">
+<p>Mess Manager साइकिल सेटल होने के बाद रिकॉर्ड 2 पूरे कैलेंडर महीनों तक रखता है, फिर हटा देता है। डाउनलोड और ईमेल की गई रिपोर्ट आपकी स्थायी कॉपी हैं। इस रिपोर्ट के सबसे पुराने रिकॉर्ड 2027-01-01 को हटाए जाएँगे।</p>
+<p>संदर्भ MM-20261019-SAMPLE01 की जाँच Mess Manager ऐप में रिपोर्ट → रिपोर्ट की जाँच से की जा सकती है।</p>
+<p>Mess Manager · Uyoon Tech Solutions</p>
+</footer>
+</section>
+<footer class="muted"><p>आपको यह संदेश इसलिए मिला क्योंकि आपका Mess Manager खाता है। यह स्वचालित संदेश है — कृपया जवाब न दें।</p><p>Mess Manager · Uyoon Tech Solutions</p></footer></section>
+</body></html>
