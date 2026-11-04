@@ -1,10 +1,10 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import * as Linking from 'expo-linking';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { authErrorKey } from '../../lib/errors';
 import { supabase } from '../../lib/supabase';
+import { authRedirectTo } from '../../lib/authRedirect';
 import type { AuthStackParamList } from '../../navigation/types';
 import { Body, Button, Notice, Screen, Spacer, Title } from '../../ui/components';
 
@@ -21,7 +21,7 @@ export function CheckEmailScreen({ route, navigation }: Props) {
     const { error } = await supabase.auth.resend({
       type: 'signup',
       email,
-      options: { emailRedirectTo: Linking.createURL('/') },
+      options: { emailRedirectTo: authRedirectTo() },
     });
     setBusy(false);
     setNotice(

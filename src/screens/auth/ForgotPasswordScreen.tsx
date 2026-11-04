@@ -1,10 +1,10 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import * as Linking from 'expo-linking';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { authErrorKey } from '../../lib/errors';
 import { supabase } from '../../lib/supabase';
+import { authRedirectTo } from '../../lib/authRedirect';
 import { isValidEmail } from '../../lib/validation';
 import type { AuthStackParamList } from '../../navigation/types';
 import { Body, Button, Field, Notice, Screen, Spacer, Title } from '../../ui/components';
@@ -26,7 +26,7 @@ export function ForgotPasswordScreen({ route, navigation }: Props) {
     }
     setBusy(true);
     const { error: err } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
-      redirectTo: Linking.createURL('/'),
+      redirectTo: authRedirectTo(),
     });
     setBusy(false);
     // Same message whether or not the account exists (no account enumeration).

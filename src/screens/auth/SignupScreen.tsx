@@ -1,11 +1,11 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import * as Linking from 'expo-linking';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text } from 'react-native';
 
 import { authErrorKey } from '../../lib/errors';
 import { supabase } from '../../lib/supabase';
+import { authRedirectTo } from '../../lib/authRedirect';
 import { PASSWORD_MIN_LENGTH, TESTING_MODE } from '../../config';
 import { CONSENT_VERSION, SignupErrors, validateSignup } from '../../lib/validation';
 import type { AuthStackParamList } from '../../navigation/types';
@@ -46,7 +46,7 @@ export function SignupScreen({ navigation }: Props) {
       email,
       password: form.password,
       options: {
-        emailRedirectTo: Linking.createURL('/'),
+        emailRedirectTo: authRedirectTo(),
         data: {
           display_name: form.name.trim(),
           date_of_birth: form.dateOfBirth.trim(),
