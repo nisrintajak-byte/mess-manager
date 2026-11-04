@@ -76,7 +76,8 @@ Format: `YYYY-MM-DD HH:MM | version | what was done | files | next`
 - 4 languages; help guide contact line points to Me → Contact support. Ranking idea parked in future-plan.
 - Checked in a local web build (screenshots of slides EN/UR, Me EN/AR, empty screens, celebration); typecheck, lint, 67 tests pass.
 
-## 2026-11-04 — Date-independent settle-until test
+## 2026-11-04 — Date-independent settlement tests
+- 20_v02_settlement_test also failed at a month boundary (today=Nov 4): a 40-day lookback left a full middle month, so an intermediate cycle stayed open and early-settling the current cycle raised earlier_cycle_open. Anchored the room start and past-cycle expenses to the first day of last month, so exactly one past + one current cycle exist on any date. Verified full suite on local pg.
 - 99_settle_until_test failed only at a month boundary (today=Nov 4): with monthly cycles the day after the settled cut (Oct 31) gets its own cycle, so Milk (Nov 1) lands in a later open cycle, not the one at a fixed offset. Product behaviour is correct; test now asserts Milk is in an open cycle covering its date and out of the locked one, instead of a fixed position. Verified on local pg.
 
 ## 2026-11-04 — Email confirm link 404 on web
