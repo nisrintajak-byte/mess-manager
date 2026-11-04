@@ -76,6 +76,9 @@ Format: `YYYY-MM-DD HH:MM | version | what was done | files | next`
 - 4 languages; help guide contact line points to Me → Contact support. Ranking idea parked in future-plan.
 - Checked in a local web build (screenshots of slides EN/UR, Me EN/AR, empty screens, celebration); typecheck, lint, 67 tests pass.
 
+## 2026-11-04 — Date-independent settle-until test
+- 99_settle_until_test failed only at a month boundary (today=Nov 4): with monthly cycles the day after the settled cut (Oct 31) gets its own cycle, so Milk (Nov 1) lands in a later open cycle, not the one at a fixed offset. Product behaviour is correct; test now asserts Milk is in an open cycle covering its date and out of the locked one, instead of a fixed position. Verified on local pg.
+
 ## 2026-11-04 — Email confirm link 404 on web
 - Resend domain utplgroup.com verified; new API key (same account) in Supabase; EMAIL_FROM = no-reply@utplgroup.com; custom SMTP (smtp.resend.com:465) set for auth emails; Confirm email turned ON. First confirm email delivered.
 - Bug: confirm link opened GitHub Pages root (404). Cause: emailRedirectTo used Linking.createURL('/') which on web returns the bare origin, but the app is served under /mess-manager/next/. New authRedirectTo() returns origin+pathname on web, deep link on native; used in Signup, ForgotPassword, CheckEmail. Supabase URL config (Site URL + redirect allowlist incl. messmanager://) set by founder.

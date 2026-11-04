@@ -55,6 +55,14 @@ do $$ declare c1 public.cycles; c2 public.cycles; begin
   assert c1.ends_on = (select today from d) - 5 and c1.status = 'locked', 'locked up to the chosen day';
   assert c2.starts_on = (select today from d) - 4 and c2.status = 'open', 'next cycle starts the day after';
   assert (select total from public.settlements) = 9000, 'only Rice is in the settlement';
-  assert (select cycle_id from public.expenses where title = 'Milk') = c2.id, 'Milk moved to the open cycle';
+  -- Milk (dated after the settled day) leaves the locked cycle for an open one that covers its date.
+  -- With monthly cycles the day after the cut can fall on a month end, so there may be more than one
+  -- new cycle; assert on the cycle that actually holds Milk rather than a fixed position.
+  assert (select ch.status from public.expenses e join public.cycles ch on ch.id = e.cycle_id
+          where e.title = 'Milk') = 'open', 'Milk is in an open cycle';
+  assert (select e.expense_date between ch.starts_on and ch.ends_on
+          from public.expenses e join public.cycles ch on ch.id = e.cycle_id
+          where e.title = 'Milk'), 'Milk sits inside its cycle dates';
+  assert (select cycle_id from public.expenses where title = 'Milk') <> c1.id, 'Milk left the locked cycle';
 end $$;
 select 'ALL DB TESTS PASSED';
