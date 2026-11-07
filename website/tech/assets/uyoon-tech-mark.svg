@@ -1,11 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Uyoon Tech Solutions">
-<defs><linearGradient id="ut-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1E5687"/><stop offset="1" stop-color="#0F2F4D"/></linearGradient></defs>
-<rect width="128" height="128" rx="28" fill="url(#ut-bg)"/>
-<rect x="1" y="1" width="126" height="126" rx="27" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="2"/>
-<g fill="none" stroke-linecap="round" stroke-linejoin="round">
-<polyline points="29,46 15,64 29,82" stroke="#BCCADA" stroke-width="8"/>
-<polyline points="99,46 113,64 99,82" stroke="#BCCADA" stroke-width="8"/>
-<path d="M44 38 V64 a20 20 0 0 0 40 0 V38" stroke="#F2A33A" stroke-width="11"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="55 35 520 530" role="img" aria-label="Uyoon Tech Solutions"><defs>
+<linearGradient id="gC2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFD58F"/><stop offset=".5" stop-color="#F2A33A"/><stop offset="1" stop-color="#B8650E"/></linearGradient>
+<linearGradient id="glC2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".3"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="bC2" x="-20%" y="-20%" width="140%" height="140%">
+ <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur"/>
+ <feSpecularLighting in="blur" surfaceScale="5" specularConstant=".9" specularExponent="22" lighting-color="#ffffff" result="spec"><fePointLight x="-150" y="-250" z="350"/></feSpecularLighting>
+ <feComposite in="spec" in2="SourceAlpha" operator="in" result="specIn"/>
+ <feComposite in="SourceGraphic" in2="specIn" operator="arithmetic" k1="0" k2="1" k3=".55" k4="0" result="lit"/>
+ <feDropShadow dx="6" dy="12" stdDeviation="9" flood-color="#06121f" flood-opacity=".35"/>
+</filter></defs>
+<g filter="url(#bC2)" fill="url(#gC2)">
+<path id="u" d="M 78 58 C 104 60 122 74 124 100 L 124 340 C 124 428 202 472 300 468 C 345 466 386 456 420 441 C 388 448 352 451 324 450 C 262 450 222 412 222 352 L 222 58 Z"/>
+<path d="M 250 55 L 470 55 L 470 140 L 438 140 L 438 360 C 438 392 416 414 388 414 C 360 414 338 392 338 360 L 338 140 L 250 140 Z"/><rect x="484" y="55" width="40" height="40" rx="6"/><rect x="484" y="104" width="36" height="36" rx="6" opacity=".85"/><rect x="536" y="55" width="30" height="30" rx="5" opacity=".7"/><path d="M 108 534 L 127 506 C 182 498 242 492 304 491 C 242 502 176 516 108 534 Z"/>
 </g>
-<circle cx="64" cy="60" r="7.5" fill="#FFFFFF"/>
+<g fill="url(#glC2)"><path d="M 78 58 C 104 60 122 74 124 100 L 124 340 C 124 428 202 472 300 468 C 345 466 386 456 420 441 C 388 448 352 451 324 450 C 262 450 222 412 222 352 L 222 58 Z"/><path d="M 250 55 L 470 55 L 470 140 L 438 140 L 438 360 C 438 392 416 414 388 414 C 360 414 338 392 338 360 L 338 140 L 250 140 Z"/><rect x="484" y="55" width="40" height="40" rx="6"/><rect x="484" y="104" width="36" height="36" rx="6" opacity=".85"/><rect x="536" y="55" width="30" height="30" rx="5" opacity=".7"/></g>
 </svg>
