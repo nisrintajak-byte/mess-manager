@@ -26,13 +26,16 @@ create temp table t as select public.create_room('Flat', 'KW', 'KWD', 3, 'Asia/K
 grant select on t to authenticated;
 select pg_temp.act(null);
 update public.rooms set created_at = now() - interval '40 days';
-update public.cycles set starts_on = (now() at time zone 'Asia/Kuwait')::date - 40,
-  ends_on = public.cycle_end((now() at time zone 'Asia/Kuwait')::date - 40, 'monthly');
-update public.room_members set joined_on = (now() at time zone 'Asia/Kuwait')::date - 40;
+update public.cycles set starts_on = (date_trunc('month', (now() at time zone 'Asia/Kuwait')::date) - interval '1 month')::date,
+  ends_on = public.cycle_end((date_trunc('month', (now() at time zone 'Asia/Kuwait')::date) - interval '1 month')::date, 'monthly');
+update public.room_members set joined_on = (date_trunc('month', (now() at time zone 'Asia/Kuwait')::date) - interval '1 month')::date;
 insert into public.room_members (room_id, user_id, role, status, joined_on)
 select room, 'bbbbbbbb-0000-0000-0000-000000000002'::uuid, 'member'::public.member_role, 'approved'::public.member_status,
-       (now() at time zone 'Asia/Kuwait')::date - 40 from t;
-create temp table d as select (now() at time zone 'Asia/Kuwait')::date as today;
+       (date_trunc('month', (now() at time zone 'Asia/Kuwait')::date) - interval '1 month')::date from t;
+-- Fixed dates so the test passes on any day: the room starts on the 1st of last month and the
+-- "past" expense falls on the 5th of last month, so both are always in the same (previous) cycle.
+create temp table d as select (now() at time zone 'Asia/Kuwait')::date as today,
+  ((date_trunc('month', (now() at time zone 'Asia/Kuwait')::date) - interval '1 month')::date + 4) as past;
 grant select on d to authenticated;
 
 -- 1. Normal sync create + idempotent replay (no duplicates)
@@ -40,13 +43,13 @@ select pg_temp.act('bbbbbbbb-0000-0000-0000-000000000002');
 create temp table k1 as select gen_random_uuid() as k;
 grant select on k1 to authenticated;
 create temp table r1 as select public.sync_create_expense((select room from t), 'Rice', 5000,
-  (select today from d) - 35, null, null, null, (select k from k1)) as j;
+  (select past from d), null, null, null, (select k from k1)) as j;
 grant select on r1 to authenticated;
 do $$ begin
   assert (select j ->> 'late' from r1) = 'false';
   assert (select j ->> 'replay' from r1) = 'false';
 end $$;
-select public.sync_create_expense((select room from t), 'Rice', 5000, (select today from d) - 35, null, null, null, (select k from k1));
+select public.sync_create_expense((select room from t), 'Rice', 5000, (select past from d), null, null, null, (select k from k1));
 do $$ begin
   assert (select count(*) from public.expenses where idempotency_key = (select k from k1)) = 1, 'no duplicate on retry';
   assert (select j ->> 'id' from r1)::uuid = (select id from public.expenses where idempotency_key = (select k from k1));
@@ -60,7 +63,7 @@ select pg_temp.act('bbbbbbbb-0000-0000-0000-000000000002');
 create temp table k2 as select gen_random_uuid() as k;
 grant select on k2 to authenticated;
 create temp table r2 as select public.sync_create_expense((select room from t), 'Offline tea', 700,
-  (select today from d) - 35, null, null, null, (select k from k2)) as j;
+  (select past from d), null, null, null, (select k from k2)) as j;
 grant select on r2 to authenticated;
 do $$
 declare e public.expenses;
@@ -68,12 +71,12 @@ begin
   assert (select j ->> 'late' from r2) = 'true';
   select * into e from public.expenses where idempotency_key = (select k from k2);
   assert e.expense_date = (select today from d), 'booked today';
-  assert e.late_entry_from = (select today from d) - 35, 'original date remembered';
+  assert e.late_entry_from = (select past from d), 'original date remembered';
   assert e.amount = 700;
   assert (select count(*) from public.notifications where user_id = 'bbbbbbbb-0000-0000-0000-000000000002'
           and kind = 'expense_late_entry') = 1, 'creator told';
 end $$;
-select public.sync_create_expense((select room from t), 'Offline tea', 700, (select today from d) - 35, null, null, null, (select k from k2));
+select public.sync_create_expense((select room from t), 'Offline tea', 700, (select past from d), null, null, null, (select k from k2));
 do $$ begin
   assert (select count(*) from public.expenses where idempotency_key = (select k from k2)) = 1, 'late entry replay is idempotent';
 end $$;
