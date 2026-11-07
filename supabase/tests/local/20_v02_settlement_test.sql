@@ -35,15 +35,18 @@ grant select on t to authenticated;
 select pg_temp.act(null);
 update public.rooms set created_at = now() - interval '40 days';
 -- re-cut cycles as if the room had existed for 40 days
-update public.cycles set starts_on = (now() at time zone 'Asia/Kuwait')::date - 40,
-  ends_on = public.cycle_end((now() at time zone 'Asia/Kuwait')::date - 40, 'monthly');
-update public.room_members set joined_on = (now() at time zone 'Asia/Kuwait')::date - 40;
+update public.cycles set starts_on = (date_trunc('month', (now() at time zone 'Asia/Kuwait')::date) - interval '1 month')::date,
+  ends_on = public.cycle_end((date_trunc('month', (now() at time zone 'Asia/Kuwait')::date) - interval '1 month')::date, 'monthly');
+update public.room_members set joined_on = (date_trunc('month', (now() at time zone 'Asia/Kuwait')::date) - interval '1 month')::date;
 insert into public.room_members (room_id, user_id, role, status, joined_on)
-select room, 'bbbbbbbb-0000-0000-0000-000000000002'::uuid, 'member'::public.member_role, 'approved'::public.member_status, (now() at time zone 'Asia/Kuwait')::date - 40 from t
+select room, 'bbbbbbbb-0000-0000-0000-000000000002'::uuid, 'member'::public.member_role, 'approved'::public.member_status, (date_trunc('month', (now() at time zone 'Asia/Kuwait')::date) - interval '1 month')::date from t
 union all
-select room, 'cccccccc-0000-0000-0000-000000000003'::uuid, 'member'::public.member_role, 'approved'::public.member_status, (now() at time zone 'Asia/Kuwait')::date - 40 from t;
+select room, 'cccccccc-0000-0000-0000-000000000003'::uuid, 'member'::public.member_role, 'approved'::public.member_status, (date_trunc('month', (now() at time zone 'Asia/Kuwait')::date) - interval '1 month')::date from t;
 
-create temp table d as select (now() at time zone 'Asia/Kuwait')::date as today;
+-- Fixed dates so the test passes on any day: the room starts on the 1st of last month and the
+-- "past" expense falls on the 5th of last month, so both are always in the same (previous) cycle.
+create temp table d as select (now() at time zone 'Asia/Kuwait')::date as today,
+  ((date_trunc('month', (now() at time zone 'Asia/Kuwait')::date) - interval '1 month')::date + 4) as past;
 grant select on d to authenticated;
 
 -- 1. Cycles are created up to today and are contiguous
@@ -62,16 +65,16 @@ end $$;
 
 -- 2. Expense in past cycle (equal split) and selected-member split
 create temp table e1 as select public.create_expense((select room from t), 'Rice', 9001,
-  (select today from d) - 35, 'aaaaaaaa-0000-0000-0000-000000000001') as id;
+  (select past from d), 'aaaaaaaa-0000-0000-0000-000000000001') as id;
 grant select on e1 to authenticated;
 select pg_temp.act('bbbbbbbb-0000-0000-0000-000000000002');
 create temp table e2 as select public.create_expense((select room from t), 'Tea for two', 1000,
-  (select today from d) - 35, 'bbbbbbbb-0000-0000-0000-000000000002', null,
+  (select past from d), 'bbbbbbbb-0000-0000-0000-000000000002', null,
   array['bbbbbbbb-0000-0000-0000-000000000002','cccccccc-0000-0000-0000-000000000003']::uuid[]) as id;
 grant select on e2 to authenticated;
 -- Payer is always the creator: a different p_paid_by is ignored.
 create temp table e9 as select public.create_expense((select room from t), 'Claimed for someone else', 300,
-  (select today from d) - 35, 'cccccccc-0000-0000-0000-000000000003') as id;
+  (select past from d), 'cccccccc-0000-0000-0000-000000000003') as id;
 grant select on e9 to authenticated;
 do $$ begin
   assert (select paid_by from public.expenses where id = (select id from e9)) = 'bbbbbbbb-0000-0000-0000-000000000002', 'payer = creator';
@@ -94,7 +97,7 @@ select pg_temp.expect_error($$select public.create_expense((select room from t),
 
 -- 3. Edit a selected split back to "everyone"
 -- Admin edits B's expense and tries to change the payer: payer stays B.
-select public.edit_expense((select id from e2), 'Tea', 1200, (select today from d) - 35,
+select public.edit_expense((select id from e2), 'Tea', 1200, (select past from d),
   'aaaaaaaa-0000-0000-0000-000000000001', null, null);
 do $$ begin
   assert (select paid_by from public.expenses where id = (select id from e2)) = 'bbbbbbbb-0000-0000-0000-000000000002', 'edit keeps payer';
@@ -119,9 +122,9 @@ end $$;
 select pg_temp.expect_error($$select public.generate_settlement((select cycle_id from public.expenses where id=(select id from e1)))$$, 'already_settled');
 
 -- 5. Lock: nobody (even Admin, even direct SQL as owner) changes a locked cycle
-select pg_temp.expect_error($$select public.edit_expense((select id from e1),'Rice',1,(select today from d)-35,'aaaaaaaa-0000-0000-0000-000000000001')$$, 'cycle_locked');
+select pg_temp.expect_error($$select public.edit_expense((select id from e1),'Rice',1,(select past from d),'aaaaaaaa-0000-0000-0000-000000000001')$$, 'cycle_locked');
 select pg_temp.expect_error($$select public.delete_expense((select id from e1))$$, 'cycle_locked');
-select pg_temp.expect_error($$select public.create_expense((select room from t),'Late',100,(select today from d)-35,'aaaaaaaa-0000-0000-0000-000000000001')$$, 'cycle_locked');
+select pg_temp.expect_error($$select public.create_expense((select room from t),'Late',100,(select past from d),'aaaaaaaa-0000-0000-0000-000000000001')$$, 'cycle_locked');
 select pg_temp.act(null);
 select pg_temp.expect_error($$update public.expenses set amount = 1 where id = (select id from e1)$$, 'cycle_locked');
 select pg_temp.expect_error($$update public.expense_splits set amount = 1 where expense_id = (select id from e1)$$, 'cycle_locked');
