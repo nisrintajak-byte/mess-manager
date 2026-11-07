@@ -191,3 +191,7 @@ details p { color: var(--muted); padding-bottom: 16px; }
 @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
 .site-foot .foot-brand { display: flex; align-items: center; gap: 10px; }
 .site-foot .foot-brand img { width: 32px; height: 32px; flex: none; }
+/* Company footer: brand on the left, link columns sized to their content and spread so the last one ends at the right edge */
+@media (min-width: 720px) {
+  .site-foot .foot-cols { grid-template-columns: minmax(0, 340px) auto auto; justify-content: space-between; column-gap: 64px; }
+}
