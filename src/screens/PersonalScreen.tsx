@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import i18n, { isRtlLanguage } from '../i18n';
 import { api, type PersonalExpense } from '../lib/api';
 import { dateLocale, localizeDigits } from '../lib/digits';
 import { formatMoney } from '../lib/money';
@@ -67,7 +68,9 @@ export function PersonalScreen({ navigation }: Props) {
   }
 
   const add = () => navigation.navigate('PersonalExpense');
-  const flip = rowDirection() === 'row-reverse';
+  // the chevron icon points right; "earlier" points to where the line starts (left, or right in
+  // Arabic/Urdu), on the phone and on the web alike
+  const flip = isRtlLanguage(i18n.language);
 
   return (
     <View style={styles.bg}>

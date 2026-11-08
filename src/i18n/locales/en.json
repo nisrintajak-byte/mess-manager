@@ -920,7 +920,7 @@
     "privateNote": "Only you can see these. They are not shared with any Room.",
     "prevMonth": "Previous month",
     "nextMonth": "Next month",
-    "monthTotal": "Spent this month",
+    "monthTotal": "Total spent",
     "entryCount_one": "{{count}} entry",
     "entryCount_other": "{{count}} entries",
     "add": "Add personal expense",

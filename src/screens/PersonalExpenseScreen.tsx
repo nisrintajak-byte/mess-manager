@@ -97,7 +97,8 @@ export function PersonalExpenseScreen({ navigation, route }: Props) {
     const e: Record<string, string> = {};
     const minor = parseAmount(amount, decimals);
     if (!title.trim()) e.title = t('personal.titleRequired');
-    if (minor === null || minor <= 0) e.amount = t('expense.amountInvalid', { decimals });
+    if (!amount.trim() || (minor !== null && minor <= 0)) e.amount = t('errors.personal_amount_invalid');
+    else if (minor === null) e.amount = t('expense.amountInvalid', { decimals });
     if (!isIsoDate(date)) e.date = t('expense.dateInvalid');
     else if (date > deviceToday()) e.date = t('errors.future_date');
     setErrors(e);
