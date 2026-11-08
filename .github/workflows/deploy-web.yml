@@ -3,6 +3,7 @@ name: Deploy web preview
 # Publishes two web previews to GitHub Pages so the founder can test on any phone browser:
 #   stable (version under test): https://nisrintajak-byte.github.io/mess-manager/
 #   next   (version in progress): https://nisrintajak-byte.github.io/mess-manager/next/
+#   v1.1   (after-launch update, testing): https://nisrintajak-byte.github.io/mess-manager/v1.1/
 # Runs after CI succeeds on any of those branches. `workflow_run` executes in the context of
 # the default branch, which satisfies the github-pages environment protection rule.
 
@@ -16,6 +17,7 @@ on:
 env:
   STABLE_REF: main
   NEXT_REF: version/v1.0-launch
+  V11_REF: version/v1.1-personal-expenses
 
 permissions:
   contents: read
@@ -33,6 +35,7 @@ jobs:
       (github.event.workflow_run.conclusion == 'success' &&
        (github.event.workflow_run.head_branch == 'main' ||
         github.event.workflow_run.head_branch == 'version/v1.0-launch' ||
+        github.event.workflow_run.head_branch == 'version/v1.1-personal-expenses' ||
         false))
     runs-on: ubuntu-latest
     steps:
@@ -47,6 +50,10 @@ jobs:
         with:
           ref: ${{ env.NEXT_REF }}
           path: next
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.V11_REF }}
+          path: v11
       - name: Build stable preview
         working-directory: stable
         run: |
@@ -58,9 +65,16 @@ jobs:
           npm ci
           node -e "const f='app.json';const a=require('./'+f);a.expo.experiments={...(a.expo.experiments||{}),baseUrl:'/mess-manager/next'};require('fs').writeFileSync(f,JSON.stringify(a,null,2))"
           npx expo export --platform web --output-dir ../dist/next
+      - name: Build v1.1 preview
+        working-directory: v11
+        run: |
+          npm ci
+          node -e "const f='app.json';const a=require('./'+f);a.expo.experiments={...(a.expo.experiments||{}),baseUrl:'/mess-manager/v1.1'};require('fs').writeFileSync(f,JSON.stringify(a,null,2))"
+          npx expo export --platform web --output-dir ../dist/v1.1
       - name: SPA fallback for deep links
         run: |
           cp dist/next/index.html dist/next/404.html
+          cp dist/v1.1/index.html dist/v1.1/404.html
           cp dist/index.html dist/404.html
           touch dist/.nojekyll
       - uses: actions/upload-pages-artifact@v3
@@ -96,6 +110,7 @@ jobs:
           for (const [name, url] of [
             ['stable', 'https://nisrintajak-byte.github.io/mess-manager/'],
             ['next', 'https://nisrintajak-byte.github.io/mess-manager/next/'],
+            ['v1.1', 'https://nisrintajak-byte.github.io/mess-manager/v1.1/'],
           ]) {
             const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
             page.on('pageerror', (e) => console.log(`::warning::${name} page error: ${e.message}`));
