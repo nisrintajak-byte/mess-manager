@@ -592,6 +592,16 @@ export interface DataExport {
     left_on: string | null;
   }[];
   rooms: ReportData[];
+  /** v1.1: the member's private spending list, added by the app (not part of any Room) */
+  personal_expenses?: {
+    title: string;
+    amount: number;
+    currency: string;
+    currency_decimals: number;
+    category: string | null;
+    expense_date: string;
+    notes: string | null;
+  }[];
 }
 
 /** PRD §18.5 "download all my data" as one printable document. */
@@ -623,7 +633,28 @@ ${x.memberships
   )
   .join('')}
 </tbody></table></section>`;
-  return wrapHtml(t('account.exportTitle'), profile + x.rooms.map((r) => buildReportBody(r, f)).join(''), f);
+  const personal = x.personal_expenses?.length
+    ? `<section class="report"><h2>${esc(t('personal.title'))}</h2>
+<table><thead><tr><th>${esc(t('report.colDate'))}</th><th>${esc(t('report.colItem'))}</th><th>${esc(
+        t('personal.category'),
+      )}</th><th>${esc(t('report.colAmount'))}</th><th>${esc(t('report.colNotes'))}</th></tr></thead><tbody>
+${x.personal_expenses
+  .map(
+    (p) =>
+      `<tr><td>${esc(f.digits(p.expense_date))}</td><td>${esc(p.title)}</td><td>${esc(
+        p.category ? t(`personal.cat_${p.category}`) : '—',
+      )}</td><td class="num">${esc(
+        f.digits(`${p.currency} ${minorToDecimal(p.amount, p.currency_decimals)}`),
+      )}</td><td>${esc(p.notes ?? '')}</td></tr>`,
+  )
+  .join('')}
+</tbody></table></section>`
+    : '';
+  return wrapHtml(
+    t('account.exportTitle'),
+    profile + personal + x.rooms.map((r) => buildReportBody(r, f)).join(''),
+    f,
+  );
 }
 
 export function reportFileName(data: ReportData, ext: 'pdf' | 'csv' | 'json'): string {

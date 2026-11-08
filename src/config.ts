@@ -27,3 +27,10 @@ export const SUPPORT_EMAIL = 'support@utplgroup.com';
 /** "Rate Mess Manager" appears in Me once the Play Store listing is public. */
 export const PLAY_LISTING_LIVE = false;
 export const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.uyoontech.messmanager';
+
+/**
+ * Personal expenses (v1.1, founder 2026-11-08): a private spending list for each member, kept
+ * apart from Rooms. Planned for the first update after the Play Store launch; switch off to hide
+ * the tab and screens completely (the server table is separate and harmless when unused).
+ */
+export const PERSONAL_EXPENSES_ENABLED = true;

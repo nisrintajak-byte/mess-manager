@@ -218,6 +218,41 @@ export interface SettlementAck {
   acknowledged_at: string | null;
 }
 
+/** v1.1: one entry in the member's private spending list (never part of a Room). */
+export const PERSONAL_CATEGORIES = [
+  'food',
+  'transport',
+  'bills',
+  'shopping',
+  'health',
+  'education',
+  'other',
+] as const;
+export type PersonalCategory = (typeof PERSONAL_CATEGORIES)[number];
+
+export interface PersonalExpense {
+  id: string;
+  title: string;
+  amount: number;
+  currency: string;
+  currency_decimals: number;
+  category: PersonalCategory | null;
+  expense_date: string;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PersonalExpenseInput {
+  title: string;
+  amount: number;
+  currency: string;
+  decimals: number;
+  category: PersonalCategory | null;
+  date: string;
+  notes: string;
+}
+
 export const OPTIONAL_NOTIFICATIONS = [
   'expense_added',
   'expense_edited',
@@ -237,7 +272,66 @@ function unwrap<T>({ data, error }: { data: T | null; error: { message: string }
 /** Postgres bigint arrives as string or number; normalise to number. */
 const n = (v: unknown) => Number(v);
 
+const PERSONAL_COLUMNS =
+  'id, title, amount, currency, currency_decimals, category, expense_date, notes, created_at, updated_at';
+const personalRow = (r: PersonalExpense): PersonalExpense => ({ ...r, amount: n(r.amount) });
+
 const rawApi = {
+  // ---- v1.1: personal expenses (owner-only; RLS hides everyone else's) ----
+  /** My entries dated from..to (YYYY-MM-DD, inclusive), newest first. */
+  async personalExpenses(from: string, to: string): Promise<PersonalExpense[]> {
+    const rows = unwrap(
+      await supabase
+        .from('personal_expenses')
+        .select(PERSONAL_COLUMNS)
+        .gte('expense_date', from)
+        .lte('expense_date', to)
+        .order('expense_date', { ascending: false })
+        .order('created_at', { ascending: false }),
+    ) as PersonalExpense[];
+    return rows.map(personalRow);
+  },
+
+  async personalExpense(id: string): Promise<PersonalExpense | null> {
+    const rows = unwrap(
+      await supabase.from('personal_expenses').select(PERSONAL_COLUMNS).eq('id', id),
+    ) as PersonalExpense[];
+    return rows[0] ? personalRow(rows[0]) : null;
+  },
+
+  /** Everything, oldest first — for "Download my data". */
+  async allPersonalExpenses(): Promise<PersonalExpense[]> {
+    const rows = unwrap(
+      await supabase
+        .from('personal_expenses')
+        .select(PERSONAL_COLUMNS)
+        .order('expense_date', { ascending: true })
+        .order('created_at', { ascending: true }),
+    ) as PersonalExpense[];
+    return rows.map(personalRow);
+  },
+
+  /** New entry when `id` is null (`clientId` stops a double tap saving twice), else an edit. */
+  async savePersonalExpense(id: string | null, clientId: string, x: PersonalExpenseInput): Promise<string> {
+    return unwrap(
+      await supabase.rpc('save_personal_expense', {
+        p_id: id,
+        p_client_id: clientId,
+        p_title: x.title,
+        p_amount: x.amount,
+        p_currency: x.currency,
+        p_decimals: x.decimals,
+        p_category: x.category,
+        p_date: x.date,
+        p_notes: x.notes,
+      }),
+    );
+  },
+
+  async deletePersonalExpense(id: string): Promise<void> {
+    unwrap(await supabase.rpc('delete_personal_expense', { p_id: id }));
+  },
+
   // ---- v1.0: own profile + login lock ----
   async myProfile(userId: string): Promise<{ display_name: string; avatar_url: string | null }> {
     const rows = unwrap(
@@ -1027,6 +1121,8 @@ const OFFLINE_READS = [
   'targetFlags',
   'needs',
   'balances',
+  'personalExpenses',
+  'personalExpense',
 ] as const satisfies readonly (keyof typeof rawApi)[];
 
 function withOfflineReads(raw: typeof rawApi): typeof rawApi {

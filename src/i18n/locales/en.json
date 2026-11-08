@@ -280,7 +280,12 @@
     "not_found": "Not found.",
     "date_invalid": "Pick a day inside this cycle, before today.",
     "room_limit_free": "On the free plan you can be in up to 2 Rooms (requests waiting for approval count too). Leave a Room, or get Mess Manager Plus for up to 10.",
-    "room_limit_max": "You can be in at most 10 Rooms. Leave a Room to create or join another."
+    "room_limit_max": "You can be in at most 10 Rooms. Leave a Room to create or join another.",
+    "personal_title_invalid": "Please describe the expense (up to 120 characters).",
+    "personal_amount_invalid": "Enter an amount more than zero.",
+    "personal_currency_invalid": "This currency is not supported.",
+    "personal_category_invalid": "Please pick a category from the list.",
+    "personal_notes_too_long": "Notes can be up to 1000 characters."
   },
   "cycle": {
     "current": "Current cycle",
@@ -803,7 +808,8 @@
   "nav": {
     "home": "Home",
     "inbox": "Inbox",
-    "me": "Me"
+    "me": "Me",
+    "personal": "My expenses"
   },
   "myProfile": {
     "title": "My profile",
@@ -908,5 +914,38 @@
     "fullPlus": "You are already in 10 Rooms, the most allowed. Leave a Room to create or join another.",
     "getPlus": "Get Mess Manager Plus",
     "appOnly": "Plus can be bought in the Mess Manager Android app."
+  },
+  "personal": {
+    "title": "My expenses",
+    "privateNote": "Only you can see these. They are not shared with any Room.",
+    "prevMonth": "Previous month",
+    "nextMonth": "Next month",
+    "monthTotal": "Total spent",
+    "entryCount_one": "{{count}} entry",
+    "entryCount_other": "{{count}} entries",
+    "add": "Add personal expense",
+    "addTitle": "Add personal expense",
+    "editTitle": "Edit personal expense",
+    "byCategory": "By category",
+    "emptyTitle": "Track your own spending",
+    "emptyBody": "Add what you spend on yourself. This list is private and separate from your Rooms.",
+    "emptyMonth": "Nothing was added in this month.",
+    "save": "Save",
+    "titleRequired": "Please describe the expense.",
+    "titlePlaceholder": "e.g. Mobile recharge",
+    "currency": "Currency",
+    "otherCurrency": "Other",
+    "currencyCode": "Currency code (3 letters)",
+    "useCurrency": "Use this currency",
+    "currencyInvalid": "Enter a 3-letter currency code, e.g. INR, USD or KWD.",
+    "category": "Category (optional)",
+    "cat_food": "Food",
+    "cat_transport": "Travel",
+    "cat_bills": "Bills & recharge",
+    "cat_shopping": "Shopping",
+    "cat_health": "Health",
+    "cat_education": "Education",
+    "cat_other": "Other",
+    "deleteConfirm": "Delete this personal expense? This cannot be undone."
   }
 }

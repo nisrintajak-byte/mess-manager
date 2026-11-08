@@ -3,6 +3,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { PERSONAL_EXPENSES_ENABLED } from '../config';
 import { api } from '../lib/api';
 import { dbErrorKey } from '../lib/errors';
 import { isNetworkError } from '../lib/net';
@@ -24,6 +25,20 @@ export function AccountDataCard() {
     setBusy(kind);
     try {
       const x = (await api.myDataExport()) as unknown as DataExport;
+      // v1.1: the private spending list is read separately and added to the same download
+      if (PERSONAL_EXPENSES_ENABLED) {
+        x.personal_expenses = (await api.allPersonalExpenses()).map(
+          ({ title, amount, currency, currency_decimals, category, expense_date, notes }) => ({
+            title,
+            amount,
+            currency,
+            currency_decimals,
+            category,
+            expense_date,
+            notes,
+          }),
+        );
+      }
       const name = `MessManager-my-data-${x.ref}.${kind}`;
       if (kind === 'pdf')
         await sharePdf(buildExportHtml(x, appReportFormat()), name, t('account.exportTitle'));

@@ -4,16 +4,20 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { PERSONAL_EXPENSES_ENABLED } from '../config';
 import type { AppStackParamList } from '../navigation/types';
 import { Icon, IconName } from './Icon';
 import { colors, rowDirection, themedStyles } from './theme';
 
-type Tab = 'Home' | 'Inbox' | 'Preferences';
-const TABS: { key: Tab; icon: IconName; label: string }[] = [
+type Tab = 'Home' | 'Personal' | 'Inbox' | 'Preferences';
+const ALL_TABS: { key: Tab; icon: IconName; label: string }[] = [
   { key: 'Home', icon: 'home', label: 'nav.home' },
+  // v1.1: the member's private spending list, separate from Rooms
+  { key: 'Personal', icon: 'wallet', label: 'nav.personal' },
   { key: 'Inbox', icon: 'bell', label: 'nav.inbox' },
   { key: 'Preferences', icon: 'user', label: 'nav.me' },
 ];
+const TABS = ALL_TABS.filter((tab) => tab.key !== 'Personal' || PERSONAL_EXPENSES_ENABLED);
 
 /** The fixed menu at the bottom of the main screens (founder 2026-10-20: less scattered). */
 export function BottomBar({ current, unread = 0 }: { current: Tab; unread?: number }) {
