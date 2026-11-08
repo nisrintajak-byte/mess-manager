@@ -108,3 +108,4 @@ Founder's AdMob account (publisher pub-8476518444023309). The real Android app i
 
 ## 2026-11-04 — Nobody is stuck in a Room
 The last person in a Room can always leave; the Room then closes (records kept for reports and retention). When the only Admin leaves, Admin passes to the longest-standing member. An Admin alone in a Room can always delete it; with other members it can be deleted once everything is settled, and every member is notified.
+- 2026-11-08 — Personal expenses (v1.1) live in their own table with no Room link, owner-only reads and RPC-only writes; owner can edit/delete any time; erased immediately on account deletion — the list is private, so Room rules (30-min lock, audit, retention for other members) don't apply — storing them as a one-member Room (rejected: would mix into Room counts, limits, reports and notifications).

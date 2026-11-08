@@ -31,7 +31,8 @@ export type IconName =
   | 'logout'
   | 'download'
   | 'sparkle'
-  | 'compass';
+  | 'compass'
+  | 'wallet';
 
 const PATHS: Record<IconName, string[]> = {
   home: ['M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z'],
@@ -73,6 +74,10 @@ const PATHS: Record<IconName, string[]> = {
   download: ['M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4', 'm7 10 5 5 5-5', 'M12 15V3'],
   sparkle: ['M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z', 'M19 17v4', 'M17 19h4'],
   compass: ['m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36z'],
+  wallet: [
+    'M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5',
+    'M17 14h.01',
+  ],
 };
 
 const CIRCLES: Partial<Record<IconName, [number, number, number][]>> = {

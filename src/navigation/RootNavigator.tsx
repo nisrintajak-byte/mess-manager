@@ -33,6 +33,9 @@ import { OnboardingScreen } from '../screens/OnboardingScreen';
 import { SettingsPageScreen } from '../screens/SettingsPageScreen';
 import { NotificationSettingsScreen } from '../screens/NotificationSettingsScreen';
 import { PayScreen } from '../screens/PayScreen';
+import { PersonalExpenseScreen } from '../screens/PersonalExpenseScreen';
+import { PersonalScreen } from '../screens/PersonalScreen';
+import { PERSONAL_EXPENSES_ENABLED } from '../config';
 import { SyncScreen } from '../screens/SyncScreen';
 import { ReportsScreen } from '../screens/ReportsScreen';
 import { DeleteAccountScreen } from '../screens/DeleteAccountScreen';
@@ -200,6 +203,20 @@ export function RootNavigator() {
             component={SettingsPageScreen}
             options={({ route }) => ({ title: t(`me.page_${route.params.page}`) })}
           />
+          {PERSONAL_EXPENSES_ENABLED ? (
+            <>
+              <AppStack.Screen
+                name="Personal"
+                component={PersonalScreen}
+                options={{ title: t('personal.title'), headerShown: false }}
+              />
+              <AppStack.Screen
+                name="PersonalExpense"
+                component={PersonalExpenseScreen}
+                options={{ title: t('personal.addTitle') }}
+              />
+            </>
+          ) : null}
           <AppStack.Screen
             name="Onboarding"
             component={OnboardingScreen}

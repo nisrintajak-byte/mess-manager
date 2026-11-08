@@ -39,4 +39,6 @@ export type AppStackParamList = {
   DeleteAccount: undefined;
   Settings: { page: 'profile' | 'security' | 'appearance' | 'ads' | 'data' };
   Onboarding: undefined;
+  Personal: undefined;
+  PersonalExpense: { id?: string } | undefined;
 };

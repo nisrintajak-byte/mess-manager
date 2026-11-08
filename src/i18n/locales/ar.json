@@ -293,7 +293,12 @@
     "not_found": "غير موجود.",
     "date_invalid": "اختر يومًا داخل هذه الدورة وقبل اليوم.",
     "room_limit_free": "في الخطة المجانية يمكنك أن تكون في غرفتين كحد أقصى (تُحتسب طلبات الانضمام المنتظرة أيضًا). غادر غرفة، أو اشترك في Mess Manager Plus لتصل إلى 10 غرف.",
-    "room_limit_max": "يمكنك أن تكون في 10 غرف كحد أقصى. غادر غرفة لتنشئ غرفة أخرى أو تنضم إليها."
+    "room_limit_max": "يمكنك أن تكون في 10 غرف كحد أقصى. غادر غرفة لتنشئ غرفة أخرى أو تنضم إليها.",
+    "personal_title_invalid": "يرجى وصف المصروف (حتى 120 حرفًا).",
+    "personal_amount_invalid": "أدخل مبلغًا أكبر من صفر.",
+    "personal_currency_invalid": "هذه العملة غير مدعومة.",
+    "personal_category_invalid": "يرجى اختيار فئة من القائمة.",
+    "personal_notes_too_long": "الملاحظات حتى 1000 حرف."
   },
   "cycle": {
     "current": "الدورة الحالية",
@@ -820,7 +825,8 @@
   "nav": {
     "home": "الرئيسية",
     "inbox": "الإشعارات",
-    "me": "حسابي"
+    "me": "حسابي",
+    "personal": "مصاريفي"
   },
   "myProfile": {
     "title": "ملفي الشخصي",
@@ -925,5 +931,42 @@
     "fullPlus": "أنت بالفعل في 10 غرف، وهو الحد الأقصى. غادر غرفة لتنشئ غرفة أخرى أو تنضم إليها.",
     "getPlus": "اشترك في Mess Manager Plus",
     "appOnly": "يمكن شراء Plus من تطبيق Mess Manager على Android."
+  },
+  "personal": {
+    "title": "مصاريفي",
+    "privateNote": "أنت فقط من يرى هذه المصاريف. لا تتم مشاركتها مع أي غرفة.",
+    "prevMonth": "الشهر السابق",
+    "nextMonth": "الشهر التالي",
+    "monthTotal": "المصروف هذا الشهر",
+    "entryCount_zero": "لا توجد قيود",
+    "entryCount_one": "قيد واحد",
+    "entryCount_two": "قيدان",
+    "entryCount_few": "{{count}} قيود",
+    "entryCount_many": "{{count}} قيدًا",
+    "entryCount_other": "{{count}} قيد",
+    "add": "إضافة مصروف شخصي",
+    "addTitle": "إضافة مصروف شخصي",
+    "editTitle": "تعديل مصروف شخصي",
+    "byCategory": "حسب الفئة",
+    "emptyTitle": "تابع مصاريفك الخاصة",
+    "emptyBody": "أضف ما تنفقه على نفسك. هذه القائمة خاصة ومنفصلة عن غرفك.",
+    "emptyMonth": "لم تتم إضافة شيء في هذا الشهر.",
+    "save": "حفظ",
+    "titleRequired": "يرجى وصف المصروف.",
+    "titlePlaceholder": "مثال: شحن رصيد الجوال",
+    "currency": "العملة",
+    "otherCurrency": "أخرى",
+    "currencyCode": "رمز العملة (3 أحرف)",
+    "useCurrency": "استخدم هذه العملة",
+    "currencyInvalid": "أدخل رمز عملة من 3 أحرف، مثل INR أو USD أو KWD.",
+    "category": "الفئة (اختياري)",
+    "cat_food": "طعام",
+    "cat_transport": "مواصلات",
+    "cat_bills": "فواتير وشحن",
+    "cat_shopping": "تسوق",
+    "cat_health": "صحة",
+    "cat_education": "تعليم",
+    "cat_other": "أخرى",
+    "deleteConfirm": "حذف هذا المصروف الشخصي؟ لا يمكن التراجع عن ذلك."
   }
 }
