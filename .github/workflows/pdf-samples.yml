@@ -56,6 +56,10 @@ jobs:
           find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
           cp /tmp/samples/* . && cp /tmp/samples-log.txt .
           echo "Source commit: ${GITHUB_SHA}" > README.md
+          # Stub so the Vercel mess-manager-tech project (root dir website/tech) does not
+          # fail with "Root Directory does not exist" on this orphan branch.
+          mkdir -p website/tech
+          echo '<!doctype html><meta charset="utf-8"><title>CI samples</title><p>This branch holds rendered PDF samples only.' > website/tech/index.html
           git add -A
           git commit -qm "PDF samples for ${GITHUB_SHA} [skip ci]"
           git push -f origin ci-samples-new:ci-samples
