@@ -195,3 +195,9 @@ details p { color: var(--muted); padding-bottom: 16px; }
 @media (min-width: 720px) {
   .site-foot .foot-cols { grid-template-columns: minmax(0, 340px) auto auto; justify-content: space-between; column-gap: 64px; }
 }
+
+/* Support: product chooser cards */
+.product-pick { grid-template-columns: auto 1fr; align-items: center; gap: 16px; text-decoration: none; color: inherit; }
+.product-pick:hover { border-color: var(--navy, currentColor); }
+.product-pick h3 { margin: 0 0 4px; }
+.product-pick p { margin: 0; }
