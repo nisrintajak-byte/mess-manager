@@ -40,6 +40,10 @@ jobs:
         run: |
           python3 scripts/build-legal-pages.py
           git diff --exit-code -- public/privacy public/terms
+      - name: Kuwait pages match their build script
+        run: |
+          python3 scripts/build-kuwait-pages.py
+          git diff --exit-code -- website/tech/kuwait
 
   database:
     runs-on: ubuntu-latest

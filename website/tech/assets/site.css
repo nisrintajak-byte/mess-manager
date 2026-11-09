@@ -201,3 +201,10 @@ details p { color: var(--muted); padding-bottom: 16px; }
 .product-pick:hover { border-color: var(--navy, currentColor); }
 .product-pick h3 { margin: 0 0 4px; }
 .product-pick p { margin: 0; }
+
+/* Region switch (India | Kuwait) and language switch in the header; shared with /kuwait */
+.head-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.switch { display: inline-flex; border: 1px solid rgba(255,255,255,0.25); border-radius: 999px; padding: 3px; gap: 2px; }
+.switch a { color: var(--on-navy-muted); text-decoration: none; font: 600 0.85rem/1 var(--font-body); padding: 7px 12px; border-radius: 999px; }
+.switch a:hover { color: var(--on-navy); }
+.switch a[aria-current] { background: var(--amber); color: #14202B; }
