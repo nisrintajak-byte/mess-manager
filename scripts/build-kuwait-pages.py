@@ -241,7 +241,14 @@ def page(lang):
     why = ''.join(f'<div class="card"><h3>{e(h)}</h3><p>{e(d)}</p></div>' for h, d in t['why'])
     points = ''.join(f'<li>{e(x)}</li>' for x in t['c_points'])
     cities = ''.join(f'<option value="{e(c)}">' for c in t['cities'])
-    reg = ''.join(f'<dt>{e(k)}</dt><dd{" class=\"tbu\"" if v is None else ""}>{e(t["tbu"] if v is None else v)}</dd>' for k, v in t['reg'])
+    def reg_dd(v):
+        if v is None:
+            return f'<dd class="tbu">{e(t["tbu"])}</dd>'
+        val = e(v)
+        if v.startswith('+'):
+            val = f'<span class="ltr">{val}</span>'
+        return f'<dd>{val}</dd>'
+    reg = ''.join(f'<dt>{e(k)}</dt>{reg_dd(v)}' for k, v in t['reg'])
     foot_products = ''.join(f'<a href="#p-{p["id"]}">{e(p[lang]["name"])}</a>' for p in PRODUCTS)
     data = {
         'msg-demo': t['msg_demo'], 'msg-sent': t['msg_sent'], 'wa-pending': t['wa_pending'], 'wa-hello': t['wa_hello'],
