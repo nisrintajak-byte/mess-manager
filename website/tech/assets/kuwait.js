@@ -1,7 +1,7 @@
 // Kuwait / GCC section: Get Demo buttons, the contact form and the WhatsApp buttons.
 // The Kuwait WhatsApp number goes here, digits only with country code, e.g. "96512345678".
 // While it is empty the page runs in demo mode and nothing is sent anywhere.
-var KW_WHATSAPP = "";
+var KW_WHATSAPP = "96541024821";
 
 (function () {
   var form = document.getElementById('kw-form');

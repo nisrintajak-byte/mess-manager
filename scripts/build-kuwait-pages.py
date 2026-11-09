@@ -19,6 +19,11 @@ ICONS = {
     'restaurant': '<path d="M7 3v7a2 2 0 0 0 4 0V3"/><path d="M9 10v11"/><path d="M17 21V3c-2 1-3 4-3 7h3"/>',
     'salon': '<circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M8.1 16L20 4"/><path d="M15.9 16L4 4"/>',
     'school': '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5"/><path d="M22 9v6"/>',
+    'car': '<rect x="1" y="10" width="22" height="7" rx="2"/><circle cx="6.5" cy="17" r="2.5"/><circle cx="17.5" cy="17" r="2.5"/><path d="M5 10l2-5h10l2 5"/>',
+    'family': '<circle cx="12" cy="5" r="3"/><path d="M12 8c-4 0-6 2-6 5h12c0-3-2-5-6-5z"/><circle cx="5" cy="14" r="2"/><path d="M5 16c-2.5 0-4 1.5-4 3.5h8c0-2-1.5-3.5-4-3.5z"/><circle cx="19" cy="14" r="2"/><path d="M19 16c-2.5 0-4 1.5-4 3.5h8c0-2-1.5-3.5-4-3.5z"/>',
+    'shared': '<path d="M3 9l9-6 9 6v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22v-6h6v6"/><circle cx="12" cy="11" r="2"/>',
+    'friends': '<circle cx="9" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><path d="M2 21v-2a5 5 0 0 1 7-4.5"/><path d="M14 14.5a5 5 0 0 1 7 4.5v2"/>',
+    'fleet': '<rect x="2" y="7" width="16" height="10" rx="2"/><path d="M18 7h2l3 4v6h-3"/><circle cx="7" cy="17" r="2"/><circle cx="20" cy="17" r="2"/>',
 }
 WA_ICON = ('<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 '
            '10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8'
@@ -29,31 +34,33 @@ WA_ICON = ('<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><pat
 TEXT = {
     'en': {
         'dir': 'ltr', 'path': '/kuwait/',
-        'title': 'Uyoon Tech Solutions · Kuwait and the GCC',
-        'desc': 'Apps for families and businesses in Kuwait and the GCC, in English and Arabic: Mess Manager and Uyoon Al Wasel.',
+        'title': 'Uyoon Tech Solutions · IT Services for Kuwait and the GCC',
+        'desc': 'IT solutions for businesses and families in Kuwait and the GCC: vehicle safety, expense management, custom software development, and Arabic-first digital services.',
         'brand_sub': 'Kuwait · GCC',
-        'nav': [('#products', 'Products'), ('#why', 'Why us'), ('#contact', 'Contact')],
+        'nav': [('#solutions', 'Solutions'), ('#why', 'Why us'), ('#contact', 'Contact')],
         'region_label': 'Choose region', 'india': 'India', 'kuwait': 'Kuwait',
         'lang_label': 'Language',
         'eyebrow': 'Kuwait · GCC',
-        'h1': 'Smart apps for Kuwait, <em>in Arabic and English.</em>',
-        'lead': 'Simple, private apps for families, shops, restaurants, salons and schools across Kuwait and the GCC. Every app works fully in Arabic and English, and keeps your data private.',
-        'cta_products': 'See our products', 'cta_wa': 'Chat on WhatsApp',
-        'trust': ['Full Arabic and English', 'Your data stays private', 'Support for Kuwait'],
-        'products_eyebrow': 'Our products', 'products_h2': 'Products for Kuwait',
-        'products_p': 'Products already built by Uyoon Tech Solutions, ready for Kuwait and the GCC. Book a free demo for your business.',
+        'h1': 'IT solutions for Kuwait, <em>built Arabic-first.</em>',
+        'lead': 'Uyoon Tech Solutions delivers software and IT services designed for businesses and families across Kuwait and the GCC. Every product works fully in Arabic and English, respects your privacy, and is backed by a team that understands the region.',
+        'cta_products': 'Explore our solutions', 'cta_wa': 'Chat on WhatsApp',
+        'trust': ['Arabic and English built in', 'Privacy by design', 'GCC-focused support'],
+        'products_eyebrow': 'Our solutions', 'products_h2': 'Solutions for Kuwait and the GCC',
+        'products_p': 'Ready-to-use products from Uyoon Tech Solutions, designed for the GCC market. Book a free demo or talk to us about a custom solution for your business.',
         'features': 'Key features', 'for': "Who it's for",
-        'tags': {'shop': 'Shop', 'restaurant': 'Restaurant', 'salon': 'Salon', 'school': 'School'},
+        'tags': {'shop': 'Shop', 'restaurant': 'Restaurant', 'salon': 'Salon', 'school': 'School',
+                 'car': 'Vehicle owner', 'family': 'Family', 'shared': 'Shared room', 'friends': 'Friends & groups', 'fleet': 'Fleet & delivery'},
         'demo': 'Get a demo', 'more': 'Learn more',
-        'why_eyebrow': 'Why Uyoon Tech', 'why_h2': 'Built for the GCC from day one',
+        'why_eyebrow': 'Why Uyoon Tech Solutions', 'why_h2': 'Your IT partner for the GCC',
         'why': [
-            ('Arabic first', 'Right-to-left screens, Arabic fonts and numbers done properly, not as an afterthought.'),
-            ('Privacy first', 'Phone numbers and personal details are never shown to strangers or sold to advertisers.'),
-            ('Nothing changes quietly', 'Important actions are recorded, so records cannot be rewritten without a trace.'),
+            ('Arabic-first engineering', 'Right-to-left interfaces, Arabic fonts and locale-aware numbers are part of the architecture, not an afterthought.'),
+            ('Privacy by design', 'We build software that keeps personal data private. Phone numbers and details are never exposed or sold.'),
+            ('Transparent and auditable', 'Important actions are recorded, so records cannot be rewritten without a trace.'),
+            ('Scalable for the region', 'From a family car to a fleet of delivery vehicles, from a shared flat to a chain of shops — our solutions grow with you.'),
         ],
-        'c_eyebrow': 'Contact', 'c_h2': 'Book a demo in Kuwait',
-        'c_p': 'Leave your details and our team will contact you on WhatsApp to set up a free demo for your business.',
-        'c_points': ['Free demo, no commitment', 'Arabic or English, as you prefer', 'Reply on working days'],
+        'c_eyebrow': 'Contact', 'c_h2': 'Get in touch with our Kuwait team',
+        'c_p': 'Whether you want a demo of an existing product or need a custom IT solution, leave your details and our team will reach out on WhatsApp.',
+        'c_points': ['Free consultation, no commitment', 'Arabic or English, as you prefer', 'Reply on working days'],
         'f_name': 'Name', 'f_mobile': 'Mobile', 'f_company': 'Company', 'f_city': 'City',
         'ph_name': 'Your full name', 'ph_mobile': '5X XXX XXX', 'ph_company': 'Company or shop name', 'ph_city': 'e.g. Kuwait City, Hawalli, Salmiya',
         'cities': ['Kuwait City', 'Hawalli', 'Salmiya', 'Farwaniya', 'Jahra', 'Ahmadi', 'Fahaheel', 'Mubarak Al-Kabeer', 'Mangaf', 'Jabriya'],
@@ -65,41 +72,43 @@ TEXT = {
         'wa_hello': 'Hello Uyoon Tech, I would like a demo.',
         'wa_intro': 'Demo request from tech.utplgroup.com/kuwait',
         'l_product': 'Product',
-        'foot_tag': 'Software for everyday life in Kuwait and the GCC.',
-        'foot_products': 'Products', 'foot_help': 'Help',
-        'foot_contact': 'Contact', 'foot_demo': 'Book a demo',
-        'reg': [('Company Name', None), ('Address', None), ('Email', None), ('Phone', None)],
+        'foot_tag': 'IT solutions and software services for Kuwait and the GCC.',
+        'foot_products': 'Solutions', 'foot_help': 'Help',
+        'foot_contact': 'Contact', 'foot_demo': 'Talk to us',
+        'reg': [('Company Name', None), ('Address', None), ('Email', None), ('Phone', '+965 4102 4821')],
         'tbu': '[To Be Updated]',
         'copy': '© 2026 Uyoon Tech Solutions. All rights reserved.',
         'privacy_note': "Each product's privacy policy and terms are on its own page.",
     },
     'ar': {
         'dir': 'rtl', 'path': '/kuwait/ar/',
-        'title': 'عيون تك سوليوشنز · الكويت والخليج',
-        'desc': 'تطبيقات للعائلات والأعمال في الكويت ودول الخليج بالعربية والإنجليزية: مدير المصروفات وعيون الوصل.',
+        'title': 'عيون تك سوليوشنز · خدمات تقنية للكويت والخليج',
+        'desc': 'حلول تقنية للأعمال والعائلات في الكويت ودول الخليج: سلامة المركبات، إدارة المصروفات، تطوير البرمجيات، وخدمات رقمية بالعربية أولاً.',
         'brand_sub': 'الكويت · الخليج',
-        'nav': [('#products', 'المنتجات'), ('#why', 'لماذا نحن'), ('#contact', 'تواصل معنا')],
+        'nav': [('#solutions', 'الحلول'), ('#why', 'لماذا نحن'), ('#contact', 'تواصل معنا')],
         'region_label': 'اختر المنطقة', 'india': 'الهند', 'kuwait': 'الكويت',
         'lang_label': 'اللغة',
         'eyebrow': 'الكويت · الخليج',
-        'h1': 'تطبيقات ذكية للكويت، <em>بالعربية والإنجليزية.</em>',
-        'lead': 'تطبيقات بسيطة وآمنة للعائلات والمحلات والمطاعم والصالونات والمدارس في الكويت ودول الخليج. كل تطبيق يعمل بالكامل بالعربية والإنجليزية ويحافظ على خصوصية بياناتك.',
-        'cta_products': 'تعرّف على منتجاتنا', 'cta_wa': 'تواصل عبر واتساب',
-        'trust': ['عربي وإنجليزي بالكامل', 'بياناتك تبقى خاصة', 'دعم للكويت'],
-        'products_eyebrow': 'منتجاتنا', 'products_h2': 'منتجات للكويت',
-        'products_p': 'منتجات جاهزة من عيون تك سوليوشنز، مهيأة للكويت ودول الخليج. احجز عرضاً تجريبياً مجانياً لعملك.',
+        'h1': 'حلول تقنية للكويت، <em>مصمّمة بالعربية أولاً.</em>',
+        'lead': 'عيون تك سوليوشنز تقدّم برمجيات وخدمات تقنية مصمّمة للأعمال والعائلات في الكويت ودول الخليج. كل منتج يعمل بالكامل بالعربية والإنجليزية، ويحافظ على خصوصيتك، ويدعمه فريق يفهم المنطقة.',
+        'cta_products': 'استكشف حلولنا', 'cta_wa': 'تواصل عبر واتساب',
+        'trust': ['عربي وإنجليزي مدمج', 'خصوصية حسب التصميم', 'دعم مخصّص للخليج'],
+        'products_eyebrow': 'حلولنا', 'products_h2': 'حلول للكويت ودول الخليج',
+        'products_p': 'منتجات جاهزة من عيون تك سوليوشنز، مصمّمة لسوق الخليج. احجز عرضاً تجريبياً مجانياً أو تحدّث معنا عن حل مخصّص لعملك.',
         'features': 'أهم المزايا', 'for': 'لمن هذا المنتج',
-        'tags': {'shop': 'محل', 'restaurant': 'مطعم', 'salon': 'صالون', 'school': 'مدرسة'},
+        'tags': {'shop': 'محل', 'restaurant': 'مطعم', 'salon': 'صالون', 'school': 'مدرسة',
+                 'car': 'صاحب مركبة', 'family': 'عائلة', 'shared': 'سكن مشترك', 'friends': 'أصدقاء ومجموعات', 'fleet': 'أساطيل وتوصيل'},
         'demo': 'اطلب عرضاً تجريبياً', 'more': 'اعرف المزيد',
-        'why_eyebrow': 'لماذا عيون تك', 'why_h2': 'مصمّمة للخليج منذ اليوم الأول',
+        'why_eyebrow': 'لماذا عيون تك سوليوشنز', 'why_h2': 'شريكك التقني في الخليج',
         'why': [
-            ('العربية أولاً', 'شاشات من اليمين إلى اليسار وخطوط وأرقام عربية مضبوطة، لا كإضافة لاحقة.'),
-            ('الخصوصية أولاً', 'لا تُعرض أرقام الهواتف والبيانات الشخصية للغرباء ولا تُباع للمعلنين أبداً.'),
-            ('لا شيء يتغيّر بصمت', 'الإجراءات المهمة مسجّلة، فلا يمكن تعديل السجلات دون أثر.'),
+            ('هندسة عربية أولاً', 'واجهات من اليمين إلى اليسار وخطوط وأرقام حسب المنطقة مدمجة في البنية، لا كإضافة لاحقة.'),
+            ('خصوصية حسب التصميم', 'نبني برمجيات تحافظ على خصوصية بياناتك. الأرقام والبيانات الشخصية لا تُكشف ولا تُباع.'),
+            ('شفافية وقابلية تدقيق', 'الإجراءات المهمة مسجّلة، فلا يمكن تعديل السجلات دون أثر.'),
+            ('حلول تنمو معك', 'من سيارة عائلية إلى أسطول توصيل، ومن شقة مشتركة إلى سلسلة محلات — حلولنا تتوسّع معك.'),
         ],
-        'c_eyebrow': 'تواصل معنا', 'c_h2': 'احجز عرضاً تجريبياً في الكويت',
-        'c_p': 'اترك بياناتك وسيتواصل معك فريقنا عبر واتساب لترتيب عرض تجريبي مجاني لعملك.',
-        'c_points': ['عرض مجاني دون أي التزام', 'بالعربية أو الإنجليزية كما تفضّل', 'نرد في أيام العمل'],
+        'c_eyebrow': 'تواصل معنا', 'c_h2': 'تواصل مع فريقنا في الكويت',
+        'c_p': 'سواء كنت تريد عرضاً تجريبياً لمنتج موجود أو تحتاج حلاً تقنياً مخصّصاً، اترك بياناتك وسيتواصل فريقنا عبر واتساب.',
+        'c_points': ['استشارة مجانية دون التزام', 'بالعربية أو الإنجليزية كما تفضّل', 'نرد في أيام العمل'],
         'f_name': 'الاسم', 'f_mobile': 'رقم الجوال', 'f_company': 'الشركة', 'f_city': 'المدينة',
         'ph_name': 'اسمك الكامل', 'ph_mobile': '5X XXX XXX', 'ph_company': 'اسم الشركة أو المحل', 'ph_city': 'مثال: مدينة الكويت، حولي، السالمية',
         'cities': ['مدينة الكويت', 'حولي', 'السالمية', 'الفروانية', 'الجهراء', 'الأحمدي', 'الفحيحيل', 'مبارك الكبير', 'المنقف', 'الجابرية'],
@@ -111,10 +120,10 @@ TEXT = {
         'wa_hello': 'مرحباً عيون تك، أرغب في عرض تجريبي.',
         'wa_intro': 'طلب عرض تجريبي من tech.utplgroup.com/kuwait',
         'l_product': 'المنتج',
-        'foot_tag': 'برمجيات للحياة اليومية في الكويت ودول الخليج.',
-        'foot_products': 'المنتجات', 'foot_help': 'المساعدة',
-        'foot_contact': 'تواصل معنا', 'foot_demo': 'احجز عرضاً تجريبياً',
-        'reg': [('اسم الشركة', None), ('العنوان', None), ('البريد الإلكتروني', None), ('الهاتف', None)],
+        'foot_tag': 'حلول تقنية وخدمات برمجية للكويت ودول الخليج.',
+        'foot_products': 'الحلول', 'foot_help': 'المساعدة',
+        'foot_contact': 'تواصل معنا', 'foot_demo': 'تحدّث معنا',
+        'reg': [('اسم الشركة', None), ('العنوان', None), ('البريد الإلكتروني', None), ('الهاتف', '+965 4102 4821')],
         'tbu': '[سيتم التحديث]',
         'copy': '© 2026 عيون تك سوليوشنز. جميع الحقوق محفوظة.',
         'privacy_note': 'سياسة الخصوصية والشروط لكل منتج في صفحته الخاصة.',
@@ -125,7 +134,7 @@ TEXT = {
 PRODUCTS = [
     {
         'id': 'mess-manager', 'icon': '/assets/mess-manager-icon.png', 'link': '/mess-manager/',
-        'for': ['shop', 'restaurant', 'salon'],
+        'for': ['shared', 'friends', 'shop', 'restaurant', 'salon', 'family'],
         'en': {
             'name': 'Mess Manager', 'alt': 'مدير المصروفات', 'pill': 'Android app · free',
             'desc': 'A shared notebook for the expenses of a staff room or shared flat. Add who paid and who shares, see who owes whom, and settle with proof that the Admin confirms.',
@@ -136,7 +145,7 @@ PRODUCTS = [
                 ('Need Requests', 'ask for gas, rice or cleaning and see who takes it'),
                 ('Reports in KWD or any currency', 'PDF and CSV, works offline too'),
             ],
-            'for_note': 'For staff who share a room and food: shop, restaurant and salon teams, and friends in a shared flat.',
+            'for_note': 'For anyone sharing daily expenses: bachelors, friends in a flat, families splitting household costs, staff housing, hostel rooms, labour camps, and shop, restaurant or salon teams.',
         },
         'ar': {
             'name': 'مدير المصروفات', 'alt': 'Mess Manager', 'pill': 'تطبيق أندرويد · مجاني',
@@ -148,12 +157,12 @@ PRODUCTS = [
                 ('طلبات الاحتياجات', 'اطلب الغاز أو الأرز أو التنظيف وشاهد من يتكفّل بها'),
                 ('تقارير بالدينار الكويتي أو أي عملة', 'PDF وCSV، ويعمل دون إنترنت أيضاً'),
             ],
-            'for_note': 'للموظفين الذين يتشاركون السكن والطعام: فرق المحلات والمطاعم والصالونات، والأصدقاء في شقة مشتركة.',
+            'for_note': 'لكل من يتشارك المصاريف اليومية: العزّاب، الأصدقاء في شقة، العائلات التي تقسم تكاليف المنزل، سكن الموظفين، غرف السكن الجماعي، والمعسكرات العمالية، وفرق المحلات والمطاعم والصالونات.',
         },
     },
     {
         'id': 'uyoon-al-wasel', 'icon': '/assets/uyoon-al-wasel-icon.png', 'link': 'https://wasel.utplgroup.com',
-        'for': ['shop', 'restaurant', 'school'],
+        'for': ['car', 'family', 'fleet', 'shop', 'restaurant', 'school'],
         'en': {
             'name': 'Uyoon Al Wasel', 'alt': 'عيون الوصل', 'pill': 'Web app · QR and NFC sticker',
             'desc': 'A smart QR and NFC sticker for every vehicle. Anyone who scans it can alert the owner without seeing a phone number, and in an emergency can call for help and alert family with the location.',
@@ -164,7 +173,7 @@ PRODUCTS = [
                 ('SOS with live location', 'family is alerted in an emergency'),
                 ('Fleet dashboard', 'all vehicles and alerts in one place'),
             ],
-            'for_note': 'For delivery cars of shops and restaurants, school buses and staff cars, and every family car.',
+            'for_note': 'For every vehicle owner: family cars, private drivers, taxis, delivery vehicles, company fleets, school buses, and shop or restaurant cars.',
         },
         'ar': {
             'name': 'عيون الوصل', 'alt': 'Uyoon Al Wasel', 'pill': 'تطبيق ويب · ملصق QR و NFC',
@@ -176,7 +185,7 @@ PRODUCTS = [
                 ('طوارئ مع موقع مباشر', 'تُنبَّه العائلة في حالات الطوارئ'),
                 ('لوحة للأساطيل', 'كل المركبات والتنبيهات في مكان واحد'),
             ],
-            'for_note': 'لسيارات التوصيل في المحلات والمطاعم، وحافلات المدارس وسيارات الموظفين، ولكل سيارة عائلية.',
+            'for_note': 'لكل صاحب مركبة: سيارات العائلة، السائقين الخاصين، سيارات الأجرة، مركبات التوصيل، أساطيل الشركات، حافلات المدارس، وسيارات المحلات والمطاعم.',
         },
     },
 ]
@@ -232,7 +241,7 @@ def page(lang):
     why = ''.join(f'<div class="card"><h3>{e(h)}</h3><p>{e(d)}</p></div>' for h, d in t['why'])
     points = ''.join(f'<li>{e(x)}</li>' for x in t['c_points'])
     cities = ''.join(f'<option value="{e(c)}">' for c in t['cities'])
-    reg = ''.join(f'<dt>{e(k)}</dt><dd class="tbu">{e(t["tbu"])}</dd>' for k, _ in t['reg'])
+    reg = ''.join(f'<dt>{e(k)}</dt><dd{" class=\"tbu\"" if v is None else ""}>{e(t["tbu"] if v is None else v)}</dd>' for k, v in t['reg'])
     foot_products = ''.join(f'<a href="#p-{p["id"]}">{e(p[lang]["name"])}</a>' for p in PRODUCTS)
     data = {
         'msg-demo': t['msg_demo'], 'msg-sent': t['msg_sent'], 'wa-pending': t['wa_pending'], 'wa-hello': t['wa_hello'],
@@ -296,7 +305,7 @@ def page(lang):
 </section>
 
 <main>
-  <section class="section" id="products">
+  <section class="section" id="solutions">
     <div class="wrap">
       <div class="section-head">
         <span class="eyebrow">{e(t["products_eyebrow"])}</span>
