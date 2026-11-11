@@ -1,0 +1,8 @@
+app process alive: yes
+ANR: 0
+banner loads: 4  ( 1 Home, 1 Inbox, 1 Needs, 1 Room,)
+skipped frames (app): 32
+frames over 700 ms: 0
+longest frame:  ms
+busy main-thread samples: home 0/15, room 0/15, needs 0/15, idle on needs 1/40, inbox 0/12
+live WebViews on Need Requests:  Views: 628 ViewRootImpl: 1  Death Recipients: 5 WebViews: 6 

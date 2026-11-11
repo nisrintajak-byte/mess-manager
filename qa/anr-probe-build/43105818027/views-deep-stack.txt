@@ -1,0 +1,2 @@
+               Views:      628         ViewRootImpl:        1
+    Death Recipients:        5             WebViews:        6

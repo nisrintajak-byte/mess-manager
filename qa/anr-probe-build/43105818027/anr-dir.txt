@@ -1,0 +1,3 @@
+total 16
+drwxrwxr-x  2 system system 4096 2026-11-11 22:07 .
+drwxrwx--x 50 system system 4096 2026-11-11 22:03 ..

@@ -1,0 +1,11 @@
+11-11 22:04:17.656  3215  3215 I Choreographer: Skipped 32 frames!  The application may be doing too much work on its main thread.
+11-11 22:04:19.539  1093  1093 I Choreographer: Skipped 45 frames!  The application may be doing too much work on its main thread.
+11-11 22:04:20.513  3215  3311 I ReactNativeJS: MMQA adLoaded Home
+11-11 22:04:56.204  3215  3311 I ReactNativeJS: MMQA adLoaded Room
+11-11 22:05:30.671  3215  3311 I ReactNativeJS: MMQA adLoaded Needs
+11-11 22:06:43.607  1093  1117 I OpenGLRenderer: Davey! duration=1062ms; Flags=1, FrameTimelineVsyncId=83695, IntendedVsync=242468009773, Vsync=242468009773, InputEventId=0, HandleInputStart=242473110909, AnimationStart=242473111169, PerformTraversalsStart=242473149952, DrawStart=242515300864, FrameDeadline=242484676439, FrameInterval=242473108825, FrameStartTime=16666666, SyncQueued=242516277324, SyncStart=242516457368, IssueDrawCommandsStart=242533343688, SwapBuffers=243271487455, FrameCompleted=243530234063, DequeueBufferDuration=2574, QueueBufferDuration=157714, GpuCompleted=243530186123, SwapBuffersCompleted=243530234063, DisplayPresentTime=-27462098207220407, CommandSubmissionCompleted=243271487455, 
+11-11 22:06:43.608  1093  1093 I Choreographer: Skipped 63 frames!  The application may be doing too much work on its main thread.
+11-11 22:06:43.743  1093  1117 I OpenGLRenderer: Davey! duration=1175ms; Flags=0, FrameTimelineVsyncId=83718, IntendedVsync=242484676439, Vsync=243534676397, InputEventId=0, HandleInputStart=243546216966, AnimationStart=243546217567, PerformTraversalsStart=243546311653, DrawStart=243546369270, FrameDeadline=243551343063, FrameInterval=243539247254, FrameStartTime=16666666, SyncQueued=243546489044, SyncStart=243546519640, IssueDrawCommandsStart=243548283739, SwapBuffers=243579947980, FrameCompleted=243660133483, DequeueBufferDuration=2424, QueueBufferDuration=132246, GpuCompleted=243660078270, SwapBuffersCompleted=243660133483, DisplayPresentTime=-30859675036394167, CommandSubmissionCompleted=243579947980, 
+11-11 22:06:43.988  3215  3311 I ReactNativeJS: MMQA adLoaded Inbox
+11-11 22:07:08.907  3215  3311 I ReactNativeJS: MMQA adLoaded Room
+11-11 22:07:11.654  3215  3311 I ReactNativeJS: MMQA adLoaded Needs

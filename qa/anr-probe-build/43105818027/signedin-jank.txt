@@ -1,0 +1,5 @@
+11-11 22:04:17.656  3215  3215 I Choreographer: Skipped 32 frames!  The application may be doing too much work on its main thread.
+11-11 22:04:20.513  3215  3311 I ReactNativeJS: MMQA adLoaded Home
+11-11 22:04:56.204  3215  3311 I ReactNativeJS: MMQA adLoaded Room
+11-11 22:05:30.671  3215  3311 I ReactNativeJS: MMQA adLoaded Needs
+11-11 22:06:43.988  3215  3311 I ReactNativeJS: MMQA adLoaded Inbox
