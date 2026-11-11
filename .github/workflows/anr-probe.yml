@@ -1,0 +1,43 @@
+name: ANR probe
+
+# Installs the Android test app (URL in .github/apk-smoke-request) on an emulator, uses it with
+# random taps (monkey) and records "app not responding" events, slow frames and main-thread
+# stacks. Results are committed to the branch under qa/anr-probe/ so they can be read later.
+
+on:
+  push:
+    paths: ['.github/anr-probe-request']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm
+      - name: Download APK
+        run: curl -sL -o app.apk "$(head -1 .github/apk-smoke-request)" && ls -la app.apk
+      - name: Run on emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          cores: 2
+          ram-size: 3072M
+          disable-animations: true
+          script: bash .github/anr-probe.sh
+      - name: Save results to the branch
+        if: always()
+        run: |
+          mkdir -p qa/anr-probe && cp -r out/* qa/anr-probe/ 2>/dev/null || true
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add qa/anr-probe && git commit -m "qa: ANR probe results [skip ci]" && git push || true
