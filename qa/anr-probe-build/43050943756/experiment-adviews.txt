@@ -1,0 +1,2 @@
+Welcome:  Death Recipients: 5 WebViews: 4
+after opening Log in:  Death Recipients: 5 WebViews: 4
