@@ -26,11 +26,11 @@ sample() { # $1 = label, $2 = count: main-thread stacks every 1 s
 adb shell am start -W -n $PKG/.MainActivity | tee out/start.txt
 if [ -n "$QA_EXPERIMENT" ]; then
   sample experiment 20
-  adb shell dumpsys activity top > out/experiment-views-welcome.txt
+  adb shell dumpsys meminfo $PKG > out/experiment-views-welcome.txt
   python3 .github/anr-ui.py tap "Log in"
   sleep 12
-  adb shell dumpsys activity top > out/experiment-views-login.txt
-  { echo "AdView on Welcome: $(grep -c 'gms.ads.AdView' out/experiment-views-welcome.txt)"; echo "AdView after opening Log in: $(grep -c 'gms.ads.AdView' out/experiment-views-login.txt)"; } > out/experiment-adviews.txt
+  adb shell dumpsys meminfo $PKG > out/experiment-views-login.txt
+  { echo "Welcome: $(grep -E 'WebViews' out/experiment-views-welcome.txt | tr -s ' ')"; echo "after opening Log in: $(grep -E 'WebViews' out/experiment-views-login.txt | tr -s ' ')"; } > out/experiment-adviews.txt
   adb exec-out screencap -p > out/screen-experiment.png
   adb shell dumpsys gfxinfo $PKG > out/gfxinfo-experiment.txt
   adb logcat -d > out/logcat-experiment-full.txt
