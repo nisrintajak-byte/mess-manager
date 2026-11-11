@@ -17,7 +17,7 @@ PY
 python3 - src/ui/AdSlot.native.tsx <<'PY'
 import sys
 p=sys.argv[1]; s=open(p).read()
-s=s.replace("onAdFailedToLoad={","onAdLoaded={() => console.log('MMQA adLoaded')}\n        onAdFailedToLoad={(e: unknown) => { console.log('MMQA adFailed ' + String((e as Error)?.message)); },\n        data-x={",1)
+s=s.replace("onAdFailedToLoad={","onAdLoaded={() => console.log('MMQA adLoaded')}\n        onAdFailedToLoad={(e: unknown) => { console.log('MMQA adFailed ' + String((e as Error)?.message)); }}\n        data-x={",1)
 open(p,'w').write(s)
 PY
 grep -n "MMQA\|AdSlot" $F src/ui/AdSlot.native.tsx
