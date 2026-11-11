@@ -52,11 +52,12 @@ $UI texts > out/texts-1-start.txt
 if [ -n "$QA_EMAIL" ]; then
   taps() { for k in $(seq 1 $1); do adb shell input tap 540 1200; sleep 0.4; done; }  # a person tapping while it loads
   $UI tap "Log in"; sleep 3
-  $UI type 0 "$QA_EMAIL"; $UI type 1 "$QA_PASSWORD"
-  adb shell input keyevent 4; sleep 1
+  $UI type 0 "$QA_EMAIL"; adb shell input keyevent 4; sleep 1
+  $UI type 1 "$QA_PASSWORD"; adb shell input keyevent 4; sleep 1
+  adb exec-out screencap -p > out/screen-1b-login-form.png
   adb logcat -c
   date +%s > out/t-signin.txt
-  $UI tap "Log in"
+  $UI taplast "Log in"
   sleep 4; taps 10
   sample home 15
   adb exec-out screencap -p > out/screen-2-home.png

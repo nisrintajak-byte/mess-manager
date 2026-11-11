@@ -18,12 +18,13 @@ def nodes(xml):
             x1, y1, x2, y2 = map(int, b)
             yield {'text': g('text'), 'desc': g('content-desc'), 'cls': g('class'), 'x': (x1 + x2) // 2, 'y': (y1 + y2) // 2}
 
-def tap_text(t):
+def tap_text(t, last=False):
     for _ in range(5):
-        for n in nodes(dump()):
-            if n['text'] == t or n['desc'] == t:
-                sh('input', 'tap', str(n['x']), str(n['y']))
-                return True
+        hits = [n for n in nodes(dump()) if n['text'] == t or n['desc'] == t]
+        if hits:
+            n = hits[-1] if last else hits[0]
+            sh('input', 'tap', str(n['x']), str(n['y']))
+            return True
         time.sleep(2)
     return False
 
@@ -39,6 +40,8 @@ def type_into(i, value):
 cmd = sys.argv[1]
 if cmd == 'tap':
     print('tap', sys.argv[2], tap_text(sys.argv[2]))
+elif cmd == 'taplast':
+    print('taplast', sys.argv[2], tap_text(sys.argv[2], last=True))
 elif cmd == 'type':
     print('type', sys.argv[2], type_into(int(sys.argv[2]), sys.argv[3]))
 elif cmd == 'texts':
