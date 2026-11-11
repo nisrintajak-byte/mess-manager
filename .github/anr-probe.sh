@@ -25,7 +25,12 @@ sample() { # $1 = label, $2 = count: main-thread stacks every 1 s
 
 adb shell am start -W -n $PKG/.MainActivity | tee out/start.txt
 if [ -n "$QA_EXPERIMENT" ]; then
-  sample experiment 40
+  sample experiment 20
+  adb shell dumpsys activity top > out/experiment-views-welcome.txt
+  python3 .github/anr-ui.py tap "Log in"
+  sleep 12
+  adb shell dumpsys activity top > out/experiment-views-login.txt
+  { echo "AdView on Welcome: $(grep -c 'gms.ads.AdView' out/experiment-views-welcome.txt)"; echo "AdView after opening Log in: $(grep -c 'gms.ads.AdView' out/experiment-views-login.txt)"; } > out/experiment-adviews.txt
   adb exec-out screencap -p > out/screen-experiment.png
   adb shell dumpsys gfxinfo $PKG > out/gfxinfo-experiment.txt
   adb logcat -d > out/logcat-experiment-full.txt
@@ -33,6 +38,10 @@ if [ -n "$QA_EXPERIMENT" ]; then
   { echo "renders: $(grep -c 'MMQA render' out/experiment-mmqa.txt)"; echo "ad loads: $(grep -c 'MMQA adLoaded' out/experiment-mmqa.txt)"; echo "ad fails: $(grep -c 'MMQA adFailed' out/experiment-mmqa.txt)"; } > out/experiment-result.txt
   grep -E "Skipped [0-9]+ frames|Davey" out/logcat-experiment-full.txt | grep -v systemui > out/experiment-jank.txt
   rm out/logcat-experiment-full.txt
+  cat out/experiment-adviews.txt >> out/experiment-result.txt
+  echo "skipped frames: $(grep -oE 'Skipped [0-9]+' out/experiment-jank.txt | awk '{s+=$2} END {print s+0}')" >> out/experiment-result.txt
+  echo "longest frame: $(grep -oE 'duration=[0-9]+' out/experiment-jank.txt | cut -d= -f2 | sort -n | tail -1) ms" >> out/experiment-result.txt
+  rm -f out/experiment-views-*.txt
   cat out/experiment-result.txt
   exit 0
 fi

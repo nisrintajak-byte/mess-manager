@@ -3,6 +3,8 @@
 # that screen every 2 s like a normal data screen does, logging every banner load, so the probe
 # can count how often the banner is re-created without needing to sign in.
 set -e
+# 'baseline' in .github/anr-experiment-on = test the AdSlot from before the fix
+if grep -q baseline .github/anr-experiment-on; then cp .github/qa-baseline-AdSlot.native.tsx src/ui/AdSlot.native.tsx; fi
 F=src/screens/auth/WelcomeScreen.tsx
 python3 - "$F" <<'PY'
 import sys
