@@ -1,0 +1,4 @@
+total 172
+drwxrwxr-x  2 system     system   4096 2026-11-11 20:33 .
+drwxrwx--x 50 system     system   4096 2026-11-11 20:29 ..
+-rw-rw----  1 tombstoned system 153125 2026-11-11 20:33 trace_36

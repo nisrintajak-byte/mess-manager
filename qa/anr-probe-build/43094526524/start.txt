@@ -1,0 +1,7 @@
+Starting: Intent { cmp=com.uyoontech.messmanager/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: com.uyoontech.messmanager/.MainActivity
+TotalTime: 1743
+WaitTime: 1752
+Complete
