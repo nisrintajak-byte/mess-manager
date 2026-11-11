@@ -1,0 +1,402 @@
+  bash arg: -p
+  bash arg: com.uyoontech.messmanager
+  bash arg: --pct-syskeys
+  bash arg: 0
+  bash arg: --pct-appswitch
+  bash arg: 0
+  bash arg: --pct-anyevent
+  bash arg: 0
+  bash arg: --throttle
+  bash arg: 200
+  bash arg: -v
+  bash arg: -s
+  bash arg: 7
+  bash arg: 1500
+args: [-p, com.uyoontech.messmanager, --pct-syskeys, 0, --pct-appswitch, 0, --pct-anyevent, 0, --throttle, 200, -v, -s, 7, 1500]
+ arg: "-p"
+ arg: "com.uyoontech.messmanager"
+ arg: "--pct-syskeys"
+ arg: "0"
+ arg: "--pct-appswitch"
+ arg: "0"
+ arg: "--pct-anyevent"
+ arg: "0"
+ arg: "--throttle"
+ arg: "200"
+ arg: "-v"
+ arg: "-s"
+ arg: "7"
+ arg: "1500"
+data="com.uyoontech.messmanager"
+arg="--pct-syskeys" mCurArgData="null" mNextArg=3 argwas="--pct-syskeys" nextarg="0"
+data="0"
+arg="--pct-appswitch" mCurArgData="null" mNextArg=5 argwas="--pct-appswitch" nextarg="0"
+data="0"
+arg="--pct-anyevent" mCurArgData="null" mNextArg=7 argwas="--pct-anyevent" nextarg="0"
+data="0"
+arg="--throttle" mCurArgData="null" mNextArg=9 argwas="--throttle" nextarg="200"
+data="200"
+data="7"
+:Monkey: seed=7 count=1500
+:AllowPackage: com.uyoontech.messmanager
+:IncludeCategory: android.intent.category.LAUNCHER
+:IncludeCategory: android.intent.category.MONKEY
+// Event percentages:
+//   0: 18.07229%
+//   1: 12.048193%
+//   2: 2.4096386%
+//   3: 18.07229%
+//   4: -0.0%
+//   5: -0.0%
+//   6: 30.120483%
+//   7: 18.07229%
+//   8: -0.0%
+//   9: -0.0%
+//   10: 1.2048193%
+//   11: -0.0%
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=com.uyoontech.messmanager/.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.uyoontech.messmanager/.MainActivity } in package com.uyoontech.messmanager
+:Sending Touch (ACTION_DOWN): 0:(260.0,174.0)
+:Sending Touch (ACTION_UP): 0:(274.06738,180.90332)
+:Sending Trackball (ACTION_MOVE): 0:(-3.0,3.0)
+:Sending Touch (ACTION_DOWN): 0:(172.0,458.0)
+:Sending Touch (ACTION_UP): 0:(202.23242,510.57715)
+:Sending Trackball (ACTION_MOVE): 0:(-5.0,-1.0)
+:Sending Trackball (ACTION_UP): 0:(0.0,0.0)
+:Sending Touch (ACTION_DOWN): 0:(76.0,500.0)
+:Sending Touch (ACTION_UP): 0:(72.87793,507.66016)
+:Sending Trackball (ACTION_MOVE): 0:(2.0,1.0)
+:Sending Trackball (ACTION_MOVE): 0:(0.0,-5.0)
+:Sending Trackball (ACTION_MOVE): 0:(1.0,0.0)
+:Sending Touch (ACTION_DOWN): 0:(115.0,561.0)
+:Sending Touch (ACTION_UP): 0:(114.09375,560.2754)
+:Sending Trackball (ACTION_MOVE): 0:(-3.0,0.0)
+    //[calendar_time:2026-11-11 20:31:26.456  system_uptime:280849]
+    // Sending event #100
+:Sending Touch (ACTION_DOWN): 0:(5.0,307.0)
+:Sending Touch (ACTION_UP): 0:(2.415039,297.7881)
+:Sending Trackball (ACTION_MOVE): 0:(-3.0,2.0)
+:Sending Touch (ACTION_DOWN): 0:(165.0,0.0)
+:Sending Touch (ACTION_UP): 0:(173.61914,10.139648)
+:Sending Touch (ACTION_DOWN): 0:(99.0,598.0)
+:Sending Touch (ACTION_UP): 0:(95.208984,593.8242)
+:Sending Trackball (ACTION_MOVE): 0:(3.0,-5.0)
+:Sending Touch (ACTION_DOWN): 0:(176.0,600.0)
+:Sending Touch (ACTION_UP): 0:(169.90234,602.95605)
+:Sending Touch (ACTION_DOWN): 0:(200.0,516.0)
+:Sending Touch (ACTION_UP): 0:(251.29883,471.2959)
+:Sending Touch (ACTION_DOWN): 0:(140.0,518.0)
+:Sending Touch (ACTION_UP): 0:(209.26074,544.5801)
+:Sending Touch (ACTION_DOWN): 0:(110.0,114.0)
+:Sending Touch (ACTION_UP): 0:(117.8291,114.00098)
+:Sending Touch (ACTION_DOWN): 0:(113.0,161.0)
+:Sending Touch (ACTION_UP): 0:(87.15137,191.12988)
+:Sending Trackball (ACTION_MOVE): 0:(4.0,-1.0)
+:Sending Trackball (ACTION_UP): 0:(0.0,0.0)
+:Sending Touch (ACTION_DOWN): 0:(51.0,286.0)
+:Sending Touch (ACTION_UP): 0:(4.223633,260.58398)
+:Sending Touch (ACTION_DOWN): 0:(161.0,183.0)
+:Sending Touch (ACTION_UP): 0:(121.896484,146.4873)
+:Sending Touch (ACTION_DOWN): 0:(167.0,383.0)
+:Sending Touch (ACTION_UP): 0:(171.38965,397.1338)
+:Sending Trackball (ACTION_MOVE): 0:(4.0,-2.0)
+    //[calendar_time:2026-11-11 20:31:30.508  system_uptime:284895]
+    // Sending event #200
+:Sending Touch (ACTION_DOWN): 0:(15.0,315.0)
+:Sending Touch (ACTION_UP): 0:(0.0,329.59473)
+:Sending Trackball (ACTION_MOVE): 0:(0.0,-5.0)
+:Sending Trackball (ACTION_MOVE): 0:(2.0,0.0)
+:Sending Trackball (ACTION_MOVE): 0:(-4.0,3.0)
+:Sending Trackball (ACTION_MOVE): 0:(2.0,4.0)
+:Sending Trackball (ACTION_MOVE): 0:(2.0,3.0)
+:Sending Trackball (ACTION_MOVE): 0:(-5.0,-1.0)
+:Sending Touch (ACTION_DOWN): 0:(240.0,206.0)
+:Sending Touch (ACTION_UP): 0:(237.50684,200.85059)
+:Sending Touch (ACTION_DOWN): 0:(269.0,420.0)
+:Sending Touch (ACTION_UP): 0:(249.72461,427.3877)
+:Sending Trackball (ACTION_MOVE): 0:(0.0,3.0)
+    //[calendar_time:2026-11-11 20:31:32.962  system_uptime:287349]
+    // Sending event #300
+:Sending Trackball (ACTION_MOVE): 0:(-3.0,4.0)
+:Sending Touch (ACTION_DOWN): 0:(113.0,52.0)
+:Sending Touch (ACTION_UP): 0:(111.86035,52.623047)
+:Sending Flip keyboardOpen=false
+Got IOException performing flipjava.io.IOException: write failed: EINVAL (Invalid argument)
+    // Injection Failed
+:Sending Trackball (ACTION_MOVE): 0:(-2.0,-5.0)
+:Sending Trackball (ACTION_MOVE): 0:(3.0,-2.0)
+:Sending Touch (ACTION_DOWN): 0:(272.0,489.0)
+:Sending Touch (ACTION_UP): 0:(275.27637,508.7168)
+:Sending Touch (ACTION_DOWN): 0:(319.0,632.0)
+:Sending Touch (ACTION_UP): 0:(316.62793,628.92676)
+:Sending Touch (ACTION_DOWN): 0:(105.0,391.0)
+:Sending Touch (ACTION_UP): 0:(104.15234,396.06445)
+:Sending Trackball (ACTION_MOVE): 0:(3.0,-5.0)
+:Sending Touch (ACTION_DOWN): 0:(22.0,602.0)
+:Sending Touch (ACTION_UP): 0:(27.990234,600.32715)
+:Sending Touch (ACTION_DOWN): 0:(47.0,236.0)
+:Sending Touch (ACTION_UP): 0:(36.151367,220.875)
+:Sending Trackball (ACTION_MOVE): 0:(4.0,3.0)
+    //[calendar_time:2026-11-11 20:31:37.221  system_uptime:291608]
+    // Sending event #400
+    //[calendar_time:2026-11-11 20:31:37.421  system_uptime:291808]
+    // Sending event #400
+:Sending Touch (ACTION_DOWN): 0:(232.0,187.0)
+:Sending Touch (ACTION_UP): 0:(225.20703,170.97754)
+:Sending Touch (ACTION_DOWN): 0:(225.0,547.0)
+:Sending Touch (ACTION_UP): 0:(290.34375,620.41895)
+:Sending Touch (ACTION_DOWN): 0:(316.0,318.0)
+:Sending Touch (ACTION_UP): 0:(306.8379,370.06055)
+:Sending Trackball (ACTION_MOVE): 0:(0.0,4.0)
+:Sending Touch (ACTION_DOWN): 0:(246.0,23.0)
+:Sending Touch (ACTION_UP): 0:(247.89844,23.21582)
+:Sending Trackball (ACTION_MOVE): 0:(-1.0,2.0)
+:Sending Trackball (ACTION_UP): 0:(0.0,0.0)
+:Sending Trackball (ACTION_MOVE): 0:(-3.0,1.0)
+:Sending Touch (ACTION_DOWN): 0:(130.0,170.0)
+:Sending Touch (ACTION_UP): 0:(127.19629,153.64746)
+:Sending Touch (ACTION_DOWN): 0:(304.0,409.0)
+:Sending Touch (ACTION_UP): 0:(303.98145,411.7881)
+:Sending Touch (ACTION_DOWN): 0:(250.0,232.0)
+:Sending Touch (ACTION_UP): 0:(252.72754,243.5127)
+:Sending Trackball (ACTION_MOVE): 0:(0.0,2.0)
+:Sending Touch (ACTION_DOWN): 0:(68.0,266.0)
+:Sending Touch (ACTION_UP): 0:(69.140625,264.97754)
+:Sending Touch (ACTION_DOWN): 0:(135.0,313.0)
+:Sending Touch (ACTION_UP): 0:(131.61914,328.74414)
+:Sending Trackball (ACTION_MOVE): 0:(3.0,3.0)
+    //[calendar_time:2026-11-11 20:31:41.696  system_uptime:296083]
+    // Sending event #500
+:Sending Trackball (ACTION_MOVE): 0:(4.0,-1.0)
+:Sending Flip keyboardOpen=true
+Got IOException performing flipjava.io.IOException: write failed: EINVAL (Invalid argument)
+    // Injection Failed
+:Sending Touch (ACTION_DOWN): 0:(306.0,398.0)
+:Sending Touch (ACTION_UP): 0:(302.38184,375.91602)
+:Sending Touch (ACTION_DOWN): 0:(104.0,147.0)
+:Sending Touch (ACTION_UP): 0:(184.76465,103.21289)
+:Sending Touch (ACTION_DOWN): 0:(263.0,374.0)
+:Sending Touch (ACTION_UP): 0:(216.94434,319.2793)
+:Sending Touch (ACTION_DOWN): 0:(214.0,228.0)
+:Sending Touch (ACTION_UP): 0:(206.0625,234.14355)
+:Sending Touch (ACTION_DOWN): 0:(43.0,508.0)
+:Sending Touch (ACTION_UP): 0:(43.549805,508.52344)
+:Sending Flip keyboardOpen=false
+Got IOException performing flipjava.io.IOException: write failed: EINVAL (Invalid argument)
+    // Injection Failed
+:Sending Trackball (ACTION_MOVE): 0:(-3.0,-4.0)
+:Sending Trackball (ACTION_MOVE): 0:(-5.0,-2.0)
+:Sending Trackball (ACTION_MOVE): 0:(1.0,-2.0)
+:Sending Trackball (ACTION_MOVE): 0:(0.0,1.0)
+:Sending Trackball (ACTION_MOVE): 0:(0.0,0.0)
+    //[calendar_time:2026-11-11 20:31:44.541  system_uptime:298928]
+    // Sending event #600
+:Sending Touch (ACTION_DOWN): 0:(120.0,238.0)
+:Sending Touch (ACTION_UP): 0:(121.28027,228.49707)
+:Sending Trackball (ACTION_MOVE): 0:(3.0,-2.0)
+:Sending Touch (ACTION_DOWN): 0:(152.0,52.0)
+:Sending Touch (ACTION_UP): 0:(145.75,55.01953)
+:Sending Touch (ACTION_DOWN): 0:(239.0,149.0)
+:Sending Touch (ACTION_UP): 0:(236.79297,155.9668)
+:Sending Flip keyboardOpen=true
+Got IOException performing flipjava.io.IOException: write failed: EINVAL (Invalid argument)
+    // Injection Failed
+:Sending Touch (ACTION_DOWN): 0:(30.0,531.0)
+:Sending Touch (ACTION_UP): 0:(37.39258,533.99805)
+:Sending Trackball (ACTION_MOVE): 0:(-1.0,0.0)
+:Sending Touch (ACTION_DOWN): 0:(34.0,443.0)
+:Sending Touch (ACTION_UP): 0:(41.833008,440.19727)
+:Sending Trackball (ACTION_MOVE): 0:(2.0,4.0)
+:Sending Touch (ACTION_DOWN): 0:(149.0,554.0)
+:Sending Touch (ACTION_UP): 0:(137.43262,551.4033)
+:Sending Trackball (ACTION_MOVE): 0:(0.0,4.0)
+:Sending Trackball (ACTION_UP): 0:(0.0,0.0)
+    //[calendar_time:2026-11-11 20:31:50.231  system_uptime:304617]
+    // Sending event #700
+:Sending Touch (ACTION_DOWN): 0:(53.0,74.0)
+:Sending Touch (ACTION_UP): 0:(60.993164,90.01758)
+:Sending Touch (ACTION_DOWN): 0:(215.0,542.0)
+:Sending Touch (ACTION_UP): 0:(215.58984,542.73145)
+:Sending Trackball (ACTION_MOVE): 0:(1.0,-2.0)
+:Sending Touch (ACTION_DOWN): 0:(164.0,261.0)
+:Sending Touch (ACTION_UP): 0:(223.74805,287.20312)
+:Sending Trackball (ACTION_MOVE): 0:(-4.0,1.0)
+:Sending Touch (ACTION_DOWN): 0:(104.0,419.0)
+:Sending Touch (ACTION_UP): 0:(115.48926,412.61133)
+:Sending Touch (ACTION_DOWN): 0:(176.0,47.0)
+:Sending Touch (ACTION_UP): 0:(182.23438,51.595703)
+:Sending Trackball (ACTION_MOVE): 0:(1.0,-4.0)
+:Sending Flip keyboardOpen=false
+Got IOException performing flipjava.io.IOException: write failed: EINVAL (Invalid argument)
+    // Injection Failed
+:Sending Trackball (ACTION_MOVE): 0:(-4.0,2.0)
+:Sending Trackball (ACTION_MOVE): 0:(-2.0,-4.0)
+    //[calendar_time:2026-11-11 20:31:54.691  system_uptime:309078]
+    // Sending event #800
+:Sending Trackball (ACTION_MOVE): 0:(-2.0,1.0)
+:Sending Touch (ACTION_DOWN): 0:(131.0,13.0)
+:Sending Touch (ACTION_UP): 0:(113.18652,19.195312)
+:Sending Touch (ACTION_DOWN): 0:(87.0,153.0)
+:Sending Touch (ACTION_UP): 0:(95.63281,174.59766)
+:Sending Trackball (ACTION_MOVE): 0:(-5.0,-4.0)
+:Sending Touch (ACTION_DOWN): 0:(251.0,316.0)
+:Sending Touch (ACTION_UP): 0:(263.83496,325.6836)
+:Sending Trackball (ACTION_MOVE): 0:(-4.0,-1.0)
+:Sending Touch (ACTION_DOWN): 0:(28.0,428.0)
+:Sending Touch (ACTION_UP): 0:(93.41016,384.1084)
+:Sending Touch (ACTION_DOWN): 0:(40.0,479.0)
+:Sending Touch (ACTION_UP): 0:(40.496094,480.47363)
+:Sending Touch (ACTION_DOWN): 0:(189.0,261.0)
+:Sending Touch (ACTION_UP): 0:(183.70215,240.99219)
+    //[calendar_time:2026-11-11 20:32:00.569  system_uptime:314956]
+    // Sending event #900
+:Sending Touch (ACTION_DOWN): 0:(182.0,558.0)
+:Sending Touch (ACTION_UP): 0:(146.55176,537.2783)
+:Sending Touch (ACTION_DOWN): 0:(205.0,306.0)
+:Sending Touch (ACTION_UP): 0:(215.08594,286.27344)
+:Sending Touch (ACTION_DOWN): 0:(244.0,205.0)
+:Sending Touch (ACTION_UP): 0:(263.61914,261.03516)
+:Sending Touch (ACTION_DOWN): 0:(104.0,525.0)
+:Sending Touch (ACTION_UP): 0:(110.52637,525.5342)
+:Sending Touch (ACTION_DOWN): 0:(231.0,498.0)
+:Sending Touch (ACTION_UP): 0:(203.77148,475.11914)
+:Sending Touch (ACTION_DOWN): 0:(154.0,261.0)
+:Sending Touch (ACTION_UP): 0:(154.7168,262.99023)
+:Sending Trackball (ACTION_MOVE): 0:(-3.0,-3.0)
+:Sending Touch (ACTION_DOWN): 0:(70.0,515.0)
+:Sending Touch (ACTION_UP): 0:(63.950195,514.917)
+:Sending Trackball (ACTION_MOVE): 0:(-2.0,0.0)
+:Sending Touch (ACTION_DOWN): 0:(214.0,431.0)
+:Sending Touch (ACTION_UP): 0:(256.19824,453.56738)
+:Sending Touch (ACTION_DOWN): 0:(289.0,486.0)
+:Sending Touch (ACTION_UP): 0:(201.31934,354.07324)
+:Sending Touch (ACTION_DOWN): 0:(292.0,256.0)
+:Sending Touch (ACTION_UP): 0:(286.39355,257.2461)
+:Sending Touch (ACTION_DOWN): 0:(123.0,519.0)
+:Sending Touch (ACTION_UP): 0:(106.01367,509.75488)
+:Sending Touch (ACTION_DOWN): 0:(247.0,126.0)
+    //[calendar_time:2026-11-11 20:32:06.018  system_uptime:320405]
+    // Sending event #1000
+:Sending Touch (ACTION_UP): 0:(233.625,149.20996)
+:Sending Touch (ACTION_DOWN): 0:(83.0,102.0)
+:Sending Touch (ACTION_UP): 0:(45.51953,45.11621)
+:Sending Trackball (ACTION_MOVE): 0:(4.0,-4.0)
+:Sending Touch (ACTION_DOWN): 0:(78.0,341.0)
+:Sending Touch (ACTION_UP): 0:(76.80078,336.3369)
+:Sending Touch (ACTION_DOWN): 0:(83.0,522.0)
+:Sending Touch (ACTION_UP): 0:(85.603516,453.79883)
+:Sending Trackball (ACTION_MOVE): 0:(-1.0,1.0)
+:Sending Touch (ACTION_DOWN): 0:(24.0,306.0)
+:Sending Touch (ACTION_UP): 0:(122.33887,329.39844)
+:Sending Touch (ACTION_DOWN): 0:(76.0,118.0)
+:Sending Touch (ACTION_UP): 0:(52.561523,91.54297)
+:Sending Touch (ACTION_DOWN): 0:(247.0,124.0)
+:Sending Touch (ACTION_UP): 0:(187.75195,129.74707)
+:Sending Touch (ACTION_DOWN): 0:(29.0,3.0)
+:Sending Touch (ACTION_UP): 0:(0.0,35.774414)
+:Sending Touch (ACTION_DOWN): 0:(144.0,117.0)
+:Sending Touch (ACTION_UP): 0:(149.25781,113.569336)
+:Sending Touch (ACTION_DOWN): 0:(23.0,211.0)
+:Sending Touch (ACTION_UP): 0:(25.541016,211.10547)
+:Sending Touch (ACTION_DOWN): 0:(252.0,184.0)
+:Sending Touch (ACTION_UP): 0:(240.93945,190.43164)
+:Sending Touch (ACTION_DOWN): 0:(135.0,185.0)
+    //[calendar_time:2026-11-11 20:32:09.477  system_uptime:323864]
+    // Sending event #1100
+:Sending Touch (ACTION_UP): 0:(116.981445,157.42676)
+:Sending Touch (ACTION_DOWN): 0:(46.0,570.0)
+:Sending Touch (ACTION_UP): 0:(31.951172,578.3213)
+:Sending Touch (ACTION_DOWN): 0:(142.0,461.0)
+:Sending Touch (ACTION_UP): 0:(143.66309,460.45898)
+:Sending Trackball (ACTION_MOVE): 0:(0.0,1.0)
+:Sending Trackball (ACTION_MOVE): 0:(-4.0,4.0)
+:Sending Touch (ACTION_DOWN): 0:(21.0,487.0)
+:Sending Touch (ACTION_UP): 0:(41.84668,488.8086)
+:Sending Trackball (ACTION_MOVE): 0:(-5.0,1.0)
+:Sending Touch (ACTION_DOWN): 0:(5.0,337.0)
+:Sending Touch (ACTION_UP): 0:(0.0,300.73535)
+:Sending Touch (ACTION_DOWN): 0:(35.0,154.0)
+:Sending Touch (ACTION_UP): 0:(95.36328,90.26367)
+:Sending Touch (ACTION_DOWN): 0:(132.0,518.0)
+:Sending Touch (ACTION_UP): 0:(27.219727,559.24023)
+:Sending Trackball (ACTION_MOVE): 0:(0.0,4.0)
+    //[calendar_time:2026-11-11 20:32:13.129  system_uptime:327515]
+    // Sending event #1200
+:Sending Trackball (ACTION_MOVE): 0:(0.0,4.0)
+:Sending Touch (ACTION_DOWN): 0:(247.0,455.0)
+:Sending Touch (ACTION_UP): 0:(244.29492,447.83887)
+:Sending Trackball (ACTION_MOVE): 0:(-4.0,2.0)
+:Sending Trackball (ACTION_UP): 0:(0.0,0.0)
+:Sending Touch (ACTION_DOWN): 0:(49.0,502.0)
+:Sending Touch (ACTION_UP): 0:(0.0,562.02246)
+:Sending Trackball (ACTION_MOVE): 0:(1.0,2.0)
+:Sending Trackball (ACTION_MOVE): 0:(1.0,1.0)
+:Sending Trackball (ACTION_MOVE): 0:(-3.0,4.0)
+:Sending Touch (ACTION_DOWN): 0:(114.0,351.0)
+:Sending Touch (ACTION_UP): 0:(127.18555,364.38965)
+:Sending Touch (ACTION_DOWN): 0:(173.0,407.0)
+:Sending Touch (ACTION_UP): 0:(192.19824,347.8545)
+:Sending Touch (ACTION_DOWN): 0:(75.0,605.0)
+:Sending Touch (ACTION_UP): 0:(59.643555,602.0449)
+:Sending Touch (ACTION_DOWN): 0:(230.0,16.0)
+    //[calendar_time:2026-11-11 20:32:17.012  system_uptime:331398]
+    // Sending event #1300
+:Sending Touch (ACTION_UP): 0:(272.8789,0.0)
+:Sending Touch (ACTION_DOWN): 0:(313.0,333.0)
+:Sending Touch (ACTION_UP): 0:(319.78223,326.4795)
+:Sending Touch (ACTION_DOWN): 0:(144.0,57.0)
+:Sending Touch (ACTION_UP): 0:(144.55176,58.69629)
+:Sending Touch (ACTION_DOWN): 0:(0.0,413.0)
+:Sending Touch (ACTION_UP): 0:(0.796875,399.3457)
+:Sending Trackball (ACTION_MOVE): 0:(4.0,-5.0)
+:Sending Trackball (ACTION_MOVE): 0:(-2.0,1.0)
+:Sending Touch (ACTION_DOWN): 0:(146.0,55.0)
+:Sending Touch (ACTION_UP): 0:(145.11816,56.878906)
+:Sending Trackball (ACTION_MOVE): 0:(-5.0,0.0)
+:Sending Touch (ACTION_DOWN): 0:(60.0,601.0)
+:Sending Touch (ACTION_UP): 0:(99.9082,612.8633)
+:Sending Touch (ACTION_DOWN): 0:(263.0,334.0)
+:Sending Touch (ACTION_UP): 0:(266.95117,333.36816)
+:Sending Flip keyboardOpen=true
+Got IOException performing flipjava.io.IOException: write failed: EINVAL (Invalid argument)
+    // Injection Failed
+:Sending Touch (ACTION_DOWN): 0:(35.0,201.0)
+:Sending Touch (ACTION_UP): 0:(14.202148,252.06152)
+:Sending Touch (ACTION_DOWN): 0:(261.0,150.0)
+:Sending Touch (ACTION_UP): 0:(209.2666,147.64453)
+:Sending Touch (ACTION_DOWN): 0:(93.0,44.0)
+:Sending Touch (ACTION_UP): 0:(94.91797,40.634766)
+:Sending Touch (ACTION_DOWN): 0:(204.0,156.0)
+:Sending Touch (ACTION_UP): 0:(229.17383,210.41602)
+:Sending Touch (ACTION_DOWN): 0:(67.0,314.0)
+:Sending Touch (ACTION_UP): 0:(55.54492,314.083)
+:Sending Trackball (ACTION_MOVE): 0:(-1.0,1.0)
+    //[calendar_time:2026-11-11 20:32:21.463  system_uptime:335850]
+    // Sending event #1400
+:Sending Trackball (ACTION_MOVE): 0:(1.0,0.0)
+:Sending Touch (ACTION_DOWN): 0:(234.0,346.0)
+:Sending Touch (ACTION_UP): 0:(233.15137,352.59668)
+:Sending Touch (ACTION_DOWN): 0:(55.0,215.0)
+:Sending Touch (ACTION_UP): 0:(16.44336,124.92676)
+:Sending Touch (ACTION_DOWN): 0:(260.0,25.0)
+:Sending Touch (ACTION_UP): 0:(259.16406,20.192383)
+:Sending Touch (ACTION_DOWN): 0:(4.0,549.0)
+:Sending Touch (ACTION_UP): 0:(4.0791016,527.94824)
+:Sending Touch (ACTION_DOWN): 0:(203.0,328.0)
+:Sending Touch (ACTION_UP): 0:(204.85156,335.5918)
+:Sending Trackball (ACTION_MOVE): 0:(2.0,-1.0)
+:Sending Touch (ACTION_DOWN): 0:(53.0,371.0)
+:Sending Touch (ACTION_UP): 0:(54.91797,365.96973)
+:Sending Touch (ACTION_DOWN): 0:(98.0,93.0)
+:Sending Touch (ACTION_UP): 0:(51.353516,124.62598)
+:Sending Touch (ACTION_DOWN): 0:(190.0,397.0)
+:Sending Touch (ACTION_UP): 0:(190.8418,394.76855)
+:Sending Touch (ACTION_DOWN): 0:(161.0,469.0)
+:Sending Touch (ACTION_UP): 0:(162.7207,462.12402)
+:Sending Trackball (ACTION_MOVE): 0:(-3.0,1.0)
+:Sending Touch (ACTION_DOWN): 0:(113.0,145.0)
+Events injected: 1500
+:Sending rotation degree=0, persist=false
+:Dropped: keys=0 pointers=0 trackballs=0 flips=6 rotations=0
+## Network stats: elapsed time=63868ms (0ms mobile, 0ms wifi, 63868ms not connected)
+// Monkey finished
