@@ -1,0 +1,23 @@
+total 3172
+drwxrwxr-x  2 system     system   4096 2026-11-11 14:28 .
+drwxrwx--x 50 system     system   4096 2026-11-11 14:28 ..
+-rw-rw----  1 tombstoned system 163626 2026-11-11 14:28 trace_00
+-rw-rw----  1 tombstoned system 167660 2026-11-11 14:28 trace_01
+-rw-rw----  1 tombstoned system 164398 2026-11-11 14:28 trace_02
+-rw-rw----  1 tombstoned system 164212 2026-11-11 14:28 trace_03
+-rw-rw----  1 tombstoned system 164210 2026-11-11 14:28 trace_04
+-rw-rw----  1 tombstoned system 164205 2026-11-11 14:28 trace_05
+-rw-rw----  1 tombstoned system 163405 2026-11-11 14:28 trace_06
+-rw-rw----  1 tombstoned system 150652 2026-11-11 14:28 trace_07
+-rw-rw----  1 tombstoned system 150629 2026-11-11 14:28 trace_08
+-rw-rw----  1 tombstoned system 151666 2026-11-11 14:28 trace_09
+-rw-rw----  1 tombstoned system 150906 2026-11-11 14:28 trace_10
+-rw-rw----  1 tombstoned system 151652 2026-11-11 14:28 trace_11
+-rw-rw----  1 tombstoned system 151659 2026-11-11 14:28 trace_12
+-rw-rw----  1 tombstoned system 150882 2026-11-11 14:28 trace_13
+-rw-rw----  1 tombstoned system 150886 2026-11-11 14:28 trace_14
+-rw-rw----  1 tombstoned system 150885 2026-11-11 14:28 trace_15
+-rw-rw----  1 tombstoned system 150889 2026-11-11 14:28 trace_16
+-rw-rw----  1 tombstoned system 150895 2026-11-11 14:28 trace_17
+-rw-rw----  1 tombstoned system 150901 2026-11-11 14:28 trace_18
+-rw-rw----  1 tombstoned system 147646 2026-11-11 14:28 trace_19
