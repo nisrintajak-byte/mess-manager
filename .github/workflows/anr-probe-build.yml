@@ -27,6 +27,8 @@ jobs:
           distribution: temurin
           java-version: 17
       - run: npm ci
+      - name: Banner variant (baseline or fixed)
+        run: bash .github/anr-variant.sh
       - name: QA experiment patch (only when .github/anr-experiment-on exists)
         run: if [ -f .github/anr-experiment-on ]; then bash .github/anr-experiment.sh; fi
       - name: Build release APK (x86_64 only, for the emulator)

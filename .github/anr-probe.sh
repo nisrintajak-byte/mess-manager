@@ -50,23 +50,52 @@ adb exec-out screencap -p > out/screen-1-start.png
 $UI texts > out/texts-1-start.txt
 
 if [ -n "$QA_EMAIL" ]; then
+  taps() { for k in $(seq 1 $1); do adb shell input tap 540 1200; sleep 0.4; done; }  # a person tapping while it loads
   $UI tap "Log in"; sleep 3
   $UI type 0 "$QA_EMAIL"; $UI type 1 "$QA_PASSWORD"
   adb shell input keyevent 4; sleep 1
+  adb logcat -c
+  date +%s > out/t-signin.txt
   $UI tap "Log in"
-  sample login 25
+  sleep 4; taps 10
+  sample home 15
   adb exec-out screencap -p > out/screen-2-home.png
   $UI texts > out/texts-2-home.txt
-  # scroll home, open the first Room
-  for i in 1 2 3; do adb shell input swipe 500 1600 500 600 300; sleep 1; done
-  for i in 1 2 3; do adb shell input swipe 500 600 500 1600 300; sleep 1; done
-  $UI tapfirst "QA Room" "Room"
-  sample room 20
+  for i in 1 2 3; do adb shell input swipe 540 1600 540 600 300; sleep 1; done
+  for i in 1 2 3; do adb shell input swipe 540 600 540 1600 300; sleep 1; done
+  $UI tapfirst "QA Room"
+  sleep 1; taps 10
+  sample room 15
   adb exec-out screencap -p > out/screen-3-room.png
   $UI texts > out/texts-3-room.txt
-  for i in 1 2 3 4 5; do adb shell input swipe 500 1600 500 500 200; sleep 0.5; done
-  sample roomscroll 10
-  adb shell input keyevent 4; sleep 2
+  for i in 1 2 3 4 5; do adb shell input swipe 540 1600 540 500 200; sleep 0.5; done
+  for i in 1 2 3 4 5; do adb shell input swipe 540 500 540 1600 200; sleep 0.5; done
+  $UI tap "Need Requests"
+  sleep 1; taps 8
+  sample needs 15
+  adb exec-out screencap -p > out/screen-4-needs.png
+  adb shell dumpsys meminfo $PKG | grep -E "WebViews|Views:" > out/views-deep-stack.txt
+  # stay on the deepest screen: the screens underneath must not keep their banners busy
+  sample idle 40
+  adb shell input keyevent 4; sleep 3; adb shell input keyevent 4; sleep 3
+  $UI tap "Inbox"; sleep 1; taps 8
+  sample inbox 12
+  adb shell input keyevent 4; sleep 3
+  adb logcat -d > out/logcat-signedin.txt
+  P1=$(adb shell pidof $PKG | tr -d '\r')
+  {
+    echo "app process alive: $([ -n "$P1" ] && echo yes || echo NO)"
+    echo "ANR: $(grep -cE "ANR in $PKG|Input dispatching timed out" out/logcat-signedin.txt)"
+    echo "banner loads: $(grep -c 'MMQA adLoaded' out/logcat-signedin.txt)  ($(grep -oE 'MMQA adLoaded \w+' out/logcat-signedin.txt | awk '{print $3}' | sort | uniq -c | tr -s ' ' | tr '\n' ','))"
+    echo "skipped frames (app): $(grep -E " $P1 .*Skipped [0-9]+ frames" out/logcat-signedin.txt | grep -oE 'Skipped [0-9]+' | awk '{s+=$2} END {print s+0}')"
+    echo "frames over 700 ms: $(grep -E " $P1 .*Davey" out/logcat-signedin.txt | grep -oE 'duration=[0-9]+' | cut -d= -f2 | awk '$1>700' | wc -l)"
+    echo "longest frame: $(grep -E " $P1 .*Davey" out/logcat-signedin.txt | grep -oE 'duration=[0-9]+' | cut -d= -f2 | sort -n | tail -1) ms"
+    echo "busy main-thread samples: home $(python3 .github/anr-busy.py out/traces-home.txt), room $(python3 .github/anr-busy.py out/traces-room.txt), needs $(python3 .github/anr-busy.py out/traces-needs.txt), idle on needs $(python3 .github/anr-busy.py out/traces-idle.txt), inbox $(python3 .github/anr-busy.py out/traces-inbox.txt)"
+    echo "live WebViews on Need Requests: $(cat out/views-deep-stack.txt | tr -s ' ' | tr '\n' ' ')"
+  } > out/signedin-result.txt
+  grep -E " $P1 .*(Davey|Skipped|MMQA|ReactNativeJS)" out/logcat-signedin.txt | cut -c1-220 > out/signedin-jank.txt
+  rm out/logcat-signedin.txt
+  cat out/signedin-result.txt
 fi
 
 adb shell dumpsys gfxinfo $PKG > out/gfxinfo-before-monkey.txt
