@@ -133,13 +133,28 @@ export async function pickAndUploadAvatar(
 }
 
 const avatarLinks = new Map<string, { url: string; until: number }>();
+const avatarPending = new Map<string, Promise<string | null>>();
 
-/** Short-lived link for a profile photo (cached for 50 minutes). */
-export async function avatarUrl(path: string): Promise<string | null> {
+/**
+ * Short-lived link for a profile photo (cached for 50 minutes). A list shows the same person's
+ * photo on many rows at once: they all share one request (and one link, so the picture is
+ * downloaded and decoded once) instead of each row asking the server for its own link.
+ */
+export function avatarUrl(path: string): Promise<string | null> {
   const hit = avatarLinks.get(path);
-  if (hit && hit.until > Date.now()) return hit.url;
-  const { data } = await supabase.storage.from(AVATAR_BUCKET).createSignedUrl(path, 3600);
-  if (!data?.signedUrl) return null;
-  avatarLinks.set(path, { url: data.signedUrl, until: Date.now() + 50 * 60 * 1000 });
-  return data.signedUrl;
+  if (hit && hit.until > Date.now()) return Promise.resolve(hit.url);
+  const pending = avatarPending.get(path);
+  if (pending) return pending;
+  const req = (async () => {
+    try {
+      const { data } = await supabase.storage.from(AVATAR_BUCKET).createSignedUrl(path, 3600);
+      if (!data?.signedUrl) return null;
+      avatarLinks.set(path, { url: data.signedUrl, until: Date.now() + 50 * 60 * 1000 });
+      return data.signedUrl;
+    } finally {
+      avatarPending.delete(path);
+    }
+  })();
+  avatarPending.set(path, req);
+  return req;
 }

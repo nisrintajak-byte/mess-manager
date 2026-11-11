@@ -100,3 +100,8 @@ Format: `YYYY-MM-DD HH:MM | version | what was done | files | next`
 - App: Room details shows what will happen before leaving (Room closes / who becomes Admin); texts + help in 4 languages; room_deleted notification text in app and email worker.
 - Tests: new 99_last_member_test; 10/20 updated for the new rules; leavePlan unit test. Full DB suite + typecheck + lint + jest green.
 - NOTE: to be applied to the live Supabase project (SQL editor).
+
+## 2026-11-11 — App not responding (ANR) after login
+- Founder + testers: phone hangs, Android shows "app isn't responding". Reproduced the cost on an emulator (build from source, API 34): screens before login are smooth; one ad banner load blocks the UI thread ~2–2.5 s (WebView start-up + ad rendering), several times longer on low-end phones. Banners live on Home, Room, Inbox and Needs, and screens underneath in the stack kept theirs alive and refreshing.
+- Fix: AdSlot shows a banner only on the screen on top and only 2.5 s after it opens; memoised with stable props. Profile photos: rows of the same person share one signed-link request (Supabase logs showed 26 requests for one photo within a second).
+- Still to verify on the signed-in screens once the QA_EMAIL / QA_PASSWORD repository secrets exist (probe workflow on branch claude/fix-app-freeze-anr).
