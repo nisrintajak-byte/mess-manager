@@ -8,6 +8,7 @@ mkdir -p out
 adb root || true
 sleep 3
 adb install -r app.apk
+adb shell pm grant $PKG android.permission.POST_NOTIFICATIONS || true
 adb logcat -c
 adb logcat -G 16M || true
 
@@ -50,7 +51,7 @@ if [ -n "$QA_EMAIL" ]; then
   # scroll home, open the first Room
   for i in 1 2 3; do adb shell input swipe 500 1600 500 600 300; sleep 1; done
   for i in 1 2 3; do adb shell input swipe 500 600 500 1600 300; sleep 1; done
-  $UI tapfirst "Room" "room" "KWD" "INR" "SAR" "AED"
+  $UI tapfirst "QA Room" "Room"
   sample room 20
   adb exec-out screencap -p > out/screen-3-room.png
   $UI texts > out/texts-3-room.txt
