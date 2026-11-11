@@ -1,0 +1,21 @@
+11-11 15:59:51.648  3937  4051 I ReactNativeJS: MMQA render 0
+11-11 15:59:53.925  3937  4051 I ReactNativeJS: MMQA render 1
+11-11 15:59:55.939  3937  4051 I ReactNativeJS: MMQA render 2
+11-11 15:59:58.014  3937  4051 I ReactNativeJS: MMQA render 3
+11-11 15:59:59.158  3937  4051 I ReactNativeJS: MMQA adLoaded
+11-11 16:00:00.153  3937  4051 I ReactNativeJS: MMQA render 4
+11-11 16:00:02.164  3937  4051 I ReactNativeJS: MMQA render 5
+11-11 16:00:04.171  3937  4051 I ReactNativeJS: MMQA render 6
+11-11 16:00:06.243  3937  4051 I ReactNativeJS: MMQA render 7
+11-11 16:00:08.256  3937  4051 I ReactNativeJS: MMQA render 8
+11-11 16:00:10.271  3937  4051 I ReactNativeJS: MMQA render 9
+11-11 16:00:12.288  3937  4051 I ReactNativeJS: MMQA render 10
+11-11 16:00:14.305  3937  4051 I ReactNativeJS: MMQA render 11
+11-11 16:00:16.322  3937  4051 I ReactNativeJS: MMQA render 12
+11-11 16:00:18.338  3937  4051 I ReactNativeJS: MMQA render 13
+11-11 16:00:20.355  3937  4051 I ReactNativeJS: MMQA render 14
+11-11 16:00:22.372  3937  4051 I ReactNativeJS: MMQA render 15
+11-11 16:00:24.390  3937  4051 I ReactNativeJS: MMQA render 16
+11-11 16:00:26.405  3937  4051 I ReactNativeJS: MMQA render 17
+11-11 16:00:28.421  3937  4051 I ReactNativeJS: MMQA render 18
+11-11 16:00:30.438  3937  4051 I ReactNativeJS: MMQA render 19

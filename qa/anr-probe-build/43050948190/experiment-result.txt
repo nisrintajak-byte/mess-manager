@@ -1,0 +1,7 @@
+renders: 20
+ad loads: 1
+ad fails: 0
+Welcome:  Death Recipients: 5 WebViews: 4
+after opening Log in:  Death Recipients: 5 WebViews: 4
+skipped frames: 128
+longest frame: 2849 ms
