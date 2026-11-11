@@ -27,6 +27,8 @@ jobs:
           distribution: temurin
           java-version: 17
       - run: npm ci
+      - name: QA experiment patch (only when .github/anr-experiment-on exists)
+        run: if [ -f .github/anr-experiment-on ]; then bash .github/anr-experiment.sh; fi
       - name: Build release APK (x86_64 only, for the emulator)
         run: |
           npx expo prebuild --platform android --no-install --clean > prebuild.log 2>&1 || { tail -40 prebuild.log; exit 1; }
@@ -41,6 +43,7 @@ jobs:
         env:
           QA_EMAIL: ${{ secrets.QA_EMAIL }}
           QA_PASSWORD: ${{ secrets.QA_PASSWORD }}
+          QA_EXPERIMENT: ${{ hashFiles('.github/anr-experiment-on') }}
         with:
           api-level: 34
           arch: x86_64
@@ -55,4 +58,4 @@ jobs:
           rm -rf qa/anr-probe-build && mkdir -p qa/anr-probe-build && cp -r out/* qa/anr-probe-build/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add qa/anr-probe-build && git commit -m "qa: ANR probe (build) results [skip ci]" && git pull --rebase -q && git push || true
+          git add qa/anr-probe-build && git commit -m "qa: ANR probe (build) results [skip ci]" && git pull --rebase --autostash -q && git push || true

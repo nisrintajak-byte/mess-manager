@@ -23,6 +23,18 @@ sample() { # $1 = label, $2 = count: main-thread stacks every 1 s
 }
 
 adb shell am start -W -n $PKG/.MainActivity | tee out/start.txt
+if [ -n "$QA_EXPERIMENT" ]; then
+  sample experiment 40
+  adb exec-out screencap -p > out/screen-experiment.png
+  adb shell dumpsys gfxinfo $PKG > out/gfxinfo-experiment.txt
+  adb logcat -d > out/logcat-experiment-full.txt
+  grep -E "MMQA" out/logcat-experiment-full.txt > out/experiment-mmqa.txt
+  { echo "renders: $(grep -c 'MMQA render' out/experiment-mmqa.txt)"; echo "ad loads: $(grep -c 'MMQA adLoaded' out/experiment-mmqa.txt)"; echo "ad fails: $(grep -c 'MMQA adFailed' out/experiment-mmqa.txt)"; } > out/experiment-result.txt
+  grep -E "Skipped [0-9]+ frames|Davey" out/logcat-experiment-full.txt | grep -v systemui > out/experiment-jank.txt
+  rm out/logcat-experiment-full.txt
+  cat out/experiment-result.txt
+  exit 0
+fi
 sample start 15
 adb exec-out screencap -p > out/screen-1-start.png
 $UI texts > out/texts-1-start.txt
