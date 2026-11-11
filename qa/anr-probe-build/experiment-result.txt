@@ -1,0 +1,3 @@
+renders: 23
+ad loads: 1
+ad fails: 0
