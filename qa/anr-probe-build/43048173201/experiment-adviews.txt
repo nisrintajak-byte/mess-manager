@@ -1,0 +1,2 @@
+AdView on Welcome: 1
+AdView after opening Log in: 0

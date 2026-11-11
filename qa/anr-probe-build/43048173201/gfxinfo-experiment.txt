@@ -1,0 +1,65 @@
+Applications Graphics Acceleration Info:
+Uptime: 84269 Realtime: 84269
+
+** Graphics info for pid 3588 [com.uyoontech.messmanager] **
+
+Stats since: 44448035035ns
+Total frames rendered: 53
+Janky frames: 20 (37.74%)
+Janky frames (legacy): 33 (62.26%)
+50th percentile: 34ms
+90th percentile: 400ms
+95th percentile: 550ms
+99th percentile: 2300ms
+Number Missed Vsync: 7
+Number High input latency: 44
+Number Slow UI thread: 10
+Number Slow bitmap uploads: 3
+Number Slow issue draw commands: 17
+Number Frame deadline missed: 20
+Number Frame deadline missed (legacy): 19
+HISTOGRAM: 5ms=5 6ms=1 7ms=1 8ms=1 9ms=0 10ms=0 11ms=0 12ms=0 13ms=0 14ms=0 15ms=1 16ms=10 17ms=0 18ms=0 19ms=0 20ms=0 21ms=2 22ms=0 23ms=0 24ms=0 25ms=0 26ms=0 27ms=0 28ms=1 29ms=0 30ms=0 31ms=1 32ms=1 34ms=3 36ms=1 38ms=4 40ms=1 42ms=1 44ms=1 46ms=0 48ms=1 53ms=0 57ms=0 61ms=0 65ms=0 69ms=1 73ms=1 77ms=0 81ms=0 85ms=0 89ms=0 93ms=0 97ms=0 101ms=1 105ms=0 109ms=1 113ms=0 117ms=1 121ms=1 125ms=0 129ms=0 133ms=0 150ms=4 200ms=0 250ms=0 300ms=0 350ms=0 400ms=3 450ms=1 500ms=0 550ms=1 600ms=0 650ms=0 700ms=0 750ms=0 800ms=0 850ms=0 900ms=0 950ms=0 1000ms=1 1050ms=0 1100ms=0 1150ms=0 1200ms=0 1250ms=0 1300ms=0 1350ms=0 1400ms=0 1450ms=0 1500ms=0 1550ms=0 1600ms=0 1650ms=0 1700ms=0 1750ms=0 1800ms=0 1850ms=0 1900ms=0 1950ms=0 2000ms=0 2050ms=0 2100ms=0 2150ms=0 2200ms=0 2250ms=0 2300ms=1 2350ms=0 2400ms=0 2450ms=0 2500ms=0 2550ms=0 2600ms=0 2650ms=0 2700ms=0 2750ms=0 2800ms=0 2850ms=0 2900ms=0 2950ms=0 3000ms=0 3050ms=0 3100ms=0 3150ms=0 3200ms=0 3250ms=0 3300ms=0 3350ms=0 3400ms=0 3450ms=0 3500ms=0 3550ms=0 3600ms=0 3650ms=0 3700ms=0 3750ms=0 3800ms=0 3850ms=0 3900ms=0 3950ms=0 4000ms=0 4050ms=0 4100ms=0 4150ms=0 4200ms=0 4250ms=0 4300ms=0 4350ms=0 4400ms=0 4450ms=0 4500ms=0 4550ms=0 4600ms=0 4650ms=0 4700ms=0 4750ms=0 4800ms=0 4850ms=0 4900ms=0 4950ms=0
+50th gpu percentile: 13ms
+90th gpu percentile: 4950ms
+95th gpu percentile: 4950ms
+99th gpu percentile: 4950ms
+GPU HISTOGRAM: 1ms=0 2ms=6 3ms=3 4ms=4 5ms=4 6ms=1 7ms=2 8ms=3 9ms=2 10ms=0 11ms=1 12ms=0 13ms=2 14ms=8 15ms=3 16ms=0 17ms=2 18ms=0 19ms=1 20ms=0 21ms=0 22ms=0 23ms=0 24ms=1 25ms=0 4950ms=10
+
+Pipeline=Skia (OpenGL)
+Memory policy:
+  Max surface area: 2073600
+  Max resource usage: 99.53MB (x48)
+  Background retention: 50% (altUiHidden = true)
+  GPU Context timeout: 10
+Contexts: 1 (stopped = 0)
+CPU Caches:
+  Glyph Cache: 72.90 KB (1 entry)
+  Glyph Count: 40 
+Total CPU memory usage:
+  74651 bytes, 72.90 KB (0.00 bytes is purgeable)
+GPU Caches:
+  Other:
+    Other: 26.16 KB (1 entry)
+    Buffer Object: 9.00 KB (1 entry)
+  Image:
+    Texture: 916.83 KB (5 entries)
+  Scratch:
+    RenderTarget: 800.00 KB (1 entry)
+    Buffer Object: 142.00 KB (4 entries)
+    Texture: 2.14 MB (2 entries)
+Total GPU memory usage:
+  4184048 bytes, 3.99 MB (1.79 MB is purgeable)
+
+Profile data in ms:
+
+	com.uyoontech.messmanager/com.uyoontech.messmanager.MainActivity/android.view.ViewRootImpl@f0b5ab4 (visibility=0)
+View hierarchy:
+
+  com.uyoontech.messmanager/com.uyoontech.messmanager.MainActivity/android.view.ViewRootImpl@f0b5ab4
+  44 views, 90.85 kB of render nodes
+
+
+Total ViewRootImpl   : 1
+Total attached Views : 44
+Total RenderNode     : 90.85 kB (used) / 301.20 kB (capacity)
+

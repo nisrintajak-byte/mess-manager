@@ -1,0 +1,7 @@
+renders: 19
+ad loads: 1
+ad fails: 0
+AdView on Welcome: 1
+AdView after opening Log in: 0
+skipped frames: 226
+longest frame: 2316 ms
