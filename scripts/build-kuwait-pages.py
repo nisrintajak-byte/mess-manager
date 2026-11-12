@@ -193,8 +193,7 @@ PRODUCTS = [
         },
     },
     {
-        # No public landing page yet (the bare salon.utplgroup.com shows "Not found"), so no "Learn more" link.
-        'id': 'salon-booking', 'icon': '/assets/salon-booking-icon.svg', 'link': None,
+        'id': 'salon-booking', 'icon': '/assets/salon-booking-icon.svg', 'link': 'https://salon.utplgroup.com/',
         'for': ['salon', 'nail', 'shop', 'cafe'],
         'en': {
             'name': 'Salon Booking Platform', 'alt': 'منصة حجوزات الصالون', 'pill': 'Web app · Online appointments',
@@ -210,6 +209,7 @@ PRODUCTS = [
         },
         'ar': {
             'name': 'منصة حجوزات الصالون', 'alt': 'Salon Booking Platform', 'pill': 'تطبيق ويب · حجز المواعيد',
+            'link': 'https://salon.utplgroup.com/ar',
             'desc': 'حجز المواعيد أونلاين للصالونات ومحلات الحلاقة واستوديوهات الأظافر ومحلات مستحضرات التجميل والمقاهي. لكل محل رابط حجز خاص باسمه وشعاره وألوانه، ويحجز العميل في أقل من دقيقة دون تنزيل أي تطبيق.',
             'features': [
                 ('حجز في 3 خطوات', 'الخدمة والموظف والوقت المتاح'),
@@ -234,10 +234,11 @@ def product_html(p, lang, t):
     feats = ''.join(f'<li><span><b>{e(h)}</b> · <span>{e(d)}</span></span></li>' for h, d in c['features'])
     tags = ''.join(f'<span class="for-tag">{icon(k)}{e(t["tags"][k])}</span>' for k in p['for'])
     more = ''
-    if p['link']:
-        ext = p['link'].startswith('http')
+    link = c.get('link', p['link'])  # a language may have its own page
+    if link:
+        ext = link.startswith('http')
         target = ' target="_blank" rel="noopener"' if ext else ''
-        more = f'<a class="btn btn-line" href="{p["link"]}"{target}>{e(t["more"])}</a>'
+        more = f'<a class="btn btn-line" href="{link}"{target}>{e(t["more"])}</a>'
     alt_lang = 'ar' if lang == 'en' else 'en'
     return f'''      <article class="product" id="p-{p["id"]}">
         <div class="product-main">
