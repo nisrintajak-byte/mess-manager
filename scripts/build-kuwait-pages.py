@@ -24,7 +24,6 @@ ICONS = {
     'shared': '<path d="M3 9l9-6 9 6v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22v-6h6v6"/><circle cx="12" cy="11" r="2"/>',
     'friends': '<circle cx="9" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><path d="M2 21v-2a5 5 0 0 1 7-4.5"/><path d="M14 14.5a5 5 0 0 1 7 4.5v2"/>',
     'nail': '<path d="M10 3h4v5h-4z"/><path d="M8 8h8l1 4v7a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-7z"/><path d="M7 14h10"/>',
-    'beauty': '<path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"/><path d="M18 15l.9 2.1L21 18l-2.1.9L18 21l-.9-2.1L15 18l2.1-.9z"/>',
     'cafe': '<path d="M4 9h12v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M16 11h2a2 2 0 0 1 0 4h-2"/><path d="M8 3v3M12 3v3"/>',
     'fleet': '<rect x="2" y="7" width="16" height="10" rx="2"/><path d="M18 7h2l3 4v6h-3"/><circle cx="7" cy="17" r="2"/><circle cx="20" cy="17" r="2"/>',
 }
@@ -53,7 +52,7 @@ TEXT = {
         'features': 'Key features', 'for': "Who it's for",
         'tags': {'shop': 'Shop', 'restaurant': 'Restaurant', 'salon': 'Salon', 'school': 'School',
                  'car': 'Vehicle owner', 'family': 'Family', 'shared': 'Shared room', 'friends': 'Friends & groups', 'fleet': 'Fleet & delivery',
-                 'nail': 'Nail studio', 'beauty': 'Beauty parlour', 'cafe': 'Cafe'},
+                 'nail': 'Nail studio', 'cafe': 'Cafe'},
         'demo': 'Get a demo', 'more': 'Learn more',
         'why_eyebrow': 'Why Uyoon Tech Solutions', 'why_h2': 'Your IT partner for the GCC',
         'why': [
@@ -102,7 +101,7 @@ TEXT = {
         'features': 'أهم المزايا', 'for': 'لمن هذا المنتج',
         'tags': {'shop': 'محل', 'restaurant': 'مطعم', 'salon': 'صالون', 'school': 'مدرسة',
                  'car': 'صاحب مركبة', 'family': 'عائلة', 'shared': 'سكن مشترك', 'friends': 'أصدقاء ومجموعات', 'fleet': 'أساطيل وتوصيل',
-                 'nail': 'استوديو أظافر', 'beauty': 'صالون تجميل', 'cafe': 'مقهى'},
+                 'nail': 'استوديو أظافر', 'cafe': 'مقهى'},
         'demo': 'اطلب عرضاً تجريبياً', 'more': 'اعرف المزيد',
         'why_eyebrow': 'لماذا عيون تك سوليوشنز', 'why_h2': 'شريكك التقني في الخليج',
         'why': [
@@ -194,31 +193,32 @@ PRODUCTS = [
         },
     },
     {
-        'id': 'salon-booking', 'icon': '/assets/salon-booking-icon.svg', 'link': 'https://salon.utplgroup.com',
-        'for': ['salon', 'beauty', 'nail', 'shop', 'cafe'],
+        # No public landing page yet (the bare salon.utplgroup.com shows "Not found"), so no "Learn more" link.
+        'id': 'salon-booking', 'icon': '/assets/salon-booking-icon.svg', 'link': None,
+        'for': ['salon', 'nail', 'shop', 'cafe'],
         'en': {
-            'name': 'Salon Booking', 'alt': 'حجوزات الصالون', 'pill': 'Web app · Appointment booking',
-            'desc': 'An appointment system for salons, beauty parlours, nail studios and similar shops. Customers book a service, a staff member and a free time slot in under a minute, from the shop’s own link with its own name, logo and colour.',
+            'name': 'Salon Booking Platform', 'alt': 'منصة حجوزات الصالون', 'pill': 'Web app · Online appointments',
+            'desc': 'Online appointments for salons, barbershops, nail studios, cosmetics shops and cafes. Each shop gets its own booking link with its own name, logo and colours, and customers book in under a minute with no app to download.',
             'features': [
                 ('Book in 3 steps', 'service, staff and a free time slot'),
-                ('No double booking', 'only free slots are shown for each staff member'),
-                ('WhatsApp confirmation', 'and a reminder one hour before'),
-                ('Staff and owner dashboards', 'today’s bookings, chair status and leave'),
-                ('Daily and monthly income', 'cash, KNET or card, expenses and profit'),
+                ('No double booking', 'checked by the system, with a gap between appointments'),
+                ('Your own brand', 'your link, logo, colours, banner and offer poster'),
+                ('Owner admin panel', 'services, prices, staff, working hours and off days'),
+                ('Cash, KNET or online', 'prices in KWD or your local currency'),
             ],
-            'for_note': 'For gents and ladies salons, beauty parlours, nail studios, cosmetics shops and cafes. Each shop gets its own branded booking page in English, Arabic and Urdu.',
+            'for_note': 'For gents salons and barbershops, ladies salons, nail studios, cosmetics shops and cafes in Kuwait, the GCC and India. In Arabic, English and Urdu.',
         },
         'ar': {
-            'name': 'حجوزات الصالون', 'alt': 'Salon Booking', 'pill': 'تطبيق ويب · حجز المواعيد',
-            'desc': 'نظام مواعيد للصالونات ومراكز التجميل واستوديوهات الأظافر والمحلات المشابهة. يحجز العميل الخدمة والموظف والوقت المتاح في أقل من دقيقة، من رابط المحل الخاص باسمه وشعاره ولونه.',
+            'name': 'منصة حجوزات الصالون', 'alt': 'Salon Booking Platform', 'pill': 'تطبيق ويب · حجز المواعيد',
+            'desc': 'حجز المواعيد أونلاين للصالونات ومحلات الحلاقة واستوديوهات الأظافر ومحلات مستحضرات التجميل والمقاهي. لكل محل رابط حجز خاص باسمه وشعاره وألوانه، ويحجز العميل في أقل من دقيقة دون تنزيل أي تطبيق.',
             'features': [
                 ('حجز في 3 خطوات', 'الخدمة والموظف والوقت المتاح'),
-                ('لا حجز مزدوج', 'تظهر فقط الأوقات المتاحة لكل موظف'),
-                ('تأكيد عبر واتساب', 'وتذكير قبل الموعد بساعة'),
-                ('لوحة للموظفين والمالك', 'حجوزات اليوم وحالة الكرسي والإجازات'),
-                ('الدخل اليومي والشهري', 'نقداً أو كي نت أو بطاقة، مع المصروفات والأرباح'),
+                ('لا حجز مزدوج', 'يتحقق النظام منه مع فاصل بين المواعيد'),
+                ('علامتك الخاصة', 'رابطك وشعارك وألوانك والبانر وملصق العروض'),
+                ('لوحة تحكم للمالك', 'الخدمات والأسعار والموظفون وساعات العمل وأيام العطلة'),
+                ('نقداً أو كي نت أو أونلاين', 'الأسعار بالدينار الكويتي أو بعملتك المحلية'),
             ],
-            'for_note': 'لصالونات الرجال والسيدات، ومراكز التجميل، واستوديوهات الأظافر، ومحلات مستحضرات التجميل، والمقاهي. لكل محل صفحة حجز خاصة بعلامته بالعربية والإنجليزية والأردو.',
+            'for_note': 'لصالونات الرجال ومحلات الحلاقة، وصالونات السيدات، واستوديوهات الأظافر، ومحلات مستحضرات التجميل، والمقاهي في الكويت ودول الخليج والهند. بالعربية والإنجليزية والأردو.',
         },
     },
 ]
@@ -233,9 +233,11 @@ def product_html(p, lang, t):
     c = p[lang]
     feats = ''.join(f'<li><span><b>{e(h)}</b> · <span>{e(d)}</span></span></li>' for h, d in c['features'])
     tags = ''.join(f'<span class="for-tag">{icon(k)}{e(t["tags"][k])}</span>' for k in p['for'])
-    ext = p['link'].startswith('http')
-    target = ' target="_blank" rel="noopener"' if ext else ''
-    more = f'<a class="btn btn-line" href="{p["link"]}"{target}>{e(t["more"])}</a>'
+    more = ''
+    if p['link']:
+        ext = p['link'].startswith('http')
+        target = ' target="_blank" rel="noopener"' if ext else ''
+        more = f'<a class="btn btn-line" href="{p["link"]}"{target}>{e(t["more"])}</a>'
     alt_lang = 'ar' if lang == 'en' else 'en'
     return f'''      <article class="product" id="p-{p["id"]}">
         <div class="product-main">
