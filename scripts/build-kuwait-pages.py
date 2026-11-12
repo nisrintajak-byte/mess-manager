@@ -23,6 +23,9 @@ ICONS = {
     'family': '<circle cx="12" cy="5" r="3"/><path d="M12 8c-4 0-6 2-6 5h12c0-3-2-5-6-5z"/><circle cx="5" cy="14" r="2"/><path d="M5 16c-2.5 0-4 1.5-4 3.5h8c0-2-1.5-3.5-4-3.5z"/><circle cx="19" cy="14" r="2"/><path d="M19 16c-2.5 0-4 1.5-4 3.5h8c0-2-1.5-3.5-4-3.5z"/>',
     'shared': '<path d="M3 9l9-6 9 6v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22v-6h6v6"/><circle cx="12" cy="11" r="2"/>',
     'friends': '<circle cx="9" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><path d="M2 21v-2a5 5 0 0 1 7-4.5"/><path d="M14 14.5a5 5 0 0 1 7 4.5v2"/>',
+    'nail': '<path d="M10 3h4v5h-4z"/><path d="M8 8h8l1 4v7a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-7z"/><path d="M7 14h10"/>',
+    'beauty': '<path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"/><path d="M18 15l.9 2.1L21 18l-2.1.9L18 21l-.9-2.1L15 18l2.1-.9z"/>',
+    'cafe': '<path d="M4 9h12v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M16 11h2a2 2 0 0 1 0 4h-2"/><path d="M8 3v3M12 3v3"/>',
     'fleet': '<rect x="2" y="7" width="16" height="10" rx="2"/><path d="M18 7h2l3 4v6h-3"/><circle cx="7" cy="17" r="2"/><circle cx="20" cy="17" r="2"/>',
 }
 WA_ICON = ('<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 '
@@ -49,7 +52,8 @@ TEXT = {
         'products_p': 'Ready-to-use products from Uyoon Tech Solutions, designed for the GCC market. Book a free demo or talk to us about a custom solution for your business.',
         'features': 'Key features', 'for': "Who it's for",
         'tags': {'shop': 'Shop', 'restaurant': 'Restaurant', 'salon': 'Salon', 'school': 'School',
-                 'car': 'Vehicle owner', 'family': 'Family', 'shared': 'Shared room', 'friends': 'Friends & groups', 'fleet': 'Fleet & delivery'},
+                 'car': 'Vehicle owner', 'family': 'Family', 'shared': 'Shared room', 'friends': 'Friends & groups', 'fleet': 'Fleet & delivery',
+                 'nail': 'Nail studio', 'beauty': 'Beauty parlour', 'cafe': 'Cafe'},
         'demo': 'Get a demo', 'more': 'Learn more',
         'why_eyebrow': 'Why Uyoon Tech Solutions', 'why_h2': 'Your IT partner for the GCC',
         'why': [
@@ -97,7 +101,8 @@ TEXT = {
         'products_p': 'منتجات جاهزة من عيون تك سوليوشنز، مصمّمة لسوق الخليج. احجز عرضاً تجريبياً مجانياً أو تحدّث معنا عن حل مخصّص لعملك.',
         'features': 'أهم المزايا', 'for': 'لمن هذا المنتج',
         'tags': {'shop': 'محل', 'restaurant': 'مطعم', 'salon': 'صالون', 'school': 'مدرسة',
-                 'car': 'صاحب مركبة', 'family': 'عائلة', 'shared': 'سكن مشترك', 'friends': 'أصدقاء ومجموعات', 'fleet': 'أساطيل وتوصيل'},
+                 'car': 'صاحب مركبة', 'family': 'عائلة', 'shared': 'سكن مشترك', 'friends': 'أصدقاء ومجموعات', 'fleet': 'أساطيل وتوصيل',
+                 'nail': 'استوديو أظافر', 'beauty': 'صالون تجميل', 'cafe': 'مقهى'},
         'demo': 'اطلب عرضاً تجريبياً', 'more': 'اعرف المزيد',
         'why_eyebrow': 'لماذا عيون تك سوليوشنز', 'why_h2': 'شريكك التقني في الخليج',
         'why': [
@@ -186,6 +191,34 @@ PRODUCTS = [
                 ('لوحة للأساطيل', 'كل المركبات والتنبيهات في مكان واحد'),
             ],
             'for_note': 'لكل صاحب مركبة: سيارات العائلة، السائقين الخاصين، سيارات الأجرة، مركبات التوصيل، أساطيل الشركات، حافلات المدارس، وسيارات المحلات والمطاعم.',
+        },
+    },
+    {
+        'id': 'salon-booking', 'icon': '/assets/salon-booking-icon.svg', 'link': 'https://salon.utplgroup.com',
+        'for': ['salon', 'beauty', 'nail', 'shop', 'cafe'],
+        'en': {
+            'name': 'Salon Booking', 'alt': 'حجوزات الصالون', 'pill': 'Web app · Appointment booking',
+            'desc': 'An appointment system for salons, beauty parlours, nail studios and similar shops. Customers book a service, a staff member and a free time slot in under a minute, from the shop’s own link with its own name, logo and colour.',
+            'features': [
+                ('Book in 3 steps', 'service, staff and a free time slot'),
+                ('No double booking', 'only free slots are shown for each staff member'),
+                ('WhatsApp confirmation', 'and a reminder one hour before'),
+                ('Staff and owner dashboards', 'today’s bookings, chair status and leave'),
+                ('Daily and monthly income', 'cash, KNET or card, expenses and profit'),
+            ],
+            'for_note': 'For gents and ladies salons, beauty parlours, nail studios, cosmetics shops and cafes. Each shop gets its own branded booking page in English, Arabic and Urdu.',
+        },
+        'ar': {
+            'name': 'حجوزات الصالون', 'alt': 'Salon Booking', 'pill': 'تطبيق ويب · حجز المواعيد',
+            'desc': 'نظام مواعيد للصالونات ومراكز التجميل واستوديوهات الأظافر والمحلات المشابهة. يحجز العميل الخدمة والموظف والوقت المتاح في أقل من دقيقة، من رابط المحل الخاص باسمه وشعاره ولونه.',
+            'features': [
+                ('حجز في 3 خطوات', 'الخدمة والموظف والوقت المتاح'),
+                ('لا حجز مزدوج', 'تظهر فقط الأوقات المتاحة لكل موظف'),
+                ('تأكيد عبر واتساب', 'وتذكير قبل الموعد بساعة'),
+                ('لوحة للموظفين والمالك', 'حجوزات اليوم وحالة الكرسي والإجازات'),
+                ('الدخل اليومي والشهري', 'نقداً أو كي نت أو بطاقة، مع المصروفات والأرباح'),
+            ],
+            'for_note': 'لصالونات الرجال والسيدات، ومراكز التجميل، واستوديوهات الأظافر، ومحلات مستحضرات التجميل، والمقاهي. لكل محل صفحة حجز خاصة بعلامته بالعربية والإنجليزية والأردو.',
         },
     },
 ]
