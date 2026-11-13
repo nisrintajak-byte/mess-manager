@@ -2,6 +2,8 @@
 
 Format: `YYYY-MM-DD HH:MM | version | what was done | files | next`
 
+- 2026-11-13 10:55 | website | tech.utplgroup.com moved to its own repo nisrintajak-byte/uyoon-tech-website (history kept via git subtree split); removed website/tech, scripts/build-kuwait-pages.py and their CI steps here. Vercel project mess-manager-tech now deploys from the new repo | website/tech, scripts, .github/workflows/{ci,pdf-samples}.yml | edit the tech site only in uyoon-tech-website
+
 - 2026-10-18 23:00 | v0.4 | v0.1–v0.3 merged to main + CHANGELOG; ar/ur/hi translations, language picker, RTL, 4 themes, Preferences, digits option, Urdu/Hindi fonts, App Lock, re-auth, change password, Google Sign-In (flagged off) + complete_profile migration (applied) + tests; CI green; /next/ = v0.4 | src/i18n, src/ui/*, src/lib/{settings,appLock,digits,reauth,googleAuth}.ts, supabase/migrations/20261020100000_* | founder tests /next/, Google client
 - 2026-10-18 18:30 | v0.3 | Same-name labels (Lenovo1/2) server-side on all branches; v0.3 migration live (notifications + triggers, pg_net push, prefs, acks, flags, needs); screens: Inbox, NotificationSettings, Flag, Disputes, Needs; badges + report buttons + acknowledgement on Expense/Settlement; 4 DB test suites pass; CI green; /next/ → v0.3 | supabase/migrations/20261018220000_*, 20261019100000_*, src/screens/*, src/lib/{push,notifText}.ts | founder tests /next/
 - 2026-10-18 17:35 | v0.1+v0.2 | Payer = creator: server migration 20261018210000 (create_expense/edit_expense ignore p_paid_by), payer picker removed from both apps, DB tests updated | supabase/migrations, AddExpenseScreen, tests | founder retest
